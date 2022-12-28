@@ -23,7 +23,9 @@ with Path(modroot).joinpath("ModuleData/Languages") as dp:
                     ).assign(file=fp.name)
                 ]
         d[lang] = pd.concat(d[lang])
-d_bilingual = d['EN'].merge(d['JP'].drop('file', axis=1), on=['id'], how='left')
+# なぜか重複しているIDが大量にある. ID なのに. 念のためファイル名でも対応させる
+d['JP']['file'] = d['JP']['file'].str.replace(r'^(.+)-jpn\.xml', r'\1.xml', regex=True)
+d_bilingual = d['EN'].merge(d['JP'], on=['id', 'file'], how='left')
 d_bilingual[
-    ['text_EN'] + [x for x in d_bilingual.columns if x[:5] == 'text_' and x[-2:] != 'EN' ] + ['id', 'file']
-    ].to_csv('languages.csv', index=False)
+    ['id', 'text_EN'] + [x for x in d_bilingual.columns if (x[:5] == 'text_' and x[-2:] != 'EN')] + ['file']
+    ].sort_values(['id', 'file']).to_csv('languages.csv', index=False)
