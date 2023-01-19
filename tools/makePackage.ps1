@@ -14,12 +14,12 @@ Get-ChildItem Modules | ForEach-Object {
         Compress-Archive -Force Modules/$($_.Name)/ Packages/$($_.Name)-JP.zip
     }
 }
-Remove-Item -Force -Recurse Packages/CorrectText-JP
-mkdir -Force Packages/CorrectText-JP
+Remove-Item -Force -Recurse Packages/CorrectTextJP
+mkdir -Force Packages/CorrectTextJP
 Get-ChildItem Modules | ForEach-Object {
     if ( -not ($_.Name.Substring(0, 5) -eq 'CLJP-')){
         Write-Output $_.Name
-        Copy-Item -Force -Recurse Modules/$($_.Name) Packages/CorrectText-JP/
+        Copy-Item -Force -Recurse Modules/$($_.Name) Packages/CorrectTextJP/
     }
 }
-Compress-Archive -Force Packages/CorrectText-JP Packages/CorrectText-JP.zip
+Compress-Archive -Force Packages/CorrectText-JP Packages/CorrectTextJP.zip
