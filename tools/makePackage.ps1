@@ -22,4 +22,4 @@ Get-ChildItem Modules | ForEach-Object {
         Copy-Item -Force -Recurse Modules/$($_.Name) Packages/CorrectTextJP/
     }
 }
-Compress-Archive -Force Packages/CorrectText-JP Packages/CorrectTextJP.zip
+Compress-Archive -Force Packages/CorrectTextJP Packages/CorrectTextJP.zip
