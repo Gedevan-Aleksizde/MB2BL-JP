@@ -8,13 +8,13 @@ Copy-Item -Recurse -Force Modules/CLJP-Font-GenShinGothic/* Packages/CorrectLoca
 Copy-Item -Recurse -Force Modules/CLJP-Font-LateMin/* Packages/CorrectLocalizationJP-LateMin
 Compress-Archive -Force Packages/CorrectLocalizationJP-GenShin Packages/CorrectLocalizationJP-GenShin.zip
 Compress-Archive -Force Packages/CorrectLocalizationJP-LateMin Packages/CorrectLocalizationJP-LateMin.zip
-Get-ChildItem Modules | ForEach-Object {
-    if ( -not ($_.Name.Substring(0, 5) -eq 'CLJP-')){
-        Write-Output $_.Name
-        Compress-Archive -Force Modules/$($_.Name)/ Packages/$($_.Name)JP.zip
-    }
-}
-Remove-Item -Force -Recurse Packages/CorrectTextJP
+#Get-ChildItem Modules | ForEach-Object {
+#    if ( -not ($_.Name.Substring(0, 5) -eq 'CLJP-')){
+#        Write-Output $_.Name
+#        Compress-Archive -Force Modules/$($_.Name)/ Packages/$($_.Name)JP.zip
+#    }
+#}
+Remove-Item -erroraction silentlycontinue -Recurse Packages/CorrectTextJP
 mkdir -Force Packages/CorrectTextJP
 Get-ChildItem Modules | ForEach-Object {
     if ( -not ($_.Name.Substring(0, 5) -eq 'CLJP-')){
