@@ -11,7 +11,7 @@ Compress-Archive -Force Packages/CorrectLocalizationJP-LateMin Packages/CorrectL
 Get-ChildItem Modules | ForEach-Object {
     if ( -not ($_.Name.Substring(0, 5) -eq 'CLJP-')){
         Write-Output $_.Name
-        Compress-Archive -Force Modules/$($_.Name)/ Packages/$($_.Name)-JP.zip
+        Compress-Archive -Force Modules/$($_.Name)/ Packages/$($_.Name)JP.zip
     }
 }
 Remove-Item -Force -Recurse Packages/CorrectTextJP
