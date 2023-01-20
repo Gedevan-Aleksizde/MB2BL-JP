@@ -3,7 +3,13 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
 import argparse
+import numpy as np
 
+from babel import Locale # Babel
+from babel.messages.pofile import read_po, write_po
+from babel.messages.catalog import Catalog
+
+# TODO: excelの廃止
 mb2dir = Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord')
 
 modules = [
@@ -17,6 +23,7 @@ modules = [
 
 langs = ['JP']
 # *_functions.xml?
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -61,11 +68,43 @@ d_bilingual = d_bilingual[
 ].sort_values(['id', 'file'])
 print(f'new text has {d_bilingual.shape[0]} entries')
 
+duplicated_id = d_bilingual[['id', 'text_EN']].groupby(['id']).agg({'text_EN': [pd.Series.nunique, 'count']}).reset_index()
+duplicated_id.columns = ['id', 'unique', 'duplicates']
+duplicated_id = duplicated_id.loc[lambda d: (d['unique'] > 1) | (d['duplicates'] > 1)]
+if duplicated_id.shape[0] > 1:
+    print(
+        f'''WARNING: {duplicated_id.loc[lambda d: d['duplicates'] > 1].shape[0]} pairs of duplicated IDs,
+    {duplicated_id.loc[lambda d: d['unique'] > 1].shape[0]} pairs of entries of that have even wrong strings.''')
+d_bilingual = d_bilingual.merge(
+    duplicated_id[['id', 'duplicates', 'unique']].drop_duplicates(), on='id', how='left'
+    ).assign(
+        duplicates = lambda d: np.where(d['duplicates'].isna(), 0, d['duplicates']),
+        unique = lambda d: np.where(d['unique'].isna(), 0, d['unique']),
+    )
+d_bilingual.to_excel('text/duplicataion.xlsx', index=False)
+n_dup = d_bilingual.loc[lambda d: d['duplicates'] > 1].shape[0]
+if n_dup > 0:
+    print(
+        f'''WARNING: {n_dup} entries have ID!'''
+    )
+aho = Catalog(Locale.parse('en_US'))
+_ = aho.add(
+    id="SandBox__03db314S__Increases your bow reload speed by 25%.",
+    string="Increases your bow reload speed by 25%.",
+    previous_id="shit",
+    user_comments="moron")
+with Path("ahoshine.po").open('bw') as f:
+    # なんでバイナリなんだ...
+    write_po(fileobj=f, catalog=aho, include_previous=True)
+
 with Path('text/languages-old.xlsx') as fp:
     if fp.exists():
         d_old = pd.read_excel(fp)
-        d_old = d_old[['module', 'id', 'file'] + [x for x in d_old if x[:5] == 'text_']]
-        n = d_bilingual.merge(d_old, on=['module', 'file', 'id'], how='inner').shape[0]
+        cols = ['module', 'file', 'id'] + [x for x in d_old if x[:5] == 'text_']
+        if 'notes' in d_old.columns:
+            cols += ['notes']
+        d_old = d_old[cols]
+        n_new_entries = d_bilingual.merge(d_old, on=['module', 'file', 'id'], how='inner').shape[0]
         d_bilingual =  d_bilingual.merge(
             d_old.rename(columns={
                 f'text_EN': 'text_EN_old',
@@ -73,11 +112,58 @@ with Path('text/languages-old.xlsx') as fp:
             on=['module', 'file', 'id'],
             how='left'
             )
-        print(f'{d_bilingual.shape[0] - n} entries are not matched with the old data')
-        d_bilingual[
-            ['module', 'file', 'id', 'text_EN_old', f'text_{lang}_original_old', f'text_{lang}', 'text_EN', f'text_{lang}_original']
-            ].assign(
+        if d_bilingual.shape[0] - n_new_entries == 0:
+            print('No entries missing')
+        else:
+            print(f'{d_bilingual.shape[0] - n_new_entries} entries are not matched with the old data')
+        d_bilingual = d_bilingual[[c for c in cols + ['text_EN_old', f'text_{lang}_original_old'] if c in d_bilingual.columns]].assign(
                 updated_en=lambda d: d['text_EN'] != d['text_EN_old'],
                 updated_jp=lambda d: d['text_JP_original'] != d['text_JP_original_old']
-                ).to_excel('languages.xlsx', index=False)
-d_bilingual.to_excel('languages.xlsx', index=False)
+                )
+d_bilingual.to_excel('text/languages.xlsx', index=False)
+
+d_escaped = d_bilingual.assign(text_EN=lambda d: d['text_EN'].str.replace('%', '%%', regex=False))
+catalog_en = Catalog(Locale.parse('en_US'))
+for i, row in d_escaped.fillna('').iterrows():
+    _ = catalog_en.add(
+            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            string=row[f'text_EN'],
+            user_comments=row['notes']
+        )
+with Path(f"text/translation-en.po").open('bw') as f:
+        write_po(fileobj=f, catalog=catalog_en)
+for lang in langs:
+    d_escaped[f'text_{lang}'] = d_escaped[f'text_{lang}'].str.replace('%', '%%', regex=False)
+    d_escaped[f'text_{lang}_original'] = d_escaped[f'text_{lang}_original'].str.replace('%', '%%', regex=False)
+    catalog_original = Catalog(Locale.parse('ja_JP'))
+    catalog_new = Catalog(Locale.parse('ja_JP'))
+    catalog_en = Catalog(Locale.parse('en_US'))
+    catalog_pub = Catalog(Locale.parse('ja_JP'))
+    for i, row in d_escaped.fillna('').iterrows():
+        _ = catalog_new.add(
+            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            string=row[f'text_{lang}'],
+            user_comments=row['notes']
+            )
+        _ = catalog_original.add(
+            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            string=row[f'text_{lang}_original'],
+            user_comments=row['notes']
+        )
+        _ = catalog_en.add(
+            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            string=row[f'text_EN'],
+            user_comments=row['notes']
+        )
+        _ = catalog_pub.add(
+            id=row['module'] + '__' + row['id'],
+            string=row[f'text_{lang}'],
+            user_comments=row['notes']
+        )
+    with Path(f"text/translation-{lang}.po").open('bw') as f:
+        # なんでバイナリなんだ...
+        write_po(fileobj=f, catalog=catalog_new)
+    with Path(f"text/translation-{lang}-original-{lang}.po").open('bw') as f:
+        write_po(fileobj=f, catalog=catalog_original)
+    with Path(f"text/translation-{lang}-pub.po").open('bw') as f:
+        write_po(fileobj=f, catalog=catalog_en)
