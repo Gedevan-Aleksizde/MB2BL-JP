@@ -38,26 +38,24 @@ d['EN'] = []
 for lang in langs:
     d[lang] = []
     for module in args.modules:
-        with mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages") as dp:        
-            for fp in dp.joinpath(lang).glob("*.xml"):
-                print(fp)
-                with fp.open('r', encoding='utf-8') as f:
-                    xml = BeautifulSoup(f)
-                if(xml.find('strings') is not None):
-                    d[lang] += [pd.DataFrame(
-                        [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
-                        columns=['id', f'text_{lang}_original']
-                        ).assign(file=fp.name, module=module)
+        dp = mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
+        for fp in dp.joinpath(lang).glob("*.xml"):
+            print(fp)
+            xml = BeautifulSoup(fp.open('r', encoding='utf-8'), features='lxml-xml')
+            if(xml.find('strings') is not None):
+                d[lang] += [pd.DataFrame(
+                    [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
+                    columns=['id', f'text_{lang}_original']
+                    ).assign(file=fp.name, module=module)
+                ]
+        for fp in dp.glob('*.xml'):
+            xml = BeautifulSoup(fp.open('r', encoding='utf-8'), featues='lxml-xml')
+            if(xml.find('string') is not None):
+                d['EN'] += [pd.DataFrame(
+                    [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
+                    columns=['id', f'text_EN']
+                    ).assign(file=fp.name, module=module)
                     ]
-            for fp in dp.glob('*.xml'):
-                with fp.open('r', encoding='utf-8') as f:
-                    xml = BeautifulSoup(f)
-                    if(xml.find('string') is not None):
-                        d['EN'] += [pd.DataFrame(
-                            [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
-                            columns=['id', f'text_EN']
-                            ).assign(file=fp.name, module=module)
-                            ]
 d['EN'] = pd.concat(d['EN'])
 d['EN'] = d['EN'].assign(text_EN = lambda d: d['text_EN'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True))
 for lang in langs:
@@ -91,29 +89,29 @@ if n_dup > 0:
         f'''WARNING: {n_dup} entries have duplicated ID!'''
     )
 
-with Path('text/languages-old.xlsx') as fp:
-    if fp.exists():
-        d_old = pd.read_excel(fp)
-        cols = ['module', 'file', 'id'] + [x for x in d_old if x[:5] == 'text_']
-        if 'notes' in d_old.columns:
-            cols += ['notes']
-        d_old = d_old[cols]
-        n_new_entries = d_bilingual.merge(d_old, on=['module', 'file', 'id'], how='inner').shape[0]
-        d_bilingual =  d_bilingual.merge(
-            d_old.rename(columns={
-                f'text_EN': 'text_EN_old',
-                f'text_{lang}_original': f'text_{lang}_original_old'}),
-            on=['module', 'file', 'id'],
-            how='left'
+fp = Path('text/languages-old.xlsx')
+if fp.exists():
+    d_old = pd.read_excel(fp)
+    cols = ['module', 'file', 'id'] + [x for x in d_old if x[:5] == 'text_']
+    if 'notes' in d_old.columns:
+        cols += ['notes']
+    d_old = d_old[cols]
+    n_new_entries = d_bilingual.merge(d_old, on=['module', 'file', 'id'], how='inner').shape[0]
+    d_bilingual =  d_bilingual.merge(
+        d_old.rename(columns={
+            f'text_EN': 'text_EN_old',
+            f'text_{lang}_original': f'text_{lang}_original_old'}),
+        on=['module', 'file', 'id'],
+        how='left'
+        )
+    if d_bilingual.shape[0] - n_new_entries == 0:
+        print('No entries missing')
+    else:
+        print(f'{d_bilingual.shape[0] - n_new_entries} entries are not matched with the old data')
+    d_bilingual = d_bilingual[[c for c in cols + ['text_EN_old', f'text_{lang}_original_old'] if c in d_bilingual.columns]].assign(
+            updated_en=lambda d: d['text_EN'] != d['text_EN_old'],
+            updated_jp=lambda d: d['text_JP_original'] != d['text_JP_original_old']
             )
-        if d_bilingual.shape[0] - n_new_entries == 0:
-            print('No entries missing')
-        else:
-            print(f'{d_bilingual.shape[0] - n_new_entries} entries are not matched with the old data')
-        d_bilingual = d_bilingual[[c for c in cols + ['text_EN_old', f'text_{lang}_original_old'] if c in d_bilingual.columns]].assign(
-                updated_en=lambda d: d['text_EN'] != d['text_EN_old'],
-                updated_jp=lambda d: d['text_JP_original'] != d['text_JP_original_old']
-                )
 d_bilingual.to_excel('text/languages.xlsx', index=False)
 
 d_escaped = d_bilingual.assign(text_EN=lambda d: d['text_EN'].str.replace('%', '%%', regex=False))
@@ -124,15 +122,13 @@ for i, row in d_escaped.fillna('').iterrows():
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
-with Path(f"text/translation-en.po").open('bw') as f:
-        write_po(fileobj=f, catalog=catalog_en)
+write_po(fileobj=Path(f"text/translation-en.po").open('bw'), catalog=catalog_en)
 for lang in langs:
     d_escaped[f'text_{lang}'] = d_escaped[f'text_{lang}'].str.replace('%', '%%', regex=False)
     d_escaped[f'text_{lang}_original'] = d_escaped[f'text_{lang}_original'].str.replace('%', '%%', regex=False)
     catalog_original = Catalog(Locale.parse('ja_JP'))
     catalog_new = Catalog(Locale.parse('ja_JP'))
     catalog_en = Catalog(Locale.parse('en_US'))
-    catalog_pub = Catalog(Locale.parse('ja_JP'))
     for i, row in d_escaped.fillna('').iterrows():
         _ = catalog_new.add(
             id='/'.join(row[['module', 'file', 'id', 'text_EN']]),
@@ -149,15 +145,6 @@ for lang in langs:
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
-        _ = catalog_pub.add(
-            id='/'.join(row[['module', 'file', 'id']]),
-            string=row[f'text_{lang}'],
-            user_comments=row['notes']
-        )
-    with Path(f"text/translation-{lang}.po").open('bw') as f:
-        # なんでバイナリなんだ...
-        write_po(fileobj=f, catalog=catalog_new)
-    with Path(f"text/translation-{lang}-original-{lang}.po").open('bw') as f:
-        write_po(fileobj=f, catalog=catalog_original)
-    with Path(f"text/translation-{lang}-pub.po").open('bw') as f:
-        write_po(fileobj=f, catalog=catalog_pub)
+    # なんでバイナリなんだ...
+    write_po(fileobj=Path(f"text/translation-{lang}.po").open('bw'), catalog=catalog_new)
+    write_po(fileobj=Path(f"text/translation-{lang}-original-{lang}.po").open('bw'), catalog=catalog_original)
