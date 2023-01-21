@@ -54,13 +54,18 @@ def export(args, type):
     type: 'module' or 'overwriter'
     """
     print(f'output type: {type}')
-    with args.input.open('br') as f:
-        if args.input.suffix == '.po':
-            catalog = read_po(f)
-        elif args.input.suffix == '.mo':
-            catalog = read_mo(f)
-        else:
-            print('WARNING: input file is invalid')
+    if args.input.exists():
+        with args.input.open('br') as f:
+            if args.input.suffix == '.po':
+                catalog = read_po(f)
+            elif args.input.suffix == '.mo':
+                catalog = read_mo(f)
+            else:
+                print('WARNING: input file is invalid')
+    else:
+        with args.input.parent.joinpath(f'translation-{args.langfolder}.po') as fp:
+            if fp.exists():
+                catalog = read_po(fp.open('br'))
     # TODO: why the iterator includes header lines
     d = pd.DataFrame(
         [(x.id, x.string) for x in catalog if x.id != ''], columns=['id', 'text']
@@ -97,24 +102,19 @@ def export(args, type):
                 'lxml-xml'
                 )
             language_data.LanguageData['id'] = f'''correct_{args.langalias}''' if type == 'module' else args.langid
-            language_data.LanguageData['name'] = f'''{args.langalias}''' if type == 'module' else args.langname
-            if args.subtitleext != '':
-                language_data.LanguageData['subtitle_extension'] = args.subtitleext
-            if args.iso != '':
-                language_data.LanguageData['supported_iso'] = args.iso
+            if module == 'Native':
+                language_data.LanguageData['name'] = f'''{args.langalias}''' if type == 'module' else args.langname
+                if args.subtitleext != '':
+                    language_data.LanguageData['subtitle_extension'] = args.subtitleext
+                if args.iso != '':
+                    language_data.LanguageData['supported_iso'] = args.iso
+                language_data.LanguageData['under_development'] = 'false'
             for xml_path in xml_list:
                 print(f'''Reading {xml_path.name} from {xml_path.parent.parent.parent.parent.name} Module''')
                 # edit language_data.xml
                 xml = BeautifulSoup(xml_path.open('r', encoding='utf-8'), features='lxml-xml')
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
                 d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
-                if xml.find('LanguageData', recursive=False) is not None:
-                    xml.LanguageData['id'] = f'''correct_{args.langalias}'''
-                    xml.LanguageData['name'] = f'''{args.langalias}'''
-                    if args.subtitleext != '':
-                        xml.LanguageData['subtitle_extension'] = args.subtitleext
-                    if args.iso != '':
-                        xml.LanguageData['supported_iso'] = args.iso
                 if xml.find('base', recursive=False) is not None:
                     if type == 'module':
                         xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
@@ -137,7 +137,7 @@ def export(args, type):
                             features='lxml-xml'
                             )
                             )
-                output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
+                    output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
