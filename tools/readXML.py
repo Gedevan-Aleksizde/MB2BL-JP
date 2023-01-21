@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+# encoding: utf-8
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -19,6 +21,7 @@ modules = [
     'CustomBattle',
     'SandBoxCore',
     'StoryMode',
+    'BirthAndDeath'
     ]
 
 langs = ['JP']
@@ -85,17 +88,8 @@ d_bilingual.to_excel('text/duplicataion.xlsx', index=False)
 n_dup = d_bilingual.loc[lambda d: d['duplicates'] > 1].shape[0]
 if n_dup > 0:
     print(
-        f'''WARNING: {n_dup} entries have ID!'''
+        f'''WARNING: {n_dup} entries have duplicated ID!'''
     )
-aho = Catalog(Locale.parse('en_US'))
-_ = aho.add(
-    id="SandBox__03db314S__Increases your bow reload speed by 25%.",
-    string="Increases your bow reload speed by 25%.",
-    previous_id="shit",
-    user_comments="moron")
-with Path("ahoshine.po").open('bw') as f:
-    # なんでバイナリなんだ...
-    write_po(fileobj=f, catalog=aho, include_previous=True)
 
 with Path('text/languages-old.xlsx') as fp:
     if fp.exists():
@@ -141,22 +135,22 @@ for lang in langs:
     catalog_pub = Catalog(Locale.parse('ja_JP'))
     for i, row in d_escaped.fillna('').iterrows():
         _ = catalog_new.add(
-            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            id='/'.join(row[['module', 'file', 'id', 'text_EN']]),
             string=row[f'text_{lang}'],
             user_comments=row['notes']
             )
         _ = catalog_original.add(
-            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            id='/'.join(row[['module', 'file', 'id', 'text_EN']]),
             string=row[f'text_{lang}_original'],
             user_comments=row['notes']
         )
         _ = catalog_en.add(
-            id=row['module'] + '__' + row['id'] + '__' + row['text_EN'],
+            id='/'.join(row[['module', 'file', 'id', 'text_EN']]),
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
         _ = catalog_pub.add(
-            id=row['module'] + '__' + row['id'],
+            id='/'.join(row[['module', 'file', 'id']]),
             string=row[f'text_{lang}'],
             user_comments=row['notes']
         )
@@ -166,4 +160,4 @@ for lang in langs:
     with Path(f"text/translation-{lang}-original-{lang}.po").open('bw') as f:
         write_po(fileobj=f, catalog=catalog_original)
     with Path(f"text/translation-{lang}-pub.po").open('bw') as f:
-        write_po(fileobj=f, catalog=catalog_en)
+        write_po(fileobj=f, catalog=catalog_pub)
