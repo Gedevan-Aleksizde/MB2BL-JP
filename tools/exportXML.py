@@ -10,6 +10,10 @@ from babel.messages.pofile import read_po
 from babel.messages.mofile import read_mo
 from babel.messages.catalog import Catalog
 import html
+import regex
+import warnings
+
+control_char_remove = regex.compile(r'\p{C}')
 
 pofile = Path('text/translation-JP-pub.po')
 output = Path('Modules')
@@ -44,10 +48,10 @@ parser.add_argument('--output-type', type=str, default='both')
 if __name__ == '__main__':
     args = parser.parse_args()
 
-# TODO: highly doubtful localization modding system
-# TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる. language_data 単位でsanity checkがなされている?
+# TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
 # <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
+# NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 
 def export(args, type):
     """
@@ -57,29 +61,19 @@ def export(args, type):
     if args.input.exists():
         with args.input.open('br') as f:
             if args.input.suffix == '.po':
+                print(f'reading {args.input}')
                 catalog = read_po(f)
             elif args.input.suffix == '.mo':
+                print(f'reading {args.input}')
                 catalog = read_mo(f)
             else:
-                print('WARNING: input file is invalid')
+                warnings.warn('input file is invalid', UserWarning)
     else:
         with args.input.parent.joinpath(f'translation-{args.langfolder}.po') as fp:
             if fp.exists():
+                print(f'NOTE: {args.input} not found. Reading {fp} insteadly')
                 catalog = read_po(fp.open('br'))
-    # TODO: why the iterator includes header lines
-    d = pd.DataFrame(
-        [(x.id, x.string) for x in catalog if x.id != ''], columns=['id', 'text']
-        )
-    d = pd.concat([d, d['id'].str.split('/', expand=True)], axis=1).drop(
-        columns='id'
-        ).rename(
-            columns={0: 'module', 1: 'file', 2: 'id'}
-            )
-    d = d.assign(
-        priority=lambda d: [args.modules.index(x) if x in args.modules else -1 for x in d['module']]
-        ).sort_values(['id', 'module'], ascending=False).groupby(['id']).first().reset_index()
-    d['text'] = d['text'].str.replace('%%', '%')
-    d['id'] = d['id'].str.replace('%%', '%')
+    d = po2pddf(catalog)
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -121,9 +115,19 @@ def export(args, type):
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
-                            if tmp.shape[0] > 0 and tmp[0] != '' and string['text'] != tmp[0]:
-                                string['text'] =  html.escape(tmp[0])
+                            if tmp.shape[0] > 0 and tmp[0] != '':
+                                new_str = html.escape(removeannoyingchars(tmp[0]))
+                                if string['text'] != new_str:
+                                    string['text'] = new_str
                                 n_change_xml += 1
+                            else:
+                                normalized_str = removeannoyingchars(string['text'])
+                                if normalized_str != string['text']:
+                                    warnings.warn(
+                                        f'''this text could contain irregular characters (some control characters or zenkaku blanks): {string['text']}''',
+                                        UserWarning)
+                                    n_change_xml += 1
+                                    string['text'] = normalized_str
                             n_entries_xml += 1
                         if n_entries_xml > 0:
                             print(f'''{100 * n_change_xml/n_entries_xml:.0f} % out of {n_entries_xml} text are changed in {xml_path.name}''')
@@ -142,6 +146,26 @@ def export(args, type):
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
 
+def removeannoyingchars(string):
+    # TODO: against potential abusing of control characters
+    string = string.replace('\u3000', ' ')  # why dare you use zenkaku blank?? 
+    string = control_char_remove.sub('', string)  # suck
+    return string
+
+def po2pddf(catalog):
+    # TODO: why the iterator includes header lines
+    d = pd.DataFrame(
+        [(x.id, x.string) for x in catalog if x.id != ''], columns=['id', 'text']
+        )
+    d = pd.concat([d, d['id'].str.split('/', expand=True)], axis=1).drop(
+        columns='id'
+        ).rename(
+            columns={0: 'module', 1: 'file', 2: 'id'}
+            )
+    d['text'] = d['text'].str.replace('%%', '%')
+    d['id'] = d['id'].str.replace('%%', '%')
+    return d
+
 if args.output_type == 'both':
     for x in ['module', 'overwriter']:
         export(args, x)
@@ -150,4 +174,4 @@ elif args.output_type == 'module':
 elif args.output_type == 'overwriter':
     export(args, 'overwriter')
 else:
-    print(f'WARNING: {args.output_type} must be "module", "overwriter", or "both" ')
+    warnings.warn(f'{args.output_type} must be "module", "overwriter", or "both" ', UserWarning)
