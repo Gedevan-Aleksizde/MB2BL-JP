@@ -73,7 +73,7 @@ def export_modules(args, type):
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
-        write_po(f, catalog_pub)
+        write_mo(f, catalog_pub)
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
