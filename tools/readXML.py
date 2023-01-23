@@ -32,6 +32,7 @@ langs = ['JP']
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('modules', nargs='*', default=modules)
+    parser.add_argument('--output', type=Path, default=Path('text'))
     args = parser.parse_args()
 
 d = dict()
@@ -149,7 +150,7 @@ for lang in langs:
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
-    with Path(f"text/translation-{lang}.po").open('bw') as f:
+    with args.output.joinpath(f'MB2BL-{lang}.po').open('bw') as f:
         write_po(fileobj=f, catalog=catalog_new)
-    with Path(f"text/translation-{lang}-original-{lang}.po").open('bw') as f:
+    with args.output.joinpath(f'MB2BL-{lang}-original.po').open('bw') as f:
         write_po(fileobj=f, catalog=catalog_original)
