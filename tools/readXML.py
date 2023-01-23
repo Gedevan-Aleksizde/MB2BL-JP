@@ -42,7 +42,8 @@ for lang in langs:
         dp = mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
         for fp in dp.joinpath(lang).glob("*.xml"):
             print(fp)
-            xml = BeautifulSoup(fp.open('r', encoding='utf-8'), features='lxml-xml')
+            with fp.open('r', encoding='utf-8') as f:
+                xml = BeautifulSoup(f, features='lxml-xml')
             if(xml.find('strings') is not None):
                 d[lang] += [pd.DataFrame(
                     [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
@@ -50,7 +51,8 @@ for lang in langs:
                     ).assign(file=fp.name, module=module)
                 ]
         for fp in dp.glob('*.xml'):
-            xml = BeautifulSoup(fp.open('r', encoding='utf-8'), featues='lxml-xml')
+            with fp.open('r', encoding='utf-8') as f:
+                xml = BeautifulSoup(f, featues='lxml-xml')
             if(xml.find('string') is not None):
                 d['EN'] += [pd.DataFrame(
                     [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
@@ -123,7 +125,8 @@ for i, row in d_escaped.fillna('').iterrows():
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
-write_po(fileobj=Path(f"text/translation-en.po").open('bw'), catalog=catalog_en)
+with Path(f"text/translation-en.po").open('bw') as f:
+    write_po(fileobj=f, catalog=catalog_en)
 for lang in langs:
     d_escaped[f'text_{lang}'] = d_escaped[f'text_{lang}'].str.replace('%', '%%', regex=False)
     d_escaped[f'text_{lang}_original'] = d_escaped[f'text_{lang}_original'].str.replace('%', '%%', regex=False)
@@ -146,6 +149,7 @@ for lang in langs:
             string=row[f'text_EN'],
             user_comments=row['notes']
         )
-    # なんでバイナリなんだ...
-    write_po(fileobj=Path(f"text/translation-{lang}.po").open('bw'), catalog=catalog_new)
-    write_po(fileobj=Path(f"text/translation-{lang}-original-{lang}.po").open('bw'), catalog=catalog_original)
+    with Path(f"text/translation-{lang}.po").open('bw') as f:
+        write_po(fileobj=f, catalog=catalog_new)
+    with Path(f"text/translation-{lang}-original-{lang}.po").open('bw') as f:
+        write_po(fileobj=f, catalog=catalog_original)
