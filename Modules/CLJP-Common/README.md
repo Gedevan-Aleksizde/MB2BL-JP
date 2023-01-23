@@ -1,5 +1,6 @@
 # Correct Localization JP - Mount and Blade 2: Bannerlord Mod
 
+ver. 0.9.0, 本体 ver. 1.0.3 に対応
 
 ## 概要
 
