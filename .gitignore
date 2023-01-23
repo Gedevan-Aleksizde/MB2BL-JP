@@ -4,8 +4,10 @@ EN/
 test
 Packages/
 BAK/
-Modules/Native
-Modules/SandBox
-Modules/SandBoxCore
-Modules/StoryMode
-Modules/CustomBattle
+Modules/
+!Modules/CLJP-Common
+!Modules/CLJP-Font-GenShinGothic
+!Modules/CLJP-Font-Latemin
+text/*
+!text/MB2BL-JP-pub.mo
+doc
