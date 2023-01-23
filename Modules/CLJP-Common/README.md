@@ -12,11 +12,21 @@
 
 ## インストール方法
 
-1. 通常のmodのインストールと同じです. 特殊な操作は必要ありません. Main Files の CorrectLocalizationJP-* いずれか1つ (末尾は使用フォントによって変わります) をダウンロードし, M&B2 インストールフォルダにある Modules フォルダに入れて, ランチャーで有効にしてからM&B2を起動してください.
+(初めてModを入れる人へ) NexusMods でダウンロードするにはNexusModsのアカウント登録が必要です. どうしてもアカウント登録したくない場合, github のほうからダウンロードしてください. 基本的にはどちらにも同じものを同時にアップロードするつもりですが, 手動作業なので忘れることもあるかもしれません.
+
+通常の module の形式 (以下, Module 版)と, 本体ファイルを上書きするタイプ (以下, 上書き版) の2種類を用意しています. 前者は Main Files に, 後者は Optional Files にあります. ほとんどmodを入れない方は前者, modに慣れている人は後者がいいかもしれません. それぞれのタイプはさらに, 使用フォント違いでいくつかバリエーションを用意しています
+
+### Module版
+
+1. 通常のmodのインストールと同じです. 特殊な操作は必要ありません. Main Files の CorrectLocalizationJP-\* いずれか1つ (末尾は使用フォントによって変わります) をダウンロードし, M&B2 インストールフォルダにある Modules フォルダに入れて, ランチャーで有効にしてからM&B2を起動してください.
 2. タイトル画面のオプション (Options) から,  「日本語」ではなく「正しい日本語」を選択してください. (スクロールすると下の方で見つかります)
    * (なお, そのすぐ下の "Voice Language" という項目名は本体の不具合で英語から変更できません)
 
-また, Optional Files には Mod ではなく本体のファイルを上書きする形でインストールするものも用意されています. 場合に応じて使用してください. 上書き版の場合は, Modules フォルダ内の複数のフォルダを上書きする形になり, また言語設定は「日本語」のままで適用されます.
+### 上書き版
+
+Optional Files の CorrectLocalizationJP-Overwrite-\* のいずれか1つをダウンロードし フォルダ内の複数のフォルダを上書きする形になり, また言語設定は「日本語」のままで適用されます.
+
+M&B2は割とまだ不安定なことがあるので, 想定問答集とかトラブルシュートとかを下の方に書いています.
 
 ### 注意点
 
@@ -27,11 +37,13 @@
 
 現状, M&B2のmodは何故かわかりませんが 「新しい言語を登録することはできるが, 既存のテキストの修正はできない」という不可解な仕様なようなので, Module版では日本語の上書きではなく「正しい日本語」という別言語扱いになっています. 一方で本体ファイルを直接上書きすれば, 通常の「日本語」選択でもフォントとテキストが修正されます. どちらのインストール方法も一長一短だと思います (独立modはインストール時に一手間増える一方, 不具合があったときに差し戻しが容易, 上書きはアップデートした際に不具合が起こりやすい?)
 
+余力があればHarmonyとか使ってもっと手軽に適用できるようにしたいですが, 期待はしないでください.
+
 ## Mod の詳細
 
 ### フォントの修正について
 
-v1.0.3 現在, (おそらく) 常用漢字以外の漢字が使われていると, ところにより文字化けしたり, スタイルの全く違う KaiTi フォントにフォールバックしたりして, かなり読みづらいです. そのため使用フォントを適切なものに置き換えます.
+M&B2 本体は現在 (v1.0.3), おそらく常用漢字以外の漢字が使われており, ところにより文字化けしたり, スタイルの全く違う KaiTi フォントにフォールバックしたりして, かなり読みづらいです. そのため使用フォントを適切なものに置き換えます.
 
 フォントはいくつかバリエーションを用意しました. 好きなものをどれか1つインストールしてください.
 
@@ -101,19 +113,39 @@ v1.0.3現在, 大意は掴めますが, 全体的に不自然な日本語が多�
     * disorganized state recovery -> 陣形再編
     * Delegate Command On(Off)/代理の指令 On(Off) -> 指揮の委任 On(Off) (悪いUIの典型例ですがテキスト変更だけではUIの改善まではできません)
     * 委任戦闘時のログや指揮官のセリフの悪文も修正してます
-
+	* 各兵士クラスは主に上位のものを (RTSゲームでよくあるユニークユニットのように) 「〇〇の」を省略したり特徴的な名前に変更しています
 
 ### ID の重複問題
 
 M&B2 は本体だけでもいくつかのモジュールで構成されていますが, それら基本モジュールですら, 言語ファイルのIDがモジュール間で重複しているものがそれなりにあります (全体の30%程度) ほとんどは文字列が同じですが, さらにその内ごくわずか, 数十組程度ですが, モジュール毎に異なるテキストが割り当てられているものがあります. v1.0.3 現在, Native と SandBoxCore 間でのみ衝突が確認されているため, Native のテキストを優先しています. とはいえ, 違いの多くはスペルミスなのでそこまで大きな影響はありません.
 
-## 想定問答集 (FAQ)
+## 想定問答集 (FAQ) とトラブルシュート
+
+
+* Q.: マジで文字化けしなくなるの?
+* A.: 通常の日本語であれば多分大丈夫です. 例えば仮に, modの翻訳文に「『颯』爽」「樽」「隼」「憂『鬱』」といった常用漢字外の字を追加したとしても表示されます. 厳密なテストはしていませんが, 源真ゴシックは 19,623, 源瑛ラテミンは 18,198 のグリフを収録しています. いずれもAJ1-6 に準拠した源ノ角ゴシックを元にしているため, 通常日本語で使われうる文字はほぼ全て対応していると考えて問題ないです. 逆に, 簡体字などは対応してないですが, AJ1-6のグリフ数でもけっこうギリギリだったので現状M&B2 の仕様に沿ってCJK統合漢字を全て同じスタイルで表示させるのは不可能だと思います.
+
+* Q.: 他の日本語化modと併用できる?
+* A.: 手間がかかることがありますが, 注意すれば可能です. Modを上書きして日本語化するタイプのファイルの場合,「日本語」と本modの「正しい日本語」は別言語扱いなので, 「正しい日本語」選択時にはModの日本語化がされない可能性があります. 翻訳ファイルの XML ファイルの id を全て "日本語" から "correct_正しい日本語" に修正するか (VS Code のフォルダ単位の置換機能とか使ってください), 本modの上書き版を使用すれば併用できると思います. 本体の日本語を変更するタイプのmodは, 場合によります. 私がNexusで見つけられたのはこれ1つだけで, このmodであれば本modの上書き版の後にさらに上書きすればユニット名だけ変わると思います. もしくは Module 版とうまく手作業で連結してください.
+
+https://www.nexusmods.com/mountandblade2bannerlord/mods/2806
+
+* Q.: ゲームが動かない, エラーが出て落ちる
+* A.: 長いので折りたたみ. 
+
+以下は私の個人的経験に基づくものなので, 完全ではないかもしれません. この mod とは関係ない, 本体のバグが原因であるケースもあるかもしれません.
+
+ゲーム本体のバージョンと Mod にかかれている対応バージョンが一致しているか確認してください. 特に本体上書き版はバージョンが一致しない時の警告が出ない可能性が高いです. バージョンが違っても動作することはありますが, 保証はできません. こういう場合, ゲームがクラッシュする, 動作はするが日本語修正が部分的におかしい (一部英語だったり一部バニラの日本語のままだったり) など, 様々な不具合が想定され, 何が起こるかわかりません.
+
+次に, ランチャーで全てのmodを無効化してから起動してみてください. これで動くなら, いずれかの mod が原因の可能性が高いです. もしそのmodが私のmodだけなら, 具体的な状況を教えていただけると助かります.
+
+それでも問題が解決しない場合, 本体の再インストールが必要なときもあります. はじめは Steam の「整合性の確認」だけでも十分です. それでもだめなら再インストールしてみてください. その場合, Steamからアンインストールボタンを押した後にインストールフォルダに残っているファイルがあったらそれも削除してください. (インストールフォルダだけでいいです. セーブデータまで削除するのは「最後の手段」にしてください)
 
 * Q.: 文字化けは回避したいけどお前の翻訳センスないから文章まで変えてほしくない
 * A.: このModフォルダ内にある ModuleData フォルダを削除すると, テキストは変更されず, フォントだけが変更されます
 
 * Q.: 翻訳テキストいらんとこまで変えないで
-* A.: 固有名詞やスキル名は変えるとかえって混乱を招きそうなので, 選択制にするかもしれません
+* A.: 固有名詞やスキル名も変えるとかえって混乱を招きそうなので, 選択制にするかもしれません
 
 * Q.: フォントもいらないんだけど
 * A.: このModフォルダ内にある GUI, AssetSources, Assets, RuntimeDataCache フォルダを削除すればフォント変更はされなくなります.
@@ -121,13 +153,14 @@ M&B2 は本体だけでもいくつかのモジュールで構成されていま
 * Q.: RuntimeDataCache っていうやたらとサイズの大きいファイルがあるんだけどCacheって名前だしこれいらなくね?
 * A.: これがないとフォントが正常に読み込まれません. なぜこのような仕様なのか私もよくわかりません.
 
+
 ## 補足/Notes
 
 * NexusMods の掲示板には日本語が書き込めません. 日本語での不具合報告は GitHub か私のブログでお願いします. ただし, クラッシュや強制終了時のエラーコードの原因特定までは対処できない可能性が高いです (まだまだ本体由来のバグが多いです). 主にテキストが間違ってる, 正常に表示されない箇所があるといった問題の対応になります.
 * フォントサイズはわずかに小さく調整しましたが, もしかすると文字がUIの枠からはみ出て操作しづらい箇所が発生するかもしれません. これも発見されましたら報告していただけると助かります.
 * 私 (このmodの作者) はM&B2をEAの比較的早い段階で購入し, その時点で日本語対応が計画されているとアナウンスされていたので日本語化コミュニティには参加していませんでした. 日本語化された安定版が出たと聞いて久々に再開したらあんまり出来がよくなかったのでこれを作りました. そちらのものは確認してないので翻訳の方針が違うかもしれません.
 * 戦闘中のログは文字の下側がやや被っています. これは調整が面倒だったので現状そのままにしています.
-* 既に　TaleWorlds のフォーラムで日本語ローカライズの問題について開発元に指摘してくださっている方がいます. QAチームが反応しているので, 時間がかかるかもしれませんがバニラにおける問題もそのうち修正されるかもしれません.
+* 既に TaleWorlds のフォーラムで日本語ローカライズの問題について開発元に指摘してくださっている方がいます. QAチームが反応しているので, 時間がかかるかもしれませんがバニラにおける問題もそのうち修正されるかもしれません. ~~正直私は自分の作ったこの膨大な変更リストを説明する気になれません. ぶっちゃけ丸パクリされても怒らないのでさり気なく修正してほしいです~~
 
 https://forums.taleworlds.com/index.php?threads/some-japanese-fonts-are-still-missing.454493/
 
@@ -142,22 +175,22 @@ https://forums.taleworlds.com/index.php?threads/some-japanese-fonts-are-still-mi
 ## Summary
 
 1. This mod corrects mojibakes which appear many times in Japanese language.
-1. This mod corrects many of mistranslated text in Japanese language. Currently (v0.9) this mod corrects about 21 % of all of the original text which has 20 thoudands entries
+1. This mod corrects many of mistranslated text in Japanese language. Currently (v0.9) this mod corrects about 21 % of all of the original text which has 20 thousands entries
 
 ## How to Install
 
-Currently M&B localization system is quite limited. I published two types of mod: the formal module version and overwriting version. The latter is effective to apply to the multiplayer mode.
+Currently M&B localization system is quite limited. I published two types of mod: the formal module type and overwriting type. The latter is effective to apply to the multiplayer mode.
 
 1. As usual, download one of the Correct Localization JP-* in the Main Files, unzip, drag and drop into the Modules folder. Then enable this mod on the launcher and start to play.
 2. Enter the options and select the GamePlay, and change the Language to "正しい日本語" (correct Japanese)
 
-* Each version has equivalent except the Japanese font
+* Each variant is equivalent except the Japanese font
 * Note that modding disables to unlock the achievements. I recommend using [AchievementUn(bloc)ker](https://www.nexusmods.com/mountandblade2bannerlord/mods/4587)
 * Otherwise you can overwrite the vanilla modules by overwriter versions in the Optional Files.
 
 ## About Font Correction
 
-Currently (v1.0.3), You can find many text with mojibake because M&B2 supports only few Japanese letters (maybe the Joyo Kanji charset). I offer the following new font options.
+Currently You can find many text with mojibake because M&B2 (v1.0.3) supports only few Japanese letters (maybe the Joyo Kanji charset). I offer the following new font options.
 
 1. Gen-Shin Gothic Proportional (源真ゴシックP)
 1. Gen-Ei Latemin Proportional (源暎ラテミンP)
