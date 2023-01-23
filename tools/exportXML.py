@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
 from babel import Locale # Babel
-from babel.messages.pofile import read_po
-from babel.messages.mofile import read_mo
+from babel.messages.pofile import read_po, write_po
+from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import html
 import regex
@@ -15,7 +15,7 @@ import warnings
 
 control_char_remove = regex.compile(r'\p{C}')
 
-pofile = Path('text/translation-JP-pub.po')
+pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
 mb2dir = Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord')
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 
-def export(args, type):
+def export_modules(args, type):
     """
     type: 'module' or 'overwriter'
     """
@@ -68,12 +68,12 @@ def export(args, type):
                 catalog = read_mo(f)
             else:
                 warnings.warn('input file is invalid', UserWarning)
-    else:
-        with args.input.parent.joinpath(f'translation-{args.langfolder}.po') as fp:
-            if fp.exists():
-                print(f'NOTE: {args.input} not found. Reading {fp} insteadly')
-                catalog = read_po(fp.open('br'))
     d = po2pddf(catalog)
+    catalog_pub = export_public_po(catalog)
+    with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
+        write_po(f, catalog_pub)
+    with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
+        write_po(f, catalog_pub)
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -106,7 +106,8 @@ def export(args, type):
             for xml_path in xml_list:
                 print(f'''Reading {xml_path.name} from {xml_path.parent.parent.parent.parent.name} Module''')
                 # edit language_data.xml
-                xml = BeautifulSoup(xml_path.open('r', encoding='utf-8'), features='lxml-xml')
+                with xml_path.open('r', encoding='utf-8') as f:
+                    xml = BeautifulSoup(f, features='lxml-xml')
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
                 d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
                 if xml.find('base', recursive=False) is not None:
@@ -146,14 +147,15 @@ def export(args, type):
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
 
+
 def removeannoyingchars(string):
     # TODO: against potential abusing of control characters
     string = string.replace('\u3000', ' ')  # why dare you use zenkaku blank?? 
     string = control_char_remove.sub('', string)  # suck
     return string
 
+
 def po2pddf(catalog):
-    # TODO: why the iterator includes header lines
     d = pd.DataFrame(
         [(x.id, x.string) for x in catalog if x.id != ''], columns=['id', 'text']
         )
@@ -166,12 +168,20 @@ def po2pddf(catalog):
     d['id'] = d['id'].str.replace('%%', '%')
     return d
 
+def export_public_po(catalog):
+    match_public_id = regex.compile(r'^(.+?/.+?/.+?)/.*$')
+    for x in catalog:
+        if x.id != '':
+            x.id = match_public_id.sub(r'\1', x.id)
+    return catalog
+
+
 if args.output_type == 'both':
     for x in ['module', 'overwriter']:
-        export(args, x)
+        export_modules(args, x)
 elif args.output_type == 'module':
-    export(args, 'module')
+    export_modules(args, 'module')
 elif args.output_type == 'overwriter':
-    export(args, 'overwriter')
+    export_modules(args, 'overwriter')
 else:
     warnings.warn(f'{args.output_type} must be "module", "overwriter", or "both" ', UserWarning)
