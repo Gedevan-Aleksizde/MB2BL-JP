@@ -12,8 +12,7 @@ from babel.messages.catalog import Catalog
 import html
 import regex
 import warnings
-
-control_char_remove = regex.compile(r'\p{C}')
+from functions import po2pddf, removeannoyingchars, public_po
 
 pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
@@ -44,6 +43,7 @@ parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
 parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp') 
 parser.add_argument('--output-type', type=str, default='both')
+parser.add_argument('--drop-id', default=False, action='store_true')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -68,12 +68,14 @@ def export_modules(args, type):
                 catalog = read_mo(f)
             else:
                 warnings.warn('input file is invalid', UserWarning)
-    d = po2pddf(catalog)
-    catalog_pub = export_public_po(catalog)
+    catalog_pub = public_po(catalog)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
         write_mo(f, catalog_pub)
+    del catalog_pub
+    d = po2pddf(catalog, args.drop_id)
+    del catalog
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -117,10 +119,16 @@ def export_modules(args, type):
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
                             if tmp.shape[0] > 0 and tmp[0] != '':
-                                new_str = html.escape(removeannoyingchars(tmp[0]))
+                                # new_str = html.escape(removeannoyingchars(tmp[0]))
+                                new_str = removeannoyingchars(tmp[0])
                                 if string['text'] != new_str:
                                     string['text'] = new_str
-                                n_change_xml += 1
+                                    n_change_xml += 1
+                                    if string['id'] == '9Dpz9Emy':
+                                        print('------------')
+                                        print(tmp[0])
+                                        print(new_str)
+                                        print('--------------')
                             else:
                                 normalized_str = removeannoyingchars(string['text'])
                                 if normalized_str != string['text']:
@@ -146,35 +154,6 @@ def export_modules(args, type):
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
-
-
-def removeannoyingchars(string):
-    # TODO: against potential abusing of control characters
-    string = string.replace('\u3000', ' ')  # why dare you use zenkaku blank?? 
-    string = control_char_remove.sub('', string)  # suck
-    return string
-
-
-def po2pddf(catalog):
-    d = pd.DataFrame(
-        [(x.id, x.string) for x in catalog if x.id != ''], columns=['id', 'text']
-        )
-    d = pd.concat([d, d['id'].str.split('/', expand=True)], axis=1).drop(
-        columns='id'
-        ).rename(
-            columns={0: 'module', 1: 'file', 2: 'id'}
-            )
-    d['text'] = d['text'].str.replace('%%', '%')
-    d['id'] = d['id'].str.replace('%%', '%')
-    return d
-
-def export_public_po(catalog):
-    match_public_id = regex.compile(r'^(.+?/.+?/.+?)/.*$')
-    for x in catalog:
-        if x.id != '':
-            x.id = match_public_id.sub(r'\1', x.id)
-    return catalog
-
 
 if args.output_type == 'both':
     for x in ['module', 'overwriter']:
