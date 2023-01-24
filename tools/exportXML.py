@@ -124,11 +124,6 @@ def export_modules(args, type):
                                 if string['text'] != new_str:
                                     string['text'] = new_str
                                     n_change_xml += 1
-                                    if string['id'] == '9Dpz9Emy':
-                                        print('------------')
-                                        print(tmp[0])
-                                        print(new_str)
-                                        print('--------------')
                             else:
                                 normalized_str = removeannoyingchars(string['text'])
                                 if normalized_str != string['text']:
