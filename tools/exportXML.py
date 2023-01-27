@@ -113,8 +113,7 @@ def export_modules(args, type):
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
                 d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
                 if xml.find('base', recursive=False) is not None:
-                    if type == 'module':
-                        xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
+                    xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
