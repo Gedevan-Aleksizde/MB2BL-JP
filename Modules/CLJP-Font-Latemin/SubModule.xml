@@ -2,7 +2,7 @@
 <Module>
     <Name value="Correct Localization JP - Gen-Ei LateMin"/>
     <Id value="CorrectLocalizationJPGenEiLateMin"/>
-    <Version value="v1.0.0"/>
+    <Version value="v0.9.1"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="true"/>
     <DependedModules>

@@ -2,7 +2,7 @@
 <Module>
     <Name value="Correct Localization JP Gen-Shin Gothic"/>
     <Id value="CorrectLocalizationJPGenShinGothic"/>
-    <Version value="v1.0.0"/>
+    <Version value="v0.9.1"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="true"/>
     <DependedModules>

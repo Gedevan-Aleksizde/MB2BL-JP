@@ -9,3 +9,4 @@ Modules/
 text/*
 !text/MB2BL-JP-pub.mo
 doc
+.Rproj.user
