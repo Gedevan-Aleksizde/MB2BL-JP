@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Correct Localization JP Gen-Shin Gothic"/>
-    <Id value="CorrectLocalizationJPGenShinGothic"/>
-    <Version value="v0.9.1"/>
+    <Name value="Correct Localization JP Gen-Shin Gothic Font"/>
+    <Id value="CorrectLocalizationJPFontGenShinGothic"/>
+    <Version value="v0.9.2"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="true"/>
     <ModuleType value ="Community" />

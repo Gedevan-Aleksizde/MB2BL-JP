@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+    <Name value="Correct Localization JP - Text" />
+    <Id value="CorrectLocalizationTextE	" />
+    <Version value="v0.9.2"/>
+    <SingleplayerModule value="true" />
+    <MultiplayerModule value="true" />
+    <!--<DependedModules>
+        <DependedModule Id="Native" DependentVersion="v1.0.3" />
+        <DependedModule Id="SandBoxCore" DependentVersion="v1.0.3" />
+        <DependedModule Id="Sandbox" DependentVersion="v1.0.3"/>
+        <DependedModule Id="CustomBattle" DependentVersion="v1.0.3" />
+        <DependedModule Id="StoryMode" DependentVersion="v1.0.3" />
+    </DependedModules>-->
+	<ModulesToLoadAfterThis>
+    <Module Id="Native" />
+    <Module Id="SandBoxCore" />
+    <Module Id="Sandbox" />
+    <Module Id="StoryMode" />
+    <Module Id="CustomBattle" />
+  	</ModulesToLoadAfterThis>
+  	<DependedModuleMetadatas>
+    	<DependedModuleMetadata id="Native" order="LoadAfterThis" optional="true" version="v1.0.3" />
+    	<DependedModuleMetadata id="SandBoxCore" order="LoadAfterThis" optional="true" version="v1.0.3" />
+    	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.0.3" />
+    	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.0.3" />
+    	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.0.3" />
+  	</DependedModuleMetadatas>
+</Module>
