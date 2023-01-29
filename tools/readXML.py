@@ -45,8 +45,9 @@ if __name__ == '__main__':
         '--only-diff', type=bool, default=False,
         help='whether or not set blank at each untranslated entry. Default: False')
     parser.add_argument(
-        '--with-id', type=bool, default=True,
-        help='whether or not prefix text ID to each untranslated text entry. Default: True'
+        '--with-id', default=True,
+        help='whether or not prefix text ID to each untranslated text entry. Default: True',
+        action='store_true'
     )
     parser.add_argument(
         '--mb2dir', type=Path,
@@ -91,7 +92,8 @@ else:
     for i, r in df_new.iterrows():
         _ = new_catalog.add(
             id=r['id'],
-            string=(f'[{r["id_original"]}]' if args.with_id else '') + r[f'text_{args.langto}_original']
+            # string=(f'[{r["id_original"]}]' if args.with_id else '') + r[f'text_{args.langto}_original']
+            string = r[f'text_{args.langto}_original']
         )
 
 
@@ -99,7 +101,11 @@ if args.old.exists():
     with args.old.open('br') as f:
         old_catalog = read_po(f)
     new_one = update_with_older_po(old_catalog, new_catalog)
-
+    if args.with_id:
+        match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
+        for x in new_one:
+            internal_id = match_internal_id.sub(r'\1', x.id)
+            x.string = f'[{internal_id}]' + x.string
 ##########
 ## !!! Babel.messages.catalog.Catalog indexing HARDLY WORK AFTER THIS !!!!
 ##########
@@ -112,3 +118,4 @@ for l in new_one:
 ##########
 with args.output.open('bw') as f:
     write_po(f, new_one)
+print(f'''WRITE AT: {args.output}''')
