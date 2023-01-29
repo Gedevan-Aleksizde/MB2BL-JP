@@ -2,7 +2,7 @@
 <Module>
     <Name value="Correct Localization JP - Gen-Ei LateMin Font"/>
     <Id value="CorrectLocalizationJPFontGenEiLateMin"/>
-    <Version value="v0.9.2"/>
+    <Version value="v0.9.3"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="true"/>
     <ModuleType value ="Community" />
