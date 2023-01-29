@@ -369,7 +369,7 @@ Each of the font family will supports almost all of letters and symbols used in 
 
 Note: I used Gen-Shin Gothic instead of Source Han Sans JP, same as the Native because of Modding Kit’s thechnical difficulty.
 
-# About Traslation Correction
+# About Translation Correction
 
 Too many to state that here.
 
