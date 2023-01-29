@@ -3,9 +3,9 @@ test
 Packages/
 BAK/
 Modules/
-!Modules/CLJP-Common
-!Modules/CLJP-Font-GenShinGothic
-!Modules/CLJP-Font-Latemin
+!Modules/CLJP-Common/
+!Modules/CLJP-Font-GenShinGothic/SubModule.xml
+!Modules/CLJP-Font-Latemin/SubModule.xml
 text/*
 !text/MB2BL-JP-pub.mo
 doc
