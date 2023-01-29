@@ -38,11 +38,11 @@ parser.add_argument('--langfolder', type=str, default='JP')
 parser.add_argument('--langsuffix', type=str, default='jpn')  
 parser.add_argument('--functions', type=str, default='jp_functions.xml')  # why so diverse country codes used?? 
 parser.add_argument('--langid', type=str, default='日本語') 
-parser.add_argument('--langalias', type=str, default='正しい日本語')
+parser.add_argument('--langalias', type=str, default='日本語')
 parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
 parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp') 
-parser.add_argument('--output-type', type=str, default='both')
+parser.add_argument('--output-type', type=str, default='module')
 parser.add_argument('--drop-id', default=False, action='store_true')
 
 if __name__ == '__main__':
@@ -52,6 +52,7 @@ if __name__ == '__main__':
 # <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
+# TODO: too intricate to localize
 
 def export_modules(args, type):
     """
@@ -68,7 +69,7 @@ def export_modules(args, type):
                 catalog = read_mo(f)
             else:
                 warnings.warn('input file is invalid', UserWarning)
-    catalog_pub = public_po(catalog)
+    catalog_pub = public_po(catalog, args.drop_id)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
@@ -97,7 +98,7 @@ def export_modules(args, type):
                 ''',
                 'lxml-xml'
                 )
-            language_data.LanguageData['id'] = f'''correct_{args.langalias}''' if type == 'module' else args.langid
+            language_data.LanguageData['id'] = f'''{args.langalias}''' if type == 'module' else args.langid
             if module == 'Native':
                 language_data.LanguageData['name'] = f'''{args.langalias}''' if type == 'module' else args.langname
                 if args.subtitleext != '':
@@ -113,7 +114,7 @@ def export_modules(args, type):
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
                 d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
                 if xml.find('base', recursive=False) is not None:
-                    xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
+                    xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="{args.langalias}" />''', features='lxml-xml'))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values

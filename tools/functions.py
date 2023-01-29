@@ -19,15 +19,19 @@ from bs4 import BeautifulSoup
 control_char_remove = regex.compile(r'\p{C}')
 match_public_id = regex.compile(r'^(.+?/.+?/.+?)/.*$')
 match_file_name_id = regex.compile(r'^.+?/(.+?)/.+?/.*$')
+match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
+match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 
-def public_po(catalog):
+def public_po(catalog, drop_id):
     # TODO: VERRRYY DIRTY!!!!!
     a = dict()
     for l in catalog:
         if l.id != '':
             newkey = (match_public_id.sub(r'\1', l.id) , match_file_name_id.sub(r'\1', l.id))
-            oldval = catalog._messages[(l.id, match_file_name_id.sub(r'\1', l.id))]
-            a[newkey] = oldval
+            newval = catalog._messages[(l.id, match_file_name_id.sub(r'\1', l.id))]
+            if drop_id:
+                newval.string = match_prefix_id.sub(r'\1', newval.string)
+            a[newkey] = newval
             l.id = newkey[0] 
     catalog._message = a
     return catalog
@@ -44,7 +48,6 @@ def po2pddf(catalog, drop_prefix_id=True):
     d['text'] = d['text'].str.replace('%%', '%')
     d['id'] = d['id'].str.replace('%%', '%')
     if drop_prefix_id:
-        match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
         d['text'] = [match_prefix_id.sub(r'\1', x) for x in d['text']]
     return d
 
