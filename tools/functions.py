@@ -65,7 +65,7 @@ def po2pddf_easy(catalog, drop_prefix_id=True):
     d = pd.DataFrame(
         [(x.id, x.string, ' '.join(x.user_comments)) for x in catalog if x.id != ''], columns=['id', 'text', 'note']
         )
-    internal_id = regex.compile('^.+?/(.+?)$')
+    internal_id = regex.compile('(^.+?)/(.+?)$')
     d['text'] = d['text'].str.replace('%%', '%')
     d['id'] = d['id'].str.replace('%%', '%')
     d['id'] = [internal_id.sub(r'\1', x) for x in d['id']]
@@ -106,45 +106,51 @@ def removeannoyingchars(string, remove_id=False):
 def get_localization_entries(args, auto_id=True):
     ds = []
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
-    for file in module_data_dir.rglob('./[!Languages]*.xml'):
-        print(file.name)
-        with file.open('r', encoding='utf-8') as f:
-            xml = BeautifulSoup(f, features='lxml-xml')
-        any_missing = False
-        for attr_name in ['text', 'name']:
-            xml_entries = xml.find_all(attrs={attr_name: True})
-            # xml_entries = xml.select(f'.{attr_name}')
-            print(f'''{len(xml_entries)} {attr_name} attributes found''')
-            if len(xml_entries) > 0:
-                d = pd.DataFrame({'text_EN': [x[attr_name] for x in xml_entries]}).assign(
-                        id = lambda d: d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
-                        text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
-                    ).assign(attr = attr_name, file = file.name)
-                d = d.assign(missing_id = lambda d: (d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))
-                n_missing = d['missing_id'].sum()
-                if n_missing > 0:
-                    warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
-                    any_missing = True
-                    #if drop_id:
-                    #    d = d.loc[lambda d: ~((d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))]
-                    if auto_id:
-                        d = d.assign(
-                            id=lambda d: np.where(
-                                d['missing_id'],
-                                [f'{args.target_module}.' + hashlib.md5(text.encode()).hexdigest() for text in d['text_EN']],
-                                d['id']
+    for file in module_data_dir.rglob('./*.xml'):
+        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
+            print(file.relative_to(module_data_dir))
+            with file.open('r', encoding='utf-8') as f:
+                xml = BeautifulSoup(f, features='lxml-xml')
+            any_missing = False
+            for attr_name in ['text', 'name']:
+                xml_entries = xml.find_all(attrs={attr_name: True})
+                # xml_entries = xml.select(f'.{attr_name}')
+                print(f'''{len(xml_entries)} {attr_name} attributes found''')
+                if len(xml_entries) > 0:
+                    d = pd.DataFrame({'text_EN': [x[attr_name] for x in xml_entries]}).assign(
+                            id = lambda d: np.where(
+                                d['text_EN'].str.contains(r'^\{=(.+?)\}.*$', regex=True),
+                                d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
+                                ''
+                            ),
+                            text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
+                        ).assign(attr = attr_name, file = file.name)
+                    d['id'] == np.where(d['id'].str.contains(r'^\{=(.+?)\}$', regex=True), d['id'], '')
+                    d = d.assign(missing_id = lambda d: (d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))
+                    n_missing = d['missing_id'].sum()
+                    if n_missing > 0:
+                        warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
+                        any_missing = True
+                        #if drop_id:
+                        #    d = d.loc[lambda d: ~((d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))]
+                        if auto_id:
+                            d = d.assign(
+                                id=lambda d: np.where(
+                                    d['missing_id'],
+                                    [f'{args.target_module}' + hashlib.md5(text.encode()).hexdigest() for text in d['text_EN']],
+                                    d['id']
+                                    )
                                 )
-                            )
-                        for (i, r), string in zip(d.iterrows(), xml_entries):
-                            if r['missing_id']:
-                                string[attr_name] = "{=" + r['id'] + "}" + r['text_EN']
-                ds += [d]
-        if auto_id and any_missing:
-            outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
-            if not outfp.parent.exists():
-                outfp.parent.mkdir(parents=True)
-            with outfp.open('w', encoding='utf-8') as f:
-                f.writelines(xml.prettify(formatter='minimal'))
+                            for (i, r), string in zip(d.iterrows(), xml_entries):
+                                if r['missing_id']:
+                                    string[attr_name] = "{=" + r['id'] + "}" + r['text_EN']
+                    ds += [d]
+            if auto_id and any_missing:
+                outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
+                if not outfp.parent.exists():
+                    outfp.parent.mkdir(parents=True)
+                with outfp.open('w', encoding='utf-8') as f:
+                    f.writelines(xml.prettify(formatter='minimal'))
     if len(ds) == 0:
         raise('No entry found')
     else:
