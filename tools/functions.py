@@ -15,6 +15,7 @@ import html
 import regex
 import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
+import hashlib
 
 control_char_remove = regex.compile(r'\p{C}')
 match_public_id = regex.compile(r'^(.+?/.+?/.+?)/.*$')
@@ -36,7 +37,12 @@ def public_po(catalog, drop_id):
     catalog._message = a
     return catalog
 
+
 def po2pddf(catalog, drop_prefix_id=True):
+    """
+    input:
+    return: `pandas.DataFrame` which contains `id` and `text` columns
+    """
     d = pd.DataFrame(
         [(x.id, x.string, ' '.join(x.user_comments)) for x in catalog if x.id != ''], columns=['id', 'text', 'note']
         )
@@ -51,6 +57,43 @@ def po2pddf(catalog, drop_prefix_id=True):
         d['text'] = [match_prefix_id.sub(r'\1', x) for x in d['text']]
     return d
 
+def po2pddf_easy(catalog, drop_prefix_id=True):
+    """
+    input:
+    return: `pandas.DataFrame` which contains `id` and `text` columns
+    """
+    d = pd.DataFrame(
+        [(x.id, x.string, ' '.join(x.user_comments)) for x in catalog if x.id != ''], columns=['id', 'text', 'note']
+        )
+    internal_id = regex.compile('^.+?/(.+?)$')
+    d['text'] = d['text'].str.replace('%%', '%')
+    d['id'] = d['id'].str.replace('%%', '%')
+    d['id'] = [internal_id.sub(r'\1', x) for x in d['id']]
+    if drop_prefix_id:
+        d['text'] = [match_prefix_id.sub(r'\1', x) for x in d['text']]
+    return d
+
+
+def pddf2po(df, with_id=True, distinct=True, locale=None):
+    """
+    input: `pandas.DataFrame` which contains `id` and `text` columns
+    """
+    if locale is None:
+        locale = Locale.parse('ja_JP')
+    if distinct:
+        df_unique = df.groupby('id').last().reset_index()
+        if df.shape[0] != df_unique.shape[0]:
+            warnings.warn(f'{df.shape[0] - df_unique.shape[0]} duplicated IDs are dropped!', UserWarning)
+    else:
+        df_unique = df_unique
+    catalog = Catalog(locale)
+    if with_id:
+        df_unique = df_unique.assign(text=lambda d: '[' + d['id'] + ']' + d['text'])
+    for i, r in df.iterrows():
+        catalog.add(r['id'] + '/' + r['text'], r['text'])
+    return catalog
+
+
 def removeannoyingchars(string, remove_id=False):
     # TODO: against potential abusing of control characters
     string = string.replace('\u3000', ' ')  # why dare you use zenkaku blank?? 
@@ -58,6 +101,75 @@ def removeannoyingchars(string, remove_id=False):
     if remove_id:
         string = regex.sub(r'^\[.+?\](.*)$', r'\1', string)
     return string
+
+
+def get_localization_entries(args, auto_id=True):
+    ds = []
+    module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
+    for file in module_data_dir.rglob('./[!Languages]*.xml'):
+        print(file.name)
+        with file.open('r', encoding='utf-8') as f:
+            xml = BeautifulSoup(f, features='lxml-xml')
+        any_missing = False
+        for attr_name in ['text', 'name']:
+            xml_entries = xml.find_all(attrs={attr_name: True})
+            # xml_entries = xml.select(f'.{attr_name}')
+            print(f'''{len(xml_entries)} {attr_name} attributes found''')
+            if len(xml_entries) > 0:
+                d = pd.DataFrame({'text_EN': [x[attr_name] for x in xml_entries]}).assign(
+                        id = lambda d: d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
+                        text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
+                    ).assign(attr = attr_name, file = file.name)
+                d = d.assign(missing_id = lambda d: (d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))
+                n_missing = d['missing_id'].sum()
+                if n_missing > 0:
+                    warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
+                    any_missing = True
+                    #if drop_id:
+                    #    d = d.loc[lambda d: ~((d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))]
+                    if auto_id:
+                        d = d.assign(
+                            id=lambda d: np.where(
+                                d['missing_id'],
+                                [f'{args.target_module}.' + hashlib.md5(text.encode()).hexdigest() for text in d['text_EN']],
+                                d['id']
+                                )
+                            )
+                        for (i, r), string in zip(d.iterrows(), xml_entries):
+                            if r['missing_id']:
+                                string[attr_name] = "{=" + r['id'] + "}" + r['text_EN']
+                ds += [d]
+        if auto_id and any_missing:
+            outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
+            if not outfp.parent.exists():
+                outfp.parent.mkdir(parents=True)
+            with outfp.open('w', encoding='utf-8') as f:
+                f.writelines(xml.prettify(formatter='minimal'))
+    if len(ds) == 0:
+        raise('No entry found')
+    else:
+        d = pd.concat(ds)
+    return d
+
+
+def get_default_lang(mb2dir, modules, langshort):
+    d_defaults = []
+    for m in modules:
+        print(f'LOADING {m} Module...')
+        for fp in mb2dir.joinpath(f'Modules/{m}/ModuleData/Languages/{langshort}/').rglob('*.xml'):
+            if fp.name != 'language_data.xml':
+                with fp.open('r', encoding='utf-8') as f:
+                    xml = BeautifulSoup(f, features='lxml-xml')
+                strings = xml.find('strings')
+                if strings is not None:
+                    print(fp.name)
+                    d = pd.DataFrame(
+                        [(x['id'], x['text'] ) for x in strings.find_all('string')],
+                        columns = ['id', 'text']
+                    ).assign(file = fp.name, module=m)
+                    d_defaults += [d]
+    d_default = pd.concat(d_defaults).groupby('id').last().reset_index()
+    return d_default
 
 
 def read_xmls(args):
