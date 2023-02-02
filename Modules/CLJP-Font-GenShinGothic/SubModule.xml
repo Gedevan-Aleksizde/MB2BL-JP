@@ -3,9 +3,10 @@
     <Name value="Correct Localization JP Gen-Shin Gothic Font"/>
     <Id value="CorrectLocalizationJPFontGenShinGothic"/>
     <Version value="v0.9.3"/>
+    <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039">
+    <ModuleType value="Community"/>
     <SingleplayerModule value="true"/>
     <MultiplayerModule value="true"/>
-    <ModuleType value ="Community" />
     <DependedModules>
         <DependedModule Id="Native" DependentVersion="v1.0.3"/>
         <DependedModule Id="SandBoxCore" DependentVersion="v1.0.3"/>

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
     <Name value="Correct Localization JP - Text" />
-    <Id value="CorrectLocalizationTextE	" />
+    <Id value="CorrectLocalizationText" />
     <Version value="v0.9.3"/>
+    <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039">
+    <ModuleType value="Community"/>
     <SingleplayerModule value="true" />
     <MultiplayerModule value="true" />
-    <!--<DependedModules>
-        <DependedModule Id="Native" DependentVersion="v1.0.3" />
+    <DependedModules>
+        <!--<DependedModule Id="Native" DependentVersion="v1.0.3" />
         <DependedModule Id="SandBoxCore" DependentVersion="v1.0.3" />
         <DependedModule Id="Sandbox" DependentVersion="v1.0.3"/>
         <DependedModule Id="CustomBattle" DependentVersion="v1.0.3" />
-        <DependedModule Id="StoryMode" DependentVersion="v1.0.3" />
-    </DependedModules>-->
+        <DependedModule Id="StoryMode" DependentVersion="v1.0.3" />-->
+        <DependedModule Id="CorrectLocalizationJPFontGenEiLateMin" DependentVersion="v0.9.3" />
+        <DependedModule Id="CorrectLocalizationJPFontGenShinGothic" DependentVersion="v0.9.3" />
+    </DependedModules>
 	<ModulesToLoadAfterThis>
     <Module Id="Native" />
     <Module Id="SandBoxCore" />
@@ -25,5 +29,7 @@
     	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.0.3" />
     	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.0.3" />
     	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.0.3" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" optional="true" version="v0.9.3" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" optional="true" version="v0.9.3" />
   	</DependedModuleMetadatas>
 </Module>
