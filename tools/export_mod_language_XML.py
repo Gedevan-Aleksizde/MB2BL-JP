@@ -34,7 +34,7 @@ parser.add_argument('--modules', nargs='*', default=modules)
 parser.add_argument('--langshort', type=str, default='JP')
 parser.add_argument('--langid', type=str, default='日本語') 
 parser.add_argument('--drop-id', default=False, action='store_true')
-parser.add_argument('--distinct', default=True, action='store_true')
+parser.add_argument('--distinct', default=False, action='store_true')
 parser.add_argument('--mb2dir', type=Path, default=mb2dir)
 
 

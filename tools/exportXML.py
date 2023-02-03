@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 # encoding: utf-8
 import argparse
-import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
@@ -9,7 +8,6 @@ from babel import Locale # Babel
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
-import html
 import regex
 import warnings
 from functions import po2pddf, removeannoyingchars, public_po

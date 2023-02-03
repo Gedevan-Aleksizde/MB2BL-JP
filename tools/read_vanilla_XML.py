@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 # encoding: utf-8
-import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
@@ -116,6 +115,13 @@ for l in new_one:
         new_one[l.id].context = df_new.loc[l.id]['file']
     
 ##########
-with args.output.open('bw') as f:
-    write_po(f, new_one)
-print(f'''WRITE AT: {args.output}''')
+with args.output as fp:
+    if fp.exists():
+        backup_path = fp.parent.joinpath(
+            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%M-%dT%H-%M-%S")}.po"""
+        )
+        fp.rename(backup_path)
+        print(f"""old file is renamed to {backup_fp}""")
+    with fp.open('bw') as f:
+        write_po(f, new_one)
+    print(f'''WRITE AT: {args.output}''')

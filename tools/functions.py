@@ -3,7 +3,6 @@
 import argparse
 from pathlib import Path
 import warnings
-import xml.etree.ElementTree as ET
 from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
@@ -11,10 +10,7 @@ from babel import Locale # Babel
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
-import html
 import regex
-import xml.etree.ElementTree as ET
-from bs4 import BeautifulSoup
 import hashlib
 
 control_char_remove = regex.compile(r'\p{C}')
@@ -74,7 +70,7 @@ def po2pddf_easy(catalog, drop_prefix_id=True):
     return d
 
 
-def pddf2po(df, with_id=True, distinct=True, locale=None):
+def pddf2po(df, with_id=True, distinct=True, locale=None, id_text_col='text', text_col='text'):
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
     """
@@ -85,12 +81,17 @@ def pddf2po(df, with_id=True, distinct=True, locale=None):
         if df.shape[0] != df_unique.shape[0]:
             warnings.warn(f'{df.shape[0] - df_unique.shape[0]} duplicated IDs are dropped!', UserWarning)
     else:
-        df_unique = df_unique
+        df_unique = df
+    del df
     catalog = Catalog(locale)
     if with_id:
-        df_unique = df_unique.assign(text=lambda d: '[' + d['id'] + ']' + d['text'])
-    for i, r in df.iterrows():
-        catalog.add(r['id'] + '/' + r['text'], r['text'])
+        df_unique[text_col] = [ f'[{r["id"]}]{r[text_col]}' for _, r in df_unique.iterrows()]
+    if 'updated' in df_unique.columns:
+        for _, r in df_unique.iterrows():
+            catalog.add(r['id'] + '/' + r[id_text_col], r[text_col], flags=[] if r['updated'] else ['fuzzy'])
+    else:
+        for _, r in df_unique.iterrows():
+            catalog.add(r['id'] + '/' + r[id_text_col], r[text_col])
     return catalog
 
 
@@ -103,9 +104,10 @@ def removeannoyingchars(string, remove_id=False):
     return string
 
 
-def get_localization_entries(args, auto_id=True):
+def get_text_entries(args, auto_id=True):
     ds = []
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
+    print(f'reading xml files from {module_data_dir}')
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             print(file.relative_to(module_data_dir))
@@ -137,7 +139,7 @@ def get_localization_entries(args, auto_id=True):
                             d = d.assign(
                                 id=lambda d: np.where(
                                     d['missing_id'],
-                                    [f'{args.target_module}' + hashlib.md5(text.encode()).hexdigest() for text in d['text_EN']],
+                                    [f'{args.id_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['text_EN']],  # TODO
                                     d['id']
                                     )
                                 )
@@ -152,18 +154,19 @@ def get_localization_entries(args, auto_id=True):
                 with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
     if len(ds) == 0:
-        raise('No entry found')
+        d = None
     else:
         d = pd.concat(ds)
     return d
 
 
-def get_default_lang(mb2dir, modules, langshort):
+def get_default_lang(args, distinct=True, text_col='text'):
     d_defaults = []
-    for m in modules:
-        print(f'LOADING {m} Module...')
-        for fp in mb2dir.joinpath(f'Modules/{m}/ModuleData/Languages/{langshort}/').rglob('*.xml'):
+    for m in args.modules:
+        print(f'LOADING {m} Module...')        
+        for fp in args.mb2dir.joinpath(f'Modules/{m}/ModuleData/Languages/{args.langshort}/').glob('*.xml'):
             if fp.name != 'language_data.xml':
+                print(fp)
                 with fp.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
                 strings = xml.find('strings')
@@ -171,10 +174,15 @@ def get_default_lang(mb2dir, modules, langshort):
                     print(fp.name)
                     d = pd.DataFrame(
                         [(x['id'], x['text'] ) for x in strings.find_all('string')],
-                        columns = ['id', 'text']
+                        columns = ['id', text_col]
                     ).assign(file = fp.name, module=m)
                     d_defaults += [d]
-    d_default = pd.concat(d_defaults).groupby('id').last().reset_index()
+    if len(d_defaults) > 0:
+        d_default = pd.concat(d_defaults)
+        if distinct:
+            d_default = d_default.groupby('id').last().reset_index()
+    else:
+        d_default = None
     return d_default
 
 
