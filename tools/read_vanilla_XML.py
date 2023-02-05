@@ -11,6 +11,7 @@ from babel.messages.pofile import read_po, write_po
 from babel.messages.catalog import Catalog
 import warnings
 from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
+from datetime import datetime
 
 # from tools.functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
 
@@ -38,16 +39,16 @@ if __name__ == '__main__':
         help=f'output file path. Default = {str(default_output_path)}')
     parser.add_argument(
         '--old', type=Path,
-        default=None,
+        default=Path('text/MB2BL-JP.po'),
         help=f'older .PO file path. the original text will be merged and updated with this if exists. Default: what you specified in--output with suffix "-old.po"')
     parser.add_argument(
         '--only-diff', type=bool, default=False,
         help='whether or not set blank at each untranslated entry. Default: False')
-    parser.add_argument(
-        '--with-id', default=True,
-        help='whether or not prefix text ID to each untranslated text entry. Default: True',
-        action='store_true'
-    )
+#    parser.add_argument(
+#        '--with-id', default=True,
+#        help='whether or not prefix text ID to each untranslated text entry. Default: True',
+#        action='store_true'
+#    )
     parser.add_argument(
         '--mb2dir', type=Path,
         default=Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord'),
@@ -100,11 +101,9 @@ if args.old.exists():
     with args.old.open('br') as f:
         old_catalog = read_po(f)
     new_one = update_with_older_po(old_catalog, new_catalog)
-    if args.with_id:
-        match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
-        for x in new_one:
-            internal_id = match_internal_id.sub(r'\1', x.id)
-            x.string = f'[{internal_id}]' + x.string
+else:
+    new_one = new_catalog
+
 ##########
 ## !!! Babel.messages.catalog.Catalog indexing HARDLY WORK AFTER THIS !!!!
 ##########
@@ -118,10 +117,10 @@ for l in new_one:
 with args.output as fp:
     if fp.exists():
         backup_path = fp.parent.joinpath(
-            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%M-%dT%H-%M-%S")}.po"""
+            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
         )
         fp.rename(backup_path)
-        print(f"""old file is renamed to {backup_fp}""")
+        print(f"""old file is renamed to {backup_path.name}""")
     with fp.open('bw') as f:
         write_po(f, new_one)
     print(f'''WRITE AT: {args.output}''')

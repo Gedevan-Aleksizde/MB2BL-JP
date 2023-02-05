@@ -41,7 +41,7 @@ parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
 parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp') 
 parser.add_argument('--output-type', type=str, default='module')
-parser.add_argument('--drop-id', default=False, action='store_true')
+parser.add_argument('--with-id', default=False, action='store_true')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -67,13 +67,13 @@ def export_modules(args, type):
                 catalog = read_mo(f)
             else:
                 warnings.warn('input file is invalid', UserWarning)
-    catalog_pub = public_po(catalog, args.drop_id)
+    catalog_pub = public_po(catalog, drop_id=False)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
         write_mo(f, catalog_pub)
     del catalog_pub
-    d = po2pddf(catalog, args.drop_id)
+    d = po2pddf(catalog, drop_prefix_id=False)
     del catalog
     n_entries_total = 0
     n_change_total = 0
@@ -131,6 +131,8 @@ def export_modules(args, type):
                                     n_change_xml += 1
                                     string['text'] = normalized_str
                             n_entries_xml += 1
+                            if args.with_id:
+                                string['text'] = f"""[{string['id']}]{string['text']}"""  
                         if n_entries_xml > 0:
                             print(f'''{100 * n_change_xml/n_entries_xml:.0f} % out of {n_entries_xml} text are changed in {xml_path.name}''')
                         else:

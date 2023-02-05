@@ -9,7 +9,7 @@ import numpy as np
 from functions import (
     read_xmls, check_duplication, escape_for_po,
     update_with_older_po,
-    get_localization_entries, get_default_lang,
+    get_text_entries, get_default_lang,
     po2pddf_easy, pddf2po
     )
 from babel.messages.pofile import read_po, write_po
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
     if args.outdir is None:
-        args.outdir = Path(f'ModLangs/{args.target_module}')
+        args.outdir = Path(f'Mods/{args.target_module}')
         with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}') as fp:
             if not fp.exists():
                 fp.mkdir(parents=True)

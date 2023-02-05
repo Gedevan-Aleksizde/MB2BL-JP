@@ -115,8 +115,8 @@ def get_text_entries(args, auto_id=True):
                 xml = BeautifulSoup(f, features='lxml-xml')
             any_missing = False
             for attr_name in ['text', 'name']:
-                xml_entries = xml.find_all(attrs={attr_name: True})
-                # xml_entries = xml.select(f'.{attr_name}')
+                # xml_entries = xml.find_all(attrs={attr_name: True})
+                xml_entries = xml.find_all(name=regex.compile('[^string]'), attrs={attr_name: True})
                 print(f'''{len(xml_entries)} {attr_name} attributes found''')
                 if len(xml_entries) > 0:
                     d = pd.DataFrame({'text_EN': [x[attr_name] for x in xml_entries]}).assign(
@@ -162,7 +162,7 @@ def get_text_entries(args, auto_id=True):
 
 def get_default_lang(args, distinct=True, text_col='text'):
     d_defaults = []
-    for m in args.modules:
+    for m in args.default_modules:
         print(f'LOADING {m} Module...')        
         for fp in args.mb2dir.joinpath(f'Modules/{m}/ModuleData/Languages/{args.langshort}/').glob('*.xml'):
             if fp.name != 'language_data.xml':
