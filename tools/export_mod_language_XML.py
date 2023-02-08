@@ -33,10 +33,10 @@ parser.add_argument('--outdir', type=Path, default=None)
 parser.add_argument('--modules', nargs='*', default=modules)
 parser.add_argument('--langshort', type=str, default='JP')
 parser.add_argument('--langid', type=str, default='日本語') 
-parser.add_argument('--drop-id', default=False, action='store_true')
+# parser.add_argument('--drop-id', default=False, action='store_true')
 parser.add_argument('--distinct', default=False, action='store_true')
 parser.add_argument('--mb2dir', type=Path, default=mb2dir)
-
+parser.add_argument('--output-blank', default=False, action='store_true')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -51,6 +51,8 @@ with args.outdir.joinpath(f'strings_{args.target_module}.po').open('br') as f:
     catalog = read_po(f)
 print(type(catalog))
 d_new = po2pddf_easy(catalog)
+if not args.output_blank:
+    d_new = d_new.loc[lambda d: d['text'] != '']
 # d_new = pd.read_excel(args.outdir.joinpath(f'strings_{args.target_module}.xlsx'))
 
 xml = BeautifulSoup(
