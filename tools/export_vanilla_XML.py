@@ -35,19 +35,21 @@ parser.add_argument('--modules', nargs='*', default=modules)
 parser.add_argument('--langfolder', type=str, default='JP')
 parser.add_argument('--langsuffix', type=str, default='jpn')  
 parser.add_argument('--functions', type=str, default='jp_functions.xml')  # why so diverse country codes used?? 
-parser.add_argument('--langid', type=str, default='日本語') 
+parser.add_argument('--langid', type=str, default='日本語')
 parser.add_argument('--langalias', type=str, default='日本語')
 parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
-parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp') 
+parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp')
 parser.add_argument('--output-type', type=str, default='module')
 parser.add_argument('--with-id', default=False, action='store_true')
+parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs in non-Native modules')
 
 if __name__ == '__main__':
     args = parser.parse_args()
 
 # TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
 # <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
+# 仕様が変なだけでなく厄介なバグもいくつかありそう
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
@@ -75,6 +77,15 @@ def export_modules(args, type):
     del catalog_pub
     d = po2pddf(catalog, drop_prefix_id=False)
     del catalog
+
+    if args.distinct:
+        n = d.shape[0]
+        d = d.assign(
+            isnative=lambda d: d['module'] == 'Native'
+        ).sort_values([
+            'id', 'isnative']
+        ).groupby(['id']).last().reset_index().drop(columns=['isnative'])
+        print(f"""{n - d.shape[0]} duplicated entries dropped""")
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -117,7 +128,6 @@ def export_modules(args, type):
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
                             if tmp.shape[0] > 0 and tmp[0] != '':
-                                # new_str = html.escape(removeannoyingchars(tmp[0]))
                                 new_str = removeannoyingchars(tmp[0])
                                 if string['text'] != new_str:
                                     string['text'] = new_str
@@ -130,6 +140,8 @@ def export_modules(args, type):
                                         UserWarning)
                                     n_change_xml += 1
                                     string['text'] = normalized_str
+                                if args.distinct:
+                                    string.extract()
                             n_entries_xml += 1
                             if args.with_id:
                                 string['text'] = f"""[{string['id']}]{string['text']}"""  

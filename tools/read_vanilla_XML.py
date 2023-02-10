@@ -6,7 +6,7 @@ from pathlib import Path
 import argparse
 import numpy as np
 import regex
-from babel import Locale # Babe
+from babel import Locale # Babel
 from babel.messages.pofile import read_po, write_po
 from babel.messages.catalog import Catalog
 import warnings

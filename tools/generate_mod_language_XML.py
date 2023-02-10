@@ -116,7 +116,7 @@ def extract_text_from_xml(args, auto_id=True):
                 print(f'''{len(xml_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
                 if len(xml_entries) > 0:
                     d = pd.DataFrame(
-                        [(x[filter['attrs']], f'''{filter['name']}_{filter['attrs']}''') for x in xml_entries], columns=['text_EN', 'location']
+                        [(x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries], columns=['text_EN', 'context']
                         ).assign(
                             id = lambda d: np.where(
                                 d['text_EN'].str.contains(r'^\{=(.+?)\}.*$', regex=True),
@@ -183,7 +183,7 @@ def get_mod_languages(args, auto_id=True):
                         {(x['id'], x['text']) for x in xml_entries},
                         columns=['id', 'text']
                     )
-                    d = d.assign(file=file.name)
+                    d = d.assign(file=file.name, context='string.text')
                     ds_translation += [d]
         else:
             print(file.relative_to(module_data_dir))
@@ -195,7 +195,8 @@ def get_mod_languages(args, auto_id=True):
                 d = pd.DataFrame({(x['id'], x['text']) for x in xml_entries}, columns=['id', 'text_EN'])
                 d = d.assign(
                     missing_id = lambda d: (d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'),
-                    file=file.name)
+                    file=file.name,
+                    context='string.text')
                 n_missing = d['missing_id'].sum()
                 if n_missing > 0:
                     warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
@@ -220,17 +221,21 @@ def get_mod_languages(args, auto_id=True):
 
 d_mod = extract_text_from_xml(args, auto_id=True)
 
+print(d_mod)
+
 d_mod_lang = get_mod_languages(args)
 
 if d_mod is None:
     d_mod = d_mod_lang.assign(missing_id=lambda d: ~d['id'].isna())
 elif d_mod_lang is not None:
     d_mod = d_mod.merge(d_mod_lang, on='id', how='outer').assign(
-        file=lambda d: np.where(d['file_x'].isna(), d['file_y'], d['file_x']),
-        text_EN=lambda d: np.where(d['text_EN_x'].isna(), d['text_EN_y'], d['text_EN_x'])
-    ).drop(columns=['text_EN_x', 'text_EN_y'])
+        file=lambda d: np.where(d['file_y'].isna(), d['file_x'], d['file_y']),
+        text_EN=lambda d: np.where(d['text_EN_y'].isna(), d['text_EN_x'], d['text_EN_y']),
+        context=lambda d: np.where(d['context_x'].isna(), d['context_y'], d['context_x'])
+    ).drop(columns=['text_EN_x', 'text_EN_y', 'file_x', 'file_y', 'context_x', 'context_y'])
 else:
     pass
+
 
 if d_mod is None:
     raise('No text entry found!')
@@ -249,7 +254,7 @@ d_mod['duplicated_with_vanilla'] = d_mod['duplicated_with_vanilla'].fillna(False
 if 'text' not in d_mod.columns:
     d_mod['text'] = np.nan
 if 'updated' not in d_mod.columns:
-    d_mod['updated'] = np.nan 
+    d_mod['updated'] = np.nan
 
 # merge by string
 if args.merge_with_mo is not None:
@@ -261,9 +266,10 @@ if args.merge_with_mo is not None:
                 catalog = read_po(f)
             else:
                 warnings.warn(f'''{args.merge_with_mo} not found''')
-    elif args.merge_with_mo.with_suffix(".po").exists():
-            with args.merge_with_mo.with_suffix(".po").open('br') as f:
+    elif args.merge_with_mo.with_suffix('.po').exists():
+            with args.merge_with_mo.with_suffix('.po').open('br') as f:
                 catalog = read_po(f)
+                print(f"{args.merge_with_mo.with_suffix('.po')} loaded insteadly")
     else:
         catalog = None
     if catalog is not None:
@@ -303,10 +309,10 @@ if args.fill_english:
         text=lambda d: np.where(d['text'].isna(), d['text_EN'], d['text'])
     )
 
-
 if args.distinct:
     d_mod = d_mod.groupby('id').last().reset_index()
-d_mod = d_mod[d_mod.columns.intersection(set(['id', 'text_EN', 'text', 'file', 'attr', 'updated', 'missing_id', 'duplicated_with_vanilla']))]
+d_mod = d_mod[d_mod.columns.intersection(
+    {'id', 'text_EN', 'text', 'file', 'attr', 'updated', 'missing_id', 'duplicated_with_vanilla','context', 'notes'})]
 
 with args.outdir.joinpath(f'strings_{args.target_module}.xlsx') as fp:
     if fp.exists():
@@ -318,7 +324,9 @@ with args.outdir.joinpath(f'strings_{args.target_module}.xlsx') as fp:
     d_mod.to_excel(fp, index=False)
 
 d_mod = d_mod.fillna('')
-catalog = pddf2po(d_mod, with_id=args.with_id, id_text_col='text_EN', text_col='text', distinct=args.distinct)
+catalog = pddf2po(
+    d_mod, with_id=args.with_id, distinct=args.distinct,
+    col_id_text='text_EN', col_text='text', col_comments='notes', col_context='context', col_locations='file')
 
 
 with args.outdir.joinpath(f'strings_{args.target_module}.po') as fp:

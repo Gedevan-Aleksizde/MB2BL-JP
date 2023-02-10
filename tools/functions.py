@@ -70,7 +70,10 @@ def po2pddf_easy(catalog, drop_prefix_id=True):
     return d
 
 
-def pddf2po(df, with_id=True, distinct=True, locale=None, id_text_col='text', text_col='text'):
+def pddf2po(
+    df, with_id=True, distinct=True, locale=None, col_id_text='text', col_text='text',
+    col_locations=None, col_context=None, col_comments=None
+    ):
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
     """
@@ -85,13 +88,28 @@ def pddf2po(df, with_id=True, distinct=True, locale=None, id_text_col='text', te
     del df
     catalog = Catalog(locale)
     if with_id:
-        df_unique[text_col] = [ f'[{r["id"]}]{r[text_col]}' for _, r in df_unique.iterrows()]
-    if 'updated' in df_unique.columns:
-        for _, r in df_unique.iterrows():
-            catalog.add(r['id'] + '/' + r[id_text_col], r[text_col], flags=[] if r['updated'] else ['fuzzy'])
-    else:
-        for _, r in df_unique.iterrows():
-            catalog.add(r['id'] + '/' + r[id_text_col], r[text_col])
+        df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
+    def format_arg(dic):
+        dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
+        dic['string'] = dic[col_text]
+        dic['flags'] = [] if dic.get('updated') else ['fuzzy']
+        dic['locations'] = [(dic.get(col_locations), 0)]
+        dic['user_comments'] = [dic.get(col_comments, '')]
+        dic['context'] = dic.get(col_context)
+        return dic
+
+    d = [format_arg(dict(r)) for _, r in df_unique.iterrows()]
+    keys = {'id', 'string', 'flags'}
+    if col_comments is not None:
+        keys.add('user_comments')
+    if col_context is not None:
+        keys.add('context')
+    if col_locations is not None:
+        keys.add('locations')
+    current_keys = list(d[0].keys())
+    [dic.pop(k, None) for dic in d for k in current_keys if k not in keys]
+    for r in d:
+        catalog.add(**r)
     return catalog
 
 
