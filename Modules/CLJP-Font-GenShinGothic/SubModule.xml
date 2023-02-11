@@ -2,7 +2,7 @@
 <Module>
     <Name value="Correct Localization JP Gen-Shin Gothic Font"/>
     <Id value="CorrectLocalizationJPFontGenShinGothic"/>
-    <Version value="v0.9.3"/>
+    <Version value="v0.9.4"/>
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039">
     <ModuleType value="Community"/>
     <SingleplayerModule value="true"/>
@@ -13,5 +13,6 @@
         <DependedModule Id="Sandbox" DependentVersion="v1.0.3"/>
         <DependedModule Id="CustomBattle" DependentVersion="v1.0.3"/>
         <DependedModule Id="StoryMode" DependentVersion="v1.0.3"/>
+        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" version="v0.9.*" />
     </DependedModules>
 </Module>

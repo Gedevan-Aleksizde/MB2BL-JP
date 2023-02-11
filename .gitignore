@@ -12,6 +12,8 @@ Modules/CLJP-Font-Latemin/Assets
 Modules/CLJP-Font-Latemin/AssetsSources
 Modules/CLJP-Font-Latemin/GUI
 Modules/CLJP-Font-Latemin/RUntimeDataCache
+Mods
+Localizer
 text/*
 !text/MB2BL-JP-pub.mo
 doc
