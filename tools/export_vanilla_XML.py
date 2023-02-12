@@ -164,7 +164,7 @@ def export_modules(args, type):
         lang_data_patch = BeautifulSoup(
             f'''
             <LanguageData id="English">
-            <LanguageFile xml_path="std_global_strings_xml-{args.langsuffix}.xml" />
+            <LanguageFile xml_path="{args.langfolder}/Native/std_global_strings_xml-{args.langsuffix}.xml" />
             </LanguageData>
             ''',
             features='lxml-xml')
