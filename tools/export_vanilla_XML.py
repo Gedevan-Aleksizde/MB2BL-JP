@@ -36,7 +36,7 @@ parser.add_argument('--langfolder', type=str, default='JP')
 parser.add_argument('--langsuffix', type=str, default='jpn')  
 parser.add_argument('--functions', type=str, default='jp_functions.xml')  # why so diverse country codes used?? 
 parser.add_argument('--langid', type=str, default='日本語')
-parser.add_argument('--langalias', type=str, default='日本語')
+parser.add_argument('--langalias', type=str, default=None)
 parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
 parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp')
@@ -94,6 +94,8 @@ def export_modules(args, type):
             output_dir = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}').joinpath(module)
         elif type == 'overwriter':
             output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langfolder}')
+        if not output_dir.exists():
+            output_dir.mkdir(parents=True)
         # output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langfolder}')
         xml_list = list(args.mb2dir.joinpath(f'''Modules/{module}/ModuleData/languages/{args.langfolder}''').glob('*.xml'))
         if len(xml_list) > 0:
@@ -108,9 +110,9 @@ def export_modules(args, type):
                 ''',
                 'lxml-xml'
                 )
-            language_data.LanguageData['id'] = f'''{args.langalias}''' if type == 'module' else args.langid
+            language_data.LanguageData['id'] = args.langid
             if module == 'Native':
-                language_data.LanguageData['name'] = f'''{args.langalias}''' if type == 'module' else args.langname
+                language_data.LanguageData['name'] = args.langname
                 if args.subtitleext != '':
                     language_data.LanguageData['subtitle_extension'] = args.subtitleext
                 if args.iso != '':
@@ -124,7 +126,11 @@ def export_modules(args, type):
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
                 d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
                 if xml.find('base', recursive=False) is not None:
-                    xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="{args.langalias}" />''', features='lxml-xml'))
+                    default_lang_tag = xml.base.find('tag').get('language')
+                    if default_lang_tag != args.langid:
+                        xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="{args.langid}" />''', features='lxml-xml'))
+                    if args.langalias is not None:
+                        xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
@@ -170,6 +176,25 @@ def export_modules(args, type):
             features='lxml-xml')
         with output_dir.joinpath('../../language_data.xml').open('w', encoding='utf-8') as f:
             f.writelines(lang_data_patch.prettify())
+    if type == 'module' and args.langalias is not None:
+        with args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}/Native/language_data.xml').open('r', encoding='utf-8') as f:
+            language_data_alias = BeautifulSoup(f, features='lxml-xml')
+        language_data = language_data_alias.find('LanguageData', recursive=False)
+        language_data['id'] = f'correct_{args.langalias}'
+        language_data['name'] = args.langalias
+        xml_list = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}').rglob('language_data.xml')
+        for fp in xml_list:
+            if fp.parent != 'Native':
+                with fp.open('r', encoding='utf-8') as f:
+                    langauage_data2 =  BeautifulSoup(f, features='lxml-xml')
+                    for xml_languagefile in langauage_data2.find_all('LanguageFile'):
+                        language_data_alias.find('LanguageData').append(xml_languagefile)
+        output_fp = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}2/language_data.xml')
+        if not output_fp.parent.exists():
+            output_fp.parent.mkdir(parents=True)
+        with output_fp.open('w', encoding='utf-8') as f:
+            f.writelines(language_data_alias.prettify())
+
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
 
