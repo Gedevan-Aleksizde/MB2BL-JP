@@ -43,6 +43,7 @@ parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp')
 parser.add_argument('--output-type', type=str, default='module')
 parser.add_argument('--with-id', default=False, action='store_true')
 parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs in non-Native modules')
+parser.add_argument('--no-english-overwriting', default=False, action='store_true', help='for M&B weird bug')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -159,8 +160,20 @@ def export_modules(args, type):
                             )
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
+    if type=='module' and not args.no_english_overwriting:
+        lang_data_patch = BeautifulSoup(
+            f'''
+            <LanguageData id="English">
+            <LanguageFile xml_path="std_global_strings_xml-{args.langsuffix}.xml" />
+            </LanguageData>
+            ''',
+            features='lxml-xml')
+        with output_dir.joinpath('../../language_data.xml').open('w', encoding='utf-8') as f:
+            f.writelines(lang_data_patch.prettify())
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
+
+
 
 if args.output_type == 'both':
     for x in ['module', 'overwriter']:
