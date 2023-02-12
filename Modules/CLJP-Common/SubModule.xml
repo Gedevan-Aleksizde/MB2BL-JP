@@ -3,10 +3,11 @@
     <Name value="Correct Localization JP - Text" />
     <Id value="CorrectLocalizationJPText" />
     <Version value="v0.9.4"/>
-    <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039">
+    <Official value="false" />
+    <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
     <ModuleType value="Community"/>
     <SingleplayerModule value="true" />
-    <MultiplayerModule value="true" />
+    <MultiplayerModule value="false" />
     <DependedModules>
         <!--<DependedModule Id="Native" DependentVersion="v1.0.3" />
         <DependedModule Id="SandBoxCore" DependentVersion="v1.0.3" />
