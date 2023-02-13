@@ -62,25 +62,57 @@ if __name__ == '__main__':
         default='ja_JP',
         type=str
     )
+    parser.add_argument(
+        '--no-distinct',
+        default=False,
+        action='store_true'
+    )
+    parser.add_argument('--all-fuzzy', default=False, action='store_true')
+    parser.add_argument('--legacy-id', default=False, action='store_true')
     args = parser.parse_args()
     if args.old is None:
         args.old = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
 
 
 
-df_new = read_xmls(args)
+df_new = read_xmls(args, how_join='outer')
 dup = check_duplication(df_new)
 
 df_new.to_excel(f'text/MB2BL-{args.langto}.xlsx', index=False)
 
 df_new = escape_for_po(df_new, ['text_EN', f'text_{args.langto}_original'])
-df_new = df_new.assign(
-        id_original=lambda d: d['id'],
-        id_short=lambda d: d['module'] + '/' + d['file'] + '/' + d['id'],
-        id=lambda d: d['module'] + '/' + d['file'] + '/' + d['id'] + '/' + d['text_EN']
-        )
+if args.legacy_id:
+    df_new = df_new.assign(
+            id_original=lambda d: d['id'],
+            id_short=lambda d: d['module'] + '/' + d['file'] + '/' + d['id'],
+            id=lambda d: d['id'] + '/' + d['text_EN']
+            )
+else:
+    df_new = df_new.assign(
+            id_original=lambda d: d['id'],
+            id=lambda d: d['id'] + '/' + d['text_EN']
+            )
 df_new[f'text_{args.langto}_original'] = df_new[f'text_{args.langto}_original'].fillna('')
 df_new = df_new.reset_index(drop=True)
+
+if not args.no_distinct:
+    duplicates = df_new[['id', 'file', 'module']].assign(
+        location=lambda d: d['module'] + '/' + d['file']
+    ).groupby('id').agg(
+        {
+            'location': [lambda locs: [(x, 0) for x in locs], lambda locs: len(locs)]
+        }
+    ).reset_index()
+    duplicates.columns = ['id', 'locations', 'duplication']
+    df_new = df_new.assign(
+        isnative=lambda d: d['module']=='Native'
+    ).sort_values(
+        ['id', 'isnative']
+    ).groupby(['id']).last().reset_index().drop(columns=['isnative'])
+    df_new = df_new.merge(duplicates, on='id', how='left')
+    df_new = df_new.assign(
+        notes=lambda d: np.where(d['duplication'] > 1, [[f"""{note}, {ndup} ID duplications"""] for note, ndup in zip(d['notes'], d['duplication']) ], d['notes']))
+
 
 new_catalog = Catalog(Locale.parse('ja_JP'))
 if args.only_diff:
@@ -93,16 +125,18 @@ else:
         _ = new_catalog.add(
             id=r['id'],
             # string=(f'[{r["id_original"]}]' if args.with_id else '') + r[f'text_{args.langto}_original']
-            string = r[f'text_{args.langto}_original']
+            string = r[f'text_{args.langto}_original'],
+            user_comments=[] if r['notes'] == '' else [r['notes']],
+            locations=r['locations']
         )
-
 
 if args.old.exists():
     with args.old.open('br') as f:
         old_catalog = read_po(f)
-    new_one = update_with_older_po(old_catalog, new_catalog)
+    new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, legacy_id=args.legacy_id)
 else:
     new_one = new_catalog
+
 
 ##########
 ## !!! Babel.messages.catalog.Catalog indexing HARDLY WORK AFTER THIS !!!!
@@ -111,13 +145,13 @@ else:
 df_new = df_new.set_index('id')
 for l in new_one:
     if l.id != '':
-        new_one[l.id].context = df_new.loc[l.id]['file']
-    
+        new_one[l.id].context = f'''{df_new.loc[l.id]['module']}/{df_new.loc[l.id]['file']}'''
+
 ##########
 with args.output as fp:
     if fp.exists():
         backup_path = fp.parent.joinpath(
-            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
+            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H%M%S")}.po"""
         )
         fp.rename(backup_path)
         print(f"""old file is renamed to {backup_path.name}""")

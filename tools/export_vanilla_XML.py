@@ -10,7 +10,7 @@ from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import regex
 import warnings
-from functions import po2pddf, removeannoyingchars, public_po
+from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_corrected_babel_fake_id
 
 pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
@@ -44,6 +44,7 @@ parser.add_argument('--output-type', type=str, default='module')
 parser.add_argument('--with-id', default=False, action='store_true')
 parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs in non-Native modules')
 parser.add_argument('--no-english-overwriting', default=False, action='store_true', help='for M&B weird bug')
+parser.add_argument('--legacy_id', default=False, action='store_true', help='depricated')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -69,14 +70,25 @@ def export_modules(args, type):
                 print(f'reading {args.input}')
                 catalog = read_mo(f)
             else:
-                warnings.warn('input file is invalid', UserWarning)
-    catalog_pub = public_po(catalog, drop_id=False)
+                raise('input file is invalid', UserWarning)
+    catalog = get_catalog_which_corrected_babel_fake_id(catalog)
+    catalog_pub = public_po(catalog)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
         write_mo(f, catalog_pub)
     del catalog_pub
     d = po2pddf(catalog, drop_prefix_id=False)
+    if not args.legacy_id:
+        d = pd.concat(
+            [
+                d,
+                d['context'].str.split('/', expand=True).rename(columns={0: 'module', 1: 'file'})
+            ],
+            axis=1
+        )[['id', 'text', 'text_EN', 'module', 'file', 'locations']]
+        d['duplication'] = [len(x) for x in d['locations']]
+        d['duplication'] = d['duplication'].fillna(1)
     del catalog
 
     if args.distinct:
@@ -87,6 +99,8 @@ def export_modules(args, type):
             'id', 'isnative']
         ).groupby(['id']).last().reset_index().drop(columns=['isnative'])
         print(f"""{n - d.shape[0]} duplicated entries dropped""")
+    if 'duplication' not in d.columns:
+        d['duplication'] = 1
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -124,7 +138,11 @@ def export_modules(args, type):
                 with xml_path.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
                 en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
-                d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
+                #TODO: refactoring
+                if args.legacy_id:
+                    d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
+                else:
+                    d_sub = d.loc[lambda d: d['file'] == en_xml_name]
                 if xml.find('base', recursive=False) is not None:
                     default_lang_tag = xml.base.find('tag').get('language')
                     if default_lang_tag != args.langid:
@@ -133,13 +151,17 @@ def export_modules(args, type):
                         xml.base.find('tags', recursive=False).append(BeautifulSoup(f'''<tag language="correct_{args.langalias}" />''', features='lxml-xml'))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
-                            tmp = d_sub.loc[lambda d: d['id'] == string['id'], ]['text'].values
-                            if tmp.shape[0] > 0 and tmp[0] != '':
-                                new_str = removeannoyingchars(tmp[0])
+                            tmp = d_sub.loc[lambda d: d['id'] == string['id']]
+                            if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
+                                new_str = removeannoyingchars(tmp['text'].values[0])
                                 if string['text'] != new_str:
                                     string['text'] = new_str
                                     n_change_xml += 1
                             else:
+                                if args.legacy_id:
+                                    warnings.warn(f'''ID not found: {string["id"]} in {module}/{xml_path.name}''')
+                                elif not d.loc[lambda d: d['id'] == string['id']].shape[0] > 0:
+                                    warnings.warn(f'''ID not found: {string["id"]} in {module}/{xml_path.name}''')
                                 normalized_str = removeannoyingchars(string['text'])
                                 if normalized_str != string['text']:
                                     warnings.warn(
@@ -151,7 +173,7 @@ def export_modules(args, type):
                                     string.extract()
                             n_entries_xml += 1
                             if args.with_id:
-                                string['text'] = f"""[{string['id']}]{string['text']}"""  
+                                string['text'] = f"""[{string['id']}]{string['text']}"""
                         if n_entries_xml > 0:
                             print(f'''{100 * n_change_xml/n_entries_xml:.0f} % out of {n_entries_xml} text are changed in {xml_path.name}''')
                         else:
@@ -194,10 +216,8 @@ def export_modules(args, type):
             output_fp.parent.mkdir(parents=True)
         with output_fp.open('w', encoding='utf-8') as f:
             f.writelines(language_data_alias.prettify())
-
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
-
 
 
 if args.output_type == 'both':

@@ -19,38 +19,75 @@ match_file_name_id = regex.compile(r'^.+?/(.+?)/.+?/.*$')
 match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
 match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 
-def public_po(catalog, drop_id):
-    # TODO: VERRRYY DIRTY!!!!!
-    a = dict()
-    for l in catalog:
-        if l.id != '':
-            newkey = (match_public_id.sub(r'\1', l.id) , match_file_name_id.sub(r'\1', l.id))
-            newval = catalog._messages[(l.id, match_file_name_id.sub(r'\1', l.id))]
-            if drop_id:
-                newval.string = match_prefix_id.sub(r'\1', newval.string)
-            a[newkey] = newval
-            l.id = newkey[0] 
-    catalog._message = a
+
+def get_catalog_which_corrected_babel_fake_id(catalog_with_fake_id, simplify=True):
+    # WHY BABEL USES FAKE ID???
+    catalog_with_correct_id = Catalog(Locale.parse('ja_JP'))
+    if simplify:
+        for true_id in catalog_with_fake_id._messages:
+            _ = catalog_with_correct_id.add(
+                id = catalog_with_fake_id._messages[true_id].id,
+                string =  catalog_with_fake_id._messages[true_id].string,
+                user_comments = catalog_with_fake_id._messages[true_id].user_comments,
+                flags = catalog_with_fake_id._messages[true_id].flags,
+                locations = catalog_with_fake_id._messages[true_id].locations
+            )
+        for true_id in catalog_with_fake_id._messages:
+                catalog_with_correct_id[true_id[0]].context = catalog_with_fake_id._messages[true_id].context
+    else:
+        for true_id in catalog_with_fake_id._messages:
+            _ = catalog_with_correct_id.add(
+                id = true_id,
+                string =  catalog_with_fake_id._messages[true_id].string,
+                user_comments = catalog_with_fake_id._messages[true_id].user_comments,
+                flags = catalog_with_fake_id._messages[true_id].flags,
+                locations = catalog_with_fake_id._messages[true_id].locations
+            )
+        for true_id in catalog_with_fake_id._messages:
+                catalog_with_correct_id[true_id[0]].context = catalog_with_fake_id._messages[true_id].context
+    return catalog_with_correct_id
+
+
+def public_po(catalog):
+    # TODO: copy of metadata
+    # TODO: distinction
+    match_internal_id = regex.compile(r'^(.+?)/.+?$')
+    for true_id in catalog._messages:
+        catalog._messages[true_id].id = match_internal_id.sub(r'\1', true_id)
     return catalog
 
 
-def po2pddf(catalog, drop_prefix_id=True):
+
+def po2pddf(catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False):
     """
     input:
-    return: `pandas.DataFrame` which contains `id` and `text` columns
+    return: `pandas.DataFrame` which contains `id`, `file`, `module`, `text`, `text_EN ,`notes`, `flags` columns
     """
     d = pd.DataFrame(
-        [(x.id, x.string, ' '.join(x.user_comments)) for x in catalog if x.id != ''], columns=['id', 'text', 'note']
-        )
+        [(x.id, x.string, x.user_comments, x.flags, x.locations, x.context) for x in catalog if x.id != ''],
+        columns=['id', 'text', 'notes', 'flags', 'locations', 'context']
+    )
     d = pd.concat([d, d['id'].str.split('/', expand=True)], axis=1).drop(
-        columns='id'
-        ).rename(
+            columns='id'
+        )
+    if legacy:
+        d = d.rename(
             columns={0: 'module', 1: 'file', 2: 'id'}
-            )
+        )
+        d['context'] = d['file']
+    else:
+        d = d.rename(
+            columns={0: 'id'}
+        )
+        d = d.assign(duplication=lambda d: [len(x) for x in d['locations']])
+        # d['text_EN'] = d[[x for x in d.columns if x not in ['id', 'text', 'notes', 'flags', 'locations', 'context']]].agg('/'.join, axis=1)
+        d['text_EN'] = d['id'].str.replace(r'^.+?/(.*?)$', r'\1', regex=True).str.replace('%%', '%')
     d['text'] = d['text'].str.replace('%%', '%')
     d['id'] = d['id'].str.replace('%%', '%')
     if drop_prefix_id:
         d['text'] = [match_prefix_id.sub(r'\1', x) for x in d['text']]
+    if drop_excessive_cols:
+        d = d[[x for x in d.columns if x in ['id', 'text', 'text_EN', 'notes', 'flags', 'locations', 'context', 'file', 'module', 'duplication']]]
     return d
 
 def po2pddf_easy(catalog, drop_prefix_id=True):
@@ -72,7 +109,7 @@ def po2pddf_easy(catalog, drop_prefix_id=True):
 
 def pddf2po(
     df, with_id=True, distinct=True, locale=None, col_id_text='text', col_text='text',
-    col_locations=None, col_context=None, col_comments=None
+    col_locations=None, col_context=None, col_comments=None, col_flags=None,
     ):
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
@@ -89,14 +126,20 @@ def pddf2po(
     catalog = Catalog(locale)
     if with_id:
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
+    # I shouldn't have used Babel.
+
     def format_arg(dic):
         dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
         dic['string'] = dic[col_text]
-        dic['flags'] = [] if dic.get('updated') else ['fuzzy']
+        if col_flags:
+            pass
+        else:
+            dic['flags'] = [] if dic.get('updated') else ['fuzzy']
         dic['locations'] = [(dic.get(col_locations), 0)]
         dic['user_comments'] = [dic.get(col_comments, '')]
         dic['context'] = dic.get(col_context)
         return dic
+    
 
     d = [format_arg(dict(r)) for _, r in df_unique.iterrows()]
     keys = {'id', 'string', 'flags'}
@@ -204,7 +247,7 @@ def get_default_lang(args, distinct=True, text_col='text'):
     return d_default
 
 
-def read_xmls(args):
+def read_xmls(args, how_join='left'):
     d = dict()
     d['EN'] = []
     d[args.langto] = []
@@ -234,12 +277,19 @@ def read_xmls(args):
     d[args.langto] = pd.concat(d[args.langto])
     d[args.langto][f'text_{args.langto}_original'] = d[args.langto][f'text_{args.langto}_original'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True)
     d[args.langto]['file'] = d[args.langto]['file'].str.replace(r'^(.+)-jpn\.xml', r'\1.xml', regex=True)
-
-    d_bilingual = d['EN'].merge(d[args.langto], on=['id', 'file', 'module'], how='left')
+    d_bilingual = d['EN'].merge(d[args.langto], on=['id', 'file', 'module'], how=how_join)
+    # Who can assume that the original text ID is incomplete??
+    if how_join:
+        d_bilingual = d_bilingual.assign(
+            notes=lambda d: np.where(d['text_EN'].isna(), 'The original text cannot available, assumed hardcoded', ''),
+            text_EN=lambda d: np.where(d['text_EN'].isna(), d[f'text_{args.langto}_original'], d['text_EN']))
+    else:
+        d_bilingual['notes'] = ''
     d_bilingual = d_bilingual[
-        ['module', 'file', 'id', 'text_EN'] + [x for x in d_bilingual.columns if (x[:5] == 'text_' and x[-2:] != 'EN')]
+        ['module', 'file', 'id', 'text_EN', 'notes'] + [x for x in d_bilingual.columns if (x[:5] == 'text_' and x[-2:] != 'EN')]
     ].sort_values(['id', 'file'])
     print(f'new text has {d_bilingual.shape[0]} entries')
+
     return d_bilingual
 
 
@@ -271,28 +321,77 @@ def escape_for_po(df, columns):
     return df
 
 
-def update_with_older_po(old_catalog, new_catalog):
-    for l in new_catalog:
-        if l.id != '':
-            old_message = old_catalog[l.id]
-            if old_message is not None:
-                old_message.string = match_public_id.sub(r'\1', old_message.string)
-                if old_message.string != '':
+def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=False):
+    # I shouldn't have used Babel
+    if legacy_id:
+        for l in new_catalog:
+            if l.id != '':
+                old_message = old_catalog[l.id]
+                if old_message is not None:
+                    old_message.string = match_public_id.sub(r'\1', old_message.string)
+                    if old_message.string != '':
+                        new_catalog[l.id].string = old_message.string
+                        new_catalog[l.id].user_comments = old_message.user_comments
+                else:
+                    print(f"あほしね: {l.id}")
+        # update on public id if not matched
+        old_catalog_fuzzy = Catalog(Locale.parse('ja_JP'))
+        for l in old_catalog:
+            _ = old_catalog_fuzzy.add(
+                id=match_public_id.sub(r'\1', l.id),
+                string=l.string,
+                user_comments=l.user_comments,
+                flags=l.flags,
+                context=l.context,
+                locations=l.locations
+            )
+        n_match = 0
+        for l in new_catalog:
+            if l.id != '':
+                old_message = old_catalog_fuzzy[match_public_id.sub(r'\1', l.id)]
+                if old_message is not None and old_message.string != '' and old_catalog[l.id] is None:
+                    n_match += 1
                     new_catalog[l.id].string = old_message.string
-                    new_catalog[l.id].user_comments=[] if old_message is None else old_message.user_comments
-    # update on public id if not matched
-    old_catalog_fuzzy = Catalog(Locale.parse('ja_JP'))
-    for l in old_catalog:
-        _ = old_catalog_fuzzy.add(
-            id=match_public_id.sub(r'\1', l.id),
-            string=l.string,
-            user_comments=l.user_comments
-        )
-    for l in new_catalog:
-        if l.id != '':
-            old_message = old_catalog_fuzzy[match_public_id.sub(r'\1', l.id)]
-            if old_message is not None and old_message.string != '' and old_catalog[l.id] is None:
-                new_catalog[l.id].string = old_message.string
-                new_catalog[l.id].user_comments = l.user_comments
-                new_catalog[l.id].flags = ['fuzzy']
+                    new_catalog[l.id].user_comments += old_message.user_comments
+                    new_catalog[l.id].flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else []
+        print(f'{n_match} entries matched by public ID are updated')
+    else:
+        # WHY BABEL USES FAKE ID???
+        old_catalog_correct_id = get_catalog_which_corrected_babel_fake_id(old_catalog)
+        n_match = 0
+        for l in new_catalog:
+            if l.id != '':
+                old_message = old_catalog_correct_id[l.id]
+                if old_message is not None:
+                    if old_message.string != '':
+                        new_catalog[l.id].string = old_message.string
+                        new_catalog[l.id].user_comments += old_message.user_comments
+                        new_catalog[l.id].flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else []
+                        n_match += 1
+        total_entries = len([m for m in new_catalog if m.id != ''])
+        print(f'{n_match}/{total_entries} entries matched by the internal ID and the original text are updated')
+        if n_match == total_entries:
+            print('all entries are matched')
+        else:
+            # update on internal ID if the original text changed
+            match_interla_id = regex.compile(r'^(.+?)/.+?$')
+            old_catalog_fuzzy = Catalog(Locale.parse('ja_JP'))
+            for l in old_catalog_correct_id:
+                _ = old_catalog_fuzzy.add(
+                    id=match_interla_id.sub(r'\1', l.id),
+                    string=l.string,
+                    user_comments=l.user_comments,
+                    flags=l.flags,
+                    context=l.context
+                )
+            n_match = 0
+            for l in new_catalog:
+                if l.id != '':
+                    old_message = old_catalog_fuzzy[match_internal_id.sub(r'\1', l.id)]
+                    if old_message is not None and old_message.string != '' and old_catalog[l.id] is None:
+                        new_catalog[l.id].string = old_message.string
+                        new_catalog[l.id].user_comments += old_message.user_comments
+                        new_catalog[l.id].flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else []
+                        n_match += 1
+            print(f'{n_match} entries matched by the internal ID are updated')
     return new_catalog
