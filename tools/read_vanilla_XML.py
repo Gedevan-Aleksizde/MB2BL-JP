@@ -8,9 +8,10 @@ import numpy as np
 import regex
 from babel import Locale # Babel
 from babel.messages.pofile import read_po, write_po
+from babel.messages.mofile import read_mo
 from babel.messages.catalog import Catalog
 import warnings
-from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
+from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po, drop_duplicates
 from datetime import datetime
 
 # from tools.functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
@@ -69,6 +70,7 @@ if __name__ == '__main__':
     )
     parser.add_argument('--all-fuzzy', default=False, action='store_true')
     parser.add_argument('--legacy-id', default=False, action='store_true')
+    parser.add_argument('--duplication-in-comment', default=False, action='store_true')
     args = parser.parse_args()
     if args.old is None:
         args.old = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
@@ -96,6 +98,8 @@ df_new[f'text_{args.langto}_original'] = df_new[f'text_{args.langto}_original'].
 df_new = df_new.reset_index(drop=True)
 
 if not args.no_distinct:
+    print("Dropping duplicated IDs")
+    # TODO: この辺がクソ遅い, たぶん row-wise な処理の実装がアレ
     duplicates = df_new[['id', 'file', 'module']].assign(
         location=lambda d: d['module'] + '/' + d['file']
     ).groupby('id').agg(
@@ -104,14 +108,11 @@ if not args.no_distinct:
         }
     ).reset_index()
     duplicates.columns = ['id', 'locations', 'duplication']
-    df_new = df_new.assign(
-        isnative=lambda d: d['module']=='Native'
-    ).sort_values(
-        ['id', 'isnative']
-    ).groupby(['id']).last().reset_index().drop(columns=['isnative'])
+    df_new = drop_duplicates(df_new, compare_module=True, compare_file=True)
     df_new = df_new.merge(duplicates, on='id', how='left')
-    df_new = df_new.assign(
-        notes=lambda d: np.where(d['duplication'] > 1, [[f"""{note}, {ndup} ID duplications"""] for note, ndup in zip(d['notes'], d['duplication']) ], d['notes']))
+    if args.duplication_in_comment:
+        df_new = df_new.assign(
+            notes=lambda d: np.where(d['duplication'] > 1, [','.join([x for x in [note, f"""{ndup} ID duplications"""] if x != '']) for note, ndup in zip(d['notes'], d['duplication']) ], d['notes']))
 
 
 new_catalog = Catalog(Locale.parse('ja_JP'))
@@ -124,17 +125,26 @@ else:
     for i, r in df_new.iterrows():
         _ = new_catalog.add(
             id=r['id'],
-            # string=(f'[{r["id_original"]}]' if args.with_id else '') + r[f'text_{args.langto}_original']
             string = r[f'text_{args.langto}_original'],
             user_comments=[] if r['notes'] == '' else [r['notes']],
             locations=r['locations']
         )
 
 if args.old.exists():
-    with args.old.open('br') as f:
-        old_catalog = read_po(f)
-    new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, legacy_id=args.legacy_id)
+    if args.old.suffix == '.po':
+        with args.old.open('br') as f:
+            old_catalog = read_po(f)
+    elif args.old.suffix == '.mo':
+        with args.old.open('br') as f:
+            old_catalog = read_mo(f)
+    else:
+        old_catalog = None
+    if old_catalog is None:
+        warnings.warn('Old translation file path may be misspecified!')
+    else:
+        new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, legacy_id=args.legacy_id)
 else:
+    print('Old PO file not found. merging is skipped')
     new_one = new_catalog
 
 

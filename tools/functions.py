@@ -155,6 +155,37 @@ def pddf2po(
         catalog.add(**r)
     return catalog
 
+def drop_duplicates(df, compare_module=False, compare_file=False, col_module='module', col_file='file', module_order=None, file_order=None):
+    if module_order is None:
+        module_order = [
+            'Native',
+            'SandBox',
+            'MultiPlayer',
+            'CustomBattle',
+            'SandBoxCore',
+            'StoryMode',
+            'BirthAndDeath'
+        ]
+    module_order = {k: v for k, v in zip(module_order, range(len(module_order)))}
+    default_module_order = len(module_order) + 1
+    if file_order is None:
+        file_order = [
+            'std_global_strings',
+            'std_module_string'
+        ]
+    file_order = {k: v for k, v in zip(range(len(file_order)), file_order)}
+    default_file_order = len(file_order) + 1
+    if compare_module:
+        df = df.assign(module_order=lambda d: [module_order.get(x, default_module_order) for x in d[col_module]])
+    if compare_file:
+        df = df.assign(
+            file_order=lambda d: [file_order.get(x, default_file_order) for x in d[col_file]]
+        )
+    df = df.sort_values(
+        ['id'] + (['module_order'] if compare_module else []) + ['file_order'] if compare_file else []
+    ).groupby(['id']).last().reset_index().drop(columns=(['module_order'] if compare_module else []) + ['file_order'] if compare_file else [] )
+    return df
+
 
 def removeannoyingchars(string, remove_id=False):
     # TODO: against potential abusing of control characters
