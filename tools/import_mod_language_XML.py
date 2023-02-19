@@ -43,7 +43,7 @@ parser.add_argument(
 parser.add_argument(
     '--drop-original-language', default=False, action='store_true', help='suppress to merge the own language folder')
 parser.add_argument('--default-modules', nargs='*', default=modules, help='to specify vanilla module names. This is used for --merge-with-id')
-parser.add_argument('--merge_with_mo', type=Path, default=Path("text/MB2BL-JP.po")) # TODO: 複数のファイルを参照 
+parser.add_argument('--merge-with-mo', type=Path, default=Path("text/MB2BL-JP.po")) # TODO: 複数のファイルを参照 
 parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs the last loaded entries are left per ID')
 parser.add_argument('--fill-english', default=False, action='store_true', help='to fill the translated text with original (English) text')
 parser.add_argument('--with-id', default=False, action='store_true', help='to add ID to translated text')
