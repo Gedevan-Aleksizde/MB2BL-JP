@@ -1,20 +1,21 @@
 #! /usr/bin/env python3
 # encoding: utf-8
 import argparse
+import yaml
+from pathlib import Path
+import warnings
+
 from bs4 import BeautifulSoup
 import pandas as pd
-from pathlib import Path
 from babel import Locale # Babel
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import regex
-import warnings
-from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_corrected_babel_fake_id
+from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_corrected_babel_fake_id, merge_yml
 
 pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
-mb2dir = Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord')
 
 modules = [
     'DedicatedCustomServerHelper',
@@ -30,24 +31,29 @@ modules = [
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", type=Path, default=pofile)
 parser.add_argument("--output", type=Path, default=output)
-parser.add_argument('--mb2dir', type=str, default=mb2dir)
+parser.add_argument('--mb2dir', type=str, default=None)
 parser.add_argument('--modules', nargs='*', default=modules)
-parser.add_argument('--langfolder', type=str, default='JP')
-parser.add_argument('--langsuffix', type=str, default='jpn')  
+parser.add_argument('--langshort', type=str, default=None)
+parser.add_argument('--langsuffix', type=str, default='jpn') 
 parser.add_argument('--functions', type=str, default='jp_functions.xml')  # why so diverse country codes used?? 
-parser.add_argument('--langid', type=str, default='日本語')
+parser.add_argument('--langid', type=str, default=None)
 parser.add_argument('--langalias', type=str, default=None)
-parser.add_argument('--langname', type=str, default='日本語')
+# parser.add_argument('--langname', type=str, default='日本語')
 parser.add_argument('--subtitleext', type=str, default='jp')
-parser.add_argument('--iso', type=str, default='ja,jpn,ja-ja,ja-jp,jp-jp')
+parser.add_argument('--iso', type=str, default=None)
 parser.add_argument('--output-type', type=str, default='module')
-parser.add_argument('--with-id', default=False, action='store_true')
-parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs in non-Native modules')
-parser.add_argument('--no-english-overwriting', default=False, action='store_true', help='for M&B weird bug')
-parser.add_argument('--legacy_id', default=False, action='store_true', help='depricated')
+parser.add_argument('--with-id', default=None, action='store_true')
+parser.add_argument('--distinct', default=None, action='store_true', help='drop duplicated IDs in non-Native modules')
+parser.add_argument('--no-english-overwriting', default=None, action='store_true', help='for M&B weird bug')
+parser.add_argument('--legacy_id', action='store_true', help='depricated')
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    with Path(__file__).parent.joinpath('default.yml') as fp:
+        if fp.exists():
+            with Path(__file__).parent.joinpath('default.yml') as fp:
+                args = merge_yml(fp, args)
+    print(args)
 
 # TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
 # <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
@@ -105,13 +111,13 @@ def export_modules(args, type):
     n_change_total = 0
     for module in args.modules:
         if type == 'module':
-            output_dir = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}').joinpath(module)
+            output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}').joinpath(module)
         elif type == 'overwriter':
-            output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langfolder}')
+            output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langshort}')
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
-        # output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langfolder}')
-        xml_list = list(args.mb2dir.joinpath(f'''Modules/{module}/ModuleData/languages/{args.langfolder}''').glob('*.xml'))
+        # output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langshort}')
+        xml_list = list(args.mb2dir.joinpath(f'''Modules/{module}/ModuleData/languages/{args.langshort}''').glob('*.xml'))
         if len(xml_list) > 0:
             if not output_dir.exists() and len(xml_list) > 0:
                 output_dir.mkdir(parents=True)
@@ -126,7 +132,7 @@ def export_modules(args, type):
                 )
             language_data.LanguageData['id'] = args.langid
             if module == 'Native':
-                language_data.LanguageData['name'] = args.langname
+                language_data.LanguageData['name'] = args.langid
                 if args.subtitleext != '':
                     language_data.LanguageData['subtitle_extension'] = args.subtitleext
                 if args.iso != '':
@@ -182,7 +188,7 @@ def export_modules(args, type):
                     n_change_total += n_change_xml
                     language_data.LanguageData.append(
                         BeautifulSoup(
-                            f'''<LanguageFile xml_path="{Path('/'.join([args.langfolder, module if type == 'module' else '', xml_path.name])).as_posix()}" />''',
+                            f'''<LanguageFile xml_path="{Path('/'.join([args.langshort, module if type == 'module' else '', xml_path.name])).as_posix()}" />''',
                             features='lxml-xml'
                             )
                             )
@@ -192,26 +198,26 @@ def export_modules(args, type):
         lang_data_patch = BeautifulSoup(
             f'''
             <LanguageData id="English">
-            <LanguageFile xml_path="{args.langfolder}/Native/std_global_strings_xml-{args.langsuffix}.xml" />
+            <LanguageFile xml_path="{args.langshort}/Native/std_global_strings_xml-{args.langsuffix}.xml" />
             </LanguageData>
             ''',
             features='lxml-xml')
         with output_dir.joinpath('../../language_data.xml').open('w', encoding='utf-8') as f:
             f.writelines(lang_data_patch.prettify())
     if type == 'module' and args.langalias is not None:
-        with args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}/Native/language_data.xml').open('r', encoding='utf-8') as f:
+        with args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}/Native/language_data.xml').open('r', encoding='utf-8') as f:
             language_data_alias = BeautifulSoup(f, features='lxml-xml')
         language_data = language_data_alias.find('LanguageData', recursive=False)
         language_data['id'] = f'correct_{args.langalias}'
         language_data['name'] = args.langalias
-        xml_list = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}').rglob('language_data.xml')
+        xml_list = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}').rglob('language_data.xml')
         for fp in xml_list:
             if fp.parent != 'Native':
                 with fp.open('r', encoding='utf-8') as f:
                     langauage_data2 =  BeautifulSoup(f, features='lxml-xml')
                     for xml_languagefile in langauage_data2.find_all('LanguageFile'):
                         language_data_alias.find('LanguageData').append(xml_languagefile)
-        output_fp = args.output.joinpath(f'CL{args.langfolder}-Common/ModuleData/Languages/{args.langfolder}2/language_data.xml')
+        output_fp = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}2/language_data.xml')
         if not output_fp.parent.exists():
             output_fp.parent.mkdir(parents=True)
         with output_fp.open('w', encoding='utf-8') as f:

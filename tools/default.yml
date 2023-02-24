@@ -1,0 +1,28 @@
+# default arguments 
+mb2dir: C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord
+outdir: null
+langid: 日本語  # Language ID
+langshort: JP  # usually language folder name
+locale: ja_JP  # language locale name
+iso: 'ja,jpn,ja-ja,ja-jp,jp-jp'
+how_merge: string
+vanilla_modules:
+  - Native
+  - SandBoxCore
+  - SandBox
+  - CustomBattle
+  - Multilayer
+  - StoryMode
+  - BirthAndDeath
+distinct: True
+with_id: False
+merge_with_gettext: text/MB2BL-JP.po
+not_merge_with_vanilla: True
+drop_original_language: False
+output_blank: False
+duplication_in_comment: False
+fill_english: False
+autoid_prefix: null
+verbose: null
+all_fuzzy: False
+no_english_overwriting: False

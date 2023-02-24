@@ -11,69 +11,67 @@ from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo
 from babel.messages.catalog import Catalog
 import warnings
-from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po, drop_duplicates
+from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po, drop_duplicates, merge_yml
 from datetime import datetime
 
 # from tools.functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
 
-modules = [
-    'Native',
-    'SandBox',
-    'MultiPlayer',
-    'CustomBattle',
-    'SandBoxCore',
-    'StoryMode',
-    'BirthAndDeath'
-    ]
+
 default_output_path = Path('text/MB2BL-JP.po')
 # *_functions.xml?
 
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--modules',
-        nargs='*', default=modules,
-        help=f'module names what you want to read. Default = {", ".join(modules)} ')
-    parser.add_argument(
-        '--output', type=Path, default=default_output_path,
-        help=f'output file path. Default = {str(default_output_path)}')
-    parser.add_argument(
-        '--old', type=Path,
-        default=Path('text/MB2BL-JP.po'),
-        help=f'older .PO file path. the original text will be merged and updated with this if exists. Default: what you specified in--output with suffix "-old.po"')
-    parser.add_argument(
-        '--only-diff', type=bool, default=False,
-        help='whether or not set blank at each untranslated entry. Default: False')
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '--vanilla_modules',
+    nargs='*', default=None,
+    help=f'module names what you want to read.')
+parser.add_argument(
+    '--output', type=Path, default=default_output_path,
+    help=f'output file path. Default = {str(default_output_path)}')
+parser.add_argument(
+    '--merge-with-gettext', type=Path,
+    default=None,
+    help=f'older .PO file path. the original text will be merged and updated with this if exists. Default: what you specified in--output with suffix "-old.po"')
+parser.add_argument(
+    '--only-diff', type=bool, default=False,
+    help='whether or not set blank at each untranslated entry. Default: False')
 #    parser.add_argument(
 #        '--with-id', default=True,
 #        help='whether or not prefix text ID to each untranslated text entry. Default: True',
 #        action='store_true'
 #    )
-    parser.add_argument(
-        '--mb2dir', type=Path,
-        default=Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord'),
-        help='to specify Mount and Blade II installation folder')
-    parser.add_argument(
-        '--langto',
-        type=str, default='JP',
-        help='language folder name what you want to read')
-    parser.add_argument(
-        '--locale',
-        default='ja_JP',
-        type=str
-    )
-    parser.add_argument(
-        '--no-distinct',
-        default=False,
-        action='store_true'
-    )
-    parser.add_argument('--all-fuzzy', default=False, action='store_true')
-    parser.add_argument('--legacy-id', default=False, action='store_true')
-    parser.add_argument('--duplication-in-comment', default=False, action='store_true')
+parser.add_argument(
+    '--mb2dir', type=Path,
+    default=None,
+    help='to specify Mount and Blade II installation folder')
+parser.add_argument(
+    '--langshort',
+    type=str, default=None,
+    help='language folder name what you want to read')
+parser.add_argument(
+    '--locale',
+    default=None,
+    type=str
+)
+parser.add_argument(
+    '--distinct',
+    default=False,
+    action='store_true'
+)
+parser.add_argument('--all-fuzzy', default=False, action='store_true')
+parser.add_argument('--legacy-id', default=False, action='store_true')
+parser.add_argument('--duplication-in-comment', default=False, action='store_true')
+
+
+if __name__ == '__main__':
+
     args = parser.parse_args()
-    if args.old is None:
-        args.old = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
+    with Path(__file__).parent.joinpath('default.yml') as fp:
+        if fp.exists():
+            args = merge_yml(fp, args)
+    if args.merge_with_gettext is None:
+        args.merge_with_gettext = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
+    print(args)
 
 
 
@@ -97,7 +95,7 @@ else:
 df_new[f'text_{args.langto}_original'] = df_new[f'text_{args.langto}_original'].fillna('')
 df_new = df_new.reset_index(drop=True)
 
-if not args.no_distinct:
+if args.distinct:
     print("Dropping duplicated IDs")
     # TODO: この辺がクソ遅い, たぶん row-wise な処理の実装がアレ
     duplicates = df_new[['id', 'file', 'module']].assign(
@@ -130,12 +128,12 @@ else:
             locations=r['locations']
         )
 
-if args.old.exists():
-    if args.old.suffix == '.po':
-        with args.old.open('br') as f:
+if args.merge_with_gettext.exists():
+    if args.merge_with_gettext.suffix == '.po':
+        with args.merge_with_gettext.open('br') as f:
             old_catalog = read_po(f)
-    elif args.old.suffix == '.mo':
-        with args.old.open('br') as f:
+    elif args.merge_with_gettext.suffix == '.mo':
+        with args.merge_with_gettext.open('br') as f:
             old_catalog = read_mo(f)
     else:
         old_catalog = None

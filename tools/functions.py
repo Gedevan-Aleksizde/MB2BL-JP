@@ -2,6 +2,7 @@
 # encoding: utf-8
 import argparse
 from pathlib import Path
+import yaml
 import warnings
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -18,6 +19,24 @@ match_public_id = regex.compile(r'^(.+?/.+?/.+?)/.*$')
 match_file_name_id = regex.compile(r'^.+?/(.+?)/.+?/.*$')
 match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
 match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
+
+def merge_yml(fp, args, default):
+    with fp.open('r', encoding='utf-8') as f:
+        yml = yaml.load(f, Loader=yaml.Loader)
+        for k in yml.keys():
+            if yml[k] == 'None':
+                yml[k] = None
+            if k in ['outdir', 'mb2dir', 'merge_with_gettext'] and yml[k] is not None:
+                yml[k] = Path(yml[k])
+    d_args = vars(args)
+    d_default = vars(default)
+    d_args_updated = {k: v for k, v in d_args.items() if d_args[k] != d_default[k]}
+    d_args_extra = {k: v for k, v in d_default.items() if k not in yml.keys()}
+    yml.update(d_args_extra)
+    yml.update(d_args_updated)
+    d_args = yml
+    args = argparse.Namespace(**d_args)
+    return args
 
 
 def get_catalog_which_corrected_babel_fake_id(catalog_with_fake_id, simplify=True):
@@ -90,7 +109,7 @@ def po2pddf(catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False
         d = d[[x for x in d.columns if x in ['id', 'text', 'text_EN', 'notes', 'flags', 'locations', 'context', 'file', 'module', 'duplication']]]
     return d
 
-def po2pddf_easy(catalog, drop_prefix_id=True):
+def po2pddf_easy(catalog, with_id=False):
     """
     input:
     return: `pandas.DataFrame` which contains `id` and `text` columns
@@ -102,8 +121,8 @@ def po2pddf_easy(catalog, drop_prefix_id=True):
     d['text'] = d['text'].str.replace('%%', '%')
     d['id'] = d['id'].str.replace('%%', '%')
     d['id'] = [internal_id.sub(r'\1', x) for x in d['id']]
-    if drop_prefix_id:
-        d['text'] = [match_prefix_id.sub(r'\1', x) for x in d['text']]
+    if with_id:
+        d['text'] = '[' + d['id'] + ']' +  d['text']
     return d
 
 
@@ -281,17 +300,17 @@ def get_default_lang(args, distinct=True, text_col='text'):
 def read_xmls(args, how_join='left'):
     d = dict()
     d['EN'] = []
-    d[args.langto] = []
+    d[args.langshort] = []
     for module in args.modules:
         dp = args.mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
-        for fp in dp.joinpath(args.langto).glob("*.xml"):
+        for fp in dp.joinpath(args.langshort).glob("*.xml"):
             print(fp)
             with fp.open('r', encoding='utf-8') as f:
                 xml = BeautifulSoup(f, features='lxml-xml')
             if(xml.find('strings') is not None):
-                d[args.langto] += [pd.DataFrame(
+                d[args.langshort] += [pd.DataFrame(
                     [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
-                    columns=['id', f'text_{args.langto}_original']
+                    columns=['id', f'text_{args.langshort}_original']
                     ).assign(file=fp.name, module=module)
                 ]
         for fp in dp.glob('*.xml'):
@@ -305,15 +324,15 @@ def read_xmls(args, how_join='left'):
                     ]
     d['EN'] = pd.concat(d['EN'])
     d['EN'] = d['EN'].assign(text_EN = lambda d: d['text_EN'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True))
-    d[args.langto] = pd.concat(d[args.langto])
-    d[args.langto][f'text_{args.langto}_original'] = d[args.langto][f'text_{args.langto}_original'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True)
-    d[args.langto]['file'] = d[args.langto]['file'].str.replace(r'^(.+)-jpn\.xml', r'\1.xml', regex=True)
-    d_bilingual = d['EN'].merge(d[args.langto], on=['id', 'file', 'module'], how=how_join)
+    d[args.langshort] = pd.concat(d[args.langshort])
+    d[args.langshort][f'text_{args.langshort}_original'] = d[args.langshort][f'text_{args.langshort}_original'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True)
+    d[args.langshort]['file'] = d[args.langshort]['file'].str.replace(r'^(.+)-jpn\.xml', r'\1.xml', regex=True)
+    d_bilingual = d['EN'].merge(d[args.langshort], on=['id', 'file', 'module'], how=how_join)
     # Who can assume that the original text ID is incomplete??
     if how_join:
         d_bilingual = d_bilingual.assign(
             notes=lambda d: np.where(d['text_EN'].isna(), 'The original text cannot available, assumed hardcoded', ''),
-            text_EN=lambda d: np.where(d['text_EN'].isna(), d[f'text_{args.langto}_original'], d['text_EN']))
+            text_EN=lambda d: np.where(d['text_EN'].isna(), d[f'text_{args.langshort}_original'], d['text_EN']))
     else:
         d_bilingual['notes'] = ''
     d_bilingual = d_bilingual[

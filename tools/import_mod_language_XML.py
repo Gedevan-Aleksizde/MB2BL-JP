@@ -1,66 +1,66 @@
 #! /usr/bin/env python3
 
+import argparse
+import yaml
+from pathlib import Path
+import warnings
+
 import pandas as pd
 from bs4 import BeautifulSoup
-from pathlib import Path
-import yaml
 import regex
-import argparse
 import numpy as np
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from datetime import datetime
-import warnings
+
 from functions import (
     read_xmls, check_duplication, escape_for_po,
     update_with_older_po,
     get_default_lang,
-    po2pddf_easy, pddf2po, po2pddf
+    po2pddf_easy, pddf2po, po2pddf,
+    drop_duplicates,
+    merge_yml
     )
 import hashlib
-
-mb2dir = Path('C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord')
-modules = [
-#    'SandBoxCore',
-#    'SandBox',
-#    'CustomBattle',
-#    'MultiPlayer',
-#    'StoryMode',
-#    'Native',
-    'CorrectLocalizationJP-Text',
-    'Dummy'
-]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str, help='target module folder name')
 parser.add_argument('--outdir', type=Path, default=None, help='output folder default is `./Mods`')
 parser.add_argument('--langshort', type=str, default='JP')
 parser.add_argument('--langid', type=str, default='日本語')
+parser.add_argument('--vanilla-modules', nargs='*', default=None, help='to specify vanilla module names. You can specify other modules if the official translation is BAD. NOTE: this function will work only if the modules contain both English and the target language files')
 parser.add_argument(
-    '--merge-by-id', default=False, action='store_true',
-    help="<NOT RECOMMENDED> merge with original text by IDs. NOTE: the same ID means this text can't show because the localzation engine's failre"
+    '--how-merge', default='string', type=str,
+    help="`none`, `string`, `id`, or `both`. how to merge with other translation files. The default is `string` merge by the originla (English) string if default. The latter two values are <NOT RECOMMENDED>.  NOTE: the same ID means this text can't show because the localzation engine's failre"
     )
+parser.add_argument('--not-merge-with-vanilla', default=False, action='store_true', help='stop merge with modules specified in `--vanilla-modules`')
 parser.add_argument(
     '--drop-original-language', default=False, action='store_true', help='suppress to merge the own language folder')
-parser.add_argument('--default-modules', nargs='*', default=modules, help='to specify vanilla module names. This is used for --merge-with-id')
-parser.add_argument('--merge-with-mo', type=Path, default=Path("text/MB2BL-JP.po")) # TODO: 複数のファイルを参照 
+parser.add_argument(
+    '--merge-with-gettext', type=Path, default=None,
+    help='additional translation file. MO or PO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
 parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs the last loaded entries are left per ID')
 parser.add_argument('--fill-english', default=False, action='store_true', help='to fill the translated text with original (English) text')
-parser.add_argument('--with-id', default=False, action='store_true', help='to add ID to translated text')
-parser.add_argument('--mb2dir', type=Path, default=mb2dir, help='MB2 install folder')
-parser.add_argument('--id-prefix', type=str, default=None)
+parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
+parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--verbose', default=False, action='store_true')
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
+    with Path(__file__).parent.joinpath('default.yml') as fp:
+        if fp.exists():
+            args = merge_yml(fp, args, parser.parse_args(['']))
     if args.outdir is None:
         args.outdir = Path(f'Mods/{args.target_module}')
         with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}') as fp:
             if not fp.exists():
                 fp.mkdir(parents=True)
-    if args.id_prefix is None:
-        args.id_prefix = args.target_module.encode('ascii', errors='ignore').decode().replace(' ', '')
+    if args.autoid_prefix is None:
+        args.autoid_prefix = args.target_module.encode('ascii', errors='ignore').decode().replace(' ', '')
+    if not args.how_merge in ['none', 'string', 'id', 'both']:
+        warnings.warn(f'--how-merge={args.how_merge} is invalid value! it should be one of `none`, `string`, `id`, or `both`. now `string` used ', UserWarning)
+        args.how_merge = 'string'
     print(args)
 
 # TODO: REFACTORING!!!
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 # TODO: 元テキスト変えてるやつも多いのでIDで紐づけはデフォでやらないように
 
 print("get default language files...")
-d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
+# d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
 
 # from ModuleData except Languages folder
 # d_mod = get_text_entries(args, auto_id=True)
@@ -81,6 +81,7 @@ d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
 def extract_text_from_xml(args, auto_id=True):
     """
     # タグはいろいろあるので翻訳対象の条件づけが正確なのかまだ自信がない
+    # TODO: ! とか * とか訳のわからんIDを付けているケースが多い. 何の意味が?
     """
     ds = []
     filters = [
@@ -93,6 +94,7 @@ def extract_text_from_xml(args, auto_id=True):
         dict(name='Settlement', attrs='name'),
         dict(name='Settlement', attrs='text'),
         dict(name='Faction', attrs='name'),
+        dict(name='Faction', attrs='short_name'),
         dict(name='Faction', attrs='text'),
         dict(name='Culture', attrs='name'),
         dict(name='Culture', attrs='text'),
@@ -101,7 +103,9 @@ def extract_text_from_xml(args, auto_id=True):
         dict(name='Kingdom', attrs='text'),
         dict(name='Kingdom', attrs='title'),
         dict(name='Kingdom', attrs='ruler_title'),
-        # dict(name='string', attrs='text')
+        dict(name='Concept', attrs='title'),
+        dict(name='Concept', attrs='description'),
+        dict(name='string', attrs='text')
     ]
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
     print(f'reading xml files from {module_data_dir}')
@@ -126,18 +130,17 @@ def extract_text_from_xml(args, auto_id=True):
                             text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
                         ).assign(attr = filter['attrs'], file = file.name)
                     d['id'] == np.where(d['id'].str.contains(r'^\{=(.+?)\}$', regex=True), d['id'], '')
-                    d = d.assign(missing_id = lambda d: (d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))
+                    # TODO: precise id detetion
+                    d = d.assign(missing_id = lambda d: (d['id'].str.contains('^[?!\*]$')) | (d['id'] == '') | (d['id'] == '*'))
                     n_missing = d['missing_id'].sum()
                     if n_missing > 0:
                         warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
                         any_missing = True
-                        #if drop_id:
-                        #    d = d.loc[lambda d: ~((d['id'] == '!') | (d['id'] == '') | (d['id'] == '*'))]
                         if auto_id:
                             d = d.assign(
                                 id=lambda d: np.where(
                                     d['missing_id'],
-                                    [f'{args.id_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['text_EN']],  # TODO
+                                    [f'{args.autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['attr'] + d['text_EN']],  # TODO
                                     d['id']
                                     )
                                 )
@@ -151,6 +154,17 @@ def extract_text_from_xml(args, auto_id=True):
                     outfp.parent.mkdir(parents=True)
                 with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
+        else:
+            # English Language files
+            print(file.relative_to(module_data_dir))
+            with file.open('r', encoding='utf-8') as f:
+                xml = BeautifulSoup(f, features='lxml-xml')
+            xml_entries = xml.find_all(name='string', attrs={'id': True, 'text': True})
+            if len(xml_entries) > 0:
+                d = pd.DataFrame(
+                    [(x['id'], x['text'], 'string.text') for x in xml_entries], columns=['id', 'text_EN', 'context']
+                ).assign(attr = 'string', file = file.name)
+                ds += [d]
     if len(ds) == 0:
         d = None
     else:
@@ -161,9 +175,13 @@ def extract_text_from_xml(args, auto_id=True):
     return d
 
 
-def get_mod_languages(args, auto_id=True):
+def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
     """
-    翻訳対象以外の言語を取り出す
+    Extract Text from all XML files in target module's ModuleData/Languages
+
+    auto_id: Bool=True, assign IDs automatically if missing
+
+    翻訳対象の言語を取り出す
     # TODO: 元のmodの配置がめちゃくちゃだったらどうしようもない
     # 現時点では, Languages フォルダ上のXMLまたは module_string.xml が言語ファイルで, 逆に取りこぼしもないと仮定
     """
@@ -173,7 +191,7 @@ def get_mod_languages(args, auto_id=True):
     print(f'reading xml files from {module_data_dir}')
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() == 'languages':
-            if args.drop_original_language and file.relative_to(module_data_dir.joinpath('Languages')).parts[0].lower() == args.langshort.lower():
+            if not args.drop_original_language and file.relative_to(module_data_dir.joinpath('Languages')).parts[0].lower() == args.langshort.lower():
                 print(file.relative_to(module_data_dir))
                 with file.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
@@ -185,7 +203,7 @@ def get_mod_languages(args, auto_id=True):
                     )
                     d = d.assign(file=file.name, context='string.text')
                     ds_translation += [d]
-        else:
+        elif check_non_language_folder:
             print(file.relative_to(module_data_dir))
             with file.open('r', encoding='utf-8') as f:
                 xml = BeautifulSoup(f, features='lxml-xml')
@@ -219,63 +237,96 @@ def get_mod_languages(args, auto_id=True):
             d['text'] = np.where(d['text'] == '', np.nan, d['text'])
     return d
 
+
+print("---- Detect text from ModuleData ----")
 d_mod = extract_text_from_xml(args, auto_id=True)
 
-print(d_mod)
+# TODO: デフォルトのモジュールから EN/Terget 両方取得する
+#args_en = argparse.Namespace(**vars(args))
+#args_en.langshort = 'EN'
+#args_en.langid = 'English'
+#d_default_langs = []
+#for module in args.default_modules:
+#    args_en.target_module = module
+#    tmp = get_mod_languages(args_en, auto_id=False)
+#    if tmp is not None:
+#        d_default_langs += [tmp]
+#if len(d_default_langs) > 0:
+#    d_default_lang = pd.concat(d_default_langs)
+#else:
+#    d_default_langs = None
 
-d_mod_lang = get_mod_languages(args)
+print("---- Extract strings from ModuleData/Lanugages ----")
+d_module_lang = get_mod_languages(args)
+print(d_module_lang)
 
 if d_mod is None:
-    d_mod = d_mod_lang.assign(missing_id=lambda d: ~d['id'].isna())
-elif d_mod_lang is not None:
-    d_mod = d_mod.merge(d_mod_lang, on='id', how='outer').assign(
+    d_mod = d_module_lang.assign(missing_id=lambda d: ~d['id'].isna())
+elif d_module_lang is not None:
+    d_mod = d_mod.merge(d_module_lang, on='id', how='outer').assign(
         file=lambda d: np.where(d['file_y'].isna(), d['file_x'], d['file_y']),
         text_EN=lambda d: np.where(d['text_EN_y'].isna(), d['text_EN_x'], d['text_EN_y']),
         context=lambda d: np.where(d['context_x'].isna(), d['context_y'], d['context_x'])
     ).drop(columns=['text_EN_x', 'text_EN_y', 'file_x', 'file_y', 'context_x', 'context_y'])
-else:
-    pass
-
 
 if d_mod is None:
     raise('No text entry found!')
 
-print(f"""{d_mod.shape[0]} entries found""")
+d_mod = d_mod.assign(text=np.nan)
 
-if args.merge_by_id:
-    d_mod = d_mod.merge(d_default[['id', 'text', 'duplicated_with_vanilla']], on='id', how='left').assign(
-    text=lambda d: np.where(d['text'].isna(), d['text_y'], d['text_x']),
-    updated=lambda d: ~d['text'].isna()
-    ).drop(columns=['text_x', 'text_y'])
+print(f"""---- {d_mod.shape[0]} entries found ----""")
+
+if args.vanilla_modules is not None and args.vanilla_modules != [''] and not args.not_merge_with_vanilla:
+    args.modules=args.vanilla_modules
+    df_vanilla_language = read_xmls(args, how_join='outer')
+    df_vanilla_language = drop_duplicates(df_vanilla_language)
+    if df_vanilla_language.shape[0] > 0:
+        df_vanilla_language = df_vanilla_language.rename(
+            columns={f'text_{args.langshort}_original': 'text'}
+            ).assign(duplicated_with_vanilla = True)
+        if args.how_merge in ['string', 'both']:
+            tmp = df_vanilla_language[['text_EN', 'text', 'duplicated_with_vanilla']].groupby('text_EN').first().reset_index().loc[lambda d: d['text_EN'] != '']
+            d_mod = d_mod.merge(tmp, on='text_EN', how='left').assign(
+                text=lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
+                updated=lambda d: ~d['text'].isna()
+                ).drop(columns=['text_x', 'text_y'])
+        if args.how_merge in ['id', 'both']:
+            tmp = df_vanilla_language[['id', 'text', 'duplicated_with_vanilla']].groupby('id').first().reset_index().loc[lambda d: d['id'] != '']
+            d_mod = d_mod.merge(tmp, on='id', how='left').assign(
+                text=lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
+                updated=lambda d: ~d['text'].isna()
+                ).drop(columns=['text_x', 'text_y'])
+        d_mod['duplicated_with_vanilla'] = d_mod['duplicated_with_vanilla'].fillna(False)
 else:
-    d_mod = d_mod.merge(d_default[['id', 'duplicated_with_vanilla']], on='id', how='left')
-d_mod['duplicated_with_vanilla'] = d_mod['duplicated_with_vanilla'].fillna(False)
+    d_mod['duplicated_with_vanilla'] = False
+
 
 if 'text' not in d_mod.columns:
     d_mod['text'] = np.nan
 if 'updated' not in d_mod.columns:
     d_mod['updated'] = np.nan
 
-# merge by string
-if args.merge_with_mo is not None:
-    if args.merge_with_mo.exists():
-        with args.merge_with_mo.open('br') as f:
-            if args.merge_with_mo.suffix == '.mo':
+# TODO: Mod ですらIDを重複させてくるやつがいる
+
+# merge with the PO/MO file by the original string
+print("---- start to merge ----")
+print(args.merge_with_gettext)
+if args.merge_with_gettext is not None:
+    if args.merge_with_gettext.exists():
+        with args.merge_with_gettext.open('br') as f:
+            if args.merge_with_gettext.suffix == '.mo':
                 catalog = read_mo(f)
-            elif args.merge_with_mo.suffix == '.po':
+            elif args.merge_with_gettext.suffix == '.po':
                 catalog = read_po(f)
-            else:
-                warnings.warn(f'''{args.merge_with_mo} not found''')
-    elif args.merge_with_mo.with_suffix('.po').exists():
-            with args.merge_with_mo.with_suffix('.po').open('br') as f:
+    elif args.merge_with_gettext.with_suffix('.po').exists():
+            with args.merge_with_gettext.with_suffix('.po').open('br') as f:
                 catalog = read_po(f)
-                print(f"{args.merge_with_mo.with_suffix('.po')} loaded insteadly")
+                print(f"{args.merge_with_gettext.with_suffix('.po')} loaded insteadly")
     else:
+        warnings.warn(f'''{args.merge_with_gettext} not found''')
         catalog = None
     if catalog is not None:
         d_po = pd.DataFrame([(m.id, m.string) for m in catalog if m.id != ''], columns=['id', '__text__'])
-        # match_text_en = r'^.+?/.+?/.+?/(.+?)$'
-        # match_internal_id = r'^.+?/.+?/(.+?)/.+?$'
         match_text_en = r'^.+?/(.+?)$'
         match_internal_id = r'^(.+?)/.+?$'
         d_po = d_po.assign(
@@ -284,7 +335,17 @@ if args.merge_with_mo is not None:
             id=lambda d: d['id'].str.replace(match_internal_id, r'\1', regex=True)
             )
         d_po = d_po.groupby('id').last().reset_index()
-        if args.merge_by_id:
+        if args.how_merge in ['string', 'both']:
+            print("merge by English text")
+            d_mod = d_mod.merge(d_po[['text_EN', '__text__']], on='text_EN', how='left')
+            d_mod = d_mod.assign(
+                text=lambda d: np.where(d['text'].isna(), d['__text__'], d['text'] )
+            )
+            d_mod = d_mod.assign(updated=lambda d: ~d['__text__'].isna())
+            d_mod = d_mod.drop(columns=['__text__'])
+
+        if args.how_merge in ['id', 'both']:
+            print("merge by the localization IDs")
             d_mod = d_mod.merge(d_po[['id', '__text__']], on='id', how='left')
             d_mod = d_mod.assign(
                 text=lambda d: np.where(d['text'].isna(), d['__text__'], d['text'] )
@@ -292,17 +353,9 @@ if args.merge_with_mo is not None:
             d_mod = d_mod.assign(updated=lambda d: ~d['__text__'].isna())
             d_mod = d_mod.drop(columns=['__text__'])
         if args.distinct:
-            d_mod = d_mod.groupby('id').last().reset_index()
-        d_mod = d_mod.merge(d_po[['text_EN', '__text__']], on='text_EN', how='left')
-        d_mod = d_mod.assign(
-            text = lambda d: np.where(d['text'].isna(), d['__text__'], d['text'])
-        )
-        if args.distinct:
-            d_mod = d_mod.groupby('id').last().reset_index()
-        d_mod = d_mod.assign(updated=lambda d: d['updated'] | ~d['__text__'].isna())
-        d_mod = d_mod.drop(columns=['__text__'])
+            d_mod = d_mod.groupby('id').first().reset_index()
     else:
-        warnings.warn(f"{args.merge_with_mo} not found!", UserWarning)
+        warnings.warn(f"{args.merge_with_gettext} not found!", UserWarning)
 
 if args.fill_english:
     d_mod = d_mod.assign(
@@ -311,6 +364,7 @@ if args.fill_english:
 
 if args.distinct:
     d_mod = d_mod.groupby('id').last().reset_index()
+
 d_mod = d_mod[d_mod.columns.intersection(
     {'id', 'text_EN', 'text', 'file', 'attr', 'updated', 'missing_id', 'duplicated_with_vanilla','context', 'notes'})]
 
@@ -325,9 +379,8 @@ with args.outdir.joinpath(f'strings_{args.target_module}.xlsx') as fp:
 
 d_mod = d_mod.fillna('')
 catalog = pddf2po(
-    d_mod, with_id=args.with_id, distinct=args.distinct,
+    d_mod, with_id=False, distinct=args.distinct,
     col_id_text='text_EN', col_text='text', col_comments='notes', col_context='context', col_locations='file')
-
 
 with args.outdir.joinpath(f'strings_{args.target_module}.po') as fp:
     if fp.exists():
