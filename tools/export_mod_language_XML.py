@@ -59,7 +59,10 @@ xml = BeautifulSoup(
     features='lxml-xml')
 strings = xml.find('strings')
 for i, r in d_new.iterrows():
-    strings.append(BeautifulSoup(f'''<string id="{r['id']}" text="{r['text']}" />''', 'lxml-xml'))
+    tmp = BeautifulSoup(f'''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''', 'lxml-xml')  # what a inconvenient
+    tmp.find('string')['id']= r['id']
+    tmp.find('string')['text']= r['text']
+    strings.append(tmp)
 with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}/std_translation-{args.langshort}.xml').open('w', encoding='utf-8') as f:
     f.writelines(xml.prettify(formatter='minimal'))
 xml = BeautifulSoup(
