@@ -37,8 +37,8 @@ parser.add_argument('--not-merge-with-vanilla', default=False, action='store_tru
 parser.add_argument(
     '--drop-original-language', default=False, action='store_true', help='suppress to merge the own language folder')
 parser.add_argument(
-    '--merge-with-gettext', type=Path, default=None,
-    help='additional translation file. MO or PO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
+    '--pofile', type=Path, default=None,
+    help='additional translation file. PO or MO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
 parser.add_argument('--distinct', default=False, action='store_true', help='drop duplicated IDs the last loaded entries are left per ID')
 parser.add_argument('--fill-english', default=False, action='store_true', help='to fill the translated text with original (English) text')
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
@@ -310,20 +310,20 @@ if 'updated' not in d_mod.columns:
 
 # merge with the PO/MO file by the original string
 print("---- start to merge ----")
-print(args.merge_with_gettext)
-if args.merge_with_gettext is not None:
-    if args.merge_with_gettext.exists():
-        with args.merge_with_gettext.open('br') as f:
-            if args.merge_with_gettext.suffix == '.mo':
+print(args.pofile)
+if args.pofile is not None:
+    if args.pofile.exists():
+        with args.pofile.open('br') as f:
+            if args.pofile.suffix == '.mo':
                 catalog = read_mo(f)
-            elif args.merge_with_gettext.suffix == '.po':
+            elif args.pofile.suffix == '.po':
                 catalog = read_po(f)
-    elif args.merge_with_gettext.with_suffix('.po').exists():
-            with args.merge_with_gettext.with_suffix('.po').open('br') as f:
+    elif args.pofile.with_suffix('.po').exists():
+            with args.pofile.with_suffix('.po').open('br') as f:
                 catalog = read_po(f)
-                print(f"{args.merge_with_gettext.with_suffix('.po')} loaded insteadly")
+                print(f"{args.pofile.with_suffix('.po')} loaded insteadly")
     else:
-        warnings.warn(f'''{args.merge_with_gettext} not found''')
+        warnings.warn(f'''{args.pofile} not found''')
         catalog = None
     if catalog is not None:
         d_po = pd.DataFrame([(m.id, m.string) for m in catalog if m.id != ''], columns=['id', '__text__'])
@@ -331,7 +331,7 @@ if args.merge_with_gettext is not None:
         match_internal_id = r'^(.+?)/.+?$'
         d_po = d_po.assign(
             text_EN=lambda d: d['id'].str.replace(match_text_en, r'\1', regex=True),
-            __text__=lambda d: d['__text__'].str.replace(r'^\[.+?\]', '', regex=True),
+            # __text__=lambda d: d['__text__'].str.replace(r'^\[.+?\]', '', regex=True),
             id=lambda d: d['id'].str.replace(match_internal_id, r'\1', regex=True)
             )
         d_po = d_po.groupby('id').last().reset_index()
@@ -355,7 +355,7 @@ if args.merge_with_gettext is not None:
         if args.distinct:
             d_mod = d_mod.groupby('id').first().reset_index()
     else:
-        warnings.warn(f"{args.merge_with_gettext} not found!", UserWarning)
+        warnings.warn(f"{args.pofile} not found!", UserWarning)
 
 if args.fill_english:
     d_mod = d_mod.assign(

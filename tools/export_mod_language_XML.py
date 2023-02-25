@@ -23,7 +23,7 @@ parser.add_argument('--langid', type=str, default='日本語')
 parser.add_argument('--distinct', default=False, action='store_true')
 parser.add_argument('--output-blank', default=False, action='store_true')
 parser.add_argument('--with-id', default=False, action='store_true')
-parser.add_argument('--po', type=Path, default=None, help='default: <output directory>/strings_<nodule folder name>.po')
+parser.add_argument('--pofile', type=Path, default=None, help='default: <output directory>/strings_<nodule folder name>.po')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -35,11 +35,11 @@ if __name__ == '__main__':
         with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}') as fp:
             if not fp.exists():
                 fp.mkdir(parents=True)
-    if args.po is None:
-        args.po = args.outdir.joinpath(f'strings_{args.target_module}.po')
+    if args.pofile is None:
+        args.pofile = args.outdir.joinpath(f'strings_{args.target_module}.po')
     print(args)
 
-with args.po.open('br') as f:
+with args.pofile.open('br') as f:
     catalog = read_po(f)
 d_new = po2pddf_easy(catalog, with_id=args.with_id)
 if not args.output_blank:

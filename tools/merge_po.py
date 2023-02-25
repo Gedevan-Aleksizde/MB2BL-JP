@@ -24,7 +24,7 @@ if __name__ == '__main__':
     with Path(__file__).parent.joinpath('default.yml') as fp:
         if fp.exists():
             with Path(__file__).parent.joinpath('default.yml') as fp:
-                args = merge_yml(fp, args)
+                args = merge_yml(fp, args, parser.parse_args(['']))
 
 catalog = Catalog(Locale.parse(args.locale))
 
