@@ -29,17 +29,12 @@ parser.add_argument(
     '--output', type=Path, default=default_output_path,
     help=f'output file path. Default = {str(default_output_path)}')
 parser.add_argument(
-    '--merge-with-gettext', type=Path,
+    '--pofile', type=Path,
     default=None,
     help=f'older .PO file path. the original text will be merged and updated with this if exists. Default: what you specified in--output with suffix "-old.po"')
 parser.add_argument(
     '--only-diff', type=bool, default=False,
     help='whether or not set blank at each untranslated entry. Default: False')
-#    parser.add_argument(
-#        '--with-id', default=True,
-#        help='whether or not prefix text ID to each untranslated text entry. Default: True',
-#        action='store_true'
-#    )
 parser.add_argument(
     '--mb2dir', type=Path,
     default=None,
@@ -68,19 +63,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
     with Path(__file__).parent.joinpath('default.yml') as fp:
         if fp.exists():
-            args = merge_yml(fp, args)
-    if args.merge_with_gettext is None:
-        args.merge_with_gettext = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
+            args = merge_yml(fp, args, parser.parse_args())
+    if args.pofile is None:
+        args.pofile = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
     print(args)
 
-
+print(args.pofile)
 
 df_new = read_xmls(args, how_join='outer')
 dup = check_duplication(df_new)
 
-df_new.to_excel(f'text/MB2BL-{args.langto}.xlsx', index=False)
+df_new.to_excel(f'text/MB2BL-{args.langshort}.xlsx', index=False)
 
-df_new = escape_for_po(df_new, ['text_EN', f'text_{args.langto}_original'])
+df_new = escape_for_po(df_new, ['text_EN', f'text_{args.langshort}_original'])
 if args.legacy_id:
     df_new = df_new.assign(
             id_original=lambda d: d['id'],
@@ -92,7 +87,7 @@ else:
             id_original=lambda d: d['id'],
             id=lambda d: d['id'] + '/' + d['text_EN']
             )
-df_new[f'text_{args.langto}_original'] = df_new[f'text_{args.langto}_original'].fillna('')
+df_new[f'text_{args.langshort}_original'] = df_new[f'text_{args.langshort}_original'].fillna('')
 df_new = df_new.reset_index(drop=True)
 
 if args.distinct:
@@ -123,17 +118,17 @@ else:
     for i, r in df_new.iterrows():
         _ = new_catalog.add(
             id=r['id'],
-            string = r[f'text_{args.langto}_original'],
+            string = r[f'text_{args.langshort}_original'],
             user_comments=[] if r['notes'] == '' else [r['notes']],
             locations=r['locations']
         )
 
-if args.merge_with_gettext.exists():
-    if args.merge_with_gettext.suffix == '.po':
-        with args.merge_with_gettext.open('br') as f:
+if args.pofile.exists():
+    if args.pofile.suffix == '.po':
+        with args.pofile.open('br') as f:
             old_catalog = read_po(f)
-    elif args.merge_with_gettext.suffix == '.mo':
-        with args.merge_with_gettext.open('br') as f:
+    elif args.pofile.suffix == '.mo':
+        with args.pofile.open('br') as f:
             old_catalog = read_mo(f)
     else:
         old_catalog = None

@@ -301,7 +301,7 @@ def read_xmls(args, how_join='left'):
     d = dict()
     d['EN'] = []
     d[args.langshort] = []
-    for module in args.modules:
+    for module in args.vanilla_modules:
         dp = args.mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
         for fp in dp.joinpath(args.langshort).glob("*.xml"):
             print(fp)
