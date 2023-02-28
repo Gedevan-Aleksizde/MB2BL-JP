@@ -43,6 +43,7 @@ parser.add_argument('--distinct', default=False, action='store_true', help='drop
 parser.add_argument('--fill-english', default=False, action='store_true', help='to fill the translated text with original (English) text')
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
 parser.add_argument('--autoid-prefix', type=str, default=None)
+parser.add_argument('--avoid-vanilla-id', default=False, action='store_true')
 parser.add_argument('--verbose', default=False, action='store_true')
 
 
@@ -61,6 +62,8 @@ if __name__ == '__main__':
     if not args.how_merge in ['none', 'string', 'id', 'both']:
         warnings.warn(f'--how-merge={args.how_merge} is invalid value! it should be one of `none`, `string`, `id`, or `both`. now `string` used ', UserWarning)
         args.how_merge = 'string'
+    if args.pofile is None:
+        args.pofile = args.outdir.joinpath(f'strings_{args.target_module}.po')
     print(args)
 
 # TODO: REFACTORING!!!
@@ -68,8 +71,8 @@ if __name__ == '__main__':
 # TODO: ID がなかったらどうしようもない
 # 無理やりハッシュから生成してみるか?
 # TODO: たまに UTF-16で保存してくるやつがいる...
-# TODO: name は必ずしもテキストではなくなにかを参照している
 # TODO: 元テキスト変えてるやつも多いのでIDで紐づけはデフォでやらないように
+# TODO: Mod作者はまずIDをまともに与えてないという想定で作る
 
 print("get default language files...")
 # d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
@@ -91,6 +94,7 @@ def extract_text_from_xml(args, auto_id=True):
         dict(name='Item', attrs='name'),
         dict(name='NPCCharacter', attrs='name'),
         dict(name='NPCCharacter', attrs='text'),
+        dict(name='Hero', attrs='text'),
         dict(name='Settlement', attrs='name'),
         dict(name='Settlement', attrs='text'),
         dict(name='Faction', attrs='name'),
@@ -109,6 +113,7 @@ def extract_text_from_xml(args, auto_id=True):
     ]
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
     print(f'reading xml files from {module_data_dir}')
+    vanilla_ids = pd.read_csv(Path(__file__).parent.joinpath('vanilla-id.csv')).assign(id_used_in_vanilla=True)
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             print(file.relative_to(module_data_dir))
@@ -131,10 +136,19 @@ def extract_text_from_xml(args, auto_id=True):
                         ).assign(attr = filter['attrs'], file = file.name)
                     d['id'] == np.where(d['id'].str.contains(r'^\{=(.+?)\}$', regex=True), d['id'], '')
                     # TODO: precise id detetion
+                    if args.avoid_vanilla_id:
+                        d = d.merge(vanilla_ids.rename(columns={'text_EN': 'text_EN_original'}), on='id', how='left')
+                        d['id'] = np.where(d['id_used_in_vanilla'] & (d['text_EN'] != d['text_EN_original']), '', d['id'])
+                        d = d.drop(columns=['text_EN_original', 'id_used_in_vanilla'])
+                        # TODO: 常にバニラと比較するように
                     d = d.assign(missing_id = lambda d: (d['id'].str.contains('^[?!\*]$')) | (d['id'] == '') | (d['id'] == '*'))
+                    d = d.merge(vanilla_ids, on=['id', 'text_EN'], how='left')
+                    d = d.loc[lambda d: ~d['id_used_in_vanilla'].fillna(False)]
                     n_missing = d['missing_id'].sum()
                     if n_missing > 0:
-                        warnings.warn(f"""There are {n_missing} missing IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""", UserWarning)
+                        warnings.warn(
+                            f"""There are {n_missing} {"missing or reused" if args.avoid_vanilla_id else "missing"} IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""",
+                            UserWarning)
                         any_missing = True
                         if auto_id:
                             d = d.assign(
@@ -144,10 +158,10 @@ def extract_text_from_xml(args, auto_id=True):
                                     d['id']
                                     )
                                 )
-                            for (i, r), string in zip(d.iterrows(), xml_entries):
+                            for (_, r), string in zip(d.iterrows(), xml_entries):
                                 if r['missing_id']:
                                     string[filter['attrs']] = "{=" + r['id'] + "}" + r['text_EN']
-                    ds += [d]
+                    ds += [d]                
             if auto_id and any_missing:
                 outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
                 if not outfp.parent.exists():
@@ -307,6 +321,8 @@ if 'updated' not in d_mod.columns:
     d_mod['updated'] = np.nan
 
 # TODO: Mod ですらIDを重複させてくるやつがいる
+# TODO: バニラとかぶってるID
+# TODO: 結合方法の確認
 
 # merge with the PO/MO file by the original string
 print("---- start to merge ----")
