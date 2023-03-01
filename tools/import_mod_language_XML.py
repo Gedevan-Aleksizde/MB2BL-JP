@@ -44,6 +44,7 @@ parser.add_argument('--fill-english', default=False, action='store_true', help='
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
 parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--avoid-vanilla-id', default=False, action='store_true')
+parser.add_argument('--keep-redundancies', default=False, action='store_true', help='whether or not add different IDs to entries with same strings')
 parser.add_argument('--verbose', default=False, action='store_true')
 
 
@@ -74,6 +75,7 @@ if __name__ == '__main__':
 # TODO: 元テキスト変えてるやつも多いのでIDで紐づけはデフォでやらないように
 # TODO: Mod作者はまずIDをまともに与えてないという想定で作る
 
+
 print("get default language files...")
 # d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
 
@@ -81,7 +83,7 @@ print("get default language files...")
 # d_mod = get_text_entries(args, auto_id=True)
 
 
-def extract_text_from_xml(args, auto_id=True):
+def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
     """
     # タグはいろいろあるので翻訳対象の条件づけが正確なのかまだ自信がない
     # TODO: ! とか * とか訳のわからんIDを付けているケースが多い. 何の意味が?
@@ -89,7 +91,7 @@ def extract_text_from_xml(args, auto_id=True):
     ds = []
     filters = [
         dict(name='ItemModifier', attrs='name'),
-        dict(name='CreftedItem', attrs='name'),
+        dict(name='CraftedItem', attrs='name'),
         dict(name='CraftingPiece', attrs='name'),
         dict(name='Item', attrs='name'),
         dict(name='NPCCharacter', attrs='name'),
@@ -114,6 +116,20 @@ def extract_text_from_xml(args, auto_id=True):
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
     print(f'reading xml files from {module_data_dir}')
     vanilla_ids = pd.read_csv(Path(__file__).parent.joinpath('vanilla-id.csv')).assign(id_used_in_vanilla=True)
+    lambda_id = (
+        lambda d: np.where(
+            d['missing_id'] | d['is_duplicated'],
+            [f'{args.autoid_prefix}' + hashlib.sha256((text + str(i)).encode()).hexdigest()[-5:] for i, text in enumerate(d['attr'] + d['text_EN'])],  # TODO
+            d['id']
+        )
+    ) if keep_redundancies else (
+        lambda d: np.where(
+            d['missing_id'] | d['is_duplicated'],
+            [f'{args.autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['attr'] + d['text_EN']],  # TODO
+            d['id']
+        )
+    )
+    func_check_duplicate = (lambda d: d['n_id'] > 1) if keep_redundancies else (lambda d: (d['n_id'] > 1) & (d['n_id_text'] == 1))
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             print(file.relative_to(module_data_dir))
@@ -145,24 +161,32 @@ def extract_text_from_xml(args, auto_id=True):
                     d = d.merge(vanilla_ids, on=['id', 'text_EN'], how='left')
                     d = d.loc[lambda d: ~d['id_used_in_vanilla'].fillna(False)]
                     n_missing = d['missing_id'].sum()
-                    if n_missing > 0:
+                    # TODO: 原文が同じならID置き換えはしない
+                    if complete_id:
+                        check_dup_id = (d if ds == [] else pd.concat(ds + [d])).groupby(['id', 'text_EN']).size().reset_index().rename(columns={0: 'n_id_text'}).merge(
+                            (d if ds == [] else pd.concat(ds + [d])).groupby(['id']).size().reset_index().rename(columns={0: 'n_id'}),
+                            on='id', how='left'
+                        )
+                        check_dup_id = check_dup_id.assign(is_duplicated=func_check_duplicate).reset_index()[['id', 'text_EN', 'is_duplicated']]
+                        d = d.merge(check_dup_id, on=['id', 'text_EN'], how='left')
+                    else:
+                        d['is_duplicated'] = False
+                    if n_missing > 0 or d['is_duplicated'].sum() > 0:
                         warnings.warn(
-                            f"""There are {n_missing} {"missing or reused" if args.avoid_vanilla_id else "missing"} IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if auto_id else "keep" }""",
+                            f"""There are {n_missing} {"missing or reused" if args.avoid_vanilla_id else "missing"} IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if complete_id else "keep" }""",
                             UserWarning)
+                        warnings.warn(
+                            f"""Thee are {d['is_duplicated'].sum()} duplicated IDs out of {d.shape[0]} in {file.name}. Action: {"auto assign" if complete_id else "keep" }""",
+                            UserWarning
+                        )
                         any_missing = True
-                        if auto_id:
-                            d = d.assign(
-                                id=lambda d: np.where(
-                                    d['missing_id'],
-                                    [f'{args.autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['attr'] + d['text_EN']],  # TODO
-                                    d['id']
-                                    )
-                                )
+                        if complete_id:
+                            d = d.assign(id=lambda_id)
                             for (_, r), string in zip(d.iterrows(), xml_entries):
-                                if r['missing_id']:
+                                if r['missing_id'] | r['is_duplicated']:
                                     string[filter['attrs']] = "{=" + r['id'] + "}" + r['text_EN']
-                    ds += [d]                
-            if auto_id and any_missing:
+                    ds += [d]
+            if complete_id and any_missing:
                 outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
                 if not outfp.parent.exists():
                     outfp.parent.mkdir(parents=True)
@@ -180,13 +204,13 @@ def extract_text_from_xml(args, auto_id=True):
                 ).assign(attr = 'string', file = file.name)
                 ds += [d]
     if len(ds) == 0:
-        d = None
+        d_return = None
     else:
-        d = pd.concat(ds)
-        d = d.assign(
+        d_return = pd.concat(ds)
+        d_return = d_return.assign(
             text_EN=lambda d: np.where(d['text_EN'] == '', np.nan, d['text_EN'])
         )
-    return d
+    return d_return
 
 
 def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
@@ -253,7 +277,7 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
 
 
 print("---- Detect text from ModuleData ----")
-d_mod = extract_text_from_xml(args, auto_id=True)
+d_mod = extract_text_from_xml(args, complete_id=True, keep_redundancies=args.keep_redundancies)
 
 # TODO: デフォルトのモジュールから EN/Terget 両方取得する
 #args_en = argparse.Namespace(**vars(args))
