@@ -65,7 +65,7 @@ if __name__ == '__main__':
         if fp.exists():
             args = merge_yml(fp, args, parser.parse_args())
     if args.pofile is None:
-        args.pofile = Path(args.output.parent).joinpath(f"{args.output.with_suffix('').name}-old.po")
+        args.pofile = Path(args.output.parent).joinpath(f"MB2BL-{args.langshort}.po")
     print(args)
 
 print(args.pofile)
@@ -112,7 +112,8 @@ new_catalog = Catalog(Locale.parse('ja_JP'))
 if args.only_diff:
     for i, r in df_new.iterrows():
         _ = new_catalog.add(
-            id=r['id']
+            id=r['id'],
+            flags=['fuzzy']
         )
 else:
     for i, r in df_new.iterrows():
@@ -120,7 +121,8 @@ else:
             id=r['id'],
             string = r[f'text_{args.langshort}_original'],
             user_comments=[] if r['notes'] == '' else [r['notes']],
-            locations=r['locations']
+            locations=r['locations'],
+            flags=['fuzzy']
         )
 
 if args.pofile.exists():

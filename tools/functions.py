@@ -383,7 +383,7 @@ def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=Fa
                         new_catalog[l.id].string = old_message.string
                         new_catalog[l.id].user_comments = old_message.user_comments
                 else:
-                    print(f"あほしね: {l.id}")
+                    print(f"error: irregular catlog ID={l.id}")
         # update on public id if not matched
         old_catalog_fuzzy = Catalog(Locale.parse('ja_JP'))
         for l in old_catalog:
@@ -431,7 +431,7 @@ def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=Fa
                     id=match_interla_id.sub(r'\1', l.id),
                     string=l.string,
                     user_comments=l.user_comments,
-                    flags=l.flags,
+                    flags=l.flags + ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else [],
                     context=l.context
                 )
             n_match = 0

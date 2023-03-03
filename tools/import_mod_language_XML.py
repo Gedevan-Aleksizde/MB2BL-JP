@@ -64,7 +64,7 @@ if __name__ == '__main__':
         warnings.warn(f'--how-merge={args.how_merge} is invalid value! it should be one of `none`, `string`, `id`, or `both`. now `string` used ', UserWarning)
         args.how_merge = 'string'
     if args.pofile is None:
-        args.pofile = args.outdir.joinpath(f'strings_{args.target_module}.po')
+        args.pofile = args.outdir.joinpath(f'{args.target_module}.po')
     print(args)
 
 # TODO: REFACTORING!!!
@@ -132,7 +132,7 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
     func_check_duplicate = (lambda d: d['n_id'] > 1) if keep_redundancies else (lambda d: (d['n_id'] > 1) & (d['n_id_text'] == 1))
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
-            print(file.relative_to(module_data_dir))
+            print(f"""(not language file) {file.relative_to(module_data_dir)}""")
             with file.open('r', encoding='utf-8') as f:
                 xml = BeautifulSoup(f, features='lxml-xml')
             any_missing = False
@@ -193,16 +193,17 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                 with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
         else:
-            # English Language files
-            print(file.relative_to(module_data_dir))
-            with file.open('r', encoding='utf-8') as f:
-                xml = BeautifulSoup(f, features='lxml-xml')
-            xml_entries = xml.find_all(name='string', attrs={'id': True, 'text': True})
-            if len(xml_entries) > 0:
-                d = pd.DataFrame(
-                    [(x['id'], x['text'], 'string.text') for x in xml_entries], columns=['id', 'text_EN', 'context']
-                ).assign(attr = 'string', file = file.name)
-                ds += [d]
+            if file.relative_to(module_data_dir).parts[1] == file.name:
+                print(f"""(English language file) {file.relative_to(module_data_dir)}""")
+                # English Language files
+                with file.open('r', encoding='utf-8') as f:
+                    xml = BeautifulSoup(f, features='lxml-xml')
+                xml_entries = xml.find_all(name='string', attrs={'id': True, 'text': True})
+                if len(xml_entries) > 0:
+                    d = pd.DataFrame(
+                        [(x['id'], x['text'], 'string.text') for x in xml_entries], columns=['id', 'text_EN', 'context']
+                    ).assign(attr = 'string', file = file.name)
+                    ds += [d]
     if len(ds) == 0:
         d_return = None
     else:
@@ -230,7 +231,7 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() == 'languages':
             if not args.drop_original_language and file.relative_to(module_data_dir.joinpath('Languages')).parts[0].lower() == args.langshort.lower():
-                print(file.relative_to(module_data_dir))
+                print(f"""{file.relative_to(module_data_dir)}""")
                 with file.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
                 xml_entries = xml.find_all('string')
@@ -273,6 +274,8 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
         )
         if 'text' in d.columns:
             d['text'] = np.where(d['text'] == '', np.nan, d['text'])
+    else:
+        d = d_translation.assign(text_EN=np.nan)
     return d
 
 
@@ -280,23 +283,9 @@ print("---- Detect text from ModuleData ----")
 d_mod = extract_text_from_xml(args, complete_id=True, keep_redundancies=args.keep_redundancies)
 
 # TODO: デフォルトのモジュールから EN/Terget 両方取得する
-#args_en = argparse.Namespace(**vars(args))
-#args_en.langshort = 'EN'
-#args_en.langid = 'English'
-#d_default_langs = []
-#for module in args.default_modules:
-#    args_en.target_module = module
-#    tmp = get_mod_languages(args_en, auto_id=False)
-#    if tmp is not None:
-#        d_default_langs += [tmp]
-#if len(d_default_langs) > 0:
-#    d_default_lang = pd.concat(d_default_langs)
-#else:
-#    d_default_langs = None
 
 print("---- Extract strings from ModuleData/Lanugages ----")
 d_module_lang = get_mod_languages(args)
-print(d_module_lang)
 
 if d_mod is None:
     d_mod = d_module_lang.assign(missing_id=lambda d: ~d['id'].isna())
@@ -306,11 +295,14 @@ elif d_module_lang is not None:
         text_EN=lambda d: np.where(d['text_EN_y'].isna(), d['text_EN_x'], d['text_EN_y']),
         context=lambda d: np.where(d['context_x'].isna(), d['context_y'], d['context_x'])
     ).drop(columns=['text_EN_x', 'text_EN_y', 'file_x', 'file_y', 'context_x', 'context_y'])
+print(d_mod)
+
 
 if d_mod is None:
     raise('No text entry found!')
 
-d_mod = d_mod.assign(text=np.nan)
+if 'text' not in d_mod.columns:
+    d_mod = d_mod.assign(text=np.nan)
 
 print(f"""---- {d_mod.shape[0]} entries found ----""")
 
@@ -338,7 +330,6 @@ if args.vanilla_modules is not None and args.vanilla_modules != [''] and not arg
 else:
     d_mod['duplicated_with_vanilla'] = False
 
-
 if 'text' not in d_mod.columns:
     d_mod['text'] = np.nan
 if 'updated' not in d_mod.columns:
@@ -347,6 +338,7 @@ if 'updated' not in d_mod.columns:
 # TODO: Mod ですらIDを重複させてくるやつがいる
 # TODO: バニラとかぶってるID
 # TODO: 結合方法の確認
+# TODO: % のエスケープ
 
 # merge with the PO/MO file by the original string
 print("---- start to merge ----")
@@ -422,7 +414,7 @@ catalog = pddf2po(
     d_mod, with_id=False, distinct=args.distinct,
     col_id_text='text_EN', col_text='text', col_comments='notes', col_context='context', col_locations='file')
 
-with args.outdir.joinpath(f'strings_{args.target_module}.po') as fp:
+with args.outdir.joinpath(f'{args.target_module}.po') as fp:
     if fp.exists():
         backup_fp = fp.parent.joinpath(
             f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""

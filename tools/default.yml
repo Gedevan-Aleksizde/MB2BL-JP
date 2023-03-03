@@ -17,7 +17,7 @@ vanilla_modules:
 distinct: True
 with_id: False
 not_merge_with_vanilla: True
-drop_original_language: True
+drop_original_language: False
 output_blank: False
 duplication_in_comment: False
 fill_english: False

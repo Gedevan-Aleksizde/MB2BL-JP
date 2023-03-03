@@ -52,7 +52,7 @@ if __name__ == '__main__':
     with Path(__file__).parent.joinpath('default.yml') as fp:
         if fp.exists():
             with Path(__file__).parent.joinpath('default.yml') as fp:
-                args = merge_yml(fp, args)
+                args = merge_yml(fp, args, parser.parse_args([]))
     print(args)
 
 # TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
