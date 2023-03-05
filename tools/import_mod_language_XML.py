@@ -268,13 +268,15 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
         d_translation = d_translation.drop_duplicates()
         if d is not None:
             d = d.merge(d_translation, on='id', how='left')
+    else:
+        d_translation = None
     if d is not None:
         d = d.assign(            
             text_EN=lambda d: np.where(d['text_EN'] == '', np.nan, d['text_EN'])
         )
         if 'text' in d.columns:
             d['text'] = np.where(d['text'] == '', np.nan, d['text'])
-    else:
+    elif d_translation is not None:
         d = d_translation.assign(text_EN=np.nan)
     return d
 
@@ -295,7 +297,6 @@ elif d_module_lang is not None:
         text_EN=lambda d: np.where(d['text_EN_y'].isna(), d['text_EN_x'], d['text_EN_y']),
         context=lambda d: np.where(d['context_x'].isna(), d['context_y'], d['context_x'])
     ).drop(columns=['text_EN_x', 'text_EN_y', 'file_x', 'file_y', 'context_x', 'context_y'])
-print(d_mod)
 
 
 if d_mod is None:

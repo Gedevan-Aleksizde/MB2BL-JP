@@ -36,7 +36,7 @@ if __name__ == '__main__':
             if not fp.exists():
                 fp.mkdir(parents=True)
     if args.pofile is None:
-        args.pofile = args.outdir.joinpath(f'strings_{args.target_module}.po')
+        args.pofile = args.outdir.joinpath(f'{args.target_module}.po')
     print(args)
 
 with args.pofile.open('br') as f:
