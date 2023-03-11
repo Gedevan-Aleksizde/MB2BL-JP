@@ -55,7 +55,7 @@ if __name__ == '__main__':
             args = merge_yml(fp, args, parser.parse_args(['']))
     if args.outdir is None:
         args.outdir = Path(f'Mods/{args.target_module}')
-        with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}') as fp:
+        with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}') as fp:
             if not fp.exists():
                 fp.mkdir(parents=True)
     if args.autoid_prefix is None:
@@ -74,7 +74,6 @@ if __name__ == '__main__':
 # TODO: たまに UTF-16で保存してくるやつがいる...
 # TODO: 元テキスト変えてるやつも多いのでIDで紐づけはデフォでやらないように
 # TODO: Mod作者はまずIDをまともに与えてないという想定で作る
-
 
 print("get default language files...")
 # d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
@@ -119,13 +118,13 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
     lambda_id = (
         lambda d: np.where(
             d['missing_id'] | d['is_duplicated'],
-            [f'{args.autoid_prefix}' + hashlib.sha256((text + str(i)).encode()).hexdigest()[-5:] for i, text in enumerate(d['attr'] + d['text_EN'])],  # TODO
+            [f'{args.autoid_prefix}' + hashlib.sha256((text + str(i)).encode()).hexdigest()[-5:] for i, text in enumerate(d['context'] + d['attr'] + d['text_EN'])],  # TODO
             d['id']
         )
     ) if keep_redundancies else (
         lambda d: np.where(
             d['missing_id'] | d['is_duplicated'],
-            [f'{args.autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['attr'] + d['text_EN']],  # TODO
+            [f'{args.autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['context'] + d['attr'] + d['text_EN']],  # TODO
             d['id']
         )
     )
@@ -187,7 +186,7 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                                     string[filter['attrs']] = "{=" + r['id'] + "}" + r['text_EN']
                     ds += [d]
             if complete_id and any_missing:
-                outfp = args.outdir.joinpath(f'ModuleData/{file.relative_to(module_data_dir)}')
+                outfp = args.outdir.joinpath(f'{args.target_module}/ModuleData/{file.relative_to(module_data_dir)}')
                 if not outfp.parent.exists():
                     outfp.parent.mkdir(parents=True)
                 with outfp.open('w', encoding='utf-8') as f:
@@ -401,7 +400,7 @@ if args.distinct:
 d_mod = d_mod[d_mod.columns.intersection(
     {'id', 'text_EN', 'text', 'file', 'attr', 'updated', 'missing_id', 'duplicated_with_vanilla','context', 'notes'})]
 
-with args.outdir.joinpath(f'strings_{args.target_module}.xlsx') as fp:
+with args.outdir.joinpath(f'{args.target_module}.xlsx') as fp:
     if fp.exists():
         backup_fp = fp.parent.joinpath(
             f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""

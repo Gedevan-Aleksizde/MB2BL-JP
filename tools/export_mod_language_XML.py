@@ -32,7 +32,7 @@ if __name__ == '__main__':
             args = merge_yml(fp, args, parser.parse_args(['']))
     if args.outdir is None:
         args.outdir = Path(f'Mods/{args.target_module}')
-        with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}') as fp:
+        with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}') as fp:
             if not fp.exists():
                 fp.mkdir(parents=True)
     if args.pofile is None:
@@ -63,7 +63,7 @@ for i, r in d_new.iterrows():
     tmp.find('string')['id']= r['id']
     tmp.find('string')['text']= r['text']
     strings.append(tmp)
-with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}/std_translation-{args.langshort}.xml').open('w', encoding='utf-8') as f:
+with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/std_translation-{args.langshort}.xml').open('w', encoding='utf-8') as f:
     f.writelines(xml.prettify(formatter='minimal'))
 xml = BeautifulSoup(
     f'''
@@ -72,5 +72,5 @@ xml = BeautifulSoup(
     </LanguageData>''',
     features='lxml-xml'
 )
-with args.outdir.joinpath(f'ModuleData/Languages/{args.langshort}/language_data.xml').open('w', encoding='utf-8') as f:
+with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/language_data.xml').open('w', encoding='utf-8') as f:
     f.writelines(xml.prettify(formatter='minimal'))
