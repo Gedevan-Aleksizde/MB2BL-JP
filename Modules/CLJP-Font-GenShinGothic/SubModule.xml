@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Correct Localization JP Gen-Shin Gothic Font"/>
+    <Name value="Correct Localization JP - Gen-Shin Gothic Font"/>
     <Id value="CorrectLocalizationJPFontGenShinGothic"/>
-    <Version value="v0.9.6"/>
+    <Version value="v0.9.7"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
     <DependedModules>
-        <DependedModule Id="Native" DependentVersion="v1.1.0"/>
-        <DependedModule Id="SandBoxCore" DependentVersion="v1.1.0"/>
-        <DependedModule Id="Sandbox" DependentVersion="v1.1.0"/>
-        <DependedModule Id="CustomBattle" DependentVersion="v1.1.0"/>
-        <DependedModule Id="StoryMode" DependentVersion="v1.1.0"/>
+        <DependedModule Id="Native" DependentVersion="v1.1.1"/>
+        <DependedModule Id="SandBoxCore" DependentVersion="v1.1.1"/>
+        <DependedModule Id="Sandbox" DependentVersion="v1.1.1"/>
+        <DependedModule Id="CustomBattle" DependentVersion="v1.1.1"/>
+        <DependedModule Id="StoryMode" DependentVersion="v1.1.1"/>
         <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" version="v0.9.*" />
     </DependedModules>
 </Module>
