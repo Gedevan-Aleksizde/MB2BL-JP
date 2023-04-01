@@ -10,11 +10,6 @@ mkdir -Force Packages/CorrectLocalizationJP-Text
 #Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-GenShin
 
 Copy-Item -Force doc/README.md Modules/CLJP-Common/README.md
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-LateMin/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-LateMin/
-
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-Genshin/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-Genshin/
 
 Copy-Item -Recurse -Force Modules/CLJP-Font-GenShinGothic/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin
 Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJP-Text
