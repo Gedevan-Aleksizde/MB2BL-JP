@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base>
+ <tags>
+  <tag language="日本語"/>
+ </tags>
+ <strings>
+  <string id="0GKH29JG" text="傭兵団の衛兵"/>
+  <string id="AssCCFew" text="傭兵団の乗馬兵"/>
+  <string id="Mgr6qv1j" text="傭兵団の剣士"/>
+  <string id="PgOknaEN" text="傭兵団のクロスボウ手"/>
+  <string id="RYP9hzIy" text="傭兵団の見張り兵"/>
+  <string id="SaqVvzyV" text="傭兵団の騎兵"/>
+  <string id="xaYwo9tM" text="傭兵団の斥候"/>
+ </strings>
+</base>
