@@ -17,7 +17,7 @@ parser.add_argument('target', type=Path)
 parser.add_argument('--output', type=Path, default=Path(f'MB2BL-{datetime.now().strftime("%Y-%m-%dT%H%M%S")}.po'))
 
 if __name__ == '__main__':
-    args = parser.parse_args(['text/MB2BL-JP - コピー.po'])
+    args = parser.parse_args()
 
 if args.target.exists():
     with args.target.open('br') as f:
@@ -39,8 +39,9 @@ d = d[[x for x in d.columns if x in ['id', 'text', 'notes', 'flags', 'locations'
 
 d = d.assign(isnative=lambda d: d['module']=='Native').sort_values(['id', 'isnative']).groupby(['id']).last().reset_index().drop(columns=['isnative'])
 d = d.assign(
-    notes=lambda d: [''.join(x) for x in  d['notes']],
-    locations=lambda d: [''.join(x) for x in  d['locations']]
+    # notes=lambda d: [''.join(x) for x in  d['notes']],
+    # locations=lambda d: [''.join(x) for x in  d['locations']]
+    notes='', locations=''
     )
 d['locations'] = d['file']
 d['flags'] = [['fuzzy'] if 'fuzzy' in x else [] for x in d['flags']]

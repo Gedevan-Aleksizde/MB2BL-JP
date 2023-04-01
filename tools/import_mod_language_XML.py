@@ -45,6 +45,7 @@ parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folde
 parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--avoid-vanilla-id', default=False, action='store_true')
 parser.add_argument('--keep-redundancies', default=False, action='store_true', help='whether or not add different IDs to entries with same strings')
+parser.add_argument('--convert-exclam', default=False, action='store_true')
 parser.add_argument('--verbose', default=False, action='store_true')
 
 
@@ -69,11 +70,11 @@ if __name__ == '__main__':
 
 # TODO: REFACTORING!!!
 
-# TODO: ID がなかったらどうしようもない
-# 無理やりハッシュから生成してみるか?
 # TODO: たまに UTF-16で保存してくるやつがいる...
 # TODO: 元テキスト変えてるやつも多いのでIDで紐づけはデフォでやらないように
 # TODO: Mod作者はまずIDをまともに与えてないという想定で作る
+# TODO: =! は何か特別な意味がある?
+# TODO: 長い文のマッチングに失敗している?
 
 print("get default language files...")
 # d_default = get_default_lang(args).assign(duplicated_with_vanilla = True)
@@ -110,6 +111,7 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
         dict(name='Kingdom', attrs='ruler_title'),
         dict(name='Concept', attrs='title'),
         dict(name='Concept', attrs='description'),
+        dict(name='name', attrs='name'), # TODO: 余計なものまで取得する可能性は?
         dict(name='string', attrs='text')
     ]
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
@@ -136,8 +138,9 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                 xml = BeautifulSoup(f, features='lxml-xml')
             any_missing = False
             for filter in filters:
-                xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True})
-                print(f'''{len(xml_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
+                xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True}) # TODO: BSが条件に一致していても取得しないものがある????
+                if args.verbose:
+                    print(f'''{len(xml_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
                 if len(xml_entries) > 0:
                     d = pd.DataFrame(
                         [(x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries], columns=['text_EN', 'context']
@@ -149,6 +152,8 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                             ),
                             text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
                         ).assign(attr = filter['attrs'], file = file.name)
+                    if not args.convert_exclam:
+                        d = d.loc[lambda df: ~(df['id'] == '!')]
                     d['id'] == np.where(d['id'].str.contains(r'^\{=(.+?)\}$', regex=True), d['id'], '')
                     # TODO: precise id detetion
                     if args.avoid_vanilla_id:
@@ -160,8 +165,8 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                     d = d.merge(vanilla_ids, on=['id', 'text_EN'], how='left')
                     d = d.loc[lambda d: ~d['id_used_in_vanilla'].fillna(False)]
                     n_missing = d['missing_id'].sum()
-                    # TODO: 原文が同じならID置き換えはしない
                     if complete_id:
+                        # TODO: 原文重複かつIDが違う/欠損している場合を想定していない
                         check_dup_id = (d if ds == [] else pd.concat(ds + [d])).groupby(['id', 'text_EN']).size().reset_index().rename(columns={0: 'n_id_text'}).merge(
                             (d if ds == [] else pd.concat(ds + [d])).groupby(['id']).size().reset_index().rename(columns={0: 'n_id'}),
                             on='id', how='left'
@@ -270,7 +275,7 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
     else:
         d_translation = None
     if d is not None:
-        d = d.assign(            
+        d = d.assign(
             text_EN=lambda d: np.where(d['text_EN'] == '', np.nan, d['text_EN'])
         )
         if 'text' in d.columns:
@@ -279,6 +284,8 @@ def get_mod_languages(args, auto_id=True, check_non_language_folder=False):
         d = d_translation.assign(text_EN=np.nan)
     return d
 
+if not args.mb2dir.joinpath(f'Modules/{args.target_module}').exists():
+    raise(f'''{args.mb2dir.joinpath('Modules/').joinpath(args.target_module)} not found!''')
 
 print("---- Detect text from ModuleData ----")
 d_mod = extract_text_from_xml(args, complete_id=True, keep_redundancies=args.keep_redundancies)
