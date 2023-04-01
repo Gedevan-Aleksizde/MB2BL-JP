@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SpriteData>
+  <SpriteCategories>
+    <SpriteCategory>
+      <Name>ui_Font_GenShinGothic</Name>
+      <AlwaysLoad />
+      <SpriteSheetCount>3</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="8192" Height="16384" />
+      <SpriteSheetSize ID="2" Width="8192" Height="16384" />
+      <SpriteSheetSize ID="3" Width="8192" Height="16384" />
+    </SpriteCategory>
+  </SpriteCategories>
+  <SpriteParts>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>GenShinGothic-P-Light</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_Font_GenShinGothic</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>2</SheetID>
+      <Name>GenShinGothic-P-Medium</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_Font_GenShinGothic</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>3</SheetID>
+      <Name>GenShinGothic-P-Regular</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_Font_GenShinGothic</CategoryName>
+    </SpritePart>
+  </SpriteParts>
+  <Sprites>
+    <GenericSprite>
+      <Name>GenShinGothic-P-Light</Name>
+      <SpritePartName>GenShinGothic-P-Light</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>GenShinGothic-P-Medium</Name>
+      <SpritePartName>GenShinGothic-P-Medium</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>GenShinGothic-P-Regular</Name>
+      <SpritePartName>GenShinGothic-P-Regular</SpritePartName>
+    </GenericSprite>
+  </Sprites>
+</SpriteData>

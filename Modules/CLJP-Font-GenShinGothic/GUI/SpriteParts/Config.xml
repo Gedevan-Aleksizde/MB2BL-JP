@@ -1,0 +1,11 @@
+<Config>
+    <SpriteCategory Name="ui_Font_GenShinGothic">
+        <PackAllSpritesToUniqueTextures/>
+        <SingleChannel/>
+        <AlwaysLoad/>
+        <EdgeSize Value="0" />
+    </SpriteCategory>
+    <SpriteCategory Name="ui_titlejp">
+        <AlwaysLoad/>
+    </SpriteCategory>
+</Config>

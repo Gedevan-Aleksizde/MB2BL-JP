@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SpriteData>
+  <SpriteCategories>
+    <SpriteCategory>
+      <Name>ui_Font_GenEiLateMinP</Name>
+      <AlwaysLoad />
+      <SpriteSheetCount>1</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="8192" Height="16384" />
+    </SpriteCategory>
+  </SpriteCategories>
+  <SpriteParts>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>GenEiLateMinPv2</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_Font_GenEiLateMinP</CategoryName>
+    </SpritePart>
+  </SpriteParts>
+  <Sprites>
+    <GenericSprite>
+      <Name>GenEiLateMinPv2</Name>
+      <SpritePartName>GenEiLateMinPv2</SpritePartName>
+    </GenericSprite>
+  </Sprites>
+</SpriteData>
