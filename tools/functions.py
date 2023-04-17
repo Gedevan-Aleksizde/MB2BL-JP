@@ -98,6 +98,7 @@ def po2pddf(catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False
         d = d.rename(
             columns={0: 'id'}
         )
+        d = d.rename(columns={1: 'text_EN'})
         d = d.assign(duplication=lambda d: [len(x) for x in d['locations']])
         # d['text_EN'] = d[[x for x in d.columns if x not in ['id', 'text', 'notes', 'flags', 'locations', 'context']]].agg('/'.join, axis=1)
         d['text_EN'] = d['id'].str.replace(r'^.+?/(.*?)$', r'\1', regex=True).str.replace('%%', '%')
