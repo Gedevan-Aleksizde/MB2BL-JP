@@ -198,7 +198,7 @@ def export_modules(args, type):
             if not args.suppress_missing_id:
                 print(f'------ Checking missing IDs in {module} ---------')
                 df_original = pd.read_excel('text/MB2BL-JP.xlsx')
-                n_missings = output_missings(args, output_dir, d.loc[lambda d: d['module'] == module], df_original)
+                n_missings = output_missings(args, output_dir, module, d.loc[lambda d: d['module'] == module], df_original)
                 print(f'{n_missings} missing IDs found!')
                 if n_missings is not None:
                     n_entries_total += n_missings
@@ -234,12 +234,10 @@ def export_modules(args, type):
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
 
-def output_missings(args, output_dir, df, df_original=None):
+def output_missings(args, output_dir, module, df, df_original=None):
     if df_original is not None:
         ids = df_original.loc[lambda d: (d['text_JP_original'] == '') | d['text_JP_original'].isna()][['id']]
-        print(ids)
         d_sub = df.merge(ids, on='id', how='inner')
-        print(d_sub)
     elif 'is_missing' in df.columns:
         d_sub = df.loc[lambda d: d['id_missing']]
     else:
@@ -262,7 +260,7 @@ def output_missings(args, output_dir, df, df_original=None):
         xml_lang_data = BeautifulSoup(f.read(), 'lxml-xml')
     lang_data_xml = xml_lang_data.find('LanguageData')
     new_entry = BeautifulSoup(f'''<LanguageFile xml_path="PLAHECOLHDER" />''', 'lxml-xml')
-    new_entry.find("LanguageFile")['xml_path'] = f'{args.langshort}/translation-missings-{args.langshort}.xml'
+    new_entry.find("LanguageFile")['xml_path'] = f'{args.langshort}/{module}/translation-missings-{args.langshort}.xml'
     print(new_entry)
     lang_data_xml.append(new_entry)
     with output_dir.joinpath(f'language_data.xml').open('w', encoding='utf-8') as f:
