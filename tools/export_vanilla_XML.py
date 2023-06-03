@@ -195,10 +195,10 @@ def export_modules(args, type):
                             )
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
-            if not args.suppress_missing_id and 'd_sub' in locals():
+            if not args.suppress_missing_id:
                 print(f'------ Checking missing IDs in {module} ---------')
                 df_original = pd.read_excel('text/MB2BL-JP.xlsx')
-                n_missings = output_missings(args, output_dir, d_sub, df_original)
+                n_missings = output_missings(args, output_dir, d.loc[lambda d: d['module'] == module], df_original)
                 print(f'{n_missings} missing IDs found!')
                 if n_missings is not None:
                     n_entries_total += n_missings
@@ -237,7 +237,9 @@ def export_modules(args, type):
 def output_missings(args, output_dir, df, df_original=None):
     if df_original is not None:
         ids = df_original.loc[lambda d: (d['text_JP_original'] == '') | d['text_JP_original'].isna()][['id']]
+        print(ids)
         d_sub = df.merge(ids, on='id', how='inner')
+        print(d_sub)
     elif 'is_missing' in df.columns:
         d_sub = df.loc[lambda d: d['id_missing']]
     else:
