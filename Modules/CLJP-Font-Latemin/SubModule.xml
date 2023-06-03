@@ -2,18 +2,18 @@
 <Module>
     <Name value="Correct Localization JP - Gen-Ei LateMin Font"/>
     <Id value="CorrectLocalizationJPFontGenEiLateMin"/>
-    <Version value="v0.9.9"/>
+    <Version value="v1.0.1"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
     <DependedModules>
-        <DependedModule Id="Native" DependentVersion="v1.1.2"/>
-        <DependedModule Id="SandBoxCore" DependentVersion="v1.1.2"/>
-        <DependedModule Id="Sandbox" DependentVersion="v1.1.2"/>
-        <DependedModule Id="CustomBattle" DependentVersion="v1.1.2"/>
-        <DependedModule Id="StoryMode" DependentVersion="v1.1.2"/>
-        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" version="v0.9.*" />
+        <DependedModule Id="Native" DependentVersion="v1.1.4"/>
+        <DependedModule Id="SandBoxCore" DependentVersion="v1.1.4"/>
+        <DependedModule Id="Sandbox" DependentVersion="v1.1.4"/>
+        <DependedModule Id="CustomBattle" DependentVersion="v1.1.4"/>
+        <DependedModule Id="StoryMode" DependentVersion="v1.1.4"/>
+        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" version="v1.0.*" />
     </DependedModules>
 </Module>
