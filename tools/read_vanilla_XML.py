@@ -57,7 +57,6 @@ parser.add_argument('--all-fuzzy', default=False, action='store_true')
 parser.add_argument('--legacy-id', default=False, action='store_true')
 parser.add_argument('--duplication-in-comment', default=False, action='store_true')
 
-
 if __name__ == '__main__':
 
     args = parser.parse_args()
