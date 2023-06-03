@@ -46,6 +46,7 @@ parser.add_argument('--with-id', default=None, action='store_true')
 parser.add_argument('--distinct', default=None, action='store_true', help='drop duplicated IDs in non-Native modules')
 parser.add_argument('--no-english-overwriting', default=None, action='store_true', help='for M&B weird bug')
 parser.add_argument('--legacy_id', action='store_true', help='depricated')
+parser.add_argument('--suppress-missing-id', default=False, action='store_true')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -194,6 +195,14 @@ def export_modules(args, type):
                             )
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
+            if not args.suppress_missing_id and 'd_sub' in locals():
+                print(f'------ Checking missing IDs in {module} ---------')
+                df_original = pd.read_excel('text/MB2BL-JP.xlsx')
+                n_missings = output_missings(args, output_dir, d_sub, df_original)
+                print(f'{n_missings} missing IDs found!')
+                if n_missings is not None:
+                    n_entries_total += n_missings
+                    n_change_total += n_missings
     if type=='module' and not args.no_english_overwriting:
         lang_data_patch = BeautifulSoup(
             f'''
@@ -225,6 +234,38 @@ def export_modules(args, type):
     if n_entries_total > 0:
         print(f'''{100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
 
+def output_missings(args, output_dir, df, df_original=None):
+    if df_original is not None:
+        ids = df_original.loc[lambda d: (d['text_JP_original'] == '') | d['text_JP_original'].isna()][['id']]
+        d_sub = df.merge(ids, on='id', how='inner')
+    elif 'is_missing' in df.columns:
+        d_sub = df.loc[lambda d: d['id_missing']]
+    else:
+        return None
+    if d_sub.shape[0] < 1:
+        return None
+    xml = BeautifulSoup(
+    f'''<base><tags><tag language="{args.langid}" /></tags>
+    <strings></strings></base>''', features='lxml-xml')
+    strings = xml.base.find('strings', recursive=False)
+    for i, r in d_sub.iterrows():
+        new_str = removeannoyingchars(r['text'])
+        new_entry = BeautifulSoup(f'''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''', 'lxml-xml')
+        new_entry.find('string')['id']= r['id']
+        new_entry.find('string')['text']= r['text']
+        strings.append(new_entry)
+    with output_dir.joinpath(f'translation-missings-{args.langshort}.xml').open('w', encoding='utf-8') as f:
+        f.writelines(xml.prettify(formatter='minimal'))
+    with output_dir.joinpath(f'language_data.xml').open('r', encoding='utf-8') as f:
+        xml_lang_data = BeautifulSoup(f.read(), 'lxml-xml')
+    lang_data_xml = xml_lang_data.find('LanguageData')
+    new_entry = BeautifulSoup(f'''<LanguageFile xml_path="PLAHECOLHDER" />''', 'lxml-xml')
+    new_entry.find("LanguageFile")['xml_path'] = f'{args.langshort}/translation-missings-{args.langshort}.xml'
+    print(new_entry)
+    lang_data_xml.append(new_entry)
+    with output_dir.joinpath(f'language_data.xml').open('w', encoding='utf-8') as f:
+        f.writelines(lang_data_xml.prettify(formatter='minimal'))
+    return d_sub.shape[0]
 
 if args.output_type == 'both':
     for x in ['module', 'overwriter']:
