@@ -3,6 +3,7 @@
 バージョン: v1.0.1 (本体 v1.1.4 に対応)
 
 本体 v1.0.3 向け最終バージョン: v0.9.5
+本体 v1.1.x 向け安定版: v1.1.0
 
 このファイルはプレーンテキストのためレイアウトが完全ではありません. 画像つきの説明書は以下で見つけてください.
 
@@ -17,6 +18,7 @@
     -   当初は単純な誤字誤訳の修正だけを想定していましたが, 修正箇所の多さや原文自体の曖昧さと誤り, 修正後の整合性をも考慮するとさらなる修正が必要になると判断し, 結果として大半を変更し, かなりの部分の印象が変わります.
     -   現時点では一般セリフはまだほとんど確認してませんが, メニュー画面やシステムメッセージでよく見られる文やアイテム名等を重点的に変えたので印象はだいぶ変わると思います.
     -   <s>これ以降も何度かに分けて更新する予定です</s> v1.0.1 をもって一旦完成として, 能動的な更新を終了します. 以降はユーザーから誤字誤訳等の指摘があった場合のみ更新する予定です.
+    -   と書いた直後ですがいくつかの修正忘れの発見ともう1つフォント追加しようと思っていたことを思い出したので更新しました. v1.1.0が安定版です.
 3.  (オプション) キーボードのローカライズ
     -   v1.0.3 現在, Bannerlordは日本語配列キーボードを想定していないため, 一部の操作がうまくできません.
 
@@ -38,7 +40,7 @@
 
 ## 初回インストールの場合
 
-通常のmodのインストールと同じですが, 諸事情により2つのフォルダに分けています. **Vortexは複数のフォルダで動くmodをうまくインストールできないことがあるので注意してください.**
+基本的に通常のmodのインストールと同じですが, このmodは2つのフォルダに分かれています. **Vortexは複数のフォルダで動くmodをうまくインストールできないことがあるので注意してください.**
 
 1.  Main Files から使いたいフォントに対応するファイルをダウンロードしてください. **CorrectLocalizationJP-Text 以外** のいずれかです. 名前の末尾は使いたいフォントによって変わります.
 
@@ -52,22 +54,22 @@
     -   CorrectLocalizationJP-Text
     -   CorrectLocalizationJP-(選んだフォント名)
 
-    これら2つを M&B2 インストールフォルダにある `Modules` フォルダに入れてください. 場所がわからない場合は以下の画像を参考にしてください.
+    これら2つを M&B2 インストールフォルダにある `Modules` フォルダに入れてください. 場所がわからない場合は以下の画像を参考にしてください. **Vortexは使わないでください. 適切なフォルダに配置されません.**
     <details><summary>クリックで参考画像を表示</summary>
 
     ><figure class="figure-image figure-image-fotolife" title="Modフォルダの配置先">[f:id:ill-identified:20230126222245j:plain][f:id:ill-identified:20230129233304j:plain]<figcaption>Modフォルダの配置先</figcaption></figure><
     </details>
 
-4.  M&B2 のランチャーで起動し, インストールした mod を**2つとも**有効にしてからM&B2を起動してください.
+4.  M&B2 のランチャーを起動し, インストールした mod を**2つとも**有効にしてからM&B2を起動してください.
 
-    -   1つは上の方にあるので見落とさないよう注意してください.
+    -   1つは本体よりも上の方にあるので見落とさないよう注意してください.
         <details><summary>クリックで参考画像を表示</summary>
         ><figure class="figure-image figure-image-fotolife" title="ランチャー画面の例 (ラテミン版の場合)">[f:id:ill-identified:20230130005256j:plain]<figcaption>ランチャー画面の例 (ラテミン版の場合)</figcaption></figure><
         </details>
 
 ## このModを更新する場合
 
-テキスト修正は段階的に行うので, 何度か更新が必要だと思います. 基本的には再インストールするだけですが, フォントファイルが大きいので, テキストのみ更新された時は CorrectLocalizationJP-Text のバージョンだけが上がります. この場合は CorrectLocalizationJP-Text だけをダウンロード・インストールするだけでも動作します. また, たまに不具合が起こることがあるので, 更新の際は**古いバージョンを一旦フォルダごと削除してから新しいものをインストール**してください.
+初回インストールでダウンロードしたファイルはファイルサイズが大きいため, テキスト部分のみの差分も配布しています. それが CorrectLocalizationJP-Text です(以下, 差分ファイル). もし差分ファイルの最新バージョンのほうが新しい場合, 差分ファイルだけをダウンロードし, 初回インストールした際の CorrectLocalizationJP-Text フォルダを置き換えるだけで更新できます. どちらもバージョンも新しくなっていたら, 初回と同じ方法でインストールしてください. いずれの場合も, 置き換える際は**古いバージョンのフォルダを一旦削除してから新しいものをインストール**してください. (更新は殆どの場合同じファイルの上書きですが, まれに古い不要なファイルが残っているせいで不具合が起こることがあります)
 
 たまに更新直後にランチャーでチェックが外れてることがあるかもしれません. 手動でチェックを入れ直してください.
 
@@ -93,9 +95,9 @@ v0.9.4 からは上記をさらに強引な上書きで解決しました. つ�
 
 ## このmodを使用しつつ, 他の日本語化modを使用したい場合
 
-多くの場合はこのModの日本語修正を有効にしたまま動作すると思います. ただしそもそもM&B2本体の「ローカライゼーション」エンジンの仕様と実装の問題から, XMLに直書きしていたり, mod開発者が翻訳エンジンの挙動を理解していなかったりすることが多いため, 両立するかはケースバイケースなところもあります. 翻訳文が言語ファイルとして用意されているものであれば動作すると思いますが, それ以外は保証できません.
+多くの場合はこのModの日本語修正を有効にしたまま動作すると思います. ただしそもそもM&B2本体の「ローカライゼーション」エンジンの仕様と実装の問題から, XMLに直書きしていたり, mod開発者が翻訳エンジンの挙動を理解していなかったりすることが多いため, 両立するかはケースバイケースなところもあります. 翻訳文が言語ファイルとして用意されているものであれば動作することが多いですが, 保証できません.
 
--   [Mod Organizer 2](https://www.nexusmods.com/skyrimspecialedition/mods/6194) を利用する手もあります. 仮想環境なので, あたかも既存ファイルを上書きしたかのように動きますが, 上書き分を取り消したり切り替えたりするのは簡単です. (参考: <https://under-identified.hatenablog.com/entry/2023/03/10/005618>)
+-   [Mod Organizer 2](https://www.nexusmods.com/skyrimspecialedition/mods/6194) を利用する手もあります. 仮想環境なので, あたかも既存ファイルを上書きしたかのように動きますが, 上書き分を取り消したり切り替えたりするのが簡単になります. (参考: <https://under-identified.hatenablog.com/entry/2023/03/10/005618>)
 -   (初回版 v0.9.0をインストールした方へ) 仕様変更により, 上書き版は不要と判断し更新を停止しました. v0.9.1 以降に更新したならばアンインストールしても問題ありません. 以下は v0.9.0 の話です. 今はこの方法は必要ありません.
 
 <details><summary>クリックで展開</summary>
@@ -124,7 +126,7 @@ v0.9.4 からは上記をさらに強引な上書きで解決しました. つ�
 
 1.  **Modを入れてプレイすると実績が解除されなくなります**. 現状, ゲームバランスを変更しないようなModであってもインストールすると実績解除が禁止されます. 実績解除が必要な場合, 以下のいずれかの方法で解決できます.
     1.  [AchievementUn(bloc)ker](https://www.nexusmods.com/mountandblade2bannerlord/mods/4587) を同じようにインストールしてください. なくても動作しますが, 実績未解放で入れ忘れてたら悲しいので Nexus には Requirements として登録しています.
-2.  マルチプレイモードの対応は一旦保留にします. マルチメインでやっていて中途半端にテキストが修正されてて困る場合は, 後述のFAQにある方法でテキスト部分を削除してください.
+2.  マルチプレイモードの対応は保留にします. もし, マルチメインでやっていて中途半端にテキストが修正されてて困る場合は, 後述のFAQにある方法でテキスト部分を削除してください.
 
 以下技術的な補足説明:
 <details><summary>クリックで展開</summary>
@@ -150,6 +152,7 @@ v1.1.0 現在, 文字化けの箇所は以前より減りましたが多くは�
 
 1.  「源真ゴシックP」 - バニラの日本語フォントに近い形状
 2.  「源暎ラテミンP」 - 雰囲気重視
+3.  「Mgen+ (ムゲンプラス)」 - バニラよりも可読性を重視したフォント
 
 参考画像です
 
@@ -163,6 +166,8 @@ v1.1.0 現在, 文字化けの箇所は以前より減りましたが多くは�
 
 <details><summary>クリックで展開</summary>
 (1) は本来ならばバニラ同様源ノ角ゴシック (Source Han Sans) を使いたかったのですが, 公式 Modding Kit の技術的制約により困難だったため, 字形の多くが同じである「源真ゴシックP」を採用しました. (2) の「源暎ラテミンP」は少し特徴的な線のフォントです. 線が太く強弱のない角ゴシックよりも, 欧文混じりのテキストの見栄えが良くなる気がしたので採用しました. 一方でウエイトが一種類だけなので, 表示箇所によっては字がやや詰まりすぎて見えることもあります. また, 個別のスタイルの問題で文字の配置が少しずれていたりはみ出したりする箇所があります. MB2の仕様上、調整が難しいのでこういった調整は徹底できていません.
+
+追記: v1.1.0 でMgen+ (ムゲンプラス)フォントを追加しました. M+と源ノ角ゴシックを合成したフォントで, M+の漢字収録数の少なさを補うために作られています. Mgen+がゲームで使われてるのをあまり見かけない気がしますが, デフォルトの調整されていない源ノ角ゴシックと比べると, かなの濁点・半濁点の視認性や, カーニングをちゃんとやっているという点で読みやすいと思います. いくつかバリエーションがあるので, 今回はMgen+ 2cpを採用しました.
 
 <s>v1.0.3 現在, M&B2 本体に収録されている日本語のグリフはおそらくかなと常用漢字程度です. そのため「隼」「颯」「樽」といった漢字が文字化け(豆腐化)するか</s>
 v1.1.0 現在, M&B2 本体に収録されている漢字が少し増えました. おそらく人名用漢字が追加され, 合計で3000字弱の日本語の文字が使えるようになりました. 「隼」「樽」のような字は文字化けしなくなり, それ以外の漢字, 例えば「蜥蜴」が「トカゲ」, 「鋲」が「びょう」のように仮名に置き換えられました. それ以外の字は相変わらず文字化けして豆腐になるか, 中国語用の KaiTi フォントにフォールバックされます (更にいうと, KaiTi は楷書でしかも基準の高さが異なるのでかなり違和感があります.) 一方で, このmodに含まれているフォントはいずれもオリジナルの源ノ角ゴシックと同等のグリフを収録しているので, 通常の日本語で使われる文字 (かな, 漢字, いくつかの特殊記号) を表示するぶんには文字化けしないと思います (よって, modの日本語化とかでバニラで使われないような漢字が出てきても対応できると思います).
@@ -428,14 +433,15 @@ v0.9.8 より, 人名地名等の固有名詞の対照表を作りました. し
 # 補足/Notes
 
 -   私 (このmodの作者) はM&B2をEAの比較的早い段階で購入し, その時点で日本語対応が計画されているとアナウンスされていたので日本語化コミュニティには参加していませんでした. 日本語化された安定版が出たと聞いて久々に再開したらあんまり出来がよくなかったのでこれを作りました. そちらのものは確認してないので翻訳の方針が違うかもしれません.
-    -   別ゲームの話になってしまいますが, 当初はスカイリムの [Improved Japanese Translation](https://tktk1.net/skyrim/mymod/improved-japanese-translation/) のような公式日本語訳の修正・校正を想定していましたが, システムメッセージから先に手を加えたため, 結果として一部に見られる公式英語・日本語両方の曖昧さの解消が必要となったので, むしろテキスト限定の [USKP](https://www.nexusmods.com/skyrim/mods/71214) の様相を呈しつつあります.
+    -   別ゲームの話になってしまいますが, 当初はスカイリムの [Improved Japanese Translation](https://tktk1.net/skyrim/mymod/improved-japanese-translation/) のような公式日本語訳の修正・校正を想定していましたが, システムメッセージから先に手を加えたため, 結果として一部に見られる公式英語・日本語両方の曖昧さの解消が必要となったので, むしろテキスト周りのオーバーホール的なものになっています.
 -   既に TaleWorlds のフォーラムで[日本語ローカライズの問題について開発元に指摘してくださっている方がいます](https://forums.taleworlds.com/index.php?threads/some-japanese-fonts-are-still-missing.454493/). QAチームが反応しているので, 時間がかかるかもしれませんがバニラにおける問題もそのうち修正されるかもしれません.
     -   特にパークスキルの説明文に関しては英文の時点でおかしいものが多いので先にそっちを指摘してあげるべきかもしれません
 -   バージョン番号は飛ぶことがあります. 致命的なミスを見つけて非公開にする必要があるとか, こちら側でのバージョン管理の都合などが理由です
 
-# CREDIT & ACKNOWLEDGEMENT
+# CREDIT & ACKNOWLEDGMENT
 
 -   『源真ゴシックP』 は <http://jikasei.me/font/genshin/> で SIL OFL 1.1 ライセンスで配布されているものを使用しました.
+-   『ムゲンプラス2cp』は <http://jikasei.me/font/mgenplus/> で SIL OFL 1.1 ライセンスで配布されているものを使用しました.
 -   『源暎ラテミンP』 は <https://okoneya.jp/font/genei-latin.html> で SIL OFL 1.1 ライセンスで配布されているものを使用しました.
 -   [HarmonyFont](https://www.nexusmods.com/mountandblade2bannerlord/mods/4144) の作者に FontAtlas.exe の使い方のヒントを教えてもらいました.
 -   ブログ等に改善・修正提案を投稿してくださった方 (敬称略)
@@ -476,6 +482,7 @@ Currently You can find many text with mojibake because M&B2 (v1.0.3) supports on
 
 1.  Gen-Shin Gothic Proportional (源真ゴシックP)
 2.  Gen-Ei Latemin Proportional (源暎ラテミンP)
+3.  Mgen+ 2cp (ムゲンプラス 2cp)
 
 Each of the font family will supports almost all of letters and symbols used in typical Japanese language.
 
@@ -483,7 +490,7 @@ Note: I used Gen-Shin Gothic instead of Source Han Sans JP, same as the Native b
 
 # About Translation Correction
 
-Currently (v1.0.3), The official Japanese translation has too many errors to state that in detail. Briefly speaking,
+Currently (v1.1.4), The official Japanese translation has too many errors to state that in detail. Briefly speaking,
 
 1.  The terminology is not consistent (translated very randomly and of makeshift)
 2.  We can easily find many sentences containing errors once we start to play
@@ -497,6 +504,7 @@ I am a fan of M&B for a decade. but now very disappointed that this bulls\*\*\* 
 
 # CREDIT & ACKNOWLEDGEMENT
 
--   Gen-Shin Gothic Proportional is published under SIL OFL 1.1 at <http://jikasei.me/font/genshin/>
--   Gen-Ei Latemin Proportional is published under SIL OFL 1.1 at <https://okoneya.jp/font/genei-latin.html>
+-   Gen-Shin Gothic Proportional font is published under SIL OFL 1.1 at <http://jikasei.me/font/genshin/>
+-   Mgen+ font is published under SIL OFL 1.1 at <http://jikasei.me/font/mgenplus/>
+-   Gen-Ei Latemin Proportional font is published under SIL OFL 1.1 at <https://okoneya.jp/font/genei-latin.html>
 -   I got userful comments on the usage of FontAtlas.exe from the [HarmonyFont](https://www.nexusmods.com/mountandblade2bannerlord/mods/4144)’s author.
