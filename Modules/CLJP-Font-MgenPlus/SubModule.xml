@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Correct Localization JP - Gen-Shin Gothic Font"/>
-    <Id value="CorrectLocalizationJPFontGenShinGothic"/>
+    <Name value="Correct Localization JP - Mgen Plus 2cp Font"/>
+    <Id value="CorrectLocalizationJPFontMgenPlus"/>
     <Version value="v1.1.0"/>
     <ModuleType value="Community"/>
     <Official value="false" />

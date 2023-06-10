@@ -1,0 +1,8 @@
+<Config>
+    <SpriteCategory Name="ui_mgenplus-2cp">
+        <PackAllSpritesToUniqueTextures/>
+        <SingleChannel/>
+        <AlwaysLoad/>
+        <EdgeSize Value="0" />
+    </SpriteCategory>
+</Config>
