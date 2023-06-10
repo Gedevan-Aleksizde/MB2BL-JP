@@ -1,6 +1,6 @@
 # Correct Localization JP - Mount and Blade 2: Bannerlord Mod
 
-バージョン: v1.0.1 (本体 v1.1.4 に対応)
+バージョン: v1.1.0 (本体 v1.1.4 に対応)
 
 本体 v1.0.3 向け最終バージョン: v0.9.5
 本体 v1.1.x 向け安定版: v1.1.0
