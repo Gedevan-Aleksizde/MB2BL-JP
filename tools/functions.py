@@ -327,7 +327,7 @@ def read_xmls(args, how_join='left'):
     d['EN'] = d['EN'].assign(text_EN = lambda d: d['text_EN'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True))
     d[args.langshort] = pd.concat(d[args.langshort])
     d[args.langshort][f'text_{args.langshort}_original'] = d[args.langshort][f'text_{args.langshort}_original'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True)
-    d[args.langshort]['file'] = d[args.langshort]['file'].str.replace(r'^(.+)-jpn\.xml', r'\1.xml', regex=True)
+    d[args.langshort]['file'] = d[args.langshort]['file'].str.replace(r'^(.+)_jpn\.xml', r'\1.xml', regex=True)
     d_bilingual = d['EN'].merge(d[args.langshort], on=['id', 'file', 'module'], how=how_join)
     # Who can assume that the original text ID is incomplete??
     if how_join:
