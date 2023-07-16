@@ -432,7 +432,7 @@ def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=Fa
                     id=match_interla_id.sub(r'\1', l.id),
                     string=l.string,
                     user_comments=l.user_comments,
-                    flags=l.flags + ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else [],
+                    flags=l.flags | set('fuzzy') if all_fuzzy or 'fuzzy' in l.flags else set(),
                     context=l.context
                 )
             n_match = 0
