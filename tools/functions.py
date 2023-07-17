@@ -20,7 +20,7 @@ match_file_name_id = regex.compile(r'^.+?/(.+?)/.+?/.*$')
 match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/.*$')
 match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 
-def merge_yml(fp, args, default):
+def merge_yml(fp: Path, args: argparse.Namespace, default: argparse.Namespace) -> argparse.Namespace:
     with fp.open('r', encoding='utf-8') as f:
         yml = yaml.load(f, Loader=yaml.Loader)
         for k in yml.keys():
@@ -39,7 +39,7 @@ def merge_yml(fp, args, default):
     return args
 
 
-def get_catalog_which_corrected_babel_fake_id(catalog_with_fake_id, simplify=True):
+def get_catalog_which_corrected_babel_fake_id(catalog_with_fake_id: Catalog, simplify=True) -> Catalog:
     # WHY BABEL USES FAKE ID???
     catalog_with_correct_id = Catalog(Locale.parse('ja_JP'))
     if simplify:
@@ -67,7 +67,7 @@ def get_catalog_which_corrected_babel_fake_id(catalog_with_fake_id, simplify=Tru
     return catalog_with_correct_id
 
 
-def public_po(catalog):
+def public_po(catalog: Catalog) -> Catalog:
     # TODO: copy of metadata
     # TODO: distinction
     match_internal_id = regex.compile(r'^(.+?)/.+?$')
@@ -77,7 +77,7 @@ def public_po(catalog):
 
 
 
-def po2pddf(catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False):
+def po2pddf(catalog: Catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id`, `file`, `module`, `text`, `text_EN ,`notes`, `flags` columns
@@ -110,7 +110,7 @@ def po2pddf(catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False
         d = d[[x for x in d.columns if x in ['id', 'text', 'text_EN', 'notes', 'flags', 'locations', 'context', 'file', 'module', 'duplication']]]
     return d
 
-def po2pddf_easy(catalog, with_id=False):
+def po2pddf_easy(catalog: Catalog, with_id=False) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id` and `text` columns
@@ -128,9 +128,9 @@ def po2pddf_easy(catalog, with_id=False):
 
 
 def pddf2po(
-    df, with_id=True, distinct=True, locale=None, col_id_text='text', col_text='text',
+    df: pd.DataFrame, with_id=True, distinct=True, locale=None, col_id_text='text', col_text='text',
     col_locations=None, col_context=None, col_comments=None, col_flags=None,
-    ):
+    ) -> Catalog:
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
     """
@@ -148,7 +148,7 @@ def pddf2po(
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
     # I shouldn't have used Babel.
 
-    def format_arg(dic):
+    def format_arg(dic: dict) -> dict:
         dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
         dic['string'] = dic[col_text]
         if col_flags:
@@ -175,7 +175,7 @@ def pddf2po(
         catalog.add(**r)
     return catalog
 
-def drop_duplicates(df, compare_module=False, compare_file=False, col_module='module', col_file='file', module_order=None, file_order=None):
+def drop_duplicates(df: pd.DataFrame, compare_module=False, compare_file=False, col_module='module', col_file='file', module_order=None, file_order=None) -> pd.DataFrame:
     if module_order is None:
         module_order = [
             'Native',
@@ -207,7 +207,7 @@ def drop_duplicates(df, compare_module=False, compare_file=False, col_module='mo
     return df
 
 
-def removeannoyingchars(string, remove_id=False):
+def removeannoyingchars(string: str, remove_id=False) -> str:
     # TODO: against potential abusing of control characters
     string = string.replace('\u3000', ' ')  # why dare you use zenkaku blank?? 
     string = control_char_remove.sub('', string)
@@ -216,7 +216,7 @@ def removeannoyingchars(string, remove_id=False):
     return string
 
 
-def get_text_entries(args, auto_id=True):
+def get_text_entries(args: pd.DataFrame, auto_id=True) -> pd.DataFrame:
     ds = []
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
     print(f'reading xml files from {module_data_dir}')
@@ -272,7 +272,7 @@ def get_text_entries(args, auto_id=True):
     return d
 
 
-def get_default_lang(args, distinct=True, text_col='text'):
+def get_default_lang(args: argparse.Namespace, distinct=True, text_col='text') -> pd.DataFrame:
     d_defaults = []
     for m in args.default_modules:
         print(f'LOADING {m} Module...')        
@@ -298,7 +298,7 @@ def get_default_lang(args, distinct=True, text_col='text'):
     return d_default
 
 
-def read_xmls(args, how_join='left'):
+def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
     d = dict()
     d['EN'] = []
     d[args.langshort] = []
@@ -344,7 +344,7 @@ def read_xmls(args, how_join='left'):
     return d_bilingual
 
 
-def check_duplication(df_bilingual):
+def check_duplication(df_bilingual: pd.DataFrame) -> pd.DataFrame:
     duplicated_id = df_bilingual[['id', 'text_EN']].groupby(['id']).agg({'text_EN': [pd.Series.nunique, 'count']}).reset_index()
     duplicated_id.columns = ['id', 'unique', 'duplicates']
     duplicated_id = duplicated_id.loc[lambda d: (d['unique'] > 1) | (d['duplicates'] > 1)]
@@ -366,13 +366,13 @@ def check_duplication(df_bilingual):
     return df_bilingual
 
 
-def escape_for_po(df, columns):
+def escape_for_po(df: pd.DataFrame, columns: str) -> pd.DataFrame:
     for c in columns:
         df[c] = df[c].str.replace('%', '%%', regex=False)
     return df
 
 
-def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=False):
+def update_with_older_po(old_catalog: Catalog, new_catalog: Catalog, all_fuzzy=False, ignore_facial=True, legacy_id=False) -> Catalog:
     # I shouldn't have used Babel
     if legacy_id:
         for l in new_catalog:
@@ -407,12 +407,13 @@ def update_with_older_po(old_catalog, new_catalog, all_fuzzy=False, legacy_id=Fa
                     new_catalog[l.id].flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_message.flags else []
         print(f'{n_match} entries matched by public ID are updated')
     else:
+        suffix_facial = regex.compile("(\[ib:.+\]|\[if:.+\])")  # against v1.2 updates
         # WHY BABEL USES FAKE ID???
         old_catalog_correct_id = get_catalog_which_corrected_babel_fake_id(old_catalog)
         n_match = 0
         for l in new_catalog:
             if l.id != '':
-                old_message = old_catalog_correct_id[l.id]
+                old_message = old_catalog_correct_id[suffix_facial.sub("", l.id)] if ignore_facial else old_catalog_correct_id[l.id]
                 if old_message is not None:
                     if old_message.string != '':
                         new_catalog[l.id].string = old_message.string
