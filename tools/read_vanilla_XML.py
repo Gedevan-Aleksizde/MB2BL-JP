@@ -56,6 +56,7 @@ parser.add_argument(
 parser.add_argument('--all-fuzzy', default=False, action='store_true')
 parser.add_argument('--legacy-id', default=False, action='store_true')
 parser.add_argument('--duplication-in-comment', default=False, action='store_true')
+parser.add_argument('--dont-evaluate-facial', default=False, action='store_true')
 
 if __name__ == '__main__':
 
@@ -136,7 +137,7 @@ if args.pofile.exists():
     if old_catalog is None:
         warnings.warn('Old translation file path may be misspecified!')
     else:
-        new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, legacy_id=args.legacy_id)
+        new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, ignore_facial=False, legacy_id=args.legacy_id)
 else:
     print('Old PO file not found. merging is skipped')
     new_one = new_catalog
