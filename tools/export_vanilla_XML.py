@@ -144,7 +144,7 @@ def export_modules(args, type):
                 # edit language_data.xml
                 with xml_path.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
-                en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''-{args.langsuffix}''', '')[0] + '.xml'
+                en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''_{args.langsuffix}''', '')[0] + '.xml'
                 #TODO: refactoring
                 if args.legacy_id:
                     d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
@@ -207,7 +207,7 @@ def export_modules(args, type):
         lang_data_patch = BeautifulSoup(
             f'''
             <LanguageData id="English">
-            <LanguageFile xml_path="{args.langshort}/Native/std_global_strings_xml-{args.langsuffix}.xml" />
+            <LanguageFile xml_path="{args.langshort}/Native/std_global_strings_xml_{args.langsuffix}.xml" />
             </LanguageData>
             ''',
             features='lxml-xml')
