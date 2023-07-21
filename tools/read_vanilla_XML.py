@@ -94,10 +94,10 @@ if args.distinct:
     print("Dropping duplicated IDs")
     # TODO: この辺がクソ遅い, たぶん row-wise な処理の実装がアレ
     duplicates = df_new[['id', 'file', 'module']].assign(
-        location=lambda d: d['module'] + '/' + d['file']
+        locations=lambda d: (d['module'] + '/' + d['file']).astype(str)
     ).groupby('id').agg(
         {
-            'location': [lambda locs: [(x, 0) for x in locs], lambda locs: len(locs)]
+            'locations': [lambda locs: [(x, 0) for x in locs], lambda locs: len(locs)]
         }
     ).reset_index()
     duplicates.columns = ['id', 'locations', 'duplication']
@@ -106,7 +106,6 @@ if args.distinct:
     if args.duplication_in_comment:
         df_new = df_new.assign(
             notes=lambda d: np.where(d['duplication'] > 1, [','.join([x for x in [note, f"""{ndup} ID duplications"""] if x != '']) for note, ndup in zip(d['notes'], d['duplication']) ], d['notes']))
-
 
 new_catalog = Catalog(Locale.parse('ja_JP'))
 if args.only_diff:

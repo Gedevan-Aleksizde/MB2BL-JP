@@ -12,7 +12,7 @@ from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import regex
-from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_corrected_babel_fake_id, merge_yml
+from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_has_corrected_babel_fake_id, merge_yml
 
 pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
@@ -78,7 +78,7 @@ def export_modules(args, type):
                 catalog = read_mo(f)
             else:
                 raise('input file is invalid', UserWarning)
-    catalog = get_catalog_which_corrected_babel_fake_id(catalog)
+    catalog = get_catalog_which_has_corrected_babel_fake_id(catalog)
     catalog_pub = public_po(catalog)
     with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
         write_po(f, catalog_pub)
