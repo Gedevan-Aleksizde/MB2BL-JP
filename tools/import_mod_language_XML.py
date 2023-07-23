@@ -47,6 +47,7 @@ parser.add_argument('--avoid-vanilla-id', default=False, action='store_true')
 parser.add_argument('--keep-redundancies', default=False, action='store_true', help='whether or not add different IDs to entries with same strings')
 parser.add_argument('--convert-exclam', default=False, action='store_true')
 parser.add_argument('--verbose', default=False, action='store_true')
+parser.add_argument('--dont-clean', default=False, action='store_true')
 
 
 if __name__ == '__main__':
@@ -83,7 +84,7 @@ print("get default language files...")
 # d_mod = get_text_entries(args, auto_id=True)
 
 
-def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
+def extract_text_from_xml(args:argparse.Namespace, complete_id:bool=True, keep_redundancies:bool=False):
     """
     # タグはいろいろあるので翻訳対象の条件づけが正確なのかまだ自信がない
     # TODO: ! とか * とか訳のわからんIDを付けているケースが多い. 何の意味が?
@@ -190,8 +191,11 @@ def extract_text_from_xml(args, complete_id=True, keep_redundancies=False):
                                 if r['missing_id'] | r['is_duplicated']:
                                     string[filter['attrs']] = "{=" + r['id'] + "}" + r['text_EN']
                     ds += [d]
+            outfp = args.outdir.joinpath(f'{args.target_module}/ModuleData/{file.relative_to(module_data_dir)}')
+            if not args.dont_clean and outfp.exists():
+                print(f'deleting output old {outfp.name}')
+                outfp.unlink()
             if complete_id and any_missing:
-                outfp = args.outdir.joinpath(f'{args.target_module}/ModuleData/{file.relative_to(module_data_dir)}')
                 if not outfp.parent.exists():
                     outfp.parent.mkdir(parents=True)
                 with outfp.open('w', encoding='utf-8') as f:
