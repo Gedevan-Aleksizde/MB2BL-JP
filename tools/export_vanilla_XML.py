@@ -12,6 +12,7 @@ from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import regex
+import numpy as np
 from functions import po2pddf, removeannoyingchars, public_po, get_catalog_which_has_corrected_babel_fake_id, merge_yml
 
 pofile = Path('text/MB2BL-Jp.po')
@@ -45,28 +46,32 @@ parser.add_argument('--output-type', type=str, default='module')
 parser.add_argument('--with-id', default=None, action='store_true')
 parser.add_argument('--distinct', default=None, action='store_true', help='drop duplicated IDs in non-Native modules')
 parser.add_argument('--no-english-overwriting', default=None, action='store_true', help='for M&B weird bug')
-parser.add_argument('--legacy_id', action='store_true', help='depricated')
+parser.add_argument('--legacy-id', action='store_true', help='depricated')
 parser.add_argument('--suppress-missing-id', default=False, action='store_true')
 parser.add_argument('--dont-clean', default=False, action='store_true')
 parser.add_argument('--missing-modulewise', default=False, action='store_true')
+parser.add_argument('--legacy-folder', default=False, action='store_true', help='forward compatibility for < v1.2')
 
 
 def main():
     args = parser.parse_args()
     with Path(__file__).parent.joinpath('default.yml') as fp:
         if fp.exists():
-            with Path(__file__).parent.joinpath('default.yml') as fp:
-                args = merge_yml(fp, args, parser.parse_args([]))
+            args = merge_yml(fp, args, parser.parse_args([]))
     print(args)
-    if args.output_type == 'both':
-        for x in ['module', 'overwriter']:
-            export_modules(args, x)
-    elif args.output_type == 'module':
-        export_modules(args, 'module')
-    elif args.output_type == 'overwriter':
-        export_modules(args, 'overwriter')
+    if args.legacy_folder:
+        if args.output_type == 'both':
+            for x in ['module', 'overwriter']:
+                export_modules(args, x)
+        elif args.output_type == 'module':
+            export_modules(args, 'module')
+        elif args.output_type == 'overwriter':
+            export_modules(args, 'overwriter')
+        else:
+            warnings.warn(f'{args.output_type} must be "module", "overwriter", or "both" ', UserWarning)
     else:
-        warnings.warn(f'{args.output_type} must be "module", "overwriter", or "both" ', UserWarning)
+        export_xml_12(args)
+
 
 
 # TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
@@ -75,6 +80,123 @@ def main():
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
+
+
+def export_xml_12(args):
+    """
+    New output method for v1.2 beta
+    Language files got more messy and missing IDs are increasing in the beta. So, I give up to update the original files.
+    In this function, export corrected text ignoring the original structure. Importing XMLs in this function is only used for aggregate the eror statistic reporting. 
+    """
+    print(f'output type: {type}')
+    if args.input.exists():
+        with args.input.open('br') as f:
+            if args.input.suffix == '.po':
+                print(f'reading {args.input}')
+                catalog = read_po(f)
+            elif args.input.suffix == '.mo':
+                print(f'reading {args.input}')
+                catalog = read_mo(f)
+            else:
+                raise('input file is invalid', UserWarning)
+    catalog = get_catalog_which_has_corrected_babel_fake_id(catalog)
+    catalog_pub = public_po(catalog)
+    with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po').open('bw') as f:
+        write_po(f, catalog_pub)
+    with args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo').open('bw') as f:
+        write_mo(f, catalog_pub)
+    del catalog_pub
+    d_correct = po2pddf(catalog, drop_prefix_id=False)
+    d_correct = pd.concat(
+        [
+            d_correct,
+            d_correct['context'].str.split('/', expand=True).rename(columns={0: 'module', 1: 'file'})
+        ],
+        axis=1
+    )[['id', 'text', 'text_EN', 'module', 'file', 'locations']]
+    d_correct['duplication'] = [len(x) for x in d_correct['locations']]
+    d_correct['duplication'] = d_correct['duplication'].fillna(1)
+    del catalog
+    n = d_correct.shape[0]
+    d = d_correct.assign(
+        isnative=lambda d: d['module'] == 'Native'
+    ).sort_values(
+        ['id', 'isnative']
+    ).groupby(['id']).last().reset_index().drop(columns=['isnative'])
+    print(f"""{n - d_correct.shape[0]} duplicated entries dropped""")
+    print_summary(args.modules, args.mb2dir, args.langshort, d_correct)
+
+    output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}')
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True)
+    d_correct['file'] = d_correct['file'].str.replace('^Hardcoded, ', '', regex=True)
+    lang_data = generate_language_data_xml('Native', id=args.langid, subtitle=args.subtitleext, iso=args.iso)
+    for fname in d_correct.file.unique():
+        d_sub = d_correct.loc[lambda d: d['file'] == fname]
+        strings = generate_strings_xml([args.langid])
+        _ = [strings.find('strings').append(generate_new_string(r['id'], removeannoyingchars(r['text']))) for i, r in d_sub.iterrows()]
+        lang_data.LanguageData.append(generate_languageFile(f'''JP/{fname}'''))
+        with output_dir.joinpath(fname).open('w', encoding='utf-8') as f:
+            f.writelines(strings.prettify())
+    with Path(__file__).parent.joinpath(f'text/Missings-{args.langshort}.xml') as fp_missings:
+        if fp_missings.exists():
+            output_dir.joinpath(f'Missings-{args.langshort}.xml').write_text(fp_missings.read_text(encoding='utf-8'))
+            print(f'''Missings-{args.langshort}.xml copied''')
+    lang_data.LanguageData.append(generate_languageFile(f'''JP/Missing-{args.langshort}.xml'''))
+    with output_dir.joinpath('language_data.xml').open('w', encoding='utf-8') as f:
+        f.writelines(lang_data.prettify())
+
+
+def print_summary(modules:list, mb2dir:Path, langshort:str, d_new:pd.DataFrame):
+    def read_xml_and_print(fp):
+        print(fp)
+        return read_xml(fp)
+    d = []
+    for module in modules:
+        print(f'''------------- {module} --------------''')
+        xml_list = list(mb2dir.joinpath(f'''Modules/{module}/ModuleData/languages/{langshort}''').glob('*.xml'))
+        if len(xml_list) > 0:
+            tmp = [read_xml_and_print(fp).assign(filepath=fp.name, file=fp.name) for fp in xml_list]
+            d += [pd.concat(tmp)]
+    d = pd.concat(d).assign(origin=True)
+    n_entries = d.shape[0]
+    n_duplicated_origin = n_entries - d.groupby('id').size().shape[0]
+    d = d[['id', 'text', 'origin']].merge(d_new[['id', 'text']].assign(new=True), on=['id'], how='outer')
+    d = d.assign(
+        missing=lambda d: np.where(d['origin'].isna(), True, False),
+        new=lambda d: np.where(d['new'].isna(), False, d['new']),
+        updated=lambda d: d['text_x'] != d['text_y']
+        ).drop(columns=['text_x', 'text_y'])
+    d.groupby(['origin', 'id']).sum()
+    d.groupby('id').size().shape[0]
+    n_missing = d.loc[lambda d: d['missing']].shape[0]
+    n_updated = d.loc[lambda d: d['updated']].shape[0]
+    # missing updated duplicated
+    # TODO: reporting in detail
+    print(f'''{n_entries} entries found in the `{langshort}` language folder, {n_duplicated_origin} are duplicated''')
+    print(f'''{d_new.shape[0]} entries found in the corrected translation data''')
+    print(f'''{n_missing} entries are missing in the `{langshort}` language folder ({n_missing/n_entries*100:.0f}%)''')
+    print(f'''{n_updated} entries corrected ({(n_updated/d_new.shape[0] * 100):.0f}%)''')
+    print(f'''{(n_updated + n_missing)/n_entries * 100:.0f}% entries updated in total. Note that this percentage may more than 100% because of the original fault files''')
+
+
+def read_xml(fp):
+    with fp.open('r', encoding='utf-8') as f:
+        xml = BeautifulSoup(f, features='lxml-xml')
+    xml_entries = xml.find('base')
+    if xml_entries is None:
+        return pd.DataFrame(columns=['id', 'text'])
+    xml_entries = xml.find('strings')
+    if xml_entries is None:
+        return pd.DataFrame(columns=['id', 'text'])
+    xml_entries = xml_entries.find_all('string')
+    if len(xml_entries) > 0:
+        d = pd.DataFrame(
+            [(x['id'], x['text']) for x in xml_entries], columns=['id', 'text']
+        )
+    else:
+        d = pd.DataFrame(columns=['id', 'text'])
+    return d
 
 def export_modules(args, type):
     """
@@ -241,7 +363,7 @@ def export_modules(args, type):
         language_data_missings.LanguageData.append(generate_languageFile(f'{args.langshort}/Missings/str_missings-{args.langsuffix}.xml'))
         language_data_missings.LanguageData.append(generate_languageFile(f'{args.langshort}/Missings/ str_sandbox_missings-{args.langsuffix}.xml'))
         output_dir.joinpath(f'''language_data.xml''').open('w', encoding='utf-8').writelines(language_data_missings.prettify(formatter='minimal'))
-        xml_str_missings = generate_string_xml([args.langid])
+        xml_str_missings = generate_strings_xml([args.langid])
         for i, r in d.iterrows():
             new_entry = generate_new_string(r['id'], removeannoyingchars(r['text']))
             xml_str_missings.base.find('strings').append(new_entry)
@@ -260,7 +382,7 @@ def output_missings_modulewise(args, output_dir, module, df, df_original=None):
         return None
     if d_sub.shape[0] < 1:
         return None
-    xml = generate_string_xml([args.langid])
+    xml = generate_strings_xml([args.langid])
     strings = xml.base.find('strings', recursive=False)
     for i, r in d_sub.iterrows():
         strings.append(generate_new_string(r['id'], removeannoyingchars(r['text'])))
@@ -294,7 +416,7 @@ def generate_language_data_xml(module:str, id:str, name:str=None, subtitle:str=N
     return language_data
 
 
-def generate_string_xml(langids:list) -> BeautifulSoup:
+def generate_strings_xml(langids:list) -> BeautifulSoup:
     xml = BeautifulSoup(
         f'''
         <base>
