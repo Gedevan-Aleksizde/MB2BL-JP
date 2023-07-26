@@ -138,13 +138,20 @@ def export_xml_12(args):
         lang_data.LanguageData.append(generate_languageFile(f'''JP/{fname}'''))
         with output_dir.joinpath(fname).open('w', encoding='utf-8') as f:
             f.writelines(strings.prettify())
-    with Path(__file__).parent.joinpath(f'text/Missings-{args.langshort}.xml') as fp_missings:
+    with Path(__file__).parent.parent.joinpath(f'text/Missings-{args.langshort}.xml') as fp_missings:
         if fp_missings.exists():
             output_dir.joinpath(f'Missings-{args.langshort}.xml').write_text(fp_missings.read_text(encoding='utf-8'))
             print(f'''Missings-{args.langshort}.xml copied''')
-    lang_data.LanguageData.append(generate_languageFile(f'''JP/Missing-{args.langshort}.xml'''))
+        else:
+            warnings.warn(f'{__file__}/../text/Missings-{args.langshort}.xml not found!')
+    lang_data.LanguageData.append(generate_languageFile(f'''{args.langshort}/Missing-{args.langshort}.xml'''))
     with output_dir.joinpath('language_data.xml').open('w', encoding='utf-8') as f:
         f.writelines(lang_data.prettify())
+    language_data_native_patch = generate_language_data_xml('Native', id='English')
+    for fname in d_correct.loc[lambda d: d['file'].str.contains('^std_global_strings', regex=True)]['file'].unique():
+        language_data_native_patch.LanguageData.append(generate_languageFile(f'''JP/{fname}'''))
+    language_data_native_patch.LanguageData.append(generate_languageFile(f'''{args.langshort}/Missing-{args.langshort}.xml'''))
+    output_dir.parent.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data_native_patch.prettify(formatter='minimal'))
 
 
 def print_summary(modules:list, mb2dir:Path, langshort:str, d_new:pd.DataFrame):
