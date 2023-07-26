@@ -63,12 +63,12 @@ for i, r in d_new.iterrows():
     tmp.find('string')['id']= r['id']
     tmp.find('string')['text']= r['text']
     strings.append(tmp)
-with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/std_translation-{args.langshort}.xml').open('w', encoding='utf-8') as f:
+with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/strings-{args.langshort}.xml').open('w', encoding='utf-8') as f:
     f.writelines(xml.prettify(formatter='minimal'))
 xml = BeautifulSoup(
     f'''
     <LanguageData id="{args.langid}">
-      <LanguageFile xml_path="{args.langshort}/std_translation-{args.langshort}.xml">
+      <LanguageFile xml_path="{args.langshort}/strings-{args.langshort}.xml">
     </LanguageData>''',
     features='lxml-xml'
 )
