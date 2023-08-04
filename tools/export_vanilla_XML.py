@@ -60,6 +60,7 @@ def main():
             args = merge_yml(fp, args, parser.parse_args([]))
     print(args)
     if args.legacy_folder:
+        print("Export Method: older than v1.2")
         if args.output_type == 'both':
             for x in ['module', 'overwriter']:
                 export_modules(args, x)
@@ -70,15 +71,12 @@ def main():
         else:
             warnings.warn(f'{args.output_type} must be "module", "overwriter", or "both" ', UserWarning)
     else:
+        print("Export Method: v1.2")
         export_xml_12(args)
 
 
-
-# TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
-# <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
-# 仕様が変なだけでなく厄介なバグもいくつかありそう
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
-# NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
+# NOTE: quotation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
 
 
@@ -140,7 +138,7 @@ def export_xml_12(args):
             f.writelines(strings.prettify())
     with Path(__file__).parent.parent.joinpath(f'text/Missings-{args.langshort}.xml') as fp_missings:
         if fp_missings.exists():
-            output_dir.joinpath(f'Missings-{args.langshort}.xml').write_text(fp_missings.read_text(encoding='utf-8'))
+            output_dir.joinpath(f'Missings-{args.langshort}.xml').write_text(fp_missings.read_text(encoding='utf-8'), encoding='utf-8')        
             print(f'''Missings-{args.langshort}.xml copied''')
         else:
             warnings.warn(f'{__file__}/../text/Missings-{args.langshort}.xml not found!')
@@ -184,7 +182,7 @@ def print_summary(modules:list, mb2dir:Path, langshort:str, d_new:pd.DataFrame):
     print(f'''{d_new.shape[0]} entries found in the corrected translation data''')
     print(f'''{n_missing} entries are missing in the `{langshort}` language folder ({n_missing/n_entries*100:.0f}%)''')
     print(f'''{n_updated} entries corrected ({(n_updated/d_new.shape[0] * 100):.0f}%)''')
-    print(f'''{(n_updated + n_missing)/n_entries * 100:.0f}% entries updated in total. Note that this percentage may more than 100% because of the original fault files''')
+    print(f'''{(n_updated + n_missing + n_duplicated_origin)/n_entries * 100:.0f}% entries updated out of {n_entries} entries. Note that this percentage may more than 100% because of the original fault files''')
 
 
 def read_xml(fp):

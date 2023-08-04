@@ -48,6 +48,7 @@ parser.add_argument('--keep-redundancies', default=False, action='store_true', h
 parser.add_argument('--convert-exclam', default=False, action='store_true')
 parser.add_argument('--verbose', default=False, action='store_true')
 parser.add_argument('--dont-clean', default=False, action='store_true')
+parser.add_argument('--dont-complete-id', default=False, action='store_true', help="used for the REALISTIC BATTLE MOD")
 
 
 if __name__ == '__main__':
@@ -168,6 +169,7 @@ def extract_text_from_xml(args:argparse.Namespace, complete_id:bool=True, keep_r
                     n_missing = d['missing_id'].sum()
                     if complete_id:
                         # TODO: 原文重複かつIDが違う/欠損している場合を想定していない
+                        # TODO: RBMは想定外の条件が全部当てはまる
                         check_dup_id = (d if ds == [] else pd.concat(ds + [d])).groupby(['id', 'text_EN']).size().reset_index().rename(columns={0: 'n_id_text'}).merge(
                             (d if ds == [] else pd.concat(ds + [d])).groupby(['id']).size().reset_index().rename(columns={0: 'n_id'}),
                             on='id', how='left'
@@ -292,7 +294,7 @@ if not args.mb2dir.joinpath(f'Modules/{args.target_module}').exists():
     raise(f'''{args.mb2dir.joinpath('Modules/').joinpath(args.target_module)} not found!''')
 
 print("---- Detect text from ModuleData ----")
-d_mod = extract_text_from_xml(args, complete_id=True, keep_redundancies=args.keep_redundancies)
+d_mod = extract_text_from_xml(args, complete_id=not args.dont_complete_id, keep_redundancies=args.keep_redundancies)
 
 # TODO: デフォルトのモジュールから EN/Terget 両方取得する
 
