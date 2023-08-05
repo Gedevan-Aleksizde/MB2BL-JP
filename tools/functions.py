@@ -13,6 +13,7 @@ from babel.messages.mofile import read_mo, write_mo
 from babel.messages.catalog import Catalog
 import regex
 import hashlib
+from datetime import datetime
 
 control_char_remove = regex.compile(r'\p{C}')
 match_public_id_legacy = regex.compile(r'^(.+?/.+?/.+?)/.*$')
@@ -454,3 +455,21 @@ def update_with_older_po(old_catalog: Catalog, new_catalog: Catalog, all_fuzzy=F
                         n_match += 1
             print(f'Updated {n_match} entries matched by the public ID')
     return new_catalog
+
+
+def export_id_text_list(input_pofile:Path, output:Path)->None:
+    """
+    read pofile and export as csv with id and text columns. mainly used for compare with misassigned IDs in the third-party mods
+    """
+    with input_pofile.open('br') as f:
+        catalog = read_po(f)
+    d = pd.DataFrame([(x.id) for x in catalog if x.id != ''], columns=['id'])
+    d['text_EN'] = d['id'].str.replace(r'^(.+?)/(.+?)$', r'\2', regex=True)
+    d['id'] = d['id'].str.replace(r'^(.+?)/.+?$', r'\1', regex=True)
+    if output.exists():
+        backup_path = output.parent.joinpath(
+            f"""vanilla-id-{datetime.now().strftime("%Y-%m-%dT%H%M%S")}.csv"""
+        )
+        print(f'{output} already exists. the older file is moved to {backup_path}')
+        output.rename(backup_path)
+    d.to_csv(output, index=False)
