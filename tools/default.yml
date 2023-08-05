@@ -26,5 +26,4 @@ autoid_prefix: null
 verbose: null
 all_fuzzy: False
 no_english_overwriting: False
-avoid_vanilla_id: True
 keep_redundancies: False
