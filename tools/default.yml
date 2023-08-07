@@ -5,7 +5,8 @@ langid: 日本語  # Language ID
 langshort: JP  # usually language folder name
 locale: ja_JP  # language locale name
 iso: 'ja,jpn,ja-ja,ja-jp,jp-jp'
-how_merge: string
+vanilla_merge_on: string
+how_distinct: context
 base_version: 1.2
 vanilla_modules:
   - Native

@@ -22,6 +22,7 @@ match_internal_id_legacy = regex.compile(r'^.+?/.+?/(.+?)/.*$')
 match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 
 match_public_id = regex.compile(r'^(.+?)/.+?$')
+match_string = regex.compile(r'^.+?/(.+?)$')
 
 def merge_yml(fp: Path, args: argparse.Namespace, default: argparse.Namespace) -> argparse.Namespace:
     with fp.open('r', encoding='utf-8') as f:
@@ -79,7 +80,7 @@ def public_po(catalog: Catalog) -> Catalog:
 
 
 
-def po2pddf(catalog: Catalog, drop_prefix_id=True, drop_excessive_cols=True, legacy=False) -> pd.DataFrame:
+def po2pddf(catalog:Catalog, drop_prefix_id:bool=True, drop_excessive_cols:bool=True, legacy:bool=False) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id`, `file`, `module`, `text`, `text_EN ,`notes`, `flags` columns
@@ -102,7 +103,7 @@ def po2pddf(catalog: Catalog, drop_prefix_id=True, drop_excessive_cols=True, leg
         )
         d = d.rename(columns={1: 'text_EN'})
         d = d.assign(duplication=lambda d: [len(x) for x in d['locations']])
-        d['text_EN'] = d['id'].str.replace(r'^.+?/(.*?)$', r'\1', regex=True).str.replace('%%', '%')
+        d['text_EN'] = d['text_EN'].str.replace('%%', '%')
     d['text'] = d['text'].str.replace('%%', '%')
     d['id'] = d['id'].str.replace('%%', '%')
     if drop_prefix_id:
@@ -110,6 +111,7 @@ def po2pddf(catalog: Catalog, drop_prefix_id=True, drop_excessive_cols=True, leg
     if drop_excessive_cols:
         d = d[[x for x in d.columns if x in ['id', 'text', 'text_EN', 'notes', 'flags', 'locations', 'context', 'file', 'module', 'duplication']]]
     return d
+
 
 def po2pddf_easy(catalog: Catalog, with_id=False) -> pd.DataFrame:
     """
@@ -129,15 +131,15 @@ def po2pddf_easy(catalog: Catalog, with_id=False) -> pd.DataFrame:
 
 
 def pddf2po(
-    df: pd.DataFrame, with_id=True, distinct=True, locale=None, col_id_text='text', col_text='text',
-    col_locations=None, col_context=None, col_comments=None, col_flags=None,
-    ) -> Catalog:
+    df: pd.DataFrame, with_id:bool=True, make_distinct:bool=True, regacy_mode:bool=False, locale:str=None, col_id_text:str='text', col_text:str='text',
+    col_locations:str=None, col_context:str=None, col_comments:str=None, col_flags:str=None,
+    )->Catalog:
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
     """
     if locale is None:
         locale = Locale.parse('ja_JP')
-    if distinct:
+    if make_distinct:
         df_unique = df.groupby('id').last().reset_index()
         if df.shape[0] != df_unique.shape[0]:
             warnings.warn(f'{df.shape[0] - df_unique.shape[0]} duplicated IDs are dropped!', UserWarning)
@@ -148,20 +150,35 @@ def pddf2po(
     if with_id:
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
     # I shouldn't have used Babel.
+    print(f'col_flags={col_flags}, {col_flags is None}')
 
-    def format_arg(dic: dict) -> dict:
-        dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
-        dic['string'] = dic[col_text]
-        if col_flags:
-            pass
-        else:
-            dic['flags'] = [] if dic.get('updated') else ['fuzzy']
-        dic['locations'] = [(dic.get(col_locations), 0)]
-        dic['user_comments'] = [dic.get(col_comments, '')]
-        dic['context'] = dic.get(col_context)
-        return dic
+    if not regacy_mode:
+        def format_arg(dic: dict)->dict:
+            dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
+            dic['string'] = dic[col_text]
+            if col_flags is None:
+                dic['flags'] = ['fuzzy']
+            else:
+                dic['flags'] = dic.get(col_flags)
+            if col_locations is not None:
+                dic['locations'] = [(str(x), 0) for x in dic.get(col_locations)]
+            dic['user_comments'] = dic.get(col_comments, '') if type(dic.get(col_comments, '')) is list else []
+            dic['context'] = dic.get(col_context)
+            return dic
+    else:
+        def format_arg(dic: dict)->dict:
+            dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
+            dic['string'] = dic[col_text]
+            if col_flags is None:
+                pass
+            else:
+                dic['flags'] = [] if dic.get('updated') else ['fuzzy']
+            dic['locations'] = [(dic.get(col_locations), 0)]
+            dic['user_comments'] = [dic.get(col_comments, '')]
+            dic['context'] = dic.get(col_context)
+            return dic        
     
-
+    
     d = [format_arg(dict(r)) for _, r in df_unique.iterrows()]
     keys = {'id', 'string', 'flags'}
     if col_comments is not None:
@@ -171,10 +188,11 @@ def pddf2po(
     if col_locations is not None:
         keys.add('locations')
     current_keys = list(d[0].keys())
-    [dic.pop(k, None) for dic in d for k in current_keys if k not in keys]
+    _ = [dic.pop(k, None) for dic in d for k in current_keys if k not in keys]
     for r in d:
         catalog.add(**r)
     return catalog
+
 
 def drop_duplicates(df: pd.DataFrame, compare_module=False, compare_file=False, col_module='module', col_file='file', module_order=None, file_order=None) -> pd.DataFrame:
     if module_order is None:
@@ -300,6 +318,7 @@ def get_default_lang(args: argparse.Namespace, distinct=True, text_col='text') -
 
 
 def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
+    # TODO: 例外的な処理がこんなに複雑になるのはバニラだけ?
     d = dict()
     d['EN'] = []
     d[args.langshort] = []
@@ -351,6 +370,7 @@ def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
 
 
 def check_duplication(df_bilingual: pd.DataFrame) -> pd.DataFrame:
+    # TODO: 仕様が古い?
     duplicated_id = df_bilingual[['id', 'text_EN']].groupby(['id']).agg({'text_EN': [pd.Series.nunique, 'count']}).reset_index()
     duplicated_id.columns = ['id', 'unique', 'duplicates']
     duplicated_id = duplicated_id.loc[lambda d: (d['unique'] > 1) | (d['duplicates'] > 1)]
