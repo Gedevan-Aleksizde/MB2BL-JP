@@ -11,7 +11,6 @@ import numpy as np
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
 from datetime import datetime
-
 from functions import (
     pddf2po, po2pddf,
     merge_yml,
@@ -37,9 +36,11 @@ parser.add_argument(
     help='additional translation file. PO or MO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
 parser.add_argument('--autoid-prefix', type=str, default=None)
+parser.add_argument('--id-exclude-regex', type=str, default=None, help='make ID invalid if this pattern matched')
 parser.add_argument('--convert-exclam', default=False, action='store_true')
 parser.add_argument('--dont-clean', default=False, action='store_true')
 parser.add_argument('--verbose', default=False, action='store_true')
+
 
 FILTERS  = [
         dict(name='ItemModifier', attrs='name'),
@@ -195,6 +196,7 @@ def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.Dat
 def normalize_string_ids(
         data:pd.DataFrame,
         how_distinct:str,
+        exclude_pattern:str,
         keep_redundancies:bool,
         keep_vanilla_id:bool,
         langshort:str,
@@ -236,6 +238,10 @@ def normalize_string_ids(
         # TODO: precise id detetion
         # TODO: IDに使用できる文字
         # TODO: テンプレートの名前かどうかを確実に判別する方法がない
+    if exclude_pattern is not None:
+        data = data.assign(
+            id = lambda d: np.where(d['id'].str.contains(exclude_pattern, regex=True), '', d['id'])
+        )
     if not keep_vanilla_id:
         # テキストを変更しているのにバニラのIDを使いまわしている, あるいは偶然に被っている場合はIDを削除する
         # erase entry if both ID and the original string is the same.
@@ -315,6 +321,7 @@ def merge_language_file(
                 notes = lambda d: d['notes_x'] + d['notes_y']
             ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y'])
         data['notes'] = [x if type(x) is list else [] for x in data['notes']]
+        data['text'] = data['text'].fillna('')
     return data
 
 
@@ -322,6 +329,7 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
     """
     read and correct wrong IDs in XMLs, and export them
     """
+    n_changed_files = 0
     for file in module_data_dir.rglob('./*.xml'):
         print(f"""checking {file.relative_to(module_data_dir)}""")
         any_changes = False
@@ -342,6 +350,7 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
                         any_change = True
                         entry[filter['attrs']] = r['new_string'][0]
         if any_changes:
+            n_changed_files += 1
             print(f'{file.name} is needed to be overwritten')
             outfp = outdir.joinpath(f'{target_module}/ModuleData/{file.relative_to(module_data_dir)}')
             if not dont_clean and outfp.exists():
@@ -350,6 +359,7 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
             with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
         any_changes = False
+    print(f'''{n_changed_files} XML files exported''')
 
 
 def pofile_to_df(pofile:Path)->pd.DataFrame:
@@ -373,14 +383,18 @@ def main():
     d_mod = extract_all_text_from_xml(module_data_dir, args.verbose)
     n = d_mod.shape[0]
     print(f'''---- {n} entries detected from this mod ----''')
-    d_mod = normalize_string_ids(d_mod, args.how_distinct, args.keep_redundancies, args.keep_vanilla_id, args.langshort, args.convert_exclam, args.autoid_prefix)
+    d_mod = normalize_string_ids(
+        data=d_mod,
+        how_distinct=args.how_distinct, exclude_pattern=args.id_exclude_regex,
+        keep_redundancies=args.keep_redundancies, keep_vanilla_id=args.keep_vanilla_id,
+        langshort=args.langshort, convert_exclam=args.convert_exclam, autoid_prefix=args.autoid_prefix)
     print(f'''---- {d_mod.shape[0]} entries left. ----''')
     print(f"---- Extract {args.langid} strings from ModuleData/Lanugages/ folders.----")
     d_mod_lang = read_mod_languages(args.langid, module_data_dir.joinpath('Languages'))
     print(f'''---- {d_mod_lang.shape[0]} entries found. ----''')
     if args.pofile is not None:
         if args.pofile.exists():
-            d_po = pofile_to_df(args.pofile)
+            d_po = pofile_to_df(args.pofile).drop(columns=['duplication'])
         else:
             warnings.warn(f'''{args.pofile} not found''')
             d_po = None
@@ -430,9 +444,9 @@ if __name__ == '__main__':
                 fp.mkdir(parents=True)
     if args.autoid_prefix is None:
         args.autoid_prefix = args.target_module.encode('ascii', errors='ignore').decode().replace(' ', '')
-    if not args.how_merge in ['none', 'string', 'id', 'both']:
-        warnings.warn(f'--how-merge={args.how_merge} is invalid value! it should be one of `none`, `string`, `id`, or `both`. now `string` used ', UserWarning)
-        args.how_merge = 'string'
+    if not args.how_distinct in ['context', 'file', 'all']:
+        warnings.warn(f'--how-distinct={args.how_distinct} is invalid value! it should be one of `context`, `filee`, or `all`. now `context` used ', UserWarning)
+        args.how_distinct = 'context'
     if args.pofile is None:
         args.pofile = args.outdir.joinpath(f'{args.target_module}.po')
     print(args)
@@ -443,87 +457,3 @@ if __name__ == '__main__':
 # TODO: バニラとかぶってるID
 # TODO: 結合方法の確認
 # TODO: % のエスケープ
-
-# merge with the PO/MO file by the original string
-print("---- start to merge ----")
-print(args.pofile)
-if args.pofile is not None:
-    if args.pofile.exists():
-        with args.pofile.open('br') as f:
-            if args.pofile.suffix == '.mo':
-                catalog = read_mo(f)
-            elif args.pofile.suffix == '.po':
-                catalog = read_po(f)
-    elif args.pofile.with_suffix('.po').exists():
-            with args.pofile.with_suffix('.po').open('br') as f:
-                catalog = read_po(f)
-                print(f"{args.pofile.with_suffix('.po')} loaded insteadly")
-    else:
-        warnings.warn(f'''{args.pofile} not found''')
-        catalog = None
-    if catalog is not None:
-        d_po = pd.DataFrame([(m.id, m.string) for m in catalog if m.id != ''], columns=['id', '__text__'])
-        match_text_en = r'^.+?/(.+?)$'
-        match_internal_id = r'^(.+?)/.+?$'
-        d_po = d_po.assign(
-            text_EN=lambda d: d['id'].str.replace(match_text_en, r'\1', regex=True),
-            # __text__=lambda d: d['__text__'].str.replace(r'^\[.+?\]', '', regex=True),
-            id=lambda d: d['id'].str.replace(match_internal_id, r'\1', regex=True)
-            )
-        d_po = d_po.groupby('id').last().reset_index()
-        if args.how_merge in ['string', 'both']:
-            print("merge by English text")
-            d_mod = d_mod.merge(d_po[['text_EN', '__text__']], on='text_EN', how='left')
-            d_mod = d_mod.assign(
-                text=lambda d: np.where(d['text'].isna(), d['__text__'], d['text'] )
-            )
-            d_mod = d_mod.assign(updated=lambda d: ~d['__text__'].isna())
-            d_mod = d_mod.drop(columns=['__text__'])
-
-        if args.how_merge in ['id', 'both']:
-            print("merge by the localization IDs")
-            d_mod = d_mod.merge(d_po[['id', '__text__']], on='id', how='left')
-            d_mod = d_mod.assign(
-                text=lambda d: np.where(d['text'].isna(), d['__text__'], d['text'] )
-            )
-            d_mod = d_mod.assign(updated=lambda d: ~d['__text__'].isna())
-            d_mod = d_mod.drop(columns=['__text__'])
-        if args.distinct:
-            d_mod = d_mod.groupby('id').first().reset_index()
-    else:
-        warnings.warn(f"{args.pofile} not found!", UserWarning)
-
-if args.fill_english:
-    d_mod = d_mod.assign(
-        text=lambda d: np.where(d['text'].isna(), d['text_EN'], d['text'])
-    )
-
-if args.distinct:
-    d_mod = d_mod.groupby('id').last().reset_index()
-
-d_mod = d_mod[d_mod.columns.intersection(
-    {'id', 'text_EN', 'text', 'file', 'attr', 'updated', 'missing_id', 'duplicated_with_vanilla','context', 'notes'})]
-
-with args.outdir.joinpath(f'{args.target_module}.xlsx') as fp:
-    if fp.exists():
-        backup_fp = fp.parent.joinpath(
-            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""
-        )
-        print(f"""old file is renamed to {backup_fp}""")
-        fp.rename(backup_fp)
-    d_mod.to_excel(fp, index=False)
-
-d_mod = d_mod.fillna('')
-catalog = pddf2po(
-    d_mod, with_id=False, make_distinct=args.distinct,
-    col_id_text='text_EN', col_text='text', col_comments='notes', col_context='context', col_locations='file')
-
-with args.outdir.joinpath(f'{args.target_module}.po') as fp:
-    if fp.exists():
-        backup_fp = fp.parent.joinpath(
-            f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
-        )
-        print(f"""old file is renamed to {backup_fp}""")
-        fp.rename(backup_fp)
-    with fp.open('bw') as f:
-        write_po(f, catalog)

@@ -28,3 +28,4 @@ verbose: null
 all_fuzzy: False
 no_english_overwriting: False
 keep_redundancies: False
+id_exclude_regex: !
