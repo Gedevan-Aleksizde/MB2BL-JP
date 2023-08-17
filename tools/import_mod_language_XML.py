@@ -299,7 +299,7 @@ def merge_language_file(
         n_missing = data.loc[lambda d: d['text'].isna()].shape[0]
         print(f'''{n_missing} IDs are not found''')
     else:
-        data['text'] = np.nan
+        data['text'] = None
     if data_po is not None and data_po.shape[0] > 0:
         data_po = data_po.drop(columns=['attr', 'locations', 'context'], errors='ignore')
         data = data.merge(data_po, on=['id', 'text_EN'], how='left')
@@ -429,7 +429,6 @@ def main():
             fp.rename(backup_fp)
         with fp.open('bw') as f:
             write_po(f, catalog)
-    # TODO POファイル出力
     
 
 if __name__ == '__main__':
