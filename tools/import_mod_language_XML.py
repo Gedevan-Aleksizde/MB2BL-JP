@@ -310,14 +310,14 @@ def merge_language_file(
             data = data.merge(data_po.drop(columns=['text_EN']), on=['id'], how='left')
             data = data.assign(
                 text = lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
-                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
+                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
                 notes = lambda d: d['notes_x'] + d['notes_y']
             ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y'])
         if translation_merge_on in ['string', 'both']:
             data = data.merge(data_po.drop(columns=['id']), on=['text_EN'], how='left')
             data = data.assign(
                 text = lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
-                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
+                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
                 notes = lambda d: d['notes_x'] + d['notes_y']
             ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y'])
         data['notes'] = [x if type(x) is list else [] for x in data['notes']]
@@ -409,6 +409,8 @@ def main():
     if 'text' not in d_mod.columns:
         d_mod['text'] = ''
     export_corrected_xml_id(d_mod, module_data_dir, dont_clean=args.dont_clean, outdir=args.outdir, target_module=args.target_module)
+    if 'flags' in d_mod:
+        d_mod = d_mod.assign(flags=lambda d: [list(s) for s in d['flags']])
     catalog = pddf2po(
         d_mod, with_id=False, make_distinct=False, regacy_mode=False,
         col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file')
