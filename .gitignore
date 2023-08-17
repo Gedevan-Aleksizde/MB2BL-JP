@@ -2,14 +2,7 @@ EN/
 test
 Packages/
 BAK/
-Modules/CLJP-Common/ModuleData/Languages/language_data.xml
-Modules/CLJP-Common/ModuleData/Languages/JP/Native
-Modules/CLJP-Common/ModuleData/Languages/JP/SandBox
-Modules/CLJP-Common/ModuleData/Languages/JP/SandBoxCore
-Modules/CLJP-Common/ModuleData/Languages/JP/CustomBattle
-Modules/CLJP-Common/ModuleData/Languages/JP/StoryMode
-Modules/CLJP-Common/ModuleData/Languages/JP/DedicatedCustomServerHelpar
-Modules/CLJP-Common/ModuleData/Languages/JP/BirthAndDeath
+Modules/CLJP-Common/ModuleData/
 Modules/CLJP-Font-GenShinGothic/Assets
 Modules/CLJP-Font-GenShinGothic/AssetSources
 Modules/CLJP-Font-GenShinGothic/RUntimeDataCache
