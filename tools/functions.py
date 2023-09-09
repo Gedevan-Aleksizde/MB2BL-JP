@@ -176,9 +176,7 @@ def pddf2po(
             dic['locations'] = [(dic.get(col_locations), 0)]
             dic['user_comments'] = [dic.get(col_comments, '')]
             dic['context'] = dic.get(col_context)
-            return dic        
-    
-    
+            return dic            
     d = [format_arg(dict(r)) for _, r in df_unique.iterrows()]
     keys = {'id', 'string', 'flags'}
     if col_comments is not None:

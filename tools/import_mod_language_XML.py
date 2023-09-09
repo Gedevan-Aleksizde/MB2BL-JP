@@ -28,7 +28,7 @@ parser.add_argument('--langshort', type=str, default='JP')
 parser.add_argument('--langid', type=str, default='日本語')
 parser.add_argument('--keep-vanilla-id', default=False, action='store_true',
                     help='ignore vanilla IDs which has potential problems by reusing or abusing in the mod.')
-parser.add_argument('--how-distinct', type=str, default='context', help='one of `context`, `file`, `all`')
+parser.add_argument('--how-distinct', type=str, default='all', help='how making distinct: one of `context`, `file`, `all`. The missing ID is fixed whichever choosed.')
 parser.add_argument(
     '--drop-original-language', default=False, action='store_true', help='suppress to merge the own language folder')
 parser.add_argument(
@@ -275,7 +275,8 @@ def normalize_string_ids(
         print(f'''---- {n - data.shape[0]} ID errors detected after making distinct by context and files. ----''')
     else:
         errors = data.loc[lambda d: (d['id'] == '') | d['id'].isna()].shape[0]
-        print(f'''---- {errors} ID errors detected after making distinct by context and files. ----''')
+        data['file'] = [[x] for x in data['file']]
+        print(f'''---- {errors} missing IDs detected ----''')
     ngroup = data.groupby('id').size().reset_index().assign(dup=lambda d: d[0] != 1)
     n = data.shape[0]
     data = data.merge(ngroup[['id', 'dup']], on=['id'], how='left')
@@ -446,7 +447,7 @@ if __name__ == '__main__':
     if args.autoid_prefix is None:
         args.autoid_prefix = args.target_module.encode('ascii', errors='ignore').decode().replace(' ', '')
     if not args.how_distinct in ['context', 'file', 'all']:
-        warnings.warn(f'--how-distinct={args.how_distinct} is invalid value! it should be one of `context`, `filee`, or `all`. now `context` used ', UserWarning)
+        warnings.warn(f'--how-distinct={args.how_distinct} is invalid value! it should be one of `context`, `file`, or `all`. now `context` used ', UserWarning)
         args.how_distinct = 'context'
     if args.pofile is None:
         args.pofile = args.outdir.joinpath(f'{args.target_module}.po')
