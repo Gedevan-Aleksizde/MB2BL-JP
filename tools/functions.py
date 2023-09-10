@@ -21,8 +21,8 @@ match_file_name_id_legacy = regex.compile(r'^.+?/(.+?)/.+?/.*$')
 match_internal_id_legacy = regex.compile(r'^.+?/.+?/(.+?)/.*$')
 match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 
-match_public_id = regex.compile(r'^(.+?)/.+?$')
-match_string = regex.compile(r'^.+?/(.+?)$')
+match_public_id = regex.compile(r'^(.+?)/.+$')
+match_string = regex.compile(r'^.+?/(.+)$')
 
 def merge_yml(fp:Path, args:argparse.Namespace, default:argparse.Namespace)->argparse.Namespace:
     with fp.open('r', encoding='utf-8') as f:

@@ -350,7 +350,7 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
                     r = d_sub[lambda d: (d['id'] != entry_id) & (d['text_EN'] == entry_text)].reset_index()
                     # print(f'''{entry_id}/{entry_text} -> {r.shape[0]}, {r['new_string']}''')
                     if r.shape[0] > 0:
-                        any_change = True
+                        any_changes = True
                         entry[filter['attrs']] = r['new_string'][0]
         if any_changes:
             n_changed_files += 1
@@ -359,6 +359,9 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
             if not dont_clean and outfp.exists():
                 print(f'deleting output old {outfp.name}')
                 outfp.unlink()
+            with outfp.parent as fdir:
+                if not fdir.exists():
+                    fdir.mkdir(parents=True, exist_ok=True)
             with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
         any_changes = False
