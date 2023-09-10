@@ -87,8 +87,7 @@ def read_mod_languages(target_language:str, language_folder:Path)->pd.DataFrame:
     print(f'reading xml files from {language_folder}')
     language_files = []
     for lang_data_file in language_folder.rglob('./language_data.xml'):
-        with lang_data_file.open('r', encoding='utf-8') as f:
-            xml = BeautifulSoup(f, features='lxml-xml')
+        xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(lang_data_file)
         xml_lang_data = xml.find('LanguageData')
         if xml_lang_data['id'] == target_language:
             language_files += [language_folder.joinpath(x['xml_path']) for x in xml_lang_data.find_all('LanguageFile')]
@@ -183,8 +182,7 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
 def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.DataFrame:
     if base_dir is None:
         base_dir = fp.parent
-    with base_dir.joinpath(fp).open('r', encoding='utf-8') as f:
-        xml = BeautifulSoup(f, features='lxml-xml')
+    xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(base_dir.joinpath(fp))
     xml_entries = xml.find_all(name='string', attrs={'id': True, 'text': True})
     if len(xml_entries) > 0:
         d = pd.DataFrame(
@@ -380,6 +378,18 @@ def pofile_to_df(pofile:Path)->pd.DataFrame:
             catalog = read_po(f)
             print(f"{args.pofile.with_suffix('.po')} loaded insteadly")
     return po2pddf(catalog, drop_prefix_id=False)
+    
+
+def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path)->BeautifulSoup:
+    try:
+        with file_path.open('r', encoding='utf-8') as f:
+            xml = BeautifulSoup(f, features='lxml-xml')
+    except UnicodeDecodeError as e:
+        print(e)
+        print('trying reopen with UTF-16LE')
+        with file_path.open('r', encoding='utf-16le') as f:
+            xml = BeautifulSoup(f, features='lxml-xml', from_encoding='UTF-16LE')
+    return xml
 
 
 def main():
@@ -437,7 +447,7 @@ def main():
             fp.rename(backup_fp)
         with fp.open('bw') as f:
             write_po(f, catalog)
-    
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
