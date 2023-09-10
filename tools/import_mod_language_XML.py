@@ -24,22 +24,22 @@ import hashlib
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str, help='target module folder name')
 parser.add_argument('--outdir', type=Path, default=None, help='output folder default is `./Mods`')
-parser.add_argument('--langshort', type=str, default='JP')
-parser.add_argument('--langid', type=str, default='日本語')
-parser.add_argument('--keep-vanilla-id', default=False, action='store_true',
+parser.add_argument('--langshort', type=str)
+parser.add_argument('--langid', type=str)
+parser.add_argument('--keep-vanilla-id', default=None, action='store_true',
                     help='ignore vanilla IDs which has potential problems by reusing or abusing in the mod.')
-parser.add_argument('--how-distinct', type=str, default='all', help='how making distinct: one of `context`, `file`, `all`. The missing ID is fixed whichever choosed.')
+parser.add_argument('--how-distinct', type=str, default=None, help='how making distinct: one of `context`, `file`, `all`. The missing ID is fixed whichever choosed.')
 parser.add_argument(
-    '--drop-original-language', default=False, action='store_true', help='suppress to merge the own language folder')
+    '--drop-original-language', default=None, action='store_true', help='suppress to merge the own language folder')
 parser.add_argument(
     '--pofile', type=Path, default=None,
     help='additional translation file. PO or MO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
 parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--id-exclude-regex', type=str, default=None, help='make ID invalid if this pattern matched')
-parser.add_argument('--convert-exclam', default=False, action='store_true')
-parser.add_argument('--dont-clean', default=False, action='store_true')
-parser.add_argument('--verbose', default=False, action='store_true')
+parser.add_argument('--convert-exclam', default=None, action='store_true')
+parser.add_argument('--dont-clean', default=None, action='store_true')
+parser.add_argument('--verbose', default=None, action='store_true')
 
 
 FILTERS  = [
@@ -144,6 +144,8 @@ def extract_all_text_from_xml(
         d_return = d_return.assign(
             text_EN=lambda d: np.where(d['text_EN'] == '', np.nan, d['text_EN'])
         )
+        print(f'''---- {d_return['text_EN'].isna().sum()} entries has blank text. ----''')
+        d_return['text_EN'] = d_return['text_EN'].fillna('')
     return d_return
 
 
@@ -163,7 +165,7 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
                 columns=['text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
-                    d['text_EN'].str.contains(r'^\{=(.+?)\}.*$', regex=True),
+                    d['text_EN'].str.contains(r'^\{=.+?\}.*$', regex=True),
                     d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
                     ''
                 ),

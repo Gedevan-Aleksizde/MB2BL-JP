@@ -24,7 +24,7 @@ match_prefix_id = regex.compile(r'^\[.+?\](.*)$')
 match_public_id = regex.compile(r'^(.+?)/.+?$')
 match_string = regex.compile(r'^.+?/(.+?)$')
 
-def merge_yml(fp: Path, args: argparse.Namespace, default: argparse.Namespace) -> argparse.Namespace:
+def merge_yml(fp:Path, args:argparse.Namespace, default:argparse.Namespace)->argparse.Namespace:
     with fp.open('r', encoding='utf-8') as f:
         yml = yaml.load(f, Loader=yaml.Loader)
         for k in yml.keys():
@@ -34,7 +34,7 @@ def merge_yml(fp: Path, args: argparse.Namespace, default: argparse.Namespace) -
                 yml[k] = Path(yml[k])
     d_args = vars(args)
     d_default = vars(default)
-    d_args_updated = {k: v for k, v in d_args.items() if d_args[k] != d_default[k]}
+    d_args_updated = {k: v for k, v in d_args.items() if v is not None}
     d_args_extra = {k: v for k, v in d_default.items() if k not in yml.keys()}
     yml.update(d_args_extra)
     yml.update(d_args_updated)
