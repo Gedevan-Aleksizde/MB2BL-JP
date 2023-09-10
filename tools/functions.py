@@ -14,6 +14,7 @@ from babel.messages.catalog import Catalog
 import regex
 import hashlib
 from datetime import datetime
+import copy
 
 control_char_remove = regex.compile(r'\p{C}')
 match_public_id_legacy = regex.compile(r'^(.+?/.+?/.+?)/.*$')
@@ -74,6 +75,7 @@ def get_catalog_which_has_corrected_babel_fake_id(catalog_with_fake_id: Catalog,
 def public_po(catalog: Catalog) -> Catalog:
     # TODO: copy of metadata
     # TODO: distinction
+    catalog = copy.deepcopy(catalog)
     for true_id in catalog._messages:
         catalog._messages[true_id].id = match_public_id.sub(r'\1', true_id)
     return catalog
