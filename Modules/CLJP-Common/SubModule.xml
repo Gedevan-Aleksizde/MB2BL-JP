@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module>
-    <Name value="Correct Localization JP - Text" />
+    <Name value="Correct Localization JP - Text (beta)" />
     <Id value="CorrectLocalizationJPText" />
-    <Version value="v1.1.0"/>
+    <Version value="v2.0.1"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
@@ -25,12 +25,12 @@
     <Module Id="CustomBattle" />
   	</ModulesToLoadAfterThis>
   	<DependedModuleMetadatas>
-    	<DependedModuleMetadata id="Native" order="LoadAfterThis" optional="true" version="v1.1.4" />
-    	<DependedModuleMetadata id="SandBoxCore" order="LoadAfterThis" optional="true" version="v1.1.4" />
-    	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.1.4" />
-    	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.1.4" />
-    	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.1.4" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" optional="true" version="v1.1.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" optional="true" version="v1.1.*" />
+    	<DependedModuleMetadata id="Native" order="LoadAfterThis" optional="true" version="v1.2.3" />
+    	<DependedModuleMetadata id="SandBoxCore" order="LoadAfterThis" optional="true" version="v1.1.3" />
+    	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.1.3" />
+    	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.1.3" />
+    	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.1.3" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" optional="true" version="v1.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" optional="true" version="v1.*.*" />
   	</DependedModuleMetadatas>
 </Module>
