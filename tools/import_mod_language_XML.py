@@ -301,21 +301,28 @@ def merge_language_file(
             text = lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x'])
             ).drop(columns=['text_x', 'text_y'])
         if translation_merge_on in ['id', 'both']:
-            data = data.merge(data_po.drop(columns=['text_EN']), on=['id'], how='left')
+            data = data.merge(data_po.rename(columns={'text_EN': 'text_EN_po'}), on=['id'], how='left')
             data = data.assign(
-                text = lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
-                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
-                notes = lambda d: d['notes_x'] + d['notes_y']
-            ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y'])
+                text=lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
+                flags=lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
+                notes=lambda d: d['notes_x'] + d['notes_y']
+            )
+            data = data.assign(
+                flags=lambda d: np.where((d['text_EN_po'] == d['text_EN']) & ~(d['text'].isna()), [s - {'fuzzy'} for s in d['flags']], d['flags'])
+            ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y', 'text_EN_po'])
         if translation_merge_on in ['string', 'both']:
-            data = data.merge(data_po.drop(columns=['id']), on=['text_EN'], how='left')
+            data = data.merge(data_po.rename(columns={'id': 'id_po'}), on=['text_EN'], how='left')
             data = data.assign(
-                text = lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
-                flags = lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
-                notes = lambda d: d['notes_x'] + d['notes_y']
-            ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y'])
+                text=lambda d: np.where(d['text_x'].isna(), d['text_y'], d['text_x']),
+                flags=lambda d: np.where(d['text_x'].isna(), [{'fuzzy'} | set() if type(s) is not set else s for s in d['flags_y']], [set() if type(s) is not set else s for s in d['flags_y']]),
+                notes=lambda d: d['notes_x'] + d['notes_y']
+            )
+            data = data.assign(
+                flags=lambda d: np.where((d['id'] == d['id_po']) & ~(d['text'].isna()), [s - {'fuzzy'} for s in d['flags']], d['flags'])
+            ).drop(columns=['text_x', 'text_y', 'flags_x', 'flags_y', 'notes_x', 'notes_y', 'id_po'])
         data['notes'] = [x if type(x) is list else [] for x in data['notes']]
         data['text'] = data['text'].fillna('')
+        data = data.assign(flags=lambda d: np.where(d['text'] == '', [s | {'fuzzy'} for s in d['flags']], d['flags']))
     return data
 
 
@@ -422,7 +429,7 @@ def main():
         d_mod = d_mod.assign(flags=lambda d: [list(s) for s in d['flags']])
     catalog = pddf2po(
         d_mod, with_id=False, make_distinct=False, regacy_mode=False,
-        col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file')
+        col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file', col_flags='flags')
     with args.outdir.joinpath(f'{args.target_module}.xlsx') as fp:
         if fp.exists():
             backup_fp = fp.parent.joinpath(
