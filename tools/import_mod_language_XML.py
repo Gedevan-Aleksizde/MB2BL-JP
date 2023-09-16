@@ -122,22 +122,13 @@ def extract_all_text_from_xml(
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             d = non_language_xml_to_pddf(file, module_data_dir, verbose)
             print(f"""(not language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
-            ds += [d]
-    for file in module_data_dir.glob('languages/*.xml'):
-        d = langauge_xml_to_pddf(file, 'text_EN', module_data_dir)
-        print(f"""(English language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
-        if d.shape[0] > 0:
-            ds += [d]
-    for file in module_data_dir.glob('languages/en/*.xml'):
-        print(f"""(English language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
-        d = langauge_xml_to_pddf(file, 'text_EN', module_data_dir)
-        if d.shape[0] > 0:
-            ds += [d]
-    for file in module_data_dir.glob('languages/English/*.xml'):
-        print(f"""(English language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
-        d = langauge_xml_to_pddf(file, 'text_EN', module_data_dir)
-        if d.shape[0] > 0:
-            ds += [d]
+            ds += [d]   
+    for en_str in ['English', 'EN', '']:
+        for file in module_data_dir.glob(f'languages/{en_str}/*.xml'):
+            d = langauge_xml_to_pddf(file, 'text_EN', module_data_dir)
+            print(f"""(English language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
+            if d.shape[0] > 0:
+                ds += [d]
     if len(ds) == 0:
         d_return = None
     else:
