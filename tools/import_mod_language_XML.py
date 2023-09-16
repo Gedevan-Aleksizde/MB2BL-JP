@@ -19,6 +19,8 @@ from functions import (
     match_string
     )
 import hashlib
+import winshell
+from win32com.client import Dispatch
 
 
 parser = argparse.ArgumentParser()
@@ -40,6 +42,7 @@ parser.add_argument('--id-exclude-regex', type=str, default=None, help='make ID 
 parser.add_argument('--convert-exclam', default=None, action='store_true')
 parser.add_argument('--dont-clean', default=None, action='store_true')
 parser.add_argument('--verbose', default=None, action='store_true')
+parser.add_argument('--suppress-shortcut', action='store_true')
 
 
 FILTERS  = [
@@ -447,6 +450,12 @@ def main():
             fp.rename(backup_fp)
         with fp.open('bw') as f:
             write_po(f, catalog)
+    if not args.suppress_shortcut:
+        shell = Dispatch('WScript.Shell')
+        shortcut = shell.CreateShortCut(str(args.outdir.joinpath(f"{args.target_module}.lnk")))
+        shortcut.Targetpath =  str(module_data_dir.parent)
+        shortcut.WorkingDirectory = str(module_data_dir.parent)
+        shortcut.save()
 
 
 if __name__ == '__main__':
