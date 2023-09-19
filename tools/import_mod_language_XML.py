@@ -427,6 +427,8 @@ def main():
     export_corrected_xml_id(d_mod, module_data_dir, dont_clean=args.dont_clean, outdir=args.outdir, target_module=args.target_module)
     if 'flags' in d_mod:
         d_mod = d_mod.assign(flags=lambda d: [list(s) for s in d['flags']])
+    else:
+        d_mod = d_mod.assign(flags=lambda d: [['fuzzy']] * d.shape[0])
     catalog = pddf2po(
         d_mod, with_id=False, make_distinct=False, regacy_mode=False,
         col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file', col_flags='flags')
