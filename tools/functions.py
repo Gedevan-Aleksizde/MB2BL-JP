@@ -369,7 +369,7 @@ def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
     return d_bilingual
 
 
-def check_duplication(df_bilingual: pd.DataFrame) -> pd.DataFrame:
+def check_duplication(df_bilingual:pd.DataFrame)->pd.DataFrame:
     # TODO: 仕様が古い?
     duplicated_id = df_bilingual[['id', 'text_EN']].groupby(['id']).agg({'text_EN': [pd.Series.nunique, 'count']}).reset_index()
     duplicated_id.columns = ['id', 'unique', 'duplicates']
@@ -380,16 +380,16 @@ def check_duplication(df_bilingual: pd.DataFrame) -> pd.DataFrame:
             {duplicated_id.loc[lambda d: d['unique'] > 1].shape[0]} pairs of entries of that have even wrong strings.''',
             UserWarning
         )
-    df_bilingual = df_bilingual.merge(
+    df_distinct = df_bilingual.merge(
         duplicated_id[['id', 'duplicates', 'unique']].drop_duplicates(), on='id', how='left'
         ).assign(
             duplicates = lambda d: np.where(d['duplicates'].isna(), 0, d['duplicates']),
             unique = lambda d: np.where(d['unique'].isna(), 0, d['unique']),
         )
-    n_dup = df_bilingual.loc[lambda d: d['duplicates'] > 1].shape[0]
+    n_dup = df_distinct.loc[lambda d: d['duplicates'] > 1].shape[0]
     if n_dup > 0:
         warnings.warn(f'''{n_dup} entries have duplicated ID!''', UserWarning)
-    return df_bilingual
+    return df_distinct
 
 
 def escape_for_po(df: pd.DataFrame, columns: str) -> pd.DataFrame:

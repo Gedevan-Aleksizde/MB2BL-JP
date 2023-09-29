@@ -10,8 +10,7 @@ from bs4 import BeautifulSoup
 import regex
 import numpy as np
 from functions import (
-    merge_yml, read_xmls, check_duplication, escape_for_po,
-    po2pddf_easy, pddf2po
+    merge_yml,po2pddf_easy
     )
 from babel.messages.pofile import read_po, write_po
 

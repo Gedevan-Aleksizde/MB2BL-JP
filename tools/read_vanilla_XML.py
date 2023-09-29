@@ -50,7 +50,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '--distinct',
-    default=False,
+    default=None,
     action='store_true'
 )
 parser.add_argument('--all-fuzzy', default=False, action='store_true')
