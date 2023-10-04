@@ -34,6 +34,7 @@ parser.add_argument("--output", type=Path, default=output)
 parser.add_argument('--mb2dir', type=str, default=None)
 parser.add_argument('--modules', nargs='*', default=modules)
 parser.add_argument('--langshort', type=str, default=None)
+parser.add_argument('--langfolder-output', type=str, default=None)
 parser.add_argument('--langsuffix', type=str, default='jpn') 
 parser.add_argument('--functions', type=str, default='jp_functions.xml')  # why so diverse country codes used?? 
 parser.add_argument('--langid', type=str, default=None)
@@ -57,6 +58,8 @@ def main():
         if fp.exists():
             with Path(__file__).parent.joinpath('default.yml') as fp:
                 args = merge_yml(fp, args, parser.parse_args([]))
+    if args.langfolder_output is None:
+        args.langfolder_output = args.langshort
     print(args)
     if args.output_type == 'both':
         for x in ['module', 'overwriter']:
@@ -125,12 +128,18 @@ def export_modules(args, type):
     n_change_total = 0
     for module in args.modules:
         if type == 'module':
-            output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}').joinpath(module)
+            output_dir = args.output.joinpath(
+                f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}'
+                ).joinpath(module)
         elif type == 'overwriter':
-            output_dir = args.output.joinpath(f'{module}/ModuleData/Languages/{args.langshort}')
+            output_dir = args.output.joinpath(
+                f'{module}/ModuleData/Languages/{args.langfolder_output}'
+                )
         if not output_dir.exists():
             output_dir.mkdir(parents=True)        
-        xml_list = list(args.mb2dir.joinpath(f'''Modules/{module}/ModuleData/languages/{args.langshort}''').glob('*.xml'))
+        xml_list = list(args.mb2dir.joinpath(
+            f'''Modules/{module}/ModuleData/languages/{args.langshort}'''
+            ).glob('*.xml'))
         if len(xml_list) > 0:
             if not output_dir.exists() and len(xml_list) > 0:
                 output_dir.mkdir(parents=True)
@@ -158,7 +167,7 @@ def export_modules(args, type):
                     if default_lang_tag != args.langid:
                         xml.base.find('tags', recursive=False).append(generate_tag(args.langid))
                     if args.langalias is not None:
-                        xml.base.find('tags', recursive=False).append(generate_tag(f'correct_{args.langidalias}'))
+                        xml.base.find('tags', recursive=False).append(generate_tag(args.langalias))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id']]
@@ -193,9 +202,7 @@ def export_modules(args, type):
                     n_entries_total += n_entries_xml
                     n_change_total += n_change_xml
                     language_data.LanguageData.append(
-                        generate_languageFile(
-                        f"{Path('/'.join([args.langshort, module if type == 'module' else '', xml_path.name])).as_posix()}"
-                        )
+                        generate_languageFile(f"{Path('/'.join([args.langfolder_output, module if type == 'module' else '', xml_path.name])).as_posix()}")
                         )
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
@@ -209,23 +216,23 @@ def export_modules(args, type):
                     n_change_total += n_missings
     if type=='module' and not args.no_english_overwriting:
         lang_data_patch = generate_language_data_xml(module='', id='English')
-        lang_data_patch.LanguageData.append(generate_languageFile(f'{args.langshort}/Native/std_global_strings_xml_{args.langsuffix}.xml'))
+        lang_data_patch.LanguageData.append(generate_languageFile(f'{args.langfolder_output}/Native/std_global_strings_xml_{args.langsuffix}.xml'))
         with output_dir.joinpath('../../language_data.xml').open('w', encoding='utf-8') as f:
             f.writelines(lang_data_patch.prettify())
     if type == 'module' and args.langalias is not None:
-        with args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}/Native/language_data.xml').open('r', encoding='utf-8') as f:
+        with args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}/Native/language_data.xml').open('r', encoding='utf-8') as f:
             language_data_alias = BeautifulSoup(f, features='lxml-xml')
         language_data = language_data_alias.find('LanguageData', recursive=False)
-        language_data['id'] = f'correct_{args.langalias}'
+        language_data['id'] = args.langalias
         language_data['name'] = args.langalias
-        xml_list = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}').rglob('language_data.xml')
+        xml_list = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').rglob('language_data.xml')
         for fp in xml_list:
             if fp.parent != 'Native':
                 with fp.open('r', encoding='utf-8') as f:
                     langauage_data2 =  BeautifulSoup(f, features='lxml-xml')
                     for xml_languagefile in langauage_data2.find_all('LanguageFile'):
                         language_data_alias.find('LanguageData').append(xml_languagefile)
-        output_fp = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}2/language_data.xml')
+        output_fp = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}2/language_data.xml')
         if not output_fp.parent.exists():
             output_fp.parent.mkdir(parents=True)
         with output_fp.open('w', encoding='utf-8') as f:
@@ -234,12 +241,12 @@ def export_modules(args, type):
         print(f'''SUMMARY: {100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
     if not args.suppress_missing_id and not args.missing_modulewise and d.shape[0] > 0:
         print(f'------ Checking missing IDs whole the vanilla text ---------')
-        output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langshort}').joinpath('Missings')
+        output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').joinpath('Missings')
         if not output_dir.exists():
             output_dir.mkdir()
         language_data_missings = generate_language_data_xml(module='', id=args.langid)
-        language_data_missings.LanguageData.append(generate_languageFile(f'{args.langshort}/Missings/str_missings-{args.langsuffix}.xml'))
-        language_data_missings.LanguageData.append(generate_languageFile(f'{args.langshort}/Missings/ str_sandbox_missings-{args.langsuffix}.xml'))
+        language_data_missings.LanguageData.append(generate_languageFile(f'{args.langfolder_output}/Missings/str_missings-{args.langsuffix}.xml'))
+        language_data_missings.LanguageData.append(generate_languageFile(f'{args.langfolder_output}/Missings/str_sandbox_missings-{args.langsuffix}.xml'))
         output_dir.joinpath(f'''language_data.xml''').open('w', encoding='utf-8').writelines(language_data_missings.prettify(formatter='minimal'))
         xml_str_missings = generate_string_xml([args.langid])
         for i, r in d.iterrows():
@@ -269,7 +276,9 @@ def output_missings_modulewise(args, output_dir, module, df, df_original=None):
     with output_dir.joinpath(f'language_data.xml').open('r', encoding='utf-8') as f:
         xml_lang_data = BeautifulSoup(f.read(), 'lxml-xml')
     lang_data_xml = xml_lang_data.find('LanguageData')
-    new_entry = generate_languageFile(path=f'{args.langshort}/{module}/translation-missings-{args.langshort}.xml')
+    new_entry = generate_languageFile(
+        path=f'{args.langshort}/{module}/translation-missings-{args.langfolder_output}.xml'
+        )
     lang_data_xml.append(new_entry)
     with output_dir.joinpath(f'language_data.xml').open('w', encoding='utf-8') as f:
         f.writelines(lang_data_xml.prettify(formatter='minimal'))
@@ -307,7 +316,7 @@ def generate_string_xml(langids:list) -> BeautifulSoup:
 
 
 def generate_tag(langid:str) -> BeautifulSoup:
-    return BeautifulSoup(f'<tag language={langid} />', features='lxml-xml')
+    return BeautifulSoup(f'<tag language="{langid}" />', features='lxml-xml')
 
 
 def generate_languageFile(path:str) -> BeautifulSoup:
