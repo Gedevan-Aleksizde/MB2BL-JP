@@ -68,7 +68,15 @@ FILTERS  = [
         dict(name='Concept', attrs='title'),
         dict(name='Concept', attrs='description'),
         dict(name='name', attrs='name'), # TODO: 余計なものまで取得する可能性は?
-        dict(name='string', attrs='text')
+        dict(name='string', attrs='text'),
+        # 以下はBanner Kings独自実装のスキーマ
+        dict(name="duchy", attrs="name"),
+        dict(name="duchy", attrs="fullName"),
+        dict(name="WorkshopType", attrs="name"),
+        dict(name="WorkshopType", attrs="jobname"),
+        dict(name="WorkshopType", attrs="description"),
+        dict(name="string", attrs="title"),
+        dict(name="string", attrs="text"),
     ]
 
 # TODO: REFACTORING!!!
