@@ -130,7 +130,12 @@ def extract_all_text_from_xml(
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             d = non_language_xml_to_pddf(file, module_data_dir, verbose)
             print(f"""(not language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
-            ds += [d]   
+            ds += [d]
+    for file in module_data_dir.rglob('./*.xslt'):
+        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
+            d = non_language_xslt_to_pddf(file, module_data_dir, verbose)
+            print(f"""(not language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
+            ds += [d]
     for en_str in ['English', 'EN', '']:
         for file in module_data_dir.glob(f'languages/{en_str}/*.xml'):
             d = langauge_xml_to_pddf(file, 'text_EN', module_data_dir)
@@ -162,6 +167,38 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
         if len(xml_entries) > 0:
             tmp = pd.DataFrame(
                 [(x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries],
+                columns=['text_EN', 'context']
+            ).assign(
+                id = lambda d: np.where(
+                    d['text_EN'].str.contains(r'^\{=.+?\}.*$', regex=True),
+                    d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
+                    ''
+                ),
+                file = fp.relative_to(base_dir),
+                text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
+                attr = filter['attrs']
+            )
+            ds += [tmp]
+    if len(ds) > 0:
+        return pd.concat(ds)
+    else:
+        return pd.DataFrame(columns=['id', 'text_EN', 'context', 'file', 'attr'])
+
+
+def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->pd.DataFrame:
+    if base_dir is None:
+        base_dir = fp.parent
+    with base_dir.joinpath(fp).open('r', encoding='utf-8') as f:
+        xslt = BeautifulSoup(f, features='lxml-xml')
+    ds = []
+    for filter in FILTERS:
+        xslt_entries = xslt.find_all(name='xsl:attribute', attrs={'name': filter['attrs']})
+        xslt_entries = [x for x in xslt_entries if regex.search(f'''^{filter['name']}''', x.parent.name) or regex.search(f'''^{filter['name']}''', x.parent.get('match'))]
+        if verbose:
+            print(f'''{len(xslt_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
+        if len(xslt_entries) > 0:
+            tmp = pd.DataFrame(
+                [(x.text, f'''{filter['name']}.{filter['attrs']}''') for x in xslt_entries],
                 columns=['text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
