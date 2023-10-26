@@ -19,6 +19,7 @@ from functions import (
     match_string
     )
 import hashlib
+import base64
 import winshell
 from win32com.client import Dispatch
 
@@ -40,6 +41,7 @@ parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folde
 parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--id-exclude-regex', type=str, default=None, help='make ID invalid if this pattern matched')
 parser.add_argument('--convert-exclam', default=None, action='store_true')
+parser.add_argument('--autoid-digits', default=None, type=int)
 parser.add_argument('--dont-clean', default=None, action='store_true')
 parser.add_argument('--verbose', default=None, action='store_true')
 parser.add_argument('--suppress-shortcut', action='store_true')
@@ -127,12 +129,12 @@ def extract_all_text_from_xml(
     ds = []
     print(f'reading xml files from {module_data_dir}')
     for file in module_data_dir.rglob('./*.xml'):
-        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
+        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':
             d = non_language_xml_to_pddf(file, module_data_dir, verbose)
             print(f"""(not language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
             ds += [d]
     for file in module_data_dir.rglob('./*.xslt'):
-        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
+        if file.relative_to(module_data_dir).parts[0].lower() != 'languages':
             d = non_language_xslt_to_pddf(file, module_data_dir, verbose)
             print(f"""(not language file) {d.shape[0]} entries found in {file.relative_to(module_data_dir)}.""")
             ds += [d]
@@ -193,7 +195,8 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
     ds = []
     for filter in FILTERS:
         xslt_entries = xslt.find_all(name='xsl:attribute', attrs={'name': filter['attrs']})
-        xslt_entries = [x for x in xslt_entries if regex.search(f'''^{filter['name']}''', x.parent.name) or regex.search(f'''^{filter['name']}''', x.parent.get('match'))]
+        # TODO: parse XMLs after xslt applied
+        xslt_entries = [x for x in xslt_entries if regex.search(f'''^{filter['name']}''', x.parent.name) or regex.search(f'''^{filter['name']}''', x.parent.get('match', "____"))]
         if verbose:
             print(f'''{len(xslt_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
         if len(xslt_entries) > 0:
@@ -231,11 +234,17 @@ def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.Dat
         return pd.DataFrame(columns=['id', text_col_name, 'context', 'attr', 'file'])
 
 
+def generate_id_sha256(text=None, n=5):
+    return base64.b64encode(text.encode(), altchars='..'.encode()).decode('utf-8')
+    # return hashlib.sha256(text.encode()).hexdigest()[-n:]
+
+
 def normalize_string_ids(
         data:pd.DataFrame,
         how_distinct:str,
         exclude_pattern:str,
         keep_redundancies:bool,
+        autoid_digits:int,
         keep_vanilla_id:bool,
         langshort:str,
         convert_exclam:bool,
@@ -244,16 +253,19 @@ def normalize_string_ids(
     後2つ以外のXML, module_string, language の順で信頼できるはずなので被ったらその優先順位でなんとかする.
     """
     vanilla_id_path = (Path('tools') if '__file__' not in locals() else Path(__file__).parent).joinpath('vanilla-id.csv')
-    lambda_id = (
+    if keep_redundancies:
+        lambda_id = (
         lambda d: np.where(
             (d['id'] == '') | d['id'].isna(),
-            [f'{autoid_prefix}' + hashlib.sha256((text + str(i)).encode()).hexdigest()[-5:] for i, text in enumerate(d['context'] + d['attr'] + d['text_EN'])],  # TODO
+            [f'{autoid_prefix}' + generate_id_sha256(text, autoid_digits) for text in d['context'] + d['attr'] + d['text_EN']],  # TODO
             d['id']
         )
-    ) if keep_redundancies else (
+    )
+    else:
+        lambda_id = (
         lambda d: np.where(
             (d['id'] == '') | d['id'].isna(),
-            [f'{autoid_prefix}' + hashlib.sha256(text.encode()).hexdigest()[-5:] for text in d['context'] + d['attr'] + d['text_EN']],  # TODO
+            [f'{autoid_prefix}' + generate_id_sha256(text + str(i), autoid_digits) for i, text in enumerate(d['context'] + d['attr'] + d['text_EN'])],  # TODO
             d['id']
         )
     )
@@ -447,7 +459,9 @@ def main():
     d_mod = normalize_string_ids(
         data=d_mod,
         how_distinct=args.how_distinct, exclude_pattern=args.id_exclude_regex,
-        keep_redundancies=args.keep_redundancies, keep_vanilla_id=args.keep_vanilla_id,
+        keep_redundancies=args.keep_redundancies,
+        autoid_digits=args.autoid_digits,
+        keep_vanilla_id=args.keep_vanilla_id,
         langshort=args.langshort, convert_exclam=args.convert_exclam, autoid_prefix=args.autoid_prefix)
     print(f'''---- {d_mod.shape[0]} entries left. ----''')
     print(f"---- Extract {args.langid} strings from ModuleData/Lanugages/ folders.----")
