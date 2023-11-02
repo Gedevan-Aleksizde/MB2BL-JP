@@ -56,6 +56,7 @@ parser.add_argument(
 parser.add_argument('--all-fuzzy', default=False, action='store_true')
 parser.add_argument('--legacy-id', default=False, action='store_true')
 parser.add_argument('--duplication-in-comment', default=False, action='store_true')
+parser.add_argument('--drop-multiplayer', default=None, action='store_true')
 parser.add_argument('--dont-evaluate-facial', default=False, action='store_true')
 
 if __name__ == '__main__':

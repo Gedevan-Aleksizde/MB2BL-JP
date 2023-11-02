@@ -319,31 +319,40 @@ def get_default_lang(args: argparse.Namespace, distinct=True, text_col='text') -
 
 def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
     # TODO: 例外的な処理がこんなに複雑になるのはバニラだけ?
+    MULTIPLATERS = [
+        ("Native", "std_mpbadges.xml"),
+        ("Native", "std_mpcharacters_xml.xml"),
+        ("Native", "std_mpclassdivisions_xml.xml"),
+        ("Native", "std_mpitems_xml.xml"),
+        ("Native", "std_multiplayer_strings_xml.xml")
+    ]
     d = dict()
     d['EN'] = []
     d[args.langshort] = []
     for module in args.vanilla_modules:
         dp = args.mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
         for fp in dp.joinpath(args.langshort).glob("*.xml"):
-            with fp.open('r', encoding='utf-8') as f:
-                xml = BeautifulSoup(f, features='lxml-xml')
-            if(xml.find('strings') is not None):
-                print(f"reading {args.langshort} file: {fp}")
-                d[args.langshort] += [pd.DataFrame(
-                    [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
-                    columns=['id', f'text_{args.langshort}_original']
-                    ).assign(file=fp.name, module=module)
-                ]
-        for fp in dp.glob('*.xml'):
-            with fp.open('r', encoding='utf-8') as f:
-                xml = BeautifulSoup(f, features='lxml-xml')
-            if(xml.find('strings') is not None):
-                print(f"reading English file: {fp}")
-                d['EN'] += [pd.DataFrame(
-                    [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
-                    columns=['id', f'text_EN']
-                    ).assign(file=fp.name, module=module)
+            if not args.drop_multiplyer or (module, fp.name) not in MULTIPLATERS:
+                with fp.open('r', encoding='utf-8') as f:
+                    xml = BeautifulSoup(f, features='lxml-xml')
+                if(xml.find('strings') is not None):
+                    print(f"reading {args.langshort} file: {fp}")
+                    d[args.langshort] += [pd.DataFrame(
+                        [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
+                        columns=['id', f'text_{args.langshort}_original']
+                        ).assign(file=fp.name, module=module)
                     ]
+        for fp in dp.glob('*.xml'):
+            if not args.drop_multiplyer or (module, fp.name) not in MULTIPLATERS:
+                with fp.open('r', encoding='utf-8') as f:
+                    xml = BeautifulSoup(f, features='lxml-xml')
+                if(xml.find('strings') is not None):
+                    print(f"reading English file: {fp}")
+                    d['EN'] += [pd.DataFrame(
+                        [(x.get('id'), x.get('text')) for x in xml.find('strings').find_all('string')],
+                        columns=['id', f'text_EN']
+                        ).assign(file=fp.name, module=module)
+                        ]
     d['EN'] = pd.concat(d['EN'])
     d['EN'] = d['EN'].assign(text_EN = lambda d: d['text_EN'].str.replace('[\u00a0\u180e\u2007\u200b\u200f\u202f\u2060\ufeff]', '', regex=True))
     d[args.langshort] = pd.concat(d[args.langshort])

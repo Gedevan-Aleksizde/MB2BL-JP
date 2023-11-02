@@ -30,3 +30,4 @@ no_english_overwriting: False
 keep_redundancies: False
 id_exclude_regex: !
 autoid_digits: 5
+drop_multiplayer: True
