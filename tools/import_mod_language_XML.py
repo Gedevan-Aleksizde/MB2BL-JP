@@ -19,7 +19,6 @@ from functions import (
     match_string
     )
 import hashlib
-import base64
 import winshell
 from win32com.client import Dispatch
 
@@ -234,9 +233,14 @@ def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.Dat
         return pd.DataFrame(columns=['id', text_col_name, 'context', 'attr', 'file'])
 
 
-def generate_id_sha256(text=None, n=5):
-    return base64.b64encode(text.encode(), altchars='..'.encode()).decode('utf-8')
-    # return hashlib.sha256(text.encode()).hexdigest()[-n:]
+def generate_id_sha256(text:str=None, n:int=5):
+    """
+    n: max 32
+    """
+    n = min(n, 32)
+    hash = hashlib.sha256(text.encode()).hexdigest()[-n:]
+    binary = bin(int(hash[:32], base=32)).removeprefix('0b')[n:]
+    return ''.join([h.upper() if i == '1' else h.lower() for h, i, in zip(hash, binary)])
 
 
 def normalize_string_ids(
