@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import platform
 import argparse
 import yaml
 from pathlib import Path
@@ -19,8 +20,9 @@ from functions import (
     match_string
     )
 import hashlib
-import winshell
-from win32com.client import Dispatch
+if platform.system() == "Windows":
+    # import winshell
+    from win32com.client import Dispatch
 
 
 parser = argparse.ArgumentParser()
@@ -95,7 +97,7 @@ def read_mod_languages(target_language:str, language_folder:Path)->pd.DataFrame:
     Moreover, English language file often contains irregular syntaces because of senseless engine implementation.
     """
     ds = []
-    print(f'reading xml files from {language_folder}')
+    print(f'reading XML files from {language_folder}')
     language_files = []
     for lang_data_file in language_folder.rglob('./language_data.xml'):
         xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(lang_data_file)
@@ -126,7 +128,7 @@ def extract_all_text_from_xml(
     # TODO: ! とか * とか訳のわからんIDを付けているケースが多い. 何の意味が?
     """
     ds = []
-    print(f'reading xml files from {module_data_dir}')
+    print(f'reading XML and XSLT files from {module_data_dir}')
     for file in module_data_dir.rglob('./*.xml'):
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':
             d = non_language_xml_to_pddf(file, module_data_dir, verbose)
@@ -387,30 +389,44 @@ def merge_language_file(
     return data
 
 
-def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:bool, outdir:Path, target_module:str)->None:
+def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:bool, outdir:Path, target_module:str, filetype:str)->None:
     """
-    read and correct wrong IDs in XMLs, and export them
+    read and correct wrong IDs in XML/XSLT files, and export them
     """
     n_changed_files = 0
-    for file in module_data_dir.rglob('./*.xml'):
+    for file in module_data_dir.rglob(f'./*.{filetype}'):
         print(f"""checking {file.relative_to(module_data_dir)}""")
         any_changes = False
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             with file.open('r', encoding='utf-8') as f:
-                xml = BeautifulSoup(f, features='lxml-xml')
+                xml = BeautifulSoup(f, features='lxml-xml', preserve_whitespace_tags=['string', 'xsl:attribute', 'name'])
             for filter in FILTERS:
-                xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True})
+                if filetype == "xml":
+                    xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True})
+                elif filetype == "xslt":
+                    xml_entries = xml.find_all(name=filter['name'])
+                    xml_entries = [x.find(name='xsl:attribute', attrs={'name': filter['attrs']}) for x in xml_entries]
+                    xml_entries = [x for x in xml_entries if x is not None]
                 d_sub =  data.loc[lambda d: (d['context'] == f"""{filter['name']}.{filter['attrs']}""") | (d['context'].isin(['module.string', 'text.string']))].assign(
                     new_string = lambda d: '{=' + d['id'] + '}' + d['text_EN']
                 )
                 for entry in xml_entries:
-                    entry_id = match_public_id.sub(r'\1', entry[filter['attrs']]) 
-                    entry_text = match_string.sub(r'\1', entry[filter['attrs']])
+                    if filetype == "xslt":
+                        old_string = entry.getText()
+                    else:
+                        old_string =  entry[filter['attrs']]
+                    entry_id = match_public_id.sub(r'\1', old_string) 
+                    entry_text = match_string.sub(r'\1', old_string)
                     r = d_sub[lambda d: (d['id'] != entry_id) & (d['text_EN'] == entry_text)].reset_index()
-                    # print(f'''{entry_id}/{entry_text} -> {r.shape[0]}, {r['new_string']}''')
                     if r.shape[0] > 0:
                         any_changes = True
-                        entry[filter['attrs']] = r['new_string'][0]
+                        print(f'''{entry_id}/{entry_text} -> {r.shape[0]}, {r['new_string']}''')
+                        if filetype == "xml":
+                            entry = replace_id_xml(entry, attr=filter['attrs'], new_string=r['new_string'][0])
+                        elif filetype == "xslt":
+                            entry = replace_id_xslt(entry, attr=filter['attrs'], new_string=r['new_string'][0])
+                        else:
+                            Warning("Incorrect file type")
         if any_changes:
             n_changed_files += 1
             print(f'{file.name} is needed to be overwritten')
@@ -424,7 +440,19 @@ def export_corrected_xml_id(data:pd.DataFrame, module_data_dir:Path, dont_clean:
             with outfp.open('w', encoding='utf-8') as f:
                     f.writelines(xml.prettify(formatter='minimal'))
         any_changes = False
-    print(f'''{n_changed_files} XML files exported''')
+    print(f'''{n_changed_files} {filetype.upper()} files exported''')
+
+
+def replace_id_xml(entry:BeautifulSoup, attr:str, new_string:str)->BeautifulSoup:
+    entry[attr] = new_string
+    return entry
+
+
+def replace_id_xslt(entry:BeautifulSoup, attr:str, new_string:str)->BeautifulSoup:
+    print(entry)
+    # replace_with の意味は……?
+    entry.string = new_string
+    return entry
 
 
 def pofile_to_df(pofile:Path)->pd.DataFrame:
@@ -455,6 +483,7 @@ def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path
 
 def main():
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
+    module_data_dir = module_data_dir.resolve()
     if not module_data_dir.exists():
         raise(f'''{module_data_dir} not found!''')
     d_mod = extract_all_text_from_xml(module_data_dir, args.verbose)
@@ -487,7 +516,9 @@ def main():
         'both')
     if 'text' not in d_mod.columns:
         d_mod['text'] = ''
-    export_corrected_xml_id(d_mod, module_data_dir, dont_clean=args.dont_clean, outdir=args.outdir, target_module=args.target_module)
+    for filetype in ['xml', 'xslt']:
+        print(f'''---- Checking {filetype.upper()} files ----''')
+        export_corrected_xml_xslt_id(d_mod, module_data_dir, dont_clean=args.dont_clean, outdir=args.outdir, target_module=args.target_module, filetype=filetype)
     if 'flags' in d_mod:
         d_mod = d_mod.assign(flags=lambda d: [list(s) for s in d['flags']])
     else:
@@ -512,7 +543,7 @@ def main():
             fp.rename(backup_fp)
         with fp.open('bw') as f:
             write_po(f, catalog)
-    if not args.suppress_shortcut:
+    if platform.system() == 'Windows' and not args.suppress_shortcut:
         shell = Dispatch('WScript.Shell')
         shortcut = shell.CreateShortCut(str(args.outdir.joinpath(f"{args.target_module}.lnk")))
         shortcut.Targetpath =  str(module_data_dir.parent)
