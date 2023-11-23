@@ -41,6 +41,12 @@ def merge_yml(fp:Path, args:argparse.Namespace, default:argparse.Namespace)->arg
     yml.update(d_args_updated)
     d_args = yml
     args = argparse.Namespace(**d_args)
+    if args.filename_sep_version is None:
+       args.filename_sep_version = '1.2' 
+    if args.filename_sep_version not in ['1.0', '1.1', '1.2']:
+        warnings.warn('The value for --filename-sep-version is irregular! set to `1.2`')
+        args.filename_sep_version = '1.2'
+    args.filename_sep = '_' if args.filename_sep_version == '1.2' else '-'
     return args
 
 
@@ -332,7 +338,7 @@ def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
     for module in args.vanilla_modules:
         dp = args.mb2dir.joinpath('Modules').joinpath(module).joinpath("ModuleData/Languages")
         for fp in dp.joinpath(args.langshort).glob("*.xml"):
-            if not args.drop_multiplyer or (module, fp.name) not in MULTIPLATERS:
+            if not args.drop_multiplayer or (module, fp.name) not in MULTIPLATERS:
                 with fp.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
                 if(xml.find('strings') is not None):
@@ -343,7 +349,7 @@ def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
                         ).assign(file=fp.name, module=module)
                     ]
         for fp in dp.glob('*.xml'):
-            if not args.drop_multiplyer or (module, fp.name) not in MULTIPLATERS:
+            if not args.drop_multiplayer or (module, fp.name) not in MULTIPLATERS:
                 with fp.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
                 if(xml.find('strings') is not None):

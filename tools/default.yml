@@ -1,5 +1,6 @@
 # default arguments 
 mb2dir: C:\Program Files (x86)\Steam\steamapps\common\Mount & Blade II Bannerlord
+# mb2dir: ./Mods/HistoricalNames/xslts
 outdir: null
 langid: 日本語  # Language ID
 langshort: JP  # usually language folder name
@@ -29,5 +30,6 @@ all_fuzzy: False
 no_english_overwriting: False
 keep_redundancies: False
 id_exclude_regex: !
-autoid_digits: 5
+autoid_digits: 8
 drop_multiplayer: True
+filename_sep_version: 1.2

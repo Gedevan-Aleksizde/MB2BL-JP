@@ -50,7 +50,8 @@ parser.add_argument('--legacy_id', action='store_true', help='depricated')
 parser.add_argument('--suppress-missing-id', default=False, action='store_true')
 parser.add_argument('--dont-clean', default=False, action='store_true')
 parser.add_argument('--missing-modulewise', default=False, action='store_true')
-
+parser.add_argument('--filename-sep-version', default=None, type=str, help="`1.0`, `1.1` or `1.2`. Why the file names changed at random?")
+parser.add_argument('--verbose', default=None, action='store_true', help='output verbose log')
 
 def main():
     args = parser.parse_args()
@@ -136,10 +137,9 @@ def export_modules(args, type):
                 f'{module}/ModuleData/Languages/{args.langfolder_output}'
                 )
         if not output_dir.exists():
-            output_dir.mkdir(parents=True)        
-        xml_list = list(args.mb2dir.joinpath(
-            f'''Modules/{module}/ModuleData/languages/{args.langshort}'''
-            ).glob('*.xml'))
+            output_dir.mkdir(parents=True)
+        base_langauge_path = f'''Modules/{module}/ModuleData/languages/{args.langshort}'''
+        xml_list = [x for x in args.mb2dir.joinpath(base_langauge_path).glob('*.xml') if x.name not in ['language_data.xml', f'{args.langshort.lower()}_functions.xml'] ]
         if len(xml_list) > 0:
             if not output_dir.exists() and len(xml_list) > 0:
                 output_dir.mkdir(parents=True)
@@ -151,10 +151,13 @@ def export_modules(args, type):
                 # edit language_data.xml
                 with xml_path.open('r', encoding='utf-8') as f:
                     xml = BeautifulSoup(f, features='lxml-xml')
-                en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''_{args.langsuffix}''', '')[0] + '.xml'
+                en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''{args.filename_sep}{args.langsuffix}''', '')[0] + '.xml'
                 #TODO: refactoring
                 if args.legacy_id:
                     d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
+                    if d_sub.shape[0] == 0:
+                        warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
+                        d_sub =  d.loc[lambda d: (d['module'] == module)]
                 else:
                     if not args.missing_modulewise:
                         d_sub = d.loc[lambda d: d['file'] == en_xml_name]
@@ -170,6 +173,7 @@ def export_modules(args, type):
                         xml.base.find('tags', recursive=False).append(generate_tag(args.langalias))
                     if xml.base.find('strings', recursive=False) is not None:
                         for string in xml.base.find('strings', recursive=False).find_all('string', recursive=False):
+                            n_entries_xml += 1
                             tmp = d_sub.loc[lambda d: d['id'] == string['id']]
                             if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
                                 new_str = removeannoyingchars(tmp['text'].values[0])
@@ -181,7 +185,7 @@ def export_modules(args, type):
                             else:
                                 if args.legacy_id:
                                     warnings.warn(f'''ID not found: {string["id"]} in {module}/{xml_path.name}''')
-                                elif not d.loc[lambda d: d['id'] == string['id']].shape[0] > 0:
+                                elif not d.loc[lambda d: d['id'] == string['id']].shape[0] > 0 and args.verbose:
                                     warnings.warn(f'''ID not found: {string["id"]} in {module}/{xml_path.name}''')
                                 normalized_str = removeannoyingchars(string['text'])
                                 if normalized_str != string['text']:
@@ -192,19 +196,24 @@ def export_modules(args, type):
                                     string['text'] = normalized_str
                                 if args.distinct:
                                     string.extract()
-                            n_entries_xml += 1
                             if args.with_id:
                                 string['text'] = f"""[{string['id']}]{string['text']}"""
                         if n_entries_xml > 0:
-                            print(f'''{100 * n_change_xml/n_entries_xml:.0f} % out of {n_entries_xml} text are changed in {xml_path.name}''')
+                            print(
+                                f'''{n_change_xml}/{n_entries_xml} ({100 * n_change_xml/n_entries_xml:.0f} %) text entries are changed in {xml_path.name}'''
+                                )
                         else:
                             print(f'''no translation entries in {xml_path.name}''')
-                    n_entries_total += n_entries_xml
-                    n_change_total += n_change_xml
+                        n_entries_total += n_entries_xml
+                        n_change_total += n_change_xml
+                    else:
+                        warnings.warn(f'{xml_path} is has no strings tag! processing skipped')
                     language_data.LanguageData.append(
                         generate_languageFile(f"{Path('/'.join([args.langfolder_output, module if type == 'module' else '', xml_path.name])).as_posix()}")
                         )
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
+                else:
+                        warnings.warn(f'{xml_path} has no base tag! processing skipped')
             output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
             if not args.suppress_missing_id and args.missing_modulewise:
                 print(f'------ Checking missing IDs in {module} ---------')
@@ -214,6 +223,8 @@ def export_modules(args, type):
                 if n_missings is not None:
                     n_entries_total += n_missings
                     n_change_total += n_missings
+        else:
+            print(f'''No language files found inside {base_langauge_path}''')
     if type=='module' and not args.no_english_overwriting:
         lang_data_patch = generate_language_data_xml(module='', id='English')
         lang_data_patch.LanguageData.append(generate_languageFile(f'{args.langfolder_output}/Native/std_global_strings_xml_{args.langsuffix}.xml'))
@@ -238,7 +249,7 @@ def export_modules(args, type):
         with output_fp.open('w', encoding='utf-8') as f:
             f.writelines(language_data_alias.prettify())
     if n_entries_total > 0:
-        print(f'''SUMMARY: {100 * n_change_total/n_entries_total:.0f} % out of {n_entries_total} text are changed totally''')
+        print(f'''SUMMARY: {n_change_total}/{n_entries_total} ({100 * n_change_total/n_entries_total:.0f}%) text entries are changed totally''')
     if not args.suppress_missing_id and not args.missing_modulewise and d.shape[0] > 0:
         print(f'------ Checking missing IDs whole the vanilla text ---------')
         output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').joinpath('Missings')
