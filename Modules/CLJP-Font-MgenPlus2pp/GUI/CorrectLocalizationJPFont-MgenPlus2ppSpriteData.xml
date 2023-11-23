@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SpriteData>
+  <SpriteCategories>
+    <SpriteCategory>
+      <Name>ui_mgenplus-2pp</Name>
+      <AlwaysLoad />
+      <SpriteSheetCount>3</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="8192" Height="16384" />
+      <SpriteSheetSize ID="2" Width="8192" Height="16384" />
+      <SpriteSheetSize ID="3" Width="8192" Height="16384" />
+    </SpriteCategory>
+  </SpriteCategories>
+  <SpriteParts>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>mgenplus-2pp-light</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mgenplus-2pp</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>2</SheetID>
+      <Name>mgenplus-2pp-medium</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mgenplus-2pp</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>3</SheetID>
+      <Name>mgenplus-2pp-regular</Name>
+      <Width>8192</Width>
+      <Height>16384</Height>
+      <SheetX>0</SheetX>
+      <SheetY>0</SheetY>
+      <CategoryName>ui_mgenplus-2pp</CategoryName>
+    </SpritePart>
+  </SpriteParts>
+  <Sprites>
+    <GenericSprite>
+      <Name>mgenplus-2pp-light</Name>
+      <SpritePartName>mgenplus-2pp-light</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>mgenplus-2pp-medium</Name>
+      <SpritePartName>mgenplus-2pp-medium</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>mgenplus-2pp-regular</Name>
+      <SpritePartName>mgenplus-2pp-regular</SpritePartName>
+    </GenericSprite>
+  </Sprites>
+</SpriteData>
