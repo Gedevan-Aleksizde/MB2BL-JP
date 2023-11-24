@@ -11,4 +11,14 @@
     <ForbiddenEndOfLineCharacters Characters="0123456789([｛〔〈《「『【〘〖〝'&quot;｟«&#8288;、"/>
     <NewlineDoesntRequireSpace/>
   </Language>
+  <Language id="楽レい日本語" DefaultFont="mgenplus-2cp-regular" LineSeperatorChar="-">
+    <Map From="FiraSansExtraCondensed-Light" To="mgenplus-2cp-light"/>
+    <Map From="FiraSansExtraCondensed-Medium" To="mgenplus-2cp-medium"/>
+    <Map From="FiraSansExtraCondensed-Regular" To="mgenplus-2cp-regular"/>
+    <Map From="Galahad" To="mgenplus-2cp-regular"/>
+    <Map From="Galahad_Numbers_Bold" To="mgenplus-2cp-regular"/>
+    <ForbiddenStartOfLineCharacters Characters=")]｝〕〉》」』】〙〗〟'&quot;｠»ヽヾーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇺㇻㇼㇽㇾㇿ々〻‐゠–〜? ! ‼ ⁇ ⁈ ⁉・、:;,。.&#8288;"/>
+    <ForbiddenEndOfLineCharacters Characters="0123456789([｛〔〈《「『【〘〖〝'&quot;｟«&#8288;、"/>
+    <NewlineDoesntRequireSpace/>
+  </Language>
 </Languages>
