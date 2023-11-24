@@ -33,3 +33,5 @@ id_exclude_regex: !
 autoid_digits: 8
 drop_multiplayer: True
 filename_sep_version: 1.2
+all_entries: False
+skip_blank_vanilla: True

@@ -43,12 +43,14 @@ parser.add_argument('--langalias', type=str, default=None)
 parser.add_argument('--subtitleext', type=str, default='jp')
 parser.add_argument('--iso', type=str, default=None)
 parser.add_argument('--output-type', type=str, default='module')
-parser.add_argument('--with-id', default=None, action='store_true')
+parser.add_argument('--with-id', default=None, action='store_true', help='append IDs to strings for debugging')
+parser.add_argument('--all-entries', default=None, action='store_true', help='to output unchanged entries')
+parser.add_argument('--skip-blank_vanilla', default=None, action='store_true', help='to suprress to output bkank entries')
 parser.add_argument('--distinct', default=None, action='store_true', help='drop duplicated IDs in non-Native modules')
 parser.add_argument('--no-english-overwriting', default=None, action='store_true', help='for M&B weird bug')
-parser.add_argument('--legacy_id', action='store_true', help='depricated')
-parser.add_argument('--suppress-missing-id', default=False, action='store_true')
-parser.add_argument('--dont-clean', default=False, action='store_true')
+parser.add_argument('--legacy_id', action='store_true', help='depricated. for old version of this script')
+parser.add_argument('--suppress-missing-id', default=False, action='store_true', help='to supress to output unmatched IDs')
+parser.add_argument('--dont-clean', default=False, action='store_true', help='to keep old files in the output folder')
 parser.add_argument('--missing-modulewise', default=False, action='store_true')
 parser.add_argument('--filename-sep-version', default=None, type=str, help="`1.0`, `1.1` or `1.2`. Why the file names changed at random?")
 parser.add_argument('--verbose', default=None, action='store_true', help='output verbose log')
@@ -113,6 +115,8 @@ def export_modules(args, type):
         )[['id', 'text', 'text_EN', 'module', 'file', 'locations']]
         d['duplication'] = [len(x) for x in d['locations']]
         d['duplication'] = d['duplication'].fillna(1)
+    if args.skip_blank_vanilla:
+        d = d.loc[lambda d: d['text'] != '']
     del catalog
 
     if args.distinct:
@@ -159,10 +163,13 @@ def export_modules(args, type):
                         warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
                         d_sub =  d.loc[lambda d: (d['module'] == module)]
                 else:
-                    if not args.missing_modulewise:
-                        d_sub = d.loc[lambda d: d['file'] == en_xml_name]
-                    else:
+                    if args.missing_modulewise:
                         d_sub = d
+                    else:
+                        d_sub = d.loc[lambda d: d['file'] == en_xml_name]
+                        if d_sub.shape[0] == 0:
+                            d_sub = d
+                            warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
                     # TODO: language files get messed since v1.2.
                     # ファイルごとに分けることが無意味になった. IDさえ一意ならいいので元のファイルの分け方を守る必要もなさそう
                 if xml.find('base', recursive=False) is not None:
@@ -177,7 +184,7 @@ def export_modules(args, type):
                             tmp = d_sub.loc[lambda d: d['id'] == string['id']]
                             if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
                                 new_str = removeannoyingchars(tmp['text'].values[0])
-                                if string['text'] != new_str:
+                                if string['text'] != new_str or args.all_entries:
                                     string['text'] = new_str
                                     n_change_xml += 1
                                 if not args.missing_modulewise:
