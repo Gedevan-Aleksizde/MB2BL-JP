@@ -221,7 +221,7 @@ def export_modules(args, type):
                     output_dir.joinpath(f'''{xml_path.name}''').open('w', encoding='utf-8').writelines(xml.prettify(formatter='minimal'))
                 else:
                         warnings.warn(f'{xml_path} has no base tag! processing skipped')
-            output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify())
+            output_dir.joinpath('language_data.xml').open('w', encoding='utf-8').writelines(language_data.prettify(formatter='minimal'))
             if not args.suppress_missing_id and args.missing_modulewise:
                 print(f'------ Checking missing IDs in {module} ---------')
                 df_original = pd.read_excel('text/MB2BL-JP.xlsx')

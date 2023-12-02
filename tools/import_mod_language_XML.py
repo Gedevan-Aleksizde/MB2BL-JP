@@ -103,6 +103,8 @@ def read_mod_languages(target_language:str, language_folder:Path)->pd.DataFrame:
         xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(lang_data_file)
         xml_lang_data = xml.find('LanguageData')
         if xml_lang_data['id'] == target_language:
+            for  x in xml_lang_data.find_all('LanguageFile'):
+                print(x)
             language_files += [language_folder.joinpath(x['xml_path']) for x in xml_lang_data.find_all('LanguageFile')]
     for file in language_files:
         print(f'{target_language} language file: {file.relative_to(language_folder)}')

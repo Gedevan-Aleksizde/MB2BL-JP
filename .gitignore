@@ -13,6 +13,7 @@ Modules/CLJP-Font-Latemin/AssetSources
 Modules/CLJP-Font-Latemin/RUntimeDataCache
 Modules/CLJP-Font-Latemin/GUI/Fonts
 Modules/CLJP-Font-Latemin/GUI/SpriteParts/ui_Font_GenEiLateMinP
+SteamUpload
 Mods
 Localizer
 text/*

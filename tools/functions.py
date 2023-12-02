@@ -154,6 +154,7 @@ def pddf2po(
     else:
         df_unique = df
     del df
+    df_unique[col_text] = np.where(df_unique[col_text].isna() | df_unique[col_text].isnull(), '', df_unique[col_text])
     catalog = Catalog(locale)
     if with_id:
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
