@@ -35,3 +35,4 @@ drop_multiplayer: True
 filename_sep_version: 1.2
 all_entries: False
 skip_blank_vanilla: True
+how_distinct: all
