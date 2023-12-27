@@ -2,18 +2,25 @@
 <Module>
     <Name value="Correct Localization JP - Mgen Plus 2cp Font"/>
     <Id value="CorrectLocalizationJPFontMgenPlus"/>
-    <Version value="v2.0.2"/>
+    <Version value="v2.1.1"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
-    <DependedModules>
-        <DependedModule Id="Native" DependentVersion="v1.2.6"/>
-        <DependedModule Id="SandBoxCore" DependentVersion="v1.2.6"/>
-        <DependedModule Id="Sandbox" DependentVersion="v1.2.6"/>
-        <DependedModule Id="CustomBattle" DependentVersion="v1.2.6"/>
-        <DependedModule Id="StoryMode" DependentVersion="v1.2.6"/>
-        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" version="v1.*.*" />
-    </DependedModules>
+    <ModulesToLoadBeforeThis>
+        <Module Id="Native" />
+    </ModulesToLoadBeforeThis>
+    <DependedModuleMetadatas>
+    	<DependedModuleMetadata id="Native" order="LoadAfterThis" optional="true" version="v1.2.8" />
+    	<DependedModuleMetadata id="SandBoxCore" order="LoadAfterThis" optional="true" version="v1.2.8" />
+    	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.2.8" />
+    	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.2.8" />
+    	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.2.8" />
+        <DependedModuleMetadata id="CorrectLocalizationJPText" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
+        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+  	</DependedModuleMetadatas>
 </Module>
