@@ -72,6 +72,8 @@ FILTERS  = [
         dict(name='Concept', attrs='description'),
         dict(name='name', attrs='name'), # TODO: 余計なものまで取得する可能性は?
         dict(name='string', attrs='text'),
+        dict(name="SiegeEngineType", attrs="name"),
+        dict(name="SiegeEngineType", attrs="description"),
         # 以下はBanner Kings独自実装のスキーマ
         dict(name="duchy", attrs="name"),
         dict(name="duchy", attrs="fullName"),
@@ -79,7 +81,7 @@ FILTERS  = [
         dict(name="WorkshopType", attrs="jobname"),
         dict(name="WorkshopType", attrs="description"),
         dict(name="string", attrs="title"),
-        dict(name="string", attrs="text"),
+        dict(name="string", attrs="text")
     ]
 
 # TODO: REFACTORING!!!
@@ -293,6 +295,9 @@ def normalize_string_ids(
         n = data.shape[0]
         data = data.loc[lambda d: d['id'] != '!']
         print(f'''---- {n - data.shape[0]} entries having `!` ID dropped. This is disabled by `--convert_exclam` option. ----''')
+        n = data.shape[0]
+        data = data.loc[lambda d: d['id'] != '*']
+        print(f'''---- {n - data.shape[0]} entries having `*` ID dropped. This is disabled by `--convert_exclam` option. ----''')
         # TODO: precise id detetion
         # TODO: IDに使用できる文字
         # TODO: テンプレートの名前かどうかを確実に判別する方法がない
