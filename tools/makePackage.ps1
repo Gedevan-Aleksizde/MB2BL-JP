@@ -6,7 +6,7 @@ Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-Text  # power shell i
 mkdir -Force Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin
 mkdir -Force Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJP-Text
 mkdir -Force Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin
-mkdir -Force Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJP-Text
+mkdir -Force Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJP-Text
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJP-Text
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
@@ -32,7 +32,7 @@ Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-M
 Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
 Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
 
-Copy-Item -Recurse -Force Modules/CLJP-Font-MgenPlus/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
+Copy-Item -Recurse -Force Modules/CLJP-Font-MgenPlus2pp/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
 Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJP-Text
 Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
 Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
