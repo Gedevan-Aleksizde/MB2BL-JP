@@ -21,6 +21,6 @@
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
-        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
 </Module>

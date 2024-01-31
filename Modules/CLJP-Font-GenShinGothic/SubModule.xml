@@ -8,19 +8,16 @@
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
-    <ModulesToLoadBeforeThis>
-        <Module Id="Native" />
-    </ModulesToLoadBeforeThis>
     <DependedModuleMetadatas>
-    	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.2.8" />
-    	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" optional="true" version="v1.2.8" />
-    	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" optional="true" version="v1.2.8" />
-    	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" optional="true" version="v1.2.8" />
-    	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" optional="true" version="v1.2.8" />
+    	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.2.*" />
+    	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" optional="true" version="v1.2.*" />
+    	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" optional="true" version="v1.2.*" />
+    	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" optional="true" version="v1.2.*" />
+    	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" optional="true" version="v1.2.*" />
         <DependedModuleMetadata id="CorrectLocalizationJPText" optional="true" version="v2.*.*" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
-        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
 </Module>

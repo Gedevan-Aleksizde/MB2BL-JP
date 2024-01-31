@@ -8,9 +8,6 @@
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
-    <ModulesToLoadBeforeThis>
-        <Module Id="Native" />
-    </ModulesToLoadBeforeThis>
     <DependedModuleMetadatas>
     	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.2.8" />
     	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" optional="true" version="v1.2.8" />
@@ -21,6 +18,6 @@
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" incompatible="true" />
-        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
 </Module>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Module>
-    <Name value="Correct Localization JP - Mgen Plus 2cp Font"/>
+<Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Id value="CorrectLocalizationJPFontMgenPlus"/>
+    <Name value="Correct Localization JP - Mgen Plus 2cp Font"/>
     <Version value="v2.1.3"/>
     <ModuleType value="Community"/>
     <Official value="false" />
@@ -9,7 +9,7 @@
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
     <ModulesToLoadBeforeThis>
-        <Module Id="Native" />
+        <Id value="Native" />
     </ModulesToLoadBeforeThis>
     <DependedModuleMetadatas>
     	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.2.8" />
@@ -17,10 +17,10 @@
     	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" optional="true" version="v1.2.8" />
     	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" optional="true" version="v1.2.8" />
     	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" optional="true" version="v1.2.8" />
-        <DependedModuleMetadata id="CorrectLocalizationJPText" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPText"  order="LoadAfterThis" optional="true" version="v2.*.*" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
-        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
 </Module>
