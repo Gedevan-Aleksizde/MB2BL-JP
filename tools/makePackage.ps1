@@ -12,30 +12,28 @@ mkdir -Force Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJP-Text
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJP-Text
 mkdir -Force Packages/CorrectLocalizationJP-Text
-#Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-LateMin
-#Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-GenShin
 
 Copy-Item -Force doc/README.md Modules/CLJP-Common/README.md
 
-Copy-Item -Recurse -Force Modules/CLJP-Font-GenShinGothic/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin
-Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJP-Text
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin/
+Copy-Item -Recurse Modules/CLJP-Font-GenShinGothic/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin
+Copy-Item -Recurse Modules/CLJP-Common/* Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJP-Text
+Copy-Item Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin/
+Copy-Item Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-GenShin/CorrectLocalizationJPFont-Genshin/
 
-Copy-Item -Recurse -Force Modules/CLJP-Font-LateMin/* Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin
-Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJP-Text
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin/
+Copy-Item -Recurse Modules/CLJP-Font-LateMin/* Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin
+Copy-Item -Recurse Modules/CLJP-Common/* Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJP-Text
+Copy-Item Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin/
+Copy-Item Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-LateMin/CorrectLocalizationJPFont-LateMin/
 
-Copy-Item -Recurse -Force Modules/CLJP-Font-MgenPlus/* Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus
-Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJP-Text
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
+Copy-Item -Recurse Modules/CLJP-Font-MgenPlus/* Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus
+Copy-Item -Recurse Modules/CLJP-Common/* Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJP-Text
+Copy-Item Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
+Copy-Item Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus/CorrectLocalizationJPFont-MgenPlus/
 
-Copy-Item -Recurse -Force Modules/CLJP-Font-MgenPlus2pp/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
-Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJP-Text
-Copy-Item -Force Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
-Copy-Item -Force Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
+Copy-Item -Recurse Modules/CLJP-Font-MgenPlus2pp/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp
+Copy-Item -Recurse Modules/CLJP-Common/* Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJP-Text
+Copy-Item Modules/CLJP-Common/README.md Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
+Copy-Item Modules/CLJP-Common/LICENSE Packages/CorrectLocalizationJP-MgenPlus2pp/CorrectLocalizationJPFont-MgenPlus2pp/
 
 Copy-Item -Recurse -Force Modules/CLJP-Common/* Packages/CorrectLocalizationJP-Text
 
