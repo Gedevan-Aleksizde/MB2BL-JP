@@ -2,7 +2,7 @@
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Id value="CorrectLocalizationJPText" />
     <Name value="Correct Localization JP - Text" />
-    <Version value="v2.1.5"/>
+    <Version value="v2.1.6"/>
     <ModuleType value="Community"/>
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
@@ -29,9 +29,9 @@
     	<DependedModuleMetadata id="Sandbox" order="LoadAfterThis" optional="true" version="v1.2.*" />
     	<DependedModuleMetadata id="StoryMode" order="LoadAfterThis" optional="true" version="v1.2.*" />
     	<DependedModuleMetadata id="CustomBattle" order="LoadAfterThis" optional="true" version="v1.2.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" order="LoadBeforeThis" optional="true" version="v2.*.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" order="LoadBeforeThis" optional="true" version="v2.*.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" order="LoadBeforeThis" optional="true" version="v2.*.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" order="LoadBeforeThis" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" order="LoadAfterThis" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" order="LoadAfterThis" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" order="LoadAfterThis" optional="true" version="v2.*.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" order="LoadAfterThis" optional="true" version="v2.*.*" />
   	</DependedModuleMetadatas>
 </Module>
