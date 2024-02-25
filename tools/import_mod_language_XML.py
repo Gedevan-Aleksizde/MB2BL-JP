@@ -168,13 +168,13 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
         xml = BeautifulSoup(f, features='lxml-xml')
     ds = []
     for filter in FILTERS:
-        xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True})
+        xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True, 'id': True})
         if verbose:
             print(f'''{len(xml_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
         if len(xml_entries) > 0:
             tmp = pd.DataFrame(
-                [(x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries],
-                columns=['text_EN', 'context']
+                [(x['id'], x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries],
+                columns=['object_id', 'text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
                     d['text_EN'].str.contains(r'^\{=.+?\}.*$', regex=True),
