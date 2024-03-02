@@ -67,7 +67,7 @@ with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.lang
 xml = BeautifulSoup(
     f'''
     <LanguageData id="{args.langid}">
-      <LanguageFile xml_path="{args.langshort}/strings-{args.langshort}.xml">
+      <LanguageFile xml_path="{args.langshort}/strings-{args.langshort}.xml" />
     </LanguageData>''',
     features='lxml-xml'
 )
