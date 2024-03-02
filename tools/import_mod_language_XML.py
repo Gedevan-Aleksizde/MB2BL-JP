@@ -81,7 +81,10 @@ FILTERS  = [
         dict(name="WorkshopType", attrs="jobname"),
         dict(name="WorkshopType", attrs="description"),
         dict(name="string", attrs="title"),
-        dict(name="string", attrs="text")
+        dict(name="string", attrs="text"),
+        # TODO: Custom Spawn API
+        dict(name="NameSignifier", attrs="value")
+        # TODO: RegularBanditDailySpawnData -> Name, SpawnMessage, DeathMessage
     ]
 
 # TODO: REFACTORING!!!
