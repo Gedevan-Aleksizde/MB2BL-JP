@@ -1,0 +1,37 @@
+<Prefab>
+  <Variables>
+  </Variables>
+  <VisualDefinitions>
+  </VisualDefinitions>
+  <Window>
+    <Widget WidthSizePolicy = "StretchToParent" HeightSizePolicy = "StretchToParent" DoNotAcceptEvents="true" DoNotPassEventsToChildren="true" Sprite="BlankWhiteSquare_9" Color="#000000FF" IsVisible="false" DoNotUseCustomScale="true">
+      <Children>
+        <LoadingWindowWidget WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedWidth="1920" SuggestedHeight="1080" ImageName="@LoadingImageName" IsVisible="false" HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="@Enabled" AnimWidget="LoadingAnimWidget" DoNotUseCustomScale="true">
+          <Children>
+            <!--This Img Also Should Be Visible Only In MP-->
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Sprite="watercolour_frame" IsVisible="@IsMultiplayer" DoNotUseCustomScale="true"/>
+
+            <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="346" Sprite="loadingBar_9" VerticalAlignment="Bottom" DoNotUseCustomScale="true"/>
+
+            <!--This Img Also Should Be Visible Only In MP-->
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="912" SuggestedHeight="1080" Sprite="text_bg_watercolour" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsVisible="@IsMultiplayer" DoNotUseCustomScale="true"/>
+
+            <Widget WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedWidth = "480" SuggestedHeight = "131" HorizontalAlignment="Center" VerticalAlignment="Bottom" Sprite="logo" MarginBottom="40" />
+
+            <!--Text Container-->
+            <ListPanel WidthSizePolicy = "CoverChildren" HeightSizePolicy = "CoverChildren" VerticalAlignment="Bottom" StackLayout.LayoutMethod="VerticalBottomToTop" MarginBottom="40" MarginLeft="40">
+              <Children>
+                <TextWidget Id="TitleTextWidget" WidthSizePolicy = "Fixed" HeightSizePolicy = "CoverChildren" SuggestedWidth = "383" HorizontalAlignment="Center" Brush="MPLobby.Loading.MainTitle.Text" Text="@TitleText" MarginBottom="10"/>
+                <!--This Text Also Should Be Visible Only In MP-->
+                <TextWidget Id="TitleTextWidget" WidthSizePolicy = "Fixed" HeightSizePolicy = "CoverChildren" SuggestedWidth = "383" HorizontalAlignment="Center" Brush="MPLobby.Loading.SubTitle.Text" Text="@GameModeText" MarginBottom="10" IsVisible="@IsMultiplayer"/>
+                <TextWidget Id="DescriptionTextWidget" WidthSizePolicy = "Fixed" HeightSizePolicy = "CoverChildren" SuggestedWidth = "383" HorizontalAlignment="Center" Brush="MPLobby.Loading.Paragraph.Text" Text="@DescriptionText" ClipContents="false" />
+              </Children>
+            </ListPanel>
+
+            <Widget Id="LoadingAnimWidget" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedHeight="75" SuggestedWidth="75" Sprite="butter" VerticalAlignment="Bottom" MarginBottom="200" IsVisible="@IsDevelopmentMode" />
+          </Children>
+        </LoadingWindowWidget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base type="string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <tags>
+    <tag language="楽レい日本語"/>
+ </tags>
+ <functions>
+  <function functionBody="{?$0.Plural}{$0.Plural}{?}{$0}{\?}" functionName="PLURAL"/>
+  <function functionBody="{?$0!.P}1{:?$0.Plural}1{:}0{\?}" functionName="IS_PLURAL"/>
+ </functions>
+</base>

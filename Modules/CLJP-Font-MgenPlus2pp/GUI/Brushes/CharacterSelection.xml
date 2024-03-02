@@ -1,0 +1,32 @@
+<Brushes>
+    <Brush Name="Stage.PositiveEffect.Text" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#99DC30FF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.01" TextGlowRadius="0" TextBlur="0" FontSize="30" />
+        </Styles>
+      </Brush>
+      <Brush Name="Stage.NegativeEffect.Text" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#E56B4FFF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.01" TextGlowRadius="0" TextBlur="0" FontSize="30" />
+        </Styles>
+      </Brush>
+      <Brush Name="Stage.Selection.Description.Text" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#FDF3DEFF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.01" TextGlowRadius="0" TextBlur="0" FontSize="23" />
+        </Styles>
+      </Brush>
+      <Brush Name="Stage.Selection.Feat.Negative" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#AE1512FF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.01" TextGlowRadius="0" TextBlur="0" FontSize="24" />
+        </Styles>
+      </Brush>
+      <Brush Name="Stage.Selection.Feat.Positive" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#33BA32FF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0.01" TextGlowRadius="0" TextBlur="0" FontSize="24" />
+        </Styles>
+      </Brush>
+      <Brush Name="Stage.Description.Text" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left">
+        <Styles>
+          <Style Name="Default" FontColor="#F4E1C4FF" TextGlowColor="#000000FF" TextOutlineColor="#000000FF" TextOutlineAmount="0" TextGlowRadius="0" TextBlur="0" FontSize="32" />
+        </Styles>
+      </Brush>
+</Brushes>
