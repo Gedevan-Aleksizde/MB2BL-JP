@@ -343,11 +343,9 @@ def normalize_string_ids(
         errors = data.loc[lambda d: (d['id'] == '') | d['id'].isna()].shape[0]
         data['file'] = [[x] for x in data['file']]
         print(f'''---- {errors} missing IDs detected ----''')
-    ngroup = data.groupby('id').size().reset_index().assign(dup=lambda d: d[0] != 1)
     n = data.shape[0]
-    data = data.merge(ngroup[['id', 'dup']], on=['id'], how='left')
-    data = data.loc[lambda d: ~((d['context'] == 'language.text') & d['dup'])].drop(columns=['dup'])
-    print(f'''{n - data.shape[0]} duplicated entries from language files dropped''')
+    data = data.drop_duplicates(['id', 'text_EN'])
+    print(f'''{n - data.shape[0]} duplicated entries are dropped''')
     data = data.assign(id=lambda_id)
     return data
 
