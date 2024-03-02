@@ -536,17 +536,21 @@ def main():
     with args.outdir.joinpath(f'{args.target_module}.xlsx') as fp:
         if fp.exists():
             backup_fp = fp.parent.joinpath(
-                f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""
+                f"""BAK/{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""
             )
-            print(f"""old file is renamed to {backup_fp}""")
+            if not backup_fp.parent.exists():
+                backup_fp.parent.mkdir()
+            print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
             fp.rename(backup_fp)
         d_mod.to_excel(fp, index=False)
     with args.outdir.joinpath(f'{args.target_module}.po') as fp:
         if fp.exists():
             backup_fp = fp.parent.joinpath(
-                f"""{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
+                f"""BAK/{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
             )
-            print(f"""old file is renamed to {backup_fp}""")
+            if not backup_fp.parent.exists():
+                backup_fp.parent.mkdir()
+            print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
             fp.rename(backup_fp)
         with fp.open('bw') as f:
             write_po(f, catalog)
