@@ -74,6 +74,7 @@ FILTERS  = [
         dict(name='string', attrs='text'),
         dict(name="SiegeEngineType", attrs="name"),
         dict(name="SiegeEngineType", attrs="description"),
+        dict(name='Scene', attrs='name'),
         # 以下はBanner Kings独自実装のスキーマ
         dict(name="duchy", attrs="name"),
         dict(name="duchy", attrs="fullName"),
