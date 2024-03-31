@@ -14,10 +14,16 @@ Modules/CLJP-Font-Latemin/RUntimeDataCache
 Modules/CLJP-Font-Latemin/GUI/Fonts
 Modules/CLJP-Font-Latemin/GUI/SpriteParts/ui_Font_GenEiLateMinP
 SteamUpload
-Mods
+Mods/*
 Localizer
 text/*
 !text/MB2BL-JP-pub.mo
 doc
 .Rproj.user
 *.lnk
+*.rdc
+*.tpac
+tmp
+tools/vanilla-id-*.csv
+*.zip
+comparison.xlsx
