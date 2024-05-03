@@ -6,8 +6,7 @@ import yaml
 from pathlib import Path
 import warnings
 import pandas as pd
-from bs4 import BeautifulSoup
-import regex
+import lxml.etree as ET
 import numpy as np
 from babel.messages.pofile import read_po, write_po
 from babel.messages.mofile import read_mo, write_mo
@@ -49,44 +48,46 @@ parser.add_argument('--suppress-shortcut', action='store_true')
 
 
 FILTERS  = [
-        dict(name='ItemModifier', attrs='name'),
-        dict(name='CraftedItem', attrs='name'),
-        dict(name='CraftingPiece', attrs='name'),
-        dict(name='Item', attrs='name'),
-        dict(name='NPCCharacter', attrs='name'),
-        dict(name='NPCCharacter', attrs='text'),
-        dict(name='Hero', attrs='text'),
-        dict(name='Settlement', attrs='name'),
-        dict(name='Settlement', attrs='text'),
-        dict(name='Faction', attrs='name'),
-        dict(name='Faction', attrs='short_name'),
-        dict(name='Faction', attrs='text'),
-        dict(name='Culture', attrs='name'),
-        dict(name='Culture', attrs='text'),
-        dict(name='Kingdom', attrs='name'),
-        dict(name='Kingdom', attrs='short_name'),
-        dict(name='Kingdom', attrs='text'),
-        dict(name='Kingdom', attrs='title'),
-        dict(name='Kingdom', attrs='ruler_title'),
-        dict(name='Concept', attrs='title'),
-        dict(name='Concept', attrs='description'),
-        dict(name='name', attrs='name'), # TODO: 余計なものまで取得する可能性は?
-        dict(name='string', attrs='text'),
-        dict(name="SiegeEngineType", attrs="name"),
-        dict(name="SiegeEngineType", attrs="description"),
-        dict(name='Scene', attrs='name'),
-        # 以下はBanner Kings独自実装のスキーマ
-        dict(name="duchy", attrs="name"),
-        dict(name="duchy", attrs="fullName"),
-        dict(name="WorkshopType", attrs="name"),
-        dict(name="WorkshopType", attrs="jobname"),
-        dict(name="WorkshopType", attrs="description"),
-        dict(name="string", attrs="title"),
-        dict(name="string", attrs="text"),
-        # TODO: Custom Spawn API
-        dict(name="NameSignifier", attrs="value")
-        # TODO: RegularBanditDailySpawnData -> Name, SpawnMessage, DeathMessage
-    ]
+    dict(context='ItemModifier.name', xpath='.//ItemModifier[@name][@id]', key='name'),
+    dict(context='CraftedItem.name', xpath='.//CraftedItem[@name][@id]', key='name'),
+    dict(context='CraftingPiece.name', xpath='.//CraftingPiece[@name][@id]', key='name'),
+    dict(context='Item.name', xpath='.//Item[@name][@id]', key='name'),
+    dict(context='NPCCharacter.name', xpath='.//NPCCharacter[@name][@id]', key='name'),
+    dict(context='NPCCharacter.text', xpath='.//NPCCharacter[@text][@id]', key='text'),
+    dict(context='Hero.name', xpath='.//Hero[@text][@id]', key='text'),
+    dict(context='Settlement.name', xpath='.//Settlement[@name][@id]', key='name'),
+    dict(context='Settlement.text', xpath='.//Settlement[@text][@id]', key='text'),
+    dict(context='Faction.name', xpath='.//Faction[@name][@id]', key='name'),
+    dict(context='Faction.short_name', xpath='.//Faction[@short_name][@id]', key='short_name'),
+    dict(context='Faction.text', xpath='.//Faction[@text][@id]', key='text'),
+    dict(context='Culture.name', xpath='.//Culture[@name][@id]', key='name'),
+    dict(context='Culture.text', xpath='.//Culture[@text][@id]', key='text'),
+    dict(context='Kingdom.name', xpath='.//Kingdom[@name][@id]', key='name'),
+    dict(context='Kingdom.short_name', xpath='.//Kingdom[@short_name][@id]', key='short_name'),
+    dict(context='Kingdom.text', xpath='.//Kingdom[@text][@id][@id]', key='text'),
+    dict(context='Kingdom.title', xpath='.//Kingdom[@title][@id]', key='title'),
+    dict(context='Kingdom.ruler_title', xpath='.//Kingdom[@ruler_title][@id]', key='ruler_title'),
+    dict(context='Concept.title', xpath='.//Concept[@title][@id]', key='title'),
+    dict(context='Concept.description', xpath='.//Concept[@description][@id]', key='description'),
+    dict(context='Culture.femaleName', xpath='.//female_names/name[@name]', key='name'),
+    dict(context='Culture.maleName', xpath='.//male_names/name[@name]', key='name'),
+    dict(context='Culture.clanName', xpath='.//clan_names/name[@name]', key='name'),
+    dict(context='Module_String.string', xpath='.//string[@text][@id]', key='text'),
+    dict(context="SiegeEngineType.name", xpath='.//SiegeEngineType[@name][@id]', key="name"),
+    dict(context="SiegeEngineType.description", xpath='.//SiegeEngineType[@description][@id]', key="description"),
+    dict(context='Scene.name', xpath='.//Scene[@name]', key='name'),
+    # 以下はBanner Kings独自実装のスキーマ
+    dict(context="duchy.name", xpath='.//duchy[@name][@id]', key="name"),
+    dict(context="duchy.fullName", xpath='.//duchy[@fullName][@id]', key="fullName"),
+    dict(context="WorkshopType.name", xpath='.//WorkshopType[@name][@id]', key="name"),
+    dict(context="WorkshopType.jobname", xpath='.//WorkshopType[@jobname][@id]', key="jobname"),
+    dict(context="WorkshopType", xpath='.//WorkshopType[@description][@id]', key="description"),
+    dict(context="string.title", xpath='.//string[@title][@id]', key="title"),
+    dict(context="string.text", xpath='.//string[@text][@id]', key="text"),
+    # TODO: Custom Spawn API
+    dict(context="NameSignifier.value", xpath='.//NameSignifier[@value]', key="value")
+    # TODO: RegularBanditDailySpawnData -> Name, SpawnMessage, DeathMessage
+]
 
 # TODO: REFACTORING!!!
 
@@ -169,15 +170,15 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
     if base_dir is None:
         base_dir = fp.parent
     with base_dir.joinpath(fp).open('r', encoding='utf-8') as f:
-        xml = BeautifulSoup(f, features='lxml-xml')
+        xml = ET.parse(f)
     ds = []
     for filter in FILTERS:
-        xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True, 'id': True})
+        xml_entries = xml.xpath(filter['xpath'])
         if verbose:
-            print(f'''{len(xml_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
+            print(f'''{len(xml_entries)} {filter['context']} attributes found in {filter['name']} tags''')
         if len(xml_entries) > 0:
             tmp = pd.DataFrame(
-                [(x['id'], x[filter['attrs']], f'''{filter['name']}.{filter['attrs']}''') for x in xml_entries],
+                [(x.attrib.get('id'), x.attrib[filter['key']], f'''{filter['context']}''') for x in xml_entries],
                 columns=['object_id', 'text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
@@ -187,7 +188,7 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
                 ),
                 file = fp.relative_to(base_dir),
                 text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
-                attr = filter['attrs']
+                attr = filter['key']
             )
             ds += [tmp]
     if len(ds) > 0:
@@ -200,17 +201,18 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
     if base_dir is None:
         base_dir = fp.parent
     with base_dir.joinpath(fp).open('r', encoding='utf-8') as f:
-        xslt = BeautifulSoup(f, features='lxml-xml')
+        xslt = ET.parse(f)
     ds = []
     for filter in FILTERS:
-        xslt_entries = xslt.find_all(name='xsl:attribute', attrs={'name': filter['attrs']})
-        # TODO: parse XMLs after xslt applied
-        xslt_entries = [x for x in xslt_entries if regex.search(f'''^{filter['name']}''', x.parent.name) or regex.search(f'''^{filter['name']}''', x.parent.get('match', "____"))]
+        xslt_entries = xslt.xpath(
+            f'''.//xsl:template[contains(@match, "{filter['filter_name'].split('.')[0]}")]/xsl:attribute[@name='{filter["key"]}']''',
+            namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
+        # TODO: more rigorous conditioning
         if verbose:
-            print(f'''{len(xslt_entries)} {filter['attrs']} attributes found in {filter['name']} tags''')
+            print(f'''{len(xslt_entries)} {filter['filter_name']} attributes found in {filter['context']} tags''')
         if len(xslt_entries) > 0:
             tmp = pd.DataFrame(
-                [(x.text, f'''{filter['name']}.{filter['attrs']}''') for x in xslt_entries],
+                [(x.text, f'''{filter['name']}.{filter['key']}''') for x in xslt_entries],
                 columns=['text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
@@ -220,7 +222,7 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
                 ),
                 file = fp.relative_to(base_dir),
                 text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
-                attr = filter['attrs']
+                attr = filter['key']
             )
             ds += [tmp]
     if len(ds) > 0:
@@ -233,10 +235,10 @@ def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.Dat
     if base_dir is None:
         base_dir = fp.parent
     xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(base_dir.joinpath(fp))
-    xml_entries = xml.find_all(name='string', attrs={'id': True, 'text': True})
+    xml_entries = xml.xpath('.//strings/string[@id][@text]')
     if len(xml_entries) > 0:
         d = pd.DataFrame(
-            [(x['id'], x['text'], 'language.text') for x in xml_entries], columns=['id', text_col_name, 'context']
+            [(x.attrib['id'], x.attrib['text'], 'language.text') for x in xml_entries], columns=['id', text_col_name, 'context']
         ).assign(attr = 'string', file = fp.relative_to(base_dir))
         return d
     else:
@@ -408,22 +410,30 @@ def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_c
         any_changes = False
         if file.relative_to(module_data_dir).parts[0].lower() != 'languages':            
             with file.open('r', encoding='utf-8') as f:
-                xml = BeautifulSoup(f, features='lxml-xml', preserve_whitespace_tags=['string', 'xsl:attribute', 'name'])
+                xml = ET.parse(f)
             for filter in FILTERS:
                 if filetype == "xml":
-                    xml_entries = xml.find_all(name=filter['name'], attrs={filter['attrs']: True})
+                    xml_entries = xml.xpath(filter['xpath'])
                 elif filetype == "xslt":
-                    xml_entries = xml.find_all(name=filter['name'])
-                    xml_entries = [x.find(name='xsl:attribute', attrs={'name': filter['attrs']}) for x in xml_entries]
-                    xml_entries = [x for x in xml_entries if x is not None]
-                d_sub =  data.loc[lambda d: (d['context'] == f"""{filter['name']}.{filter['attrs']}""") | (d['context'].isin(['module.string', 'text.string']))].assign(
-                    new_string = lambda d: '{=' + d['id'] + '}' + d['text_EN']
+                    xml_entries = xml.xpath(
+                        f'''.//xsl:template[contain(@match, "{filter['context'].split('.')[0]}")]/xsl:attribute[@name={filter['key']}]''',
+                        namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
+                    # xml_entries = [x for x in xml_entries if x is not None]
+                d_sub = (
+                    data.loc[
+                        lambda d: (
+                            d['context'] == f"""{filter['context']}""")|
+                            (d['context'].isin(['module.string', 'text.string']))
+                    ]
+                    .assign(
+                        new_string = lambda d: '{=' + d['id'] + '}' + d['text_EN']
+                    )
                 )
                 for entry in xml_entries:
                     if filetype == "xslt":
-                        old_string = entry.getText()
+                        old_string = entry.text
                     else:
-                        old_string =  entry[filter['attrs']]
+                        old_string =  entry.attrib[filter['key']]
                     entry_id = match_public_id.sub(r'\1', old_string) 
                     entry_text = match_string.sub(r'\1', old_string)
                     r = d_sub[lambda d: (d['id'] != entry_id) & (d['text_EN'] == entry_text)].reset_index()
@@ -431,9 +441,9 @@ def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_c
                         any_changes = True
                         print(f'''{entry_id}/{entry_text} -> {r.shape[0]}, {r['new_string']}''')
                         if filetype == "xml":
-                            entry = replace_id_xml(entry, attr=filter['attrs'], new_string=r['new_string'][0])
+                            entry = replace_id_xml(entry, attr=filter['key'], new_string=r['new_string'][0])
                         elif filetype == "xslt":
-                            entry = replace_id_xslt(entry, attr=filter['attrs'], new_string=r['new_string'][0])
+                            entry = replace_id_xslt(entry, attr=filter['key'], new_string=r['new_string'][0])
                         else:
                             Warning("Incorrect file type")
         if any_changes:
@@ -452,15 +462,14 @@ def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_c
     print(f'''{n_changed_files} {filetype.upper()} files exported''')
 
 
-def replace_id_xml(entry:BeautifulSoup, attr:str, new_string:str)->BeautifulSoup:
-    entry[attr] = new_string
+def replace_id_xml(entry:ET.Element, attr:str, new_string:str)->ET.Element:
+    entry.attrib[attr] = new_string
     return entry
 
 
-def replace_id_xslt(entry:BeautifulSoup, attr:str, new_string:str)->BeautifulSoup:
+def replace_id_xslt(entry:ET.Element, attr:str, new_string:str)->ET.Element:
     print(entry)
-    # replace_with の意味は……?
-    entry.string = new_string
+    entry.text = new_string
     return entry
 
 
@@ -478,15 +487,15 @@ def pofile_to_df(pofile:Path)->pd.DataFrame:
     return po2pddf(catalog, drop_prefix_id=False)
     
 
-def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path)->BeautifulSoup:
+def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path)->ET:
     try:
         with file_path.open('r', encoding='utf-8') as f:
-            xml = BeautifulSoup(f, features='lxml-xml')
+            xml = ET.parse(f)
     except UnicodeDecodeError as e:
         print(e)
         print('trying reopen with UTF-16LE')
         with file_path.open('r', encoding='utf-16le') as f:
-            xml = BeautifulSoup(f, features='lxml-xml', from_encoding='UTF-16LE')
+            xml = ET.parse(f, from_encoding='UTF-16LE')
     return xml
 
 

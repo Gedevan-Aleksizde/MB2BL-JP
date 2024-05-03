@@ -6,7 +6,7 @@ from pathlib import Path
 import warnings
 
 import pandas as pd
-from bs4 import BeautifulSoup
+import lxml.etree as ET
 import regex
 import numpy as np
 from functions import (
@@ -45,7 +45,7 @@ if not args.output_blank:
     d_new = d_new.loc[lambda d: d['text'] != '']
 # d_new = pd.read_excel(args.outdir.joinpath(f'strings_{args.target_module}.xlsx'))
 
-xml = BeautifulSoup(
+xml = ET.fromstring(
     f'''
     <base>
     <tags>
@@ -54,22 +54,27 @@ xml = BeautifulSoup(
     <strings>
     </strings>
     </base>
-    ''',
-    features='lxml-xml')
+    ''')
 strings = xml.find('strings')
 for i, r in d_new.iterrows():
-    tmp = BeautifulSoup(f'''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''', 'lxml-xml')  # what a inconvenient
-    tmp.find('string')['id']= r['id']
-    tmp.find('string')['text']= r['text']
+    tmp = ET.fromstring(f'''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''')
+    tmp.attrib['id']= r['id']
+    tmp.attrib['text'] = r['text']
     strings.append(tmp)
-with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/strings-{args.langshort}.xml').open('w', encoding='utf-8') as f:
-    f.writelines(xml.prettify(formatter='minimal'))
-xml = BeautifulSoup(
+xml = ET.ElementTree(xml)
+ET.indent(xml, space="  ", level=0)
+xml.write(
+    args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/strings-{args.langshort}.xml'),
+    pretty_print=True, xml_declaration=True, encoding='utf-8')
+
+xml = ET.fromstring(
     f'''
     <LanguageData id="{args.langid}">
       <LanguageFile xml_path="{args.langshort}/strings-{args.langshort}.xml" />
-    </LanguageData>''',
-    features='lxml-xml'
+    </LanguageData>'''
 )
-with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/language_data.xml').open('w', encoding='utf-8') as f:
-    f.writelines(xml.prettify(formatter='minimal'))
+xml = ET.ElementTree(xml)
+ET.indent(xml, space="  ", level=0)
+xml.write(
+    args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}/language_data.xml'),
+    pretty_print=True, xml_declaration=True, encoding='utf-8')
