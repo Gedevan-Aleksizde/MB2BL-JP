@@ -5,11 +5,6 @@ from pathlib import Path
 import warnings
 
 import pandas as pd
-from bs4 import BeautifulSoup
-import regex
-import numpy as np
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo, write_mo
 from datetime import datetime
 from functions import export_id_text_list
 
