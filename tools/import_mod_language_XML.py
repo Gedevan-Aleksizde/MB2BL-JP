@@ -205,11 +205,11 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
     ds = []
     for filter in FILTERS:
         xslt_entries = xslt.xpath(
-            f'''.//xsl:template[contains(@match, "{filter['filter_name'].split('.')[0]}")]/xsl:attribute[@name='{filter["key"]}']''',
+            f'''.//xsl:template[contains(@match, "{filter['context'].split('.')[0]}")]/xsl:attribute[@name='{filter["key"]}']''',
             namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
         # TODO: more rigorous conditioning
         if verbose:
-            print(f'''{len(xslt_entries)} {filter['filter_name']} attributes found in {filter['context']} tags''')
+            print(f'''{len(xslt_entries)} {filter['context']} attributes found in {filter['context']} tags''')
         if len(xslt_entries) > 0:
             tmp = pd.DataFrame(
                 [(x.text, f'''{filter['name']}.{filter['key']}''') for x in xslt_entries],
@@ -416,7 +416,7 @@ def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_c
                     xml_entries = xml.xpath(filter['xpath'])
                 elif filetype == "xslt":
                     xml_entries = xml.xpath(
-                        f'''.//xsl:template[contain(@match, "{filter['context'].split('.')[0]}")]/xsl:attribute[@name={filter['key']}]''',
+                        f'''.//xsl:template[contains(@match, "{filter['context'].split('.')[0]}")]/xsl:attribute[@name={filter['key']}]''',
                         namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
                     # xml_entries = [x for x in xml_entries if x is not None]
                 d_sub = (
@@ -456,8 +456,8 @@ def export_corrected_xml_xslt_id(data:pd.DataFrame, module_data_dir:Path, dont_c
             with outfp.parent as fdir:
                 if not fdir.exists():
                     fdir.mkdir(parents=True, exist_ok=True)
-            with outfp.open('w', encoding='utf-8') as f:
-                    f.writelines(xml.prettify(formatter='minimal'))
+            ET.indent(xml, space="  ", level=0)
+            xml.write(outfp, pretty_print=True, xml_declaration=True, encoding='utf-8')
         any_changes = False
     print(f'''{n_changed_files} {filetype.upper()} files exported''')
 
