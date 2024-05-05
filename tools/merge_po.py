@@ -5,10 +5,8 @@ import argparse
 import yaml
 from pathlib import Path
 
-from babel import Locale # Babel
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo, write_mo
-from babel.messages.catalog import Catalog, Message
+import polib
+from functions import initializePOFile
 from datetime import datetime
 from functions import merge_yml
 
@@ -26,32 +24,30 @@ if __name__ == '__main__':
             with Path(__file__).parent.joinpath('default.yml') as fp:
                 args = merge_yml(fp, args, parser.parse_args(['']))
 
-catalog = Catalog(Locale.parse(args.locale))
-
-catalogs = []
+pof = initializePOFile(args.locale)
+pofiles = []
 for target in args.target_dir.glob('*.po'):
     with target.open('br') as f:
-        catalogs += [read_po(f)]
+        pofiles += [polib.pofile(f, encoding='utf-8')]
 if args.read_mo:
     for target in args.target_dir.glob('*.mo'):
         with target.open('br') as f:
-            catalogs += [read_mo(f)]
+            pofiles += [polib.mofile(f, encoding='utf-8')]
 
-for c in catalogs:
-    for m in c: 
-        if m.id != '' and (m.string != '' or args.keep_blank):
-            catalog.add(
-                id=m.id,
-                string=m.string,
-                locations=m.locations,
-                user_comments=m.user_comments,
-                context=m.context)
+for p in pofiles:
+    for m in p: 
+        if m.string != '' or args.keep_blank:
+            pof.append(
+                msgid=m.id,
+                msgstr=m.string,
+                occurrences=m.locations,
+                tcomment=m.user_comments,
+                msgctxt=m.context)
 
-if len(catalog) > 0:
+if len(pof) > 0:
     if not args.output.parent.exists():
         args.output.parent.mkdir(parents=True)
-    with args.output.open('bw') as f:
-        if args.output.suffix == '.po':
-            write_po(f, catalog)
-        elif args.output.suffix == '.mo':
-            write_mo(f, catalog)
+    if args.output.suffix == '.po':
+        pof.save(f)
+    elif args.output.suffix == '.mo':
+        pof.save_as_mofile(f)

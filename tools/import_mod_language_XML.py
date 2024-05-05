@@ -8,8 +8,7 @@ import warnings
 import pandas as pd
 import lxml.etree as ET
 import numpy as np
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo, write_mo
+import polib
 from datetime import datetime
 from functions import (
     pddf2po, po2pddf,
@@ -473,18 +472,13 @@ def replace_id_xslt(entry:ET.Element, attr:str, new_string:str)->ET.Element:
     return entry
 
 
-def pofile_to_df(pofile:Path)->pd.DataFrame:
-    if args.pofile.exists():
-        with args.pofile.open('br') as f:
-            if args.pofile.suffix == '.mo':
-                catalog = read_mo(f)
-            elif args.pofile.suffix == '.po':
-                catalog = read_po(f)
-    elif args.pofile.with_suffix('.po').exists():
-        with args.pofile.with_suffix('.po').open('br') as f:
-            catalog = read_po(f)
-            print(f"{args.pofile.with_suffix('.po')} loaded insteadly")
-    return po2pddf(catalog, drop_prefix_id=False)
+def read_po_as_df(pofile:Path)->pd.DataFrame:
+    if pofile.exists():
+        pof = polib.pofile(pofile)
+    elif pofile.with_suffix('.mo').exists():
+        pof = polib.mofile(pofile.with_suffix('.mo'))
+        print(f"{pofile.with_suffix('.mo')} loaded insteadly")
+    return po2pddf(pof, drop_prefix_id=False)
     
 
 def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path)->ET:
@@ -520,7 +514,7 @@ def main():
     print(f'''---- {d_mod_lang.shape[0]} entries found. ----''')
     if args.pofile is not None:
         if args.pofile.exists():
-            d_po = pofile_to_df(args.pofile).drop(columns=['duplication'])
+            d_po = read_po_as_df(args.pofile).drop(columns=['duplication'])
         else:
             warnings.warn(f'''{args.pofile} not found''')
             d_po = None
@@ -541,7 +535,7 @@ def main():
         d_mod = d_mod.assign(flags=lambda d: [list(s) for s in d['flags']])
     else:
         d_mod = d_mod.assign(flags=lambda d: [['fuzzy']] * d.shape[0])
-    catalog = pddf2po(
+    pof = pddf2po(
         d_mod, with_id=False, make_distinct=False, regacy_mode=False,
         col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file', col_flags='flags')
     with args.outdir.joinpath(f'{args.target_module}.xlsx') as fp:
@@ -563,8 +557,7 @@ def main():
                 backup_fp.parent.mkdir()
             print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
             fp.rename(backup_fp)
-        with fp.open('bw') as f:
-            write_po(f, catalog)
+        pof.save(fp, encoding='utf-8')
     if platform.system() == 'Windows' and not args.suppress_shortcut:
         shell = Dispatch('WScript.Shell')
         shortcut = shell.CreateShortCut(str(args.outdir.joinpath(f"{args.target_module}.lnk")))

@@ -3,10 +3,7 @@
 
 import argparse
 from pathlib import Path
-from babel import Locale # Babel
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo
-from babel.messages.catalog import Catalog
+import polib
 from datetime import datetime
 import numpy as np
 import regex
@@ -22,9 +19,9 @@ if __name__ == '__main__':
 if args.target.exists():
     with args.target.open('br') as f:
         if args.target.suffix == '.mo':
-            catalog = read_mo(f)
+            pof = polib.pofile(f, encoding='utf-8')
         elif args.target.suffix == '.po':
-            catalog = read_po(f)
+            pof = polib.mofile(f, encoding='utf-8')
         else:
             raise(f'{args.target} extension is wrong')
 else:
@@ -33,9 +30,10 @@ else:
 
 match_internal_id = regex.compile(r'^.+?/.+?/(.+?)/(.*$)')
 
-d = po2pddf(catalog, drop_prefix_id=False, legacy=True, drop_excessive_cols=False)
-d['text_EN'] = d[[x for x in d.columns if x not in ['id', 'text', 'notes', 'flags', 'locations', 'context', 'module', 'file']]].agg(lambda x: '/'.join([y for y in x if y is not None]), axis=1)
-d = d[[x for x in d.columns if x in ['id', 'text', 'notes', 'flags', 'locations', 'context', 'module', 'file', 'text_EN']]]
+d = po2pddf(pof, drop_prefix_id=False, legacy=True, drop_excessive_cols=False)
+excluding_cols = ['id', 'text', 'notes', 'flags', 'locations', 'context', 'module', 'file']
+d['text_EN'] = d[[x for x in d.columns if x not in excluding_cols]].agg(lambda x: '/'.join([y for y in x if y is not None]), axis=1)
+d = d[[x for x in d.columns if x in excluding_cols + ['text_EN']]]
 
 d = d.assign(isnative=lambda d: d['module']=='Native').sort_values(['id', 'isnative']).groupby(['id']).last().reset_index().drop(columns=['isnative'])
 d = d.assign(
@@ -47,7 +45,7 @@ d['locations'] = d['file']
 d['flags'] = [['fuzzy'] if 'fuzzy' in x else [] for x in d['flags']]
 d = d.assign(text=lambda d: d['text'].str.replace('%', '%%'))
 
-catalog_new = pddf2po(d, with_id=False, col_id_text='text_EN', col_locations='locations', col_context='context', col_comments='notes', col_flags='flags')
+pof_new = pddf2po(d, with_id=False, col_id_text='text_EN', col_locations='locations', col_context='context', col_comments='notes', col_flags='flags')
 
 if not args.output.parent.exists():
     args.output.parent.mkdir()
@@ -58,5 +56,4 @@ with args.output as fp:
         )
         fp.rename(backup_path)
         print(f"""old file is renamed to {backup_path.name}""")
-with args.output.open('bw') as f:
-    write_po(f, catalog_new)
+pof_new.save(args.output)

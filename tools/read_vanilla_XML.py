@@ -1,17 +1,21 @@
 #! /usr/bin/env python3
 # encoding: utf-8
-from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
 import argparse
 import numpy as np
 import regex
-from babel import Locale # Babel
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo
-from babel.messages.catalog import Catalog
+import polib
 import warnings
-from functions import read_xmls, check_duplication, escape_for_po, update_with_older_po, drop_duplicates, merge_yml
+from functions import (
+    read_xmls,
+    check_duplication,
+    escape_for_po,
+    update_with_older_po,
+    drop_duplicates,
+    merge_yml,
+    initializePOFile
+    )
 from datetime import datetime
 
 # from tools.functions import read_xmls, check_duplication, escape_for_po, update_with_older_po
@@ -108,51 +112,40 @@ if args.distinct:
         df_new = df_new.assign(
             notes=lambda d: np.where(d['duplication'] > 1, [','.join([x for x in [note, f"""{ndup} ID duplications"""] if x != '']) for note, ndup in zip(d['notes'], d['duplication']) ], d['notes']))
 
-new_catalog = Catalog(Locale.parse('ja_JP'))
+new_pof = initializePOFile('ja_JP')
 if args.only_diff:
     for i, r in df_new.iterrows():
-        _ = new_catalog.add(
-            id=r['id'],
+        new_pof.append(
+            msgid=r['id'],
             flags=['fuzzy']
         )
 else:
     for i, r in df_new.iterrows():
-        _ = new_catalog.add(
-            id=r['id'],
-            string = r[f'text_{args.langshort}_original'],
-            user_comments=[] if r['notes'] == '' else [r['notes']],
-            locations=r['locations'],
+        new_pof.append(
+            msgid=r['id'],
+            msgstr = r[f'text_{args.langshort}_original'],
+            tcomment=[] if r['notes'] == '' else [r['notes']],
+            occurrences=r['locations'],
             flags=['fuzzy']
         )
 
 if args.pofile.exists():
     if args.pofile.suffix == '.po':
-        with args.pofile.open('br') as f:
-            old_catalog = read_po(f)
+        old_po = polib.pofile(args.pofile, encoding='utf-8')
     elif args.pofile.suffix == '.mo':
-        with args.pofile.open('br') as f:
-            old_catalog = read_mo(f)
+        old_po = polib.mofile(args.pofile, encoding='utf-8')
     else:
-        old_catalog = None
-    if old_catalog is None:
+        old_po = None
+    if old_po is None:
         warnings.warn('Old translation file path may be misspecified!')
     else:
-        new_one = update_with_older_po(old_catalog, new_catalog, args.all_fuzzy, ignore_facial=False, legacy_id=args.legacy_id)
+        new_one = update_with_older_po(old_po, new_pof, args.all_fuzzy, ignore_facial=False, legacy_id=args.legacy_id)
 else:
     print('Old PO file not found. merging is skipped')
-    new_one = new_catalog
-
-
-##########
-## !!! Babel.messages.catalog.Catalog indexing HARDLY WORK AFTER THIS !!!!
-##########
+    new_one = new_pof
 
 df_new = df_new.set_index('id')
-for l in new_one:
-    if l.id != '':
-        new_one[l.id].context = f'''{df_new.loc[l.id]['module']}/{df_new.loc[l.id]['file']}'''
 
-##########
 with args.output as fp:
     if fp.exists():
         backup_path = fp.parent.joinpath(
@@ -160,6 +153,5 @@ with args.output as fp:
         )
         fp.rename(backup_path)
         print(f"""old file is renamed to {backup_path.name}""")
-    with fp.open('bw') as f:
-        write_po(f, new_one)
+    new_one.save(fp)
     print(f'''WRITE AT: {args.output}''')

@@ -4,15 +4,13 @@ import argparse
 from pathlib import Path
 import yaml
 import warnings
+from typing import Optional
 import pandas as pd
 import numpy as np
-from babel import Locale # Babel
-from babel.messages.pofile import read_po, write_po
-from babel.messages.mofile import read_mo, write_mo
-from babel.messages.catalog import Catalog
+import polib
 import regex
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 import copy
 
 control_char_remove = regex.compile(r'\p{C}')
@@ -48,52 +46,22 @@ def merge_yml(fp:Path, args:argparse.Namespace, default:argparse.Namespace)->arg
     args.filename_sep = '_' if args.filename_sep_version == '1.2' else '-'
     return args
 
-
-def get_catalog_which_has_corrected_babel_fake_id(catalog_with_fake_id: Catalog, simplify=True) -> Catalog:
-    # WHY BABEL USES FAKE ID???
-    catalog_with_correct_id = Catalog(Locale.parse('ja_JP'))
-    if simplify:
-        for true_id in catalog_with_fake_id._messages:
-            _ = catalog_with_correct_id.add(
-                id = catalog_with_fake_id._messages[true_id].id,
-                string =  catalog_with_fake_id._messages[true_id].string,
-                user_comments = catalog_with_fake_id._messages[true_id].user_comments,
-                flags = catalog_with_fake_id._messages[true_id].flags,
-                locations = catalog_with_fake_id._messages[true_id].locations
-            )
-        for true_id in catalog_with_fake_id._messages:
-                catalog_with_correct_id[true_id[0]].context = catalog_with_fake_id._messages[true_id].context
-    else:
-        for true_id in catalog_with_fake_id._messages:
-            _ = catalog_with_correct_id.add(
-                id = true_id,
-                string =  catalog_with_fake_id._messages[true_id].string,
-                user_comments = catalog_with_fake_id._messages[true_id].user_comments,
-                flags = catalog_with_fake_id._messages[true_id].flags,
-                locations = catalog_with_fake_id._messages[true_id].locations
-            )
-        for true_id in catalog_with_fake_id._messages:
-                catalog_with_correct_id[true_id[0]].context = catalog_with_fake_id._messages[true_id].context
-    return catalog_with_correct_id
-
-
-def public_po(catalog: Catalog) -> Catalog:
+def public_po(pofile:polib.POFile)->polib.POFile:
     # TODO: copy of metadata
     # TODO: distinction
-    catalog = copy.deepcopy(catalog)
-    for true_id in catalog._messages:
-        catalog._messages[true_id].id = match_public_id.sub(r'\1', true_id)
-    return catalog
+    pofile = copy.deepcopy(pofile)
+    for entry in pofile:
+        entry.msgid = match_public_id.sub(r'\1', entry.msgid)
+    return pofile
 
 
-
-def po2pddf(catalog:Catalog, drop_prefix_id:bool=True, drop_excessive_cols:bool=True, legacy:bool=False) -> pd.DataFrame:
+def po2pddf(pofile:polib.POFile, drop_prefix_id:bool=True, drop_excessive_cols:bool=True, legacy:bool=False) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id`, `file`, `module`, `text`, `text_EN ,`notes`, `flags` columns
     """
     d = pd.DataFrame(
-        [(x.id, x.string, x.user_comments, x.flags, x.locations, x.context) for x in catalog if x.id != ''],
+        [(x.msgid, x.msgstr, x.tcomment, x.flags, x.occurrences, x.msgctxt) for x in pofile if x.msgid != ''],
         columns=['id', 'text', 'notes', 'flags', 'locations', 'context']
     )
     d = pd.concat([d, d['id'].str.split('/', expand=True)], axis=1).drop(
@@ -120,13 +88,13 @@ def po2pddf(catalog:Catalog, drop_prefix_id:bool=True, drop_excessive_cols:bool=
     return d
 
 
-def po2pddf_easy(catalog: Catalog, with_id=False) -> pd.DataFrame:
+def po2pddf_easy(pofile:polib.POFile, with_id=False) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id` and `text` columns
     """
     d = pd.DataFrame(
-        [(x.id, x.string, ' '.join(x.user_comments)) for x in catalog if x.id != ''], columns=['id', 'text', 'note']
+        [(x.msgid, x.msgstr, ' '.join(x.tcomment)) for x in pofile if x.msgid != ''], columns=['id', 'text', 'note']
         )
     internal_id = regex.compile('(^.+?)/(.+?)$')
     d['text'] = d['text'].str.replace('%%', '%')
@@ -137,15 +105,37 @@ def po2pddf_easy(catalog: Catalog, with_id=False) -> pd.DataFrame:
     return d
 
 
+def initializePOFile(lang:str, encoding:str='utf-8', email:Optional[str]=None )->polib.POFile:
+    po = polib.POFile(encoding=encoding)
+    dt = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+    metadata = {
+        'Project-Id-Version': '1.0',
+        'POT-Creation-Date': dt.strftime('%Y-%m-%d %H:%M:%S%z'),
+        'PO-Revision-Date': dt.strftime('%Y-%m-%d %H:%M:%S%z'),
+        'MIME-Version': '1.0',
+        'Language': lang,
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Plural-Forms': 'nplurals=1; plural=0;',
+        'Genereted-BY': 'polib',
+        'Content-Transfer-Encoding': '8bit'
+    }
+    if email:
+        metadata['Last-Translator'] = email
+        metadata['Report-Msgid-Bugs-To'] = email
+        metadata['Language-Team'] = f'''{lang}, {email}'''
+    po.metadata =  metadata
+    return po
+
+
 def pddf2po(
     df: pd.DataFrame, with_id:bool=True, make_distinct:bool=True, regacy_mode:bool=False, locale:str=None, col_id_text:str='text', col_text:str='text',
     col_locations:str=None, col_context:str=None, col_comments:str=None, col_flags:str=None,
-    )->Catalog:
+    )->polib.POFile:
     """
     input: `pandas.DataFrame` which contains `id` and `text` columns
     """
     if locale is None:
-        locale = Locale.parse('ja_JP')
+        locale = 'ja_JP'
     if make_distinct:
         df_unique = df.groupby('id').last().reset_index()
         if df.shape[0] != df_unique.shape[0]:
@@ -154,7 +144,7 @@ def pddf2po(
         df_unique = df
     del df
     df_unique[col_text] = np.where(df_unique[col_text].isna() | df_unique[col_text].isnull(), '', df_unique[col_text])
-    catalog = Catalog(locale)
+    pof = initializePOFile(lang='ja_JP')
     if with_id:
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
     # I shouldn't have used Babel.
@@ -162,42 +152,43 @@ def pddf2po(
 
     if not regacy_mode:
         def format_arg(dic: dict)->dict:
-            dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
-            dic['string'] = dic[col_text]
+            dic['msgid'] = f"""{dic['id']}/{dic[col_id_text]}"""
+            dic['msgstr'] = dic[col_text]
             if col_flags is None:
                 dic['flags'] = ['fuzzy']
             else:
                 dic['flags'] = dic.get(col_flags)
             if col_locations is not None:
-                dic['locations'] = [(str(x), 0) for x in dic.get(col_locations)]
-            dic['user_comments'] = dic.get(col_comments, '') if type(dic.get(col_comments, '')) is list else []
-            dic['context'] = dic.get(col_context)
+                dic['occurrences'] = [(str(x), 0) for x in dic.get(col_locations)]
+            dic['tcomment'] = dic.get(col_comments, '') if type(dic.get(col_comments, '')) is list else []
+            dic['msgctxt'] = dic.get(col_context)
             return dic
     else:
         def format_arg(dic: dict)->dict:
-            dic['id'] = f"""{dic['id']}/{dic[col_id_text]}"""
-            dic['string'] = dic[col_text]
+            dic['msgid'] = f"""{dic['id']}/{dic[col_id_text]}"""
+            dic['msgstr'] = dic[col_text]
             if col_flags is None:
                 pass
             else:
                 dic['flags'] = [] if dic.get('updated') else ['fuzzy']
-            dic['locations'] = [(dic.get(col_locations), 0)]
-            dic['user_comments'] = [dic.get(col_comments, '')]
-            dic['context'] = dic.get(col_context)
-            return dic            
+            dic['occurrences'] = [(dic.get(col_locations), 0)]
+            dic['tcomment'] = [dic.get(col_comments, '')]
+            dic['msgctxt'] = dic.get(col_context)
+            return dic
     d = [format_arg(dict(r)) for _, r in df_unique.iterrows()]
-    keys = {'id', 'string', 'flags'}
+    keys = {'msgid', 'msgstr', 'flags'}
     if col_comments is not None:
-        keys.add('user_comments')
+        keys.add('tcomment')
     if col_context is not None:
-        keys.add('context')
+        keys.add('msgctxt')
     if col_locations is not None:
-        keys.add('locations')
+        keys.add('occurrences')
     current_keys = list(d[0].keys())
     _ = [dic.pop(k, None) for dic in d for k in current_keys if k not in keys]
     for r in d:
-        catalog.add(**r)
-    return catalog
+        pof.append(**r)
+    return pof
+
 
 def removeannoyingchars(string: str, remove_id=False) -> str:
     # TODO: against potential abusing of control characters
@@ -208,13 +199,96 @@ def removeannoyingchars(string: str, remove_id=False) -> str:
     return string
 
 
-def export_id_text_list(input_pofile:Path, output:Path)->None:
+def update_with_older_po(old_po:polib.POFile, new_po:polib.POFile, all_fuzzy=False, ignore_facial=True, legacy_id=False)->polib.POFile:
+    # I shouldn't have used Babel
+    if legacy_id:
+        for l in new_po:
+            if l.msgid != '':
+                old_entry = old_po.find(l.msgid)
+                if old_entry is not None:
+                    old_entry.msgstr = match_public_id_legacy.sub(r'\1', old_entry.msgstr)
+                    if old_entry.msgstr != '':
+                        new_entry = new_po.find(l.msgid)
+                        if new_entry is not None:
+                            new_entry.msgstr = old_entry.msgstr
+                            new_entry.tcomment = old_entry.tcomment
+                else:
+                    print(f"error: irregular catlog ID={l.msgid}")
+        # update on public id if not matched
+        old_po_fuzzy = initializePOFile('ja_JP')
+        for l in old_po:
+            old_po_fuzzy.append(
+                msgid=match_public_id_legacy.sub(r'\1', l.msgid),
+                msgstr=l.msgstr,
+                tcomment=l.tcomment,
+                flags=l.flags,
+                msgctxt=l.msgctxt,
+                occurrences=l.occurrences
+            )
+        n_match = 0
+        for l in new_po:
+            if l.msgid != '':
+                old_entry = old_po_fuzzy.find(match_public_id_legacy.sub(r'\1', l.msgid))
+                if old_entry is not None and old_po.find(l.msgid) is None:
+                    n_match += 1
+                    new_entry = new_entry.find(l.msgid)
+                    if new_entry is not None:
+                        new_entry.msgstr = old_entry.msgstr
+                        new_entry.tcomment += old_entry.tcomment
+                        new_entry.flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_entry.flags else []
+        print(f'Updated {n_match} entries matched on public ID')
+    else:
+        suffix_facial = regex.compile("(\[ib:.+\]|\[if:.+\])")  # against v1.2 updates
+        n_match = 0
+        for l in new_po:
+            if l.msgid != '':
+                old_entry = old_po.find(suffix_facial.sub("", l.msgid)) if ignore_facial else old_po.find(l.msgid)
+                if old_entry is not None:
+                    if old_entry.msgstr != '':
+                        new_entry = new_po.find(l.msgid)
+                        if new_entry is not None:
+                            new_entry.msgstr = old_entry.msgstr
+                            new_entry.tcomment += old_entry.tcomment
+                            new_entry.flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_entry.flags else []
+                            n_match += 1
+        total_entries = len([m for m in new_po if m.msgid != ''])
+        print(f'Updated {n_match}/{total_entries} entries matched by both the internal ID')
+        if n_match == total_entries:
+            print('all entries are matched')
+        else:
+            # update on public ID if the original text changed or somewhat get hardcoded
+            old_po_fuzzy = initializePOFile('ja_JP')
+            for l in old_po:
+                #ahoshine = match_public_id.sub(r'\1', l.id)
+                #print(f'{ahoshine}: {l.string}')
+                old_po_fuzzy.append(
+                    msgid=match_public_id.sub(r'\1', l.msgid),
+                    msgstr=l.msgstr,
+                    tcomment=l.tcomment,
+                    flags=l.flags | set('fuzzy') if all_fuzzy or 'fuzzy' in l.flags else set(),
+                    msgctxt=l.msgctxt
+                )
+            n_match = 0
+            for l in new_po:
+                if l.msgid != '':
+                    old_entry = old_po_fuzzy.find(match_public_id.sub(r'\1', l.msgid))
+                    if old_entry is not None and old_entry.msgstr != '' and old_po.find(l.msgid) is None and old_entry.msgstr != l.msgstr:
+                        new_entry = new_po.find(l.msgid)
+                        if new_entry is not None:
+                            new_entry.msgstr = old_entry.msgstr
+                            new_entry.tcomment += old_entry.tcomment
+                            new_entry.flags = ['fuzzy']
+                            n_match += 1
+            print(f'Updated {n_match} entries matched by the public ID')
+    return new_po
+
+
+def export_id_text_list(fpath:Path, output:Path)->None:
     """
     read pofile and export as csv with id and text columns. mainly used for compare with misassigned IDs in the third-party mods
     """
-    with input_pofile.open('br') as f:
-        catalog = read_po(f)
-    d = pd.DataFrame([(x.id) for x in catalog if x.id != ''], columns=['id'])
+    pof = polib.pofile(fpath, encoding='utf-8')
+    d = pd.DataFrame([(x.msgid) for x in pof if x.msgid != ''], columns=['id'])
     d['text_EN'] = d['id'].str.replace(r'^(.+?)/(.+?)$', r'\2', regex=True)
     d['id'] = d['id'].str.replace(r'^(.+?)/.+?$', r'\1', regex=True)
     if output.exists():

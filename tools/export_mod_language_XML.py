@@ -12,7 +12,7 @@ import numpy as np
 from functions import (
     merge_yml,po2pddf_easy
     )
-from babel.messages.pofile import read_po, write_po
+import polib
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str)
@@ -38,9 +38,8 @@ if __name__ == '__main__':
         args.pofile = args.outdir.joinpath(f'{args.target_module}.po')
     print(args)
 
-with args.pofile.open('br') as f:
-    catalog = read_po(f)
-d_new = po2pddf_easy(catalog, with_id=args.with_id)
+pof = polib.pofile(args.pofile, encoding='utf-8')
+d_new = po2pddf_easy(pof, with_id=args.with_id)
 if not args.output_blank:
     d_new = d_new.loc[lambda d: d['text'] != '']
 # d_new = pd.read_excel(args.outdir.joinpath(f'strings_{args.target_module}.xlsx'))
