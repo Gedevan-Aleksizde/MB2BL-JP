@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "mb2bl-jp"
+version = "0.1.0"
+description = ""
+authors = ["S-Katagiri <katagiri.stsh@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+lxml = "^5.2.1"
+pandas = "^2.2.2"
+polib = "^1.2.0"
+numpy = "^1.26.4"
+pyyaml = "^6.0.1"
+regex = "^2024.4.28"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
