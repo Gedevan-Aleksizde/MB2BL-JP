@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 import argparse
-import yaml
 from pathlib import Path
 
 import polib

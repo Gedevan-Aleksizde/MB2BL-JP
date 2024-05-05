@@ -5,7 +5,6 @@ import argparse
 from pathlib import Path
 import polib
 from datetime import datetime
-import numpy as np
 import regex
 from functions import po2pddf, pddf2po
 

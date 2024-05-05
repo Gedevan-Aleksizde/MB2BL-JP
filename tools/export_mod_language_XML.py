@@ -1,14 +1,8 @@
 #! /usr/bin/env python3
 
 import argparse
-import yaml
 from pathlib import Path
-import warnings
-
-import pandas as pd
 import lxml.etree as ET
-import regex
-import numpy as np
 from functions import (
     merge_yml,po2pddf_easy
     )

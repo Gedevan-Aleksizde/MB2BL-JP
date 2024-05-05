@@ -2,7 +2,6 @@
 
 import platform
 import argparse
-import yaml
 from pathlib import Path
 import warnings
 import pandas as pd

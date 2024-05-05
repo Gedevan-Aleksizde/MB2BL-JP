@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Optional
 import argparse
 import numpy as np
-import regex
 import polib
 import warnings
 import lxml.etree as ET

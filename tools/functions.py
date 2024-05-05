@@ -6,12 +6,10 @@ import yaml
 import warnings
 from typing import Optional
 from datetime import datetime, timezone
-import lxml.etree as ET
 import polib
 import regex
 import pandas as pd
 import numpy as np
-import hashlib
 
 import copy
 

@@ -4,8 +4,6 @@ import yaml
 from pathlib import Path
 import warnings
 
-import pandas as pd
-from datetime import datetime
 from functions import export_id_text_list
 
 

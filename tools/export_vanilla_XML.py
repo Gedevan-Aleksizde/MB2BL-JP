@@ -1,7 +1,6 @@
 #! /usr/bin/env python3
 # encoding: utf-8
 import argparse
-import yaml
 from pathlib import Path
 import warnings
 from typing import Optional
@@ -10,7 +9,6 @@ import lxml.etree as ET
 import html
 import pandas as pd
 import polib
-import regex
 from functions import po2pddf, removeannoyingchars, public_po, merge_yml
 
 pofile = Path('text/MB2BL-Jp.po')
