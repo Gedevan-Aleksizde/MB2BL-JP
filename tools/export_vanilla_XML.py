@@ -212,7 +212,7 @@ def export_modules(args, type):
                     language_data.getroot().append(
                         generate_languageFile_element(f"{Path('/'.join([args.langfolder_output, module if type == 'module' else '', xml_path.name])).as_posix()}")
                         )
-                    write_xml_with_default_setting(xml, xml_path)
+                    write_xml_with_default_setting(xml, output_dir.joinpath(f'''{xml_path.name}'''))
                 else:
                         warnings.warn(f'{xml_path} has no base tag! processing skipped')
             write_xml_with_default_setting(language_data, output_dir.joinpath('language_data.xml'))
