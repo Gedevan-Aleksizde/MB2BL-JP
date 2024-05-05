@@ -6,7 +6,6 @@ from pathlib import Path
 import warnings
 from typing import Optional
 
-# from bs4 import BeautifulSoup
 import lxml.etree as ET
 import html
 import pandas as pd

@@ -5,12 +5,14 @@ from pathlib import Path
 import yaml
 import warnings
 from typing import Optional
-import pandas as pd
-import numpy as np
+from datetime import datetime, timezone
+import lxml.etree as ET
 import polib
 import regex
+import pandas as pd
+import numpy as np
 import hashlib
-from datetime import datetime, timezone
+
 import copy
 
 control_char_remove = regex.compile(r'\p{C}')
@@ -110,8 +112,8 @@ def initializePOFile(lang:str, encoding:str='utf-8', email:Optional[str]=None )-
     dt = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     metadata = {
         'Project-Id-Version': '1.0',
-        'POT-Creation-Date': dt.strftime('%Y-%m-%d %H:%M:%S%z'),
-        'PO-Revision-Date': dt.strftime('%Y-%m-%d %H:%M:%S%z'),
+        'POT-Creation-Date': dt,
+        'PO-Revision-Date': dt,
         'MIME-Version': '1.0',
         'Language': lang,
         'Content-Type': 'text/plain; charset=utf-8',
@@ -147,7 +149,6 @@ def pddf2po(
     pof = initializePOFile(lang='ja_JP')
     if with_id:
         df_unique[col_text] = [ f'[{r["id"]}]{r[col_text]}' for _, r in df_unique.iterrows()]
-    # I shouldn't have used Babel.
     print(f'col_flags={col_flags}, {col_flags is None}')
 
     if not regacy_mode:
@@ -186,7 +187,7 @@ def pddf2po(
     current_keys = list(d[0].keys())
     _ = [dic.pop(k, None) for dic in d for k in current_keys if k not in keys]
     for r in d:
-        pof.append(**r)
+        pof.append(polib.POEntry(**r))
     return pof
 
 
@@ -200,38 +201,39 @@ def removeannoyingchars(string: str, remove_id=False) -> str:
 
 
 def update_with_older_po(old_po:polib.POFile, new_po:polib.POFile, all_fuzzy=False, ignore_facial=True, legacy_id=False)->polib.POFile:
-    # I shouldn't have used Babel
     if legacy_id:
-        for l in new_po:
-            if l.msgid != '':
-                old_entry = old_po.find(l.msgid)
+        for entry in new_po:
+            if entry.msgid != '':
+                old_entry = old_po.find(entry.msgid)
                 if old_entry is not None:
                     old_entry.msgstr = match_public_id_legacy.sub(r'\1', old_entry.msgstr)
                     if old_entry.msgstr != '':
-                        new_entry = new_po.find(l.msgid)
+                        new_entry = new_po.find(entry.msgid)
                         if new_entry is not None:
                             new_entry.msgstr = old_entry.msgstr
                             new_entry.tcomment = old_entry.tcomment
                 else:
-                    print(f"error: irregular catlog ID={l.msgid}")
+                    print(f"error: irregular catlog ID={entry.msgid}")
         # update on public id if not matched
         old_po_fuzzy = initializePOFile('ja_JP')
-        for l in old_po:
+        for entry in old_po:
             old_po_fuzzy.append(
-                msgid=match_public_id_legacy.sub(r'\1', l.msgid),
-                msgstr=l.msgstr,
-                tcomment=l.tcomment,
-                flags=l.flags,
-                msgctxt=l.msgctxt,
-                occurrences=l.occurrences
+                polib.POEntry(
+                    msgid=match_public_id_legacy.sub(r'\1', entry.msgid),
+                    msgstr=entry.msgstr,
+                    tcomment=entry.tcomment,
+                    flags=entry.flags,
+                    msgctxt=entry.msgctxt,
+                    occurrences=entry.occurrences
+                )
             )
         n_match = 0
-        for l in new_po:
-            if l.msgid != '':
-                old_entry = old_po_fuzzy.find(match_public_id_legacy.sub(r'\1', l.msgid))
-                if old_entry is not None and old_po.find(l.msgid) is None:
+        for entry in new_po:
+            if entry.msgid != '':
+                old_entry = old_po_fuzzy.find(match_public_id_legacy.sub(r'\1', entry.msgid))
+                if old_entry is not None and old_po.find(entry.msgid) is None:
                     n_match += 1
-                    new_entry = new_entry.find(l.msgid)
+                    new_entry = new_entry.find(entry.msgid)
                     if new_entry is not None:
                         new_entry.msgstr = old_entry.msgstr
                         new_entry.tcomment += old_entry.tcomment
@@ -240,16 +242,18 @@ def update_with_older_po(old_po:polib.POFile, new_po:polib.POFile, all_fuzzy=Fal
     else:
         suffix_facial = regex.compile("(\[ib:.+\]|\[if:.+\])")  # against v1.2 updates
         n_match = 0
-        for l in new_po:
-            if l.msgid != '':
-                old_entry = old_po.find(suffix_facial.sub("", l.msgid)) if ignore_facial else old_po.find(l.msgid)
+        for entry in new_po:
+            if entry.msgid != '':
+                old_entry = old_po.find(suffix_facial.sub("", entry.msgid)) if ignore_facial else old_po.find(entry.msgid)
                 if old_entry is not None:
                     if old_entry.msgstr != '':
-                        new_entry = new_po.find(l.msgid)
+                        new_entry = new_po.find(entry.msgid)
                         if new_entry is not None:
                             new_entry.msgstr = old_entry.msgstr
                             new_entry.tcomment += old_entry.tcomment
                             new_entry.flags = ['fuzzy'] if all_fuzzy or 'fuzzy' in old_entry.flags else []
+                            new_entry.fuzzy = True if all_fuzzy or 'fuzzy' in old_entry.flags else False
+                            new_entry.msgctxt = old_entry.msgctxt
                             n_match += 1
         total_entries = len([m for m in new_po if m.msgid != ''])
         print(f'Updated {n_match}/{total_entries} entries matched by both the internal ID')
@@ -258,26 +262,28 @@ def update_with_older_po(old_po:polib.POFile, new_po:polib.POFile, all_fuzzy=Fal
         else:
             # update on public ID if the original text changed or somewhat get hardcoded
             old_po_fuzzy = initializePOFile('ja_JP')
-            for l in old_po:
-                #ahoshine = match_public_id.sub(r'\1', l.id)
-                #print(f'{ahoshine}: {l.string}')
+            for entry in old_po:
                 old_po_fuzzy.append(
-                    msgid=match_public_id.sub(r'\1', l.msgid),
-                    msgstr=l.msgstr,
-                    tcomment=l.tcomment,
-                    flags=l.flags | set('fuzzy') if all_fuzzy or 'fuzzy' in l.flags else set(),
-                    msgctxt=l.msgctxt
+                    polib.POEntry(
+                        msgid=match_public_id.sub(r'\1', entry.msgid),
+                        msgstr=entry.msgstr,
+                        tcomment=entry.tcomment,
+                        flags=set(entry.flags) | set('fuzzy') if all_fuzzy or 'fuzzy' in entry.flags else list(),
+                        msgctxt=entry.msgctxt
+                    )
                 )
             n_match = 0
-            for l in new_po:
-                if l.msgid != '':
-                    old_entry = old_po_fuzzy.find(match_public_id.sub(r'\1', l.msgid))
-                    if old_entry is not None and old_entry.msgstr != '' and old_po.find(l.msgid) is None and old_entry.msgstr != l.msgstr:
-                        new_entry = new_po.find(l.msgid)
+            for entry in new_po:
+                if entry.msgid != '':
+                    old_entry = old_po_fuzzy.find(match_public_id.sub(r'\1', entry.msgid))
+                    if old_entry is not None and old_entry.msgstr != '' and old_po.find(entry.msgid) is None and old_entry.msgstr != entry.msgstr:
+                        new_entry = new_po.find(entry.msgid)
                         if new_entry is not None:
                             new_entry.msgstr = old_entry.msgstr
                             new_entry.tcomment += old_entry.tcomment
                             new_entry.flags = ['fuzzy']
+                            new_entry.fuzzy = True
+                            new_entry.msgctxt = old_entry.msgctxt
                             n_match += 1
             print(f'Updated {n_match} entries matched by the public ID')
     return new_po
