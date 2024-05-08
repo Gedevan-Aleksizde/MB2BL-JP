@@ -20,7 +20,7 @@ import hashlib
 if platform.system() == "Windows":
     # import winshell
     from win32com.client import Dispatch
-
+import html
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str, help='target module folder name')
@@ -106,11 +106,12 @@ def read_mod_languages(target_language:str, language_folder:Path)->pd.DataFrame:
     language_files = []
     for lang_data_file in language_folder.rglob('./language_data.xml'):
         xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(lang_data_file)
-        xml_lang_data = xml.find('LanguageData')
-        if xml_lang_data['id'] == target_language:
-            for  x in xml_lang_data.find_all('LanguageFile'):
-                print(x)
-            language_files += [language_folder.joinpath(x['xml_path']) for x in xml_lang_data.find_all('LanguageFile')]
+        print(ET.tostring(xml))
+        xml_lang_data = xml.getroot()
+        if xml_lang_data.attrib['id'] == target_language:
+            for x in xml_lang_data.xpath('./LanguageFile'):
+                print(html.unescape((ET.tostring(x, encoding='unicode'))))
+            language_files += [language_folder.joinpath(x.attrib['xml_path']) for x in xml_lang_data.xpath('./LanguageFile')]
     for file in language_files:
         print(f'{target_language} language file: {file.relative_to(language_folder)}')
         d = langauge_xml_to_pddf(file, 'text', language_folder)
@@ -556,7 +557,7 @@ def main():
                 backup_fp.parent.mkdir()
             print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
             fp.rename(backup_fp)
-        pof.save(fp, encoding='utf-8')
+        pof.save(fp)
     if platform.system() == 'Windows' and not args.suppress_shortcut:
         shell = Dispatch('WScript.Shell')
         shortcut = shell.CreateShortCut(str(args.outdir.joinpath(f"{args.target_module}.lnk")))
