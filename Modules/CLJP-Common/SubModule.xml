@@ -27,4 +27,13 @@
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" order="LoadAfterThis" optional="true" version="v2.*.*" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" order="LoadAfterThis" optional="true" version="v2.*.*" />
   	</DependedModuleMetadatas>
+    <Xmls>
+		<XmlNode>
+			<XmlName id="GameText" path="module_strings" />
+			<IncludedGameTypes>
+				<GameType value = "Campaign"/>
+				<GameType value = "CampaignStoryMode"/>
+			</IncludedGameTypes>
+		</XmlNode>
+    </Xmls>
 </Module>
