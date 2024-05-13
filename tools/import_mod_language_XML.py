@@ -211,7 +211,7 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
             print(f'''{len(xslt_entries)} {filter['context']} attributes found in {filter['context']} tags''')
         if len(xslt_entries) > 0:
             tmp = pd.DataFrame(
-                [(x.text, f'''{filter['name']}.{filter['key']}''') for x in xslt_entries],
+                [(x.text, f'''{filter['context']}''') for x in xslt_entries],
                 columns=['text_EN', 'context']
             ).assign(
                 id = lambda d: np.where(
