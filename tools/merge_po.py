@@ -26,27 +26,28 @@ if __name__ == '__main__':
 pof = initializePOFile(args.locale)
 pofiles = []
 for target in args.target_dir.glob('*.po'):
-    with target.open('br') as f:
-        pofiles += [polib.pofile(f, encoding='utf-8')]
+    pofiles += [polib.pofile(target, encoding='utf-8')]
 if args.read_mo:
     for target in args.target_dir.glob('*.mo'):
-        with target.open('br') as f:
-            pofiles += [polib.mofile(f, encoding='utf-8')]
+        pofiles += [polib.mofile(target, encoding='utf-8')]
 
 for p in pofiles:
     for m in p: 
-        if m.string != '' or args.keep_blank:
+        if m.msgstr != '' or args.keep_blank:
             pof.append(
-                msgid=m.id,
-                msgstr=m.string,
-                occurrences=m.locations,
-                tcomment=m.user_comments,
-                msgctxt=m.context)
+                polib.POEntry(
+                    msgid=m.msgid,
+                    msgstr=m.msgstr,
+                    occurrences=m.occurrences,
+                    tcomment=m.comment,
+                    msgctxt=m.msgctxt
+                )
+            )
 
 if len(pof) > 0:
     if not args.output.parent.exists():
         args.output.parent.mkdir(parents=True)
     if args.output.suffix == '.po':
-        pof.save(f)
+        pof.save(args.output)
     elif args.output.suffix == '.mo':
-        pof.save_as_mofile(f)
+        pof.save_as_mofile(args.output)
