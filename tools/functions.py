@@ -28,7 +28,7 @@ def merge_yml(fp:Path, args:argparse.Namespace, default:argparse.Namespace)->arg
         for k in yml.keys():
             if yml[k] == 'None':
                 yml[k] = None
-            if k in ['outdir', 'mb2dir', 'merge_with_gettext'] and yml[k] is not None:
+            if k in ['outdir', 'mb2dir', 'mo2dir', 'merge_with_gettext'] and yml[k] is not None:
                 yml[k] = Path(yml[k])
     d_args = vars(args)
     d_default = vars(default)

@@ -36,6 +36,7 @@ parser.add_argument(
     '--pofile', type=Path, default=None,
     help='additional translation file. PO or MO file are available. It requires the same format as what this script outputs') # TODO: 複数のファイルを参照 
 parser.add_argument('--mb2dir', type=Path, default=None, help='MB2 install folder')
+parser.add_argument('--mo2dir', type=Path, default=None, help='MO2 mods folder, which is serarch if target module is not found in mb2dir')
 parser.add_argument('--autoid-prefix', type=str, default=None)
 parser.add_argument('--id-exclude-regex', type=str, default=None, help='make ID invalid if this pattern matched')
 parser.add_argument('--convert-exclam', default=None, action='store_true')
@@ -105,7 +106,7 @@ def read_mod_languages(target_language:str, language_folder:Path)->pd.DataFrame:
     print(f'reading XML files from {language_folder}')
     language_files = []
     for lang_data_file in language_folder.rglob('./language_data.xml'):
-        xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(lang_data_file)
+        xml = ET.parse(lang_data_file)
         print(ET.tostring(xml))
         xml_lang_data = xml.getroot()
         if xml_lang_data.attrib['id'] == target_language:
@@ -233,7 +234,7 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
 def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.DataFrame:
     if base_dir is None:
         base_dir = fp.parent
-    xml = read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(base_dir.joinpath(fp))
+    xml = ET.parse(base_dir.joinpath(fp))
     xml_entries = xml.xpath('.//strings/string[@id][@text]')
     if len(xml_entries) > 0:
         d = pd.DataFrame(
@@ -479,25 +480,18 @@ def read_po_as_df(pofile:Path)->pd.DataFrame:
         pof = polib.mofile(pofile.with_suffix('.mo'))
         print(f"{pofile.with_suffix('.mo')} loaded insteadly")
     return po2pddf(pof, drop_prefix_id=False)
-    
-
-def read_xml_in_case_using_utf16_even_if_utf8_specified_in_header(file_path:Path)->ET:
-    try:
-        with file_path.open('r', encoding='utf-8') as f:
-            xml = ET.parse(f)
-    except UnicodeDecodeError as e:
-        print(e)
-        print('trying reopen with UTF-16LE')
-        with file_path.open('r', encoding='utf-16le') as f:
-            xml = ET.parse(f, from_encoding='UTF-16LE')
-    return xml
 
 
 def main():
     module_data_dir = args.mb2dir.joinpath(f'Modules/{args.target_module}/ModuleData')
     module_data_dir = module_data_dir.resolve()
     if not module_data_dir.exists():
-        raise(f'''{module_data_dir} not found!''')
+        globs = list(args.mo2dir.resolve().expanduser().glob(f'*/{args.target_module}/ModuleData'))
+        if len(globs) > 0:
+            module_data_dir = globs[0]
+            warnings.warn(f'''{args.target_module} not found in MB2 directory, load files from {module_data_dir} instead.''')
+        else:
+            raise(f'''{module_data_dir} not found!''')
     d_mod = extract_all_text_from_xml(module_data_dir, args.verbose)
     n = d_mod.shape[0]
     print(f'''---- {n} entries detected from this mod ----''')
