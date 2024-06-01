@@ -186,7 +186,7 @@ def non_language_xml_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->p
                     d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
                     ''
                 ),
-                file = fp.relative_to(base_dir),
+                file = fp.relative_to(base_dir).as_posix(),
                 text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
                 attr = filter['key']
             )
@@ -220,7 +220,7 @@ def non_language_xslt_to_pddf(fp:Path, base_dir:Path=None, verbose:bool=False)->
                     d['text_EN'].str.replace(r'^\{=(.+?)\}.*$', r'\1', regex=True),
                     ''
                 ),
-                file = fp.relative_to(base_dir),
+                file = fp.relative_to(base_dir).as_posix(),
                 text_EN = lambda d: d['text_EN'].str.replace(r'^\{=.+?\}(.*)$', r'\1', regex=True),
                 attr = filter['key']
             )
@@ -239,7 +239,10 @@ def langauge_xml_to_pddf(fp:Path, text_col_name:str, base_dir:Path=None)->pd.Dat
     if len(xml_entries) > 0:
         d = pd.DataFrame(
             [(x.attrib['id'], x.attrib['text'], 'language.text') for x in xml_entries], columns=['id', text_col_name, 'context']
-        ).assign(attr = 'string', file = fp.relative_to(base_dir))
+        ).assign(
+            attr = 'string',
+            file = fp.relative_to(base_dir).as_posix()
+        )
         return d
     else:
         return pd.DataFrame(columns=['id', text_col_name, 'context', 'attr', 'file'])
