@@ -10,6 +10,7 @@ import html
 import pandas as pd
 import polib
 from functions import po2pddf, removeannoyingchars, public_po, merge_yml
+from typing import Iterable, List, Tuple, Dict
 
 pofile = Path('text/MB2BL-Jp.po')
 output = Path('Modules')
@@ -79,10 +80,13 @@ def main():
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
 
-def export_modules(args, type):
+def export_modules(args: argparse.Namespace, type:str):
     """
     type: 'module' or 'overwriter'
     """
+
+    df_to_be_dropped = pd.read_csv(Path(__file__).parent.joinpath('duplications.csv'))
+
     print(f'output type: {type}')
     if args.input.exists():
         if args.input.suffix == '.po':
@@ -136,7 +140,7 @@ def export_modules(args, type):
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
         base_langauge_path = f'''Modules/{module}/ModuleData/languages/{args.langshort}'''
-        xml_list = [x for x in args.mb2dir.joinpath(base_langauge_path).glob('*.xml') if x.name not in ['language_data.xml', f'{args.langshort.lower()}_functions.xml'] ]
+        xml_list: List[Path] = [x for x in args.mb2dir.joinpath(base_langauge_path).glob('*.xml') if x.name not in ['language_data.xml', f'{args.langshort.lower()}_functions.xml'] ]
         if len(xml_list) > 0:
             if not output_dir.exists() and len(xml_list) > 0:
                 output_dir.mkdir(parents=True)
@@ -171,9 +175,16 @@ def export_modules(args, type):
                         xml.xpath('tags').append(generate_tag_element(args.langalias))
                     if xml.find('strings') is not None:
                         for string in xml.xpath('strings/string'):
-                            n_entries_xml += 1
                             tmp = d_sub.loc[lambda d: d['id'] == string.attrib['id']]
-                            if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
+                            n_entries_xml += 1
+                            if drop_new_duplication_error_manually(
+                                string,
+                                df_to_be_dropped.loc[
+                                    lambda d: (d['module']==module) & (d['file']==xml_path.name)
+                                ]['id'].values
+                            ):
+                                n_change_total += 1
+                            elif tmp.shape[0] > 0 and tmp['text'].values[0] != '':
                                 new_str = removeannoyingchars(tmp['text'].values[0])
                                 if string.attrib['text'] != new_str or args.all_entries:
                                     string.attrib['text'] = new_str
@@ -236,7 +247,7 @@ def export_modules(args, type):
         xml_list = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').rglob('language_data.xml')
         for fp in xml_list:
             if fp.parent != 'Native':
-                langauage_data2 =  ET.parse(f)
+                langauage_data2 =  ET.parse(fp)
                 for xml_languagefile in langauage_data2.findall('LanguageFile'):
                     language_data_alias.getroot().append(xml_languagefile)
         output_fp = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}2/language_data.xml')
@@ -263,7 +274,7 @@ def export_modules(args, type):
         print(f'''saved to {output_dir}''')
 
 
-def output_missings_modulewise(args, output_dir, module, df, df_original=None):
+def output_missings_modulewise(args: argparse.Namespace, output_dir: Path, module: str, df: pd.DataFrame, df_original: Optional[pd.DataFrame]=None):
     if df_original is not None:
         ids = df_original.loc[lambda d: (d['text_JP_original'] == '') | d['text_JP_original'].isna()][['id']]
         d_sub = df.merge(ids, on='id', how='inner')
@@ -292,6 +303,19 @@ def output_missings_modulewise(args, output_dir, module, df, df_original=None):
         encoding='utf-8'
     )
     return d_sub.shape[0]
+
+
+def drop_new_duplication_error_manually(string: ET._Element, id_list: Iterable[str]) -> bool:
+    """
+    Return: number of dropped entries
+    """
+    if string.attrib['id'] in id_list:
+        id_ = string.attrib['id']
+        string.getparent().remove(string)
+        print(f'duplicated ID ({id_}) dropprd')
+        return True
+    else:
+        return False
 
 
 def generate_language_data_xml(module:str, id:str, name:Optional[str]=None, subtitle:Optional[str]=None, iso:Optional[str]=None, dev:str='false')->ET.ElementTree: 
