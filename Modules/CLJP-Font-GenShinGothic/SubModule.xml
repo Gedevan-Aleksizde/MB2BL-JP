@@ -2,7 +2,7 @@
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Name value="Correct Localization JP - Gen-Shin Gothic Font"/>
     <Id value="CorrectLocalizationJPFontGenShinGothic"/>
-    <Version value="v2.3.0"/>
+    <Version value="v2.3.1"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
