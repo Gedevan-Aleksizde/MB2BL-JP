@@ -2,7 +2,8 @@ EN/
 test
 Packages/
 BAK/
-Modules/CLJP-Common/ModuleData/
+Modules/CLJP-Common/ModuleData/*
+!Modules/CLJP-Common/ModuleData/module_strings.xml
 Modules/CLJP-Font-GenShinGothic/Assets
 Modules/CLJP-Font-GenShinGothic/AssetSources
 Modules/CLJP-Font-GenShinGothic/RUntimeDataCache
