@@ -14,14 +14,15 @@ from functions import (
     merge_yml,
     export_id_text_list,
     match_public_id,
-    match_string
+    match_string,
+    FILTERS
 )
 import hashlib
 if platform.system() == "Windows":
     # import winshell
     from win32com.client import Dispatch
 import html
-from typing import Optional
+from typing import Optional, TypedDict, List
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str,
@@ -53,72 +54,6 @@ parser.add_argument('--verbose', default=None, action='store_true')
 parser.add_argument('--suppress-shortcut', action='store_true')
 
 
-FILTERS = [
-    dict(context='Concept.title',
-         xpath='.//Concept[@title][@id]', key='title'),
-    dict(context='Concept.description',
-         xpath='.//Concept[@description][@id]', key='description'),
-    dict(context='Culture.name', xpath='.//Culture[@name][@id]', key='name'),
-    dict(context='Culture.text', xpath='.//Culture[@text][@id]', key='text'),
-    dict(context='Culture.femaleName',
-         xpath='.//female_names/name[@name]', key='name'),
-    dict(context='Culture.maleName',
-         xpath='.//male_names/name[@name]', key='name'),
-    dict(context='Culture.clanName',
-         xpath='.//clan_names/name[@name]', key='name'),
-    dict(context='CraftedItem.name',
-         xpath='.//CraftedItem[@name][@id]', key='name'),
-    dict(context='CraftingPiece.name',
-         xpath='.//CraftingPiece[@name][@id]', key='name'),
-    dict(context='Faction.name', xpath='.//Faction[@name][@id]', key='name'),
-    dict(context='Faction.short_name',
-         xpath='.//Faction[@short_name][@id]', key='short_name'),
-    dict(context='Faction.text', xpath='.//Faction[@text][@id]', key='text'),
-    dict(context='Kingdom.name', xpath='.//Kingdom[@name][@id]', key='name'),
-    dict(context='Kingdom.short_name',
-         xpath='.//Kingdom[@short_name][@id]', key='short_name'),
-    dict(context='Kingdom.text',
-         xpath='.//Kingdom[@text][@id][@id]', key='text'),
-    dict(context='Kingdom.title',
-         xpath='.//Kingdom[@title][@id]', key='title'),
-    dict(context='Kingdom.ruler_title',
-         xpath='.//Kingdom[@ruler_title][@id]', key='ruler_title'),
-    dict(context='Hero.name', xpath='.//Hero[@text][@id]', key='text'),
-    dict(context='Item.name', xpath='.//Item[@name][@id]', key='name'),
-    dict(context='ItemModifier.name',
-         xpath='.//ItemModifier[@name][@id]', key='name'),
-    dict(context='NPCCharacter.name',
-         xpath='.//NPCCharacter[@name][@id]', key='name'),
-    dict(context='NPCCharacter.text',
-         xpath='.//NPCCharacter[@text][@id]', key='text'),
-    dict(context='Module_String.string',
-         xpath='.//string[@text][@id]', key='text'),
-    dict(context='Settlement.name',
-         xpath='.//Settlement[@name][@id]', key='name'),
-    dict(context='Settlement.text',
-         xpath='.//Settlement[@text][@id]', key='text'),
-    dict(context='SiegeEngineType.name',
-         xpath='.//SiegeEngineType[@name][@id]', key="name"),
-    dict(context='SiegeEngineType.description',
-         xpath='.//SiegeEngineType[@description][@id]', key="description"),
-    dict(context='Scene.name', xpath='.//Scene[@name]', key='name'),
-    # 以下はBanner Kings独自実装のスキーマ
-    dict(context="duchy.name", xpath='.//duchy[@name][@id]', key="name"),
-    dict(context="duchy.fullName",
-         xpath='.//duchy[@fullName][@id]', key="fullName"),
-    dict(context="WorkshopType.name",
-         xpath='.//WorkshopType[@name][@id]', key="name"),
-    dict(context="WorkshopType.jobname",
-         xpath='.//WorkshopType[@jobname][@id]', key="jobname"),
-    dict(context="WorkshopType",
-         xpath='.//WorkshopType[@description][@id]', key="description"),
-    dict(context="string.title", xpath='.//string[@title][@id]', key="title"),
-    dict(context="string.text", xpath='.//string[@text][@id]', key="text"),
-    # TODO: Custom Spawn API
-    dict(context="NameSignifier.value",
-         xpath='.//NameSignifier[@value]', key="value")
-    # TODO: RegularBanditDailySpawnData -> Name, SpawnMessage, DeathMessage
-]
 
 # TODO: REFACTORING!!!
 
@@ -225,7 +160,7 @@ def non_language_xml_to_pddf(
         xml_entries = xml.xpath(name_attrs['xpath'])
         if verbose:
             print(
-                f'''{len(xml_entries)} {name_attrs['context']} attributes found in {name_attrs['name']} tags''')
+                f'''{len(xml_entries)} {name_attrs['context']} attributes found in {name_attrs['key']} tags''')
         if len(xml_entries) > 0:
             tmp = pd.DataFrame(
                 [(x.attrib.get('id'), x.attrib[name_attrs['key']],
@@ -264,10 +199,8 @@ def non_language_xslt_to_pddf(
         xslt = ET.parse(f)
     ds = []
     for name_attrs in FILTERS:
-        xslt_entries = xslt.xpath(
-            f'''.//xsl:template[contains(@match, "{name_attrs['context'].split('.')[0]}")]/xsl:attribute[@name='{name_attrs["key"]}']''',
-            namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
-        # TODO: more rigorous conditioning
+        print(name_attrs)
+        xslt_entries = extract_elements_from_xslt(xslt, name_attrs)
         if verbose:
             print(
                 f'''{len(xslt_entries)} {name_attrs['context']} attributes found in {name_attrs['context']} tags''')
@@ -525,10 +458,7 @@ def export_corrected_xml_xslt_id(
                 if filetype == "xml":
                     xml_entries = xml.xpath(name_attrs['xpath'])
                 elif filetype == "xslt":
-                    xml_entries = xml.xpath(
-                        f'''.//xsl:template[contains(@match, "{name_attrs['context'].split('.')[0]}")]/xsl:attribute[@name={name_attrs['key']}]''',
-                        namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'})
-                    # xml_entries = [x for x in xml_entries if x is not None]
+                    xml_entries = extract_elements_from_xslt(xml, name_attrs)
                 d_sub = (
                     data.loc[
                         lambda d: (
@@ -600,6 +530,16 @@ def read_po_as_df(pofile: Path) -> pd.DataFrame:
         pof = polib.mofile(pofile.with_suffix('.mo'))
         print(f"{pofile.with_suffix('.mo')} loaded insteadly")
     return po2pddf(pof, drop_prefix_id=False)
+
+
+def extract_elements_from_xslt(xml: ET.Element, param: dict_name_attr) -> ET.Element:
+    """
+    TODO: more rigorous conditioning
+    """
+    return xml.xpath(
+         f'''.//xsl:template[contains(@match, "{param['context'].split('.')[0]}")]//xsl:attribute[@name='{param['key']}']''',
+         namespaces={'xsl': 'http://www.w3.org/1999/XSL/Transform'}
+    )
 
 
 def main(arguments: argparse.Namespace):

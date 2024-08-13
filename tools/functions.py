@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 import yaml
 import warnings
-from typing import Optional
+from typing import Optional, TypedDict, List
 from datetime import datetime, timezone
 import polib
 import regex
@@ -12,6 +12,81 @@ import pandas as pd
 import numpy as np
 
 import copy
+
+
+class dict_name_attr(TypedDict):
+    context: str
+    key: str
+    xpath: str
+
+
+FILTERS: List[dict_name_attr] = [
+    dict(context='Concept.title',
+         xpath='.//Concept[@title][@id]', key='title'),
+    dict(context='Concept.description',
+         xpath='.//Concept[@description][@id]', key='description'),
+    dict(context='Culture.name', xpath='.//Culture[@name][@id]', key='name'),
+    dict(context='Culture.text', xpath='.//Culture[@text][@id]', key='text'),
+    dict(context='Culture.femaleName',
+         xpath='.//female_names/name[@name]', key='name'),
+    dict(context='Culture.maleName',
+         xpath='.//male_names//name[@name]', key='name'),
+    dict(context='Culture.clanName',
+         xpath='.//clan_names/name[@name]', key='name'),
+    dict(context='CraftedItem.name',
+         xpath='.//CraftedItem[@name][@id]', key='name'),
+    dict(context='CraftingPiece.name',
+         xpath='.//CraftingPiece[@name][@id]', key='name'),
+    dict(context='Faction.name', xpath='.//Faction[@name][@id]', key='name'),
+    dict(context='Faction.short_name',
+         xpath='.//Faction[@short_name][@id]', key='short_name'),
+    dict(context='Faction.text', xpath='.//Faction[@text][@id]', key='text'),
+    dict(context='Kingdom.name', xpath='.//Kingdom[@name][@id]', key='name'),
+    dict(context='Kingdom.short_name',
+         xpath='.//Kingdom[@short_name][@id]', key='short_name'),
+    dict(context='Kingdom.text',
+         xpath='.//Kingdom[@text][@id][@id]', key='text'),
+    dict(context='Kingdom.title',
+         xpath='.//Kingdom[@title][@id]', key='title'),
+    dict(context='Kingdom.ruler_title',
+         xpath='.//Kingdom[@ruler_title][@id]', key='ruler_title'),
+    dict(context='Hero.name', xpath='.//Hero[@text][@id]', key='text'),
+    dict(context='Item.name', xpath='.//Item[@name][@id]', key='name'),
+    dict(context='ItemModifier.name',
+         xpath='.//ItemModifier[@name][@id]', key='name'),
+    dict(context='NPCCharacter.name',
+         xpath='.//NPCCharacter[@name][@id]', key='name'),
+    dict(context='NPCCharacter.text',
+         xpath='.//NPCCharacter[@text][@id]', key='text'),
+    dict(context='Module_String.string',
+         xpath='.//string[@text][@id]', key='text'),
+    dict(context='Settlement.name',
+         xpath='.//Settlement[@name][@id]', key='name'),
+    dict(context='Settlement.text',
+         xpath='.//Settlement[@text][@id]', key='text'),
+    dict(context='SiegeEngineType.name',
+         xpath='.//SiegeEngineType[@name][@id]', key="name"),
+    dict(context='SiegeEngineType.description',
+         xpath='.//SiegeEngineType[@description][@id]', key="description"),
+    dict(context='Scene.name', xpath='.//Scene[@name]', key='name'),
+    # 以下はBanner Kings独自実装のスキーマ
+    dict(context="duchy.name", xpath='.//duchy[@name][@id]', key="name"),
+    dict(context="duchy.fullName",
+         xpath='.//duchy[@fullName][@id]', key="fullName"),
+    dict(context="WorkshopType.name",
+         xpath='.//WorkshopType[@name][@id]', key="name"),
+    dict(context="WorkshopType.jobname",
+         xpath='.//WorkshopType[@jobname][@id]', key="jobname"),
+    dict(context="WorkshopType",
+         xpath='.//WorkshopType[@description][@id]', key="description"),
+    dict(context="string.title", xpath='.//string[@title][@id]', key="title"),
+    dict(context="string.text", xpath='.//string[@text][@id]', key="text"),
+    # TODO: Custom Spawn API
+    dict(context="NameSignifier.value",
+         xpath='.//NameSignifier[@value]', key="value")
+    # TODO: RegularBanditDailySpawnData -> Name, SpawnMessage, DeathMessage
+]
+
 
 control_char_remove = regex.compile(r'\p{C}')
 match_public_id_legacy = regex.compile(r'^(.+?/.+?/.+?)/.*$')
