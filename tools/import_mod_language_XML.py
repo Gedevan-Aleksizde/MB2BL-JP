@@ -15,7 +15,7 @@ from functions import (
     export_id_text_list,
     match_public_id,
     match_string,
-    FILTERS
+    FILTERS, dict_name_attr
 )
 import hashlib
 if platform.system() == "Windows":

@@ -130,7 +130,12 @@ def public_po(pofile:polib.POFile)->polib.POFile:
     return pofile
 
 
-def po2pddf(pofile:polib.POFile, drop_prefix_id:bool=True, drop_excessive_cols:bool=True, legacy:bool=False) -> pd.DataFrame:
+def po2pddf(
+    pofile: polib.POFile,
+    drop_prefix_id: bool=True,
+    drop_excessive_cols: bool=True,
+    legacy: bool=False
+) -> pd.DataFrame:
     """
     input:
     return: `pandas.DataFrame` which contains `id`, `file`, `module`, `text`, `text_EN ,`notes`, `flags` columns

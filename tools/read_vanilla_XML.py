@@ -57,7 +57,10 @@ parser.add_argument('--duplication-in-comment', default=False, action='store_tru
 parser.add_argument('--drop-multiplayer', default=None, action='store_true')
 parser.add_argument('--dont-evaluate-facial', default=False, action='store_true')
 
-def main():
+def main(args: argparse.Namespace):
+    """
+    a
+    """
     df_new = read_xmls(args, how_join='outer')
     dup = check_duplication(df_new)
 
@@ -88,6 +91,7 @@ def main():
                 'locations': [lambda locs: [(x, 0) for x in locs], lambda locs: len(locs)]
             }
         ).reset_index()
+        duplicates.to_csv('hanakuso.csv', index=False)
         duplicates.columns = ['id', 'locations', 'duplication']
         df_new = drop_duplicates(df_new, compare_module=True, compare_file=True)
         df_new = df_new.merge(duplicates, on='id', how='left')
@@ -97,7 +101,7 @@ def main():
 
     new_pof = initializePOFile('ja_JP')
     if args.only_diff:
-        for i, r in df_new.iterrows():
+        for _, r in df_new.iterrows():
             new_pof.append(
                 polib.POEntry(
                     msgid=r['id'],
@@ -105,7 +109,7 @@ def main():
                 )
             )
     else:
-        for i, r in df_new.iterrows():
+        for _, r in df_new.iterrows():
             new_pof.append(
                 polib.POEntry(
                     msgid=r['id'],
@@ -143,7 +147,10 @@ def main():
         print(f'''WRITE AT: {args.output}''')
 
 
-def read_xmls(args:argparse.Namespace, how_join='left')->pd.DataFrame:
+def read_xmls(args: argparse.Namespace, how_join='left') -> pd.DataFrame:
+    """
+    a
+    """
     # TODO: 例外的な処理がこんなに複雑になるのはバニラだけ?
     MULTIPLATERS = [
         ("Native", "std_mpbadges.xml"),
@@ -201,7 +208,10 @@ def read_xmls(args:argparse.Namespace, how_join='left')->pd.DataFrame:
     return d_bilingual
 
 
-def check_duplication(df_bilingual:pd.DataFrame)->pd.DataFrame:
+def check_duplication(df_bilingual: pd.DataFrame) -> pd.DataFrame:
+    """
+    a
+    """
     # TODO: 仕様が古い?
     duplicated_id = df_bilingual[['id', 'text_EN']].groupby(['id']).agg({'text_EN': [pd.Series.nunique, 'count']}).reset_index()
     duplicated_id.columns = ['id', 'unique', 'duplicates']
@@ -224,7 +234,13 @@ def check_duplication(df_bilingual:pd.DataFrame)->pd.DataFrame:
     return df_distinct
 
 
-def escape_for_po(df:pd.DataFrame, columns: str)->pd.DataFrame:
+def escape_for_po(
+    df: pd.DataFrame,
+    columns: str
+) -> pd.DataFrame:
+    """
+    a
+    """
     for c in columns:
         df[c] = df[c].str.replace('%', '%%', regex=False)
     return df
@@ -239,6 +255,9 @@ def drop_duplicates(
         module_order:Optional[list[str]]=None,
         file_order:Optional[list[str]]=None
     )->pd.DataFrame:
+    """
+    a
+    """
     if module_order is None:
         module_order = [
             'Native',
@@ -272,12 +291,12 @@ def drop_duplicates(
 
 if __name__ == '__main__':
 
-    args = parser.parse_args()
+    arguments = parser.parse_args()
     with Path(__file__).parent.joinpath('default.yml') as fp:
         if fp.exists():
-            args = merge_yml(fp, args, parser.parse_args())
-    if args.pofile is None:
-        args.pofile = Path(args.output.parent).joinpath(f"MB2BL-{args.langshort}.po")
-    print(args)
-    print(args.pofile)
-    main()
+            arguments = merge_yml(fp, arguments, parser.parse_args())
+    if arguments.pofile is None:
+        arguments.pofile = Path(arguments.output.parent).joinpath(f"MB2BL-{arguments.langshort}.po")
+    print(arguments)
+    print(arguments.pofile)
+    main(arguments)
