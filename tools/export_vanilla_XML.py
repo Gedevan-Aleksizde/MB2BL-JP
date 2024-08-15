@@ -145,7 +145,7 @@ def export_modules(args: argparse.Namespace, run_type: str) -> None:
                 )
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
-        x, y, used_id = correct_xml_in_folder_with_count(d, d_duplication_entries, module, output_dir, args)
+        x, y, used_id = correct_xml_in_folder_with_count(d, d_duplication_entries, module, output_dir, run_type, args)
         n_change_total += x
         n_entries_total += y
         d_used = pd.concat((d_used, used_id)).drop_duplicates()
@@ -187,6 +187,7 @@ def correct_xml_in_folder_with_count(
     data_dup: pd.DataFrame,
     module_name: str,
     output_dir: Path,
+    run_type: str,
     args: argparse.Namespace
 ) -> Tuple[int, int, pd.DataFrame]:
     """
@@ -305,7 +306,7 @@ def correct_xml_in_folder_with_count(
                 n_changes += n_change_xml
                 n_entries += n_entries_xml
                 language_data.getroot().append(
-                    generate_languageFile_element(f"{Path('/'.join([args.langfolder_output, module_name if type == 'module' else '', xml_path.name])).as_posix()}")
+                    generate_languageFile_element(f"{Path('/'.join([args.langfolder_output, module_name if run_type == 'module' else '', xml_path.name])).as_posix()}")
                     )
                 write_xml_with_default_setting(xml, output_dir.joinpath(f'''{xml_path.name}'''))
             else:
