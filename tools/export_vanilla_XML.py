@@ -80,12 +80,13 @@ def main():
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
 
-def export_modules(args: argparse.Namespace, type:str):
+def export_modules(args: argparse.Namespace, type: str) -> None:
     """
     type: 'module' or 'overwriter'
     """
 
-    df_to_be_dropped = pd.read_csv(Path(__file__).parent.joinpath('duplications.csv'))
+    # df_to_be_dropped = pd.read_csv(Path(__file__).parent.joinpath('duplications.csv'))
+    df_duplication_suspected = pd.read_csv(Path(__file__).parent.joinpath('duplications-suspects.csv'))
 
     print(f'output type: {type}')
     if args.input.exists():
@@ -126,6 +127,7 @@ def export_modules(args: argparse.Namespace, type:str):
         print(f"""{n - d.shape[0]} duplicated entries dropped""")
     if 'duplication' not in d.columns:
         d['duplication'] = 1
+    d_duplication_entries = d.merge(df_duplication_suspected[['id']], on=['id'], how='inner')
     n_entries_total = 0
     n_change_total = 0
     for module in args.modules:
@@ -146,7 +148,7 @@ def export_modules(args: argparse.Namespace, type:str):
                 output_dir.mkdir(parents=True)
             n_entries_xml = 0
             n_change_xml = 0
-            language_data = generate_language_data_xml(module, id=args.langid, subtitle=args.subtitleext, iso=args.iso)
+            language_data = generate_language_data_xml(module, lang_id=args.langid, subtitle=args.subtitleext, iso=args.iso)
             for xml_path in xml_list:
                 print(f'''Reading {xml_path.name} from {xml_path.parent.parent.parent.parent.name} Module''')
                 # edit language_data.xml
@@ -157,17 +159,25 @@ def export_modules(args: argparse.Namespace, type:str):
                     d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
                     if d_sub.shape[0] == 0:
                         warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
-                        d_sub =  d.loc[lambda d: (d['module'] == module)]
+                        d_sub =  d.loc[lambda d: (d['module'] == module)]3sRdGQou
                 else:
                     if args.missing_modulewise:
                         d_sub = d
                     else:
-                        d_sub = d.loc[lambda d: d['file'] == en_xml_name]
+                        d_sub = pd.concat((
+                            d.loc[lambda d: d['file'] == en_xml_name],
+                            d_duplication_entries
+                        ))
+                        d_sub = d_sub[['id', 'text']].drop_duplicates()
+                        if d_sub.loc[lambda d: d['id'] == '3sRdGQou'].shape[0] == 0:
+                            print(d_sub)
+                            raise("FIXME")
+                        # FIXME: あるのにマッチしない
                         if d_sub.shape[0] == 0:
                             d_sub = d
                             warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
                     # TODO: language files get messed since v1.2.
-                    # ファイルごとに分けることが無意味になった. IDさえ一意ならいいので元のファイルの分け方を守る必要もなさそう
+                    # ファイルごとに分けることが無意味になった. IDさえ一意ならいいので元のファイルの分け方を守る必要もなさそうだが, 正誤率を知りたいのでこうする
                 if xml.getroot().tag == 'base':
                     if xml.find('tags/tag').attrib['language'] != args.langid:
                         xml.xpath('tags').append(generate_tag_element(args.langid))
@@ -177,14 +187,7 @@ def export_modules(args: argparse.Namespace, type:str):
                         for string in xml.xpath('strings/string'):
                             tmp = d_sub.loc[lambda d: d['id'] == string.attrib['id']]
                             n_entries_xml += 1
-                            if drop_new_duplication_error_manually(
-                                string,
-                                df_to_be_dropped.loc[
-                                    lambda d: (d['module']==module) & (d['file']==xml_path.name)
-                                ]['id'].values
-                            ):
-                                n_change_total += 1
-                            elif tmp.shape[0] > 0 and tmp['text'].values[0] != '':
+                            if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
                                 new_str = removeannoyingchars(tmp['text'].values[0])
                                 if string.attrib['text'] != new_str or args.all_entries:
                                     string.attrib['text'] = new_str
@@ -235,7 +238,7 @@ def export_modules(args: argparse.Namespace, type:str):
         else:
             print(f'''No language files found inside {base_langauge_path}''')
     if type=='module' and not args.no_english_overwriting:
-        lang_data_patch = generate_language_data_xml(module='', id='English')
+        lang_data_patch = generate_language_data_xml(module='', lang_id='English')
         lang_data_patch.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Native/std_global_strings_xml_{args.langsuffix}.xml'))
         write_xml_with_default_setting(lang_data_patch, output_dir.joinpath('../../language_data.xml'))
     if type == 'module' and args.langalias is not None:
@@ -257,16 +260,16 @@ def export_modules(args: argparse.Namespace, type:str):
     if n_entries_total > 0:
         print(f'''SUMMARY: {n_change_total}/{n_entries_total} ({100 * n_change_total/n_entries_total:.0f}%) text entries are changed totally''')
     if not args.suppress_missing_id and not args.missing_modulewise and d.shape[0] > 0:
-        print(f'------ Checking missing IDs whole the vanilla text ---------')
+        print('------ Checking missing IDs whole the vanilla text ---------')
         output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').joinpath('Missings')
         if not output_dir.exists():
             output_dir.mkdir()
-        language_data_missings = generate_language_data_xml(module='', id=args.langid)
+        language_data_missings = generate_language_data_xml(module='', lang_id=args.langid)
         language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_missings-{args.langsuffix}.xml'))
         language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_sandbox_missings-{args.langsuffix}.xml'))
-        write_xml_with_default_setting(language_data_missings, output_dir.joinpath(f'''language_data.xml'''))
+        write_xml_with_default_setting(language_data_missings, output_dir.joinpath('''language_data.xml'''))
         xml_str_missings = generate_string_xml([args.langid])
-        for i, r in d.iterrows():
+        for _, r in d.iterrows():
             new_entry = generate_new_string_element(r['id'], removeannoyingchars(r['text']))
             xml_str_missings.find('strings').append(new_entry)
         print(f'''SUMMARY: {d.shape[0]} entries out of {n_entries_xml} ({100 * (d.shape[0]/n_entries_total):.0f}%) are missing from vanilla {args.langid} language files.''')
@@ -274,7 +277,27 @@ def export_modules(args: argparse.Namespace, type:str):
         print(f'''saved to {output_dir}''')
 
 
-def output_missings_modulewise(args: argparse.Namespace, output_dir: Path, module: str, df: pd.DataFrame, df_original: Optional[pd.DataFrame]=None):
+def correct_xml_translations_with_count(
+    xml: ET.ElementTree,
+    data: pd.DataFrame,
+    module_name: str,
+    xml_path: Path,
+    args: argparse.Namespace
+) -> Tuple[int, int]:
+    counter = (0, 0)
+    return counter
+
+
+def output_missings_modulewise(
+    args: argparse.Namespace,
+    output_dir: Path,
+    module: str,
+    df: pd.DataFrame,
+    df_original: Optional[pd.DataFrame]=None
+) -> pd.DataFrame:
+    """
+    a
+    """
     if df_original is not None:
         ids = df_original.loc[lambda d: (d['text_JP_original'] == '') | d['text_JP_original'].isna()][['id']]
         d_sub = df.merge(ids, on='id', how='inner')
@@ -286,10 +309,10 @@ def output_missings_modulewise(args: argparse.Namespace, output_dir: Path, modul
         return None
     xml = generate_string_xml([args.langid])
     strings = xml.findall('strings')
-    for i, r in d_sub.iterrows():
+    for _, r in d_sub.iterrows():
         strings.append(generate_new_string_element(r['id'], removeannoyingchars(r['text'])))
     write_xml_with_default_setting(xml, output_dir.joinpath(f'translation-missings-{args.langshort}.xml'))
-    with output_dir.joinpath(f'language_data.xml') as fp:
+    with output_dir.joinpath('language_data.xml') as fp:
         xml_lang_data = ET.parse(fp)
     lang_data_xml = xml_lang_data.find('LanguageData')
     new_entry = generate_languageFile_element(
@@ -297,7 +320,7 @@ def output_missings_modulewise(args: argparse.Namespace, output_dir: Path, modul
         )
     lang_data_xml.append(new_entry)
     lang_data_xml.write(
-        output_dir.joinpath(f'language_data.xml'),
+        output_dir.joinpath('language_data.xml'),
         pretty_print=True,
         xml_declaration=True,
         encoding='utf-8'
@@ -312,22 +335,32 @@ def drop_new_duplication_error_manually(string: ET._Element, id_list: Iterable[s
     if string.attrib['id'] in id_list:
         id_ = string.attrib['id']
         string.getparent().remove(string)
-        print(f'duplicated ID ({id_}) dropprd')
+        print(f'!! duplicated ID ({id_}) dropprd')
         return True
     else:
         return False
 
 
-def generate_language_data_xml(module:str, id:str, name:Optional[str]=None, subtitle:Optional[str]=None, iso:Optional[str]=None, dev:str='false')->ET.ElementTree: 
+def generate_language_data_xml(
+    module: str,
+    lang_id: str,
+    name: Optional[str]=None,
+    subtitle: Optional[str]=None,
+    iso:Optional[str]=None,
+    dev:str='false'
+) -> ET.ElementTree: 
+    """
+    a
+    """
     language_data = ET.fromstring(
-    f'''
-    <LanguageData>
-    </LanguageData>
-    '''
+        '''
+        <LanguageData>
+        </LanguageData>
+        '''
     )
-    language_data.set('id',id)
+    language_data.set('id', lang_id)
     if module == 'Native':
-        language_data.set('name', id if name is None else name)
+        language_data.set('name', lang_id if name is None else name)
     if subtitle is not None:
         language_data.set('subtitle_extension', subtitle)
     if iso is not None:
@@ -336,34 +369,49 @@ def generate_language_data_xml(module:str, id:str, name:Optional[str]=None, subt
     return ET.ElementTree(language_data)
 
 
-def generate_string_xml(langids:list)->ET.ElementTree:
+def generate_string_xml(langids: List[str]) -> ET.ElementTree:
+    """
+    a
+    """
     xml = ET.fromstring(
-        f'''
+        '''
         <base>
         <tags></tags>
         <strings></strings>
         </base>
         ''')
-    [xml.find('tags').append(ET.fromstring(f'<tag id="{id}" />')) for id in langids]
+    _ =[xml.find('tags').append(ET.fromstring(f'<tag id="{id}" />')) for id in langids]
     return ET.ElementTree(xml)
 
 
-def generate_tag_element(langid:str)->ET.ElementTree:
-    return ET.fromstring(f'<tag language="{langid}" />')
+def generate_tag_element(lang_id: str) -> ET.ElementTree:
+    """
+    a
+    """
+    return ET.fromstring(f'<tag language="{lang_id}" />')
 
 
-def generate_languageFile_element(path:str)->ET.ElementTree:
+def generate_languageFile_element(path: str) -> ET.ElementTree:
+    """
+    a
+    """
     return ET.fromstring(f'<LanguageFile xml_path="{path}" />')
 
 
-def generate_new_string_element(id:str, text:str):
-    new_entry = ET.fromstring(f'''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''')
-    new_entry.attrib['id']= id
+def generate_new_string_element(loc_id: str, text: str):
+    """
+    a
+    """
+    new_entry = ET.fromstring('''<string id="PLAHECOLHDER" text="[PLACEHOLDER]" />''')
+    new_entry.attrib['id']= loc_id
     new_entry.attrib['text']= text
     return new_entry
 
 
-def write_xml_with_default_setting(xml:ET.ElementTree, fpath:Path)->bool:
+def write_xml_with_default_setting(xml: ET.ElementTree, fpath: Path) -> bool:
+    """
+    a
+    """
     ET.indent(xml, space="  ", level=0)
     xml.write(
        fpath,
