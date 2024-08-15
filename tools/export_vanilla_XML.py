@@ -80,7 +80,7 @@ def main():
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
 # TODO: too intricate to localize
 
-def export_modules(args: argparse.Namespace, type: str) -> None:
+def export_modules(args: argparse.Namespace, run_type: str) -> None:
     """
     type: 'module' or 'overwriter'
     """
@@ -88,7 +88,7 @@ def export_modules(args: argparse.Namespace, type: str) -> None:
     # df_to_be_dropped = pd.read_csv(Path(__file__).parent.joinpath('duplications.csv'))
     df_duplication_suspected = pd.read_csv(Path(__file__).parent.joinpath('duplications-suspects.csv'))
 
-    print(f'output type: {type}')
+    print(f'output type: {run_type}')
     if args.input.exists():
         if args.input.suffix == '.po':
             print(f'reading {args.input}')
@@ -97,7 +97,7 @@ def export_modules(args: argparse.Namespace, type: str) -> None:
             print(f'reading {args.input}')
             pof = polib.pofile(args.input)
         else:
-                raise('input file is invalid', UserWarning)
+            raise('input file is invalid', UserWarning)
     pof_pub = public_po(pof)
     pof_pub.save(args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.po'))
     pof_pub.save_as_mofile(args.input.parent.joinpath(args.input.with_suffix('').name + '-pub.mo'))
@@ -113,6 +113,9 @@ def export_modules(args: argparse.Namespace, type: str) -> None:
         )[['id', 'text', 'text_EN', 'module', 'file', 'locations']]
         d['duplication'] = [len(x) for x in d['locations']]
         d['duplication'] = d['duplication'].fillna(1)
+    d['module'] = d['module'].str.replace('^Hardcoded, ', '', regex=True)
+    d['file'] = d['file'].str.replace('^Hardcoded, ', '', regex=True)
+    d['file'] = d['file'].str.replace(f'_{args.langsuffix}.xml', '.xml')
     if args.skip_blank_vanilla:
         d = d.loc[lambda d: d['text'] != '']
     del pof
@@ -128,120 +131,29 @@ def export_modules(args: argparse.Namespace, type: str) -> None:
     if 'duplication' not in d.columns:
         d['duplication'] = 1
     d_duplication_entries = d.merge(df_duplication_suspected[['id']], on=['id'], how='inner')
-    n_entries_total = 0
-    n_change_total = 0
+    n_entries_total: int = 0
+    n_change_total: int = 0
+    d_used = pd.DataFrame({'id': []})
     for module in args.modules:
-        if type == 'module':
+        if run_type == 'module':
             output_dir = args.output.joinpath(
                 f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}'
-                ).joinpath(module)
-        elif type == 'overwriter':
+            ).joinpath(module)
+        elif run_type == 'overwriter':
             output_dir = args.output.joinpath(
                 f'{module}/ModuleData/Languages/{args.langfolder_output}'
                 )
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
-        base_langauge_path = f'''Modules/{module}/ModuleData/languages/{args.langshort}'''
-        xml_list: List[Path] = [x for x in args.mb2dir.joinpath(base_langauge_path).glob('*.xml') if x.name not in ['language_data.xml', f'{args.langshort.lower()}_functions.xml'] ]
-        if len(xml_list) > 0:
-            if not output_dir.exists() and len(xml_list) > 0:
-                output_dir.mkdir(parents=True)
-            n_entries_xml = 0
-            n_change_xml = 0
-            language_data = generate_language_data_xml(module, lang_id=args.langid, subtitle=args.subtitleext, iso=args.iso)
-            for xml_path in xml_list:
-                print(f'''Reading {xml_path.name} from {xml_path.parent.parent.parent.parent.name} Module''')
-                # edit language_data.xml
-                xml = ET.parse(xml_path)
-                en_xml_name = pd.Series(xml_path.with_suffix('').name).str.replace(f'''{args.filename_sep}{args.langsuffix}''', '')[0] + '.xml'
-                #TODO: refactoring
-                if args.legacy_id:
-                    d_sub = d.loc[lambda d: (d['module'] == module) & (d['file'] == en_xml_name)]
-                    if d_sub.shape[0] == 0:
-                        warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
-                        d_sub =  d.loc[lambda d: (d['module'] == module)]3sRdGQou
-                else:
-                    if args.missing_modulewise:
-                        d_sub = d
-                    else:
-                        d_sub = pd.concat((
-                            d.loc[lambda d: d['file'] == en_xml_name],
-                            d_duplication_entries
-                        ))
-                        d_sub = d_sub[['id', 'text']].drop_duplicates()
-                        if d_sub.loc[lambda d: d['id'] == '3sRdGQou'].shape[0] == 0:
-                            print(d_sub)
-                            raise("FIXME")
-                        # FIXME: あるのにマッチしない
-                        if d_sub.shape[0] == 0:
-                            d_sub = d
-                            warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
-                    # TODO: language files get messed since v1.2.
-                    # ファイルごとに分けることが無意味になった. IDさえ一意ならいいので元のファイルの分け方を守る必要もなさそうだが, 正誤率を知りたいのでこうする
-                if xml.getroot().tag == 'base':
-                    if xml.find('tags/tag').attrib['language'] != args.langid:
-                        xml.xpath('tags').append(generate_tag_element(args.langid))
-                    if args.langalias is not None:
-                        xml.xpath('tags').append(generate_tag_element(args.langalias))
-                    if xml.find('strings') is not None:
-                        for string in xml.xpath('strings/string'):
-                            tmp = d_sub.loc[lambda d: d['id'] == string.attrib['id']]
-                            n_entries_xml += 1
-                            if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
-                                new_str = removeannoyingchars(tmp['text'].values[0])
-                                if string.attrib['text'] != new_str or args.all_entries:
-                                    string.attrib['text'] = new_str
-                                    n_change_xml += 1
-                                if not args.missing_modulewise:
-                                    d = d.loc[lambda d: d['id'] != string.attrib['id']]
-                            else:
-                                if args.legacy_id:
-                                    warnings.warn(f'''ID not found: {string.attrib["id"]} in {module}/{xml_path.name}''')
-                                elif not d.loc[lambda d: d['id'] == string.attrib['id']].shape[0] > 0 and args.verbose:
-                                    warnings.warn(f'''ID not found: {string.attrib["id"]} in {module}/{xml_path.name}''')
-                                normalized_str = removeannoyingchars(string.attrib['text'])
-                                if normalized_str != string.attrib['text']:
-                                    warnings.warn(
-                                        f'''this text could contain irregular characters (some control characters or zenkaku blanks): {string.attrib['text']}''',
-                                        UserWarning)
-                                    n_change_xml += 1
-                                    string.attrib['text'] = normalized_str
-                                if args.distinct:
-                                    html.unescape((ET.tostring(string, encoding='unicode')))
-                            if args.with_id:
-                                string.attrib['text'] = f"""[{string.attrib['id']}]{string.attrib['text']}"""
-                        if n_entries_xml > 0:
-                            print(
-                                f'''{n_change_xml}/{n_entries_xml} ({100 * n_change_xml/n_entries_xml:.0f} %) text entries are changed in {xml_path.name}'''
-                                )
-                        else:
-                            print(f'''no translation entries in {xml_path.name}''')
-                        n_entries_total += n_entries_xml
-                        n_change_total += n_change_xml
-                    else:
-                        warnings.warn(f'{xml_path} is has no strings tag! processing skipped')
-                    language_data.getroot().append(
-                        generate_languageFile_element(f"{Path('/'.join([args.langfolder_output, module if type == 'module' else '', xml_path.name])).as_posix()}")
-                        )
-                    write_xml_with_default_setting(xml, output_dir.joinpath(f'''{xml_path.name}'''))
-                else:
-                        warnings.warn(f'{xml_path} has no base tag! processing skipped')
-            write_xml_with_default_setting(language_data, output_dir.joinpath('language_data.xml'))
-            if not args.suppress_missing_id and args.missing_modulewise:
-                print(f'------ Checking missing IDs in {module} ---------')
-                df_original = pd.read_excel('text/MB2BL-JP.xlsx')
-                n_missings = output_missings_modulewise(args, output_dir, module, d.loc[lambda d: d['module'] == module], df_original)
-                print(f'{n_missings} missing IDs found!')
-                if n_missings is not None:
-                    n_entries_total += n_missings
-                    n_change_total += n_missings
-        else:
-            print(f'''No language files found inside {base_langauge_path}''')
-    if type=='module' and not args.no_english_overwriting:
+        x, y, used_id = correct_xml_in_folder_with_count(d, d_duplication_entries, module, output_dir, args)
+        n_change_total += x
+        n_entries_total += y
+        d_used = pd.concat((d_used, used_id)).drop_duplicates()
+    if run_type =='module' and not args.no_english_overwriting:
         lang_data_patch = generate_language_data_xml(module='', lang_id='English')
         lang_data_patch.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Native/std_global_strings_xml_{args.langsuffix}.xml'))
         write_xml_with_default_setting(lang_data_patch, output_dir.joinpath('../../language_data.xml'))
-    if type == 'module' and args.langalias is not None:
+    if run_type == 'module' and args.langalias is not None:
         with args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}/Native/language_data.xml') as fp:
             language_data_alias = ET.parse(fp)
         language_data = language_data_alias.find('LanguageData', recursive=False)
@@ -259,33 +171,187 @@ def export_modules(args: argparse.Namespace, type: str) -> None:
         write_xml_with_default_setting(language_data_alias, output_fp)
     if n_entries_total > 0:
         print(f'''SUMMARY: {n_change_total}/{n_entries_total} ({100 * n_change_total/n_entries_total:.0f}%) text entries are changed totally''')
-    if not args.suppress_missing_id and not args.missing_modulewise and d.shape[0] > 0:
-        print('------ Checking missing IDs whole the vanilla text ---------')
-        output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').joinpath('Missings')
-        if not output_dir.exists():
-            output_dir.mkdir()
-        language_data_missings = generate_language_data_xml(module='', lang_id=args.langid)
-        language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_missings-{args.langsuffix}.xml'))
-        language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_sandbox_missings-{args.langsuffix}.xml'))
-        write_xml_with_default_setting(language_data_missings, output_dir.joinpath('''language_data.xml'''))
-        xml_str_missings = generate_string_xml([args.langid])
-        for _, r in d.iterrows():
-            new_entry = generate_new_string_element(r['id'], removeannoyingchars(r['text']))
-            xml_str_missings.find('strings').append(new_entry)
-        print(f'''SUMMARY: {d.shape[0]} entries out of {n_entries_xml} ({100 * (d.shape[0]/n_entries_total):.0f}%) are missing from vanilla {args.langid} language files.''')
-        write_xml_with_default_setting(xml_str_missings, output_dir.joinpath(f'''str_missings-{args.langsuffix}.xml'''))
-        print(f'''saved to {output_dir}''')
+    d_leftover = (
+        d[['id', 'text']]
+        .merge(d_used, on=['id'], how='outer', indicator=True)
+        .loc[lambda d: d['_merge'] != 'both']
+        .drop(columns=['_merge'])
+        .drop_duplicates()
+    )
+    if not args.suppress_missing_id and not args.missing_modulewise > 0:
+        write_missings(n_entries_total, d_leftover, output_dir, args)
 
 
-def correct_xml_translations_with_count(
+def correct_xml_in_folder_with_count(
+    data: pd.DataFrame,
+    data_dup: pd.DataFrame,
+    module_name: str,
+    output_dir: Path,
+    args: argparse.Namespace
+) -> Tuple[int, int, pd.DataFrame]:
+    """
+    モジュール(≒フォルダ)単位の置換処理をして変更箇所の数を返す. ファイルの書き込みもここで行う
+    Returns:
+        変更箇所の数
+        確認箇所の数
+        使用したIDのDF
+    """
+    n_changes: int = 0
+    n_entries: int = 0
+    base_langauge_path = f'''Modules/{module_name}/ModuleData/languages/{args.langshort}'''
+    xml_list: List[Path] = [x for x in args.mb2dir.joinpath(base_langauge_path).glob('*.xml') if x.name not in ['language_data.xml', f'{args.langshort.lower()}_functions.xml'] ]
+
+    def correct_xml_translations_with_count(
     xml: ET.ElementTree,
     data: pd.DataFrame,
     module_name: str,
     xml_path: Path,
+    args: argparse.Namespace,
+    ) -> Tuple[int, int, pd.DataFrame]:
+        """
+        指定されたXMLを修正して修正箇所の数を返す. この関数内では書き込み処理を行っていない
+        Returns:
+            変更箇所の数
+            確認箇所の数 (つまり分母)
+            一致したID
+        """
+        ids_matched: List[str] = []
+        if xml.find('tags/tag').attrib['language'] != args.langid:
+            xml.xpath('tags').append(generate_tag_element(args.langid))
+        if args.langalias is not None:
+            xml.xpath('tags').append(generate_tag_element(args.langalias))
+        if xml.find('strings') is not None:
+            n_change_xml, n_entries_xml = (0, 0)
+            for string in xml.xpath('strings/string'):
+                tmp = data.loc[lambda d: d['id'] == string.attrib['id']]
+                n_entries_xml += 1
+                if tmp.shape[0] > 0 and tmp['text'].values[0] != '':
+                    ids_matched += [string.attrib['id']]
+                    new_str = removeannoyingchars(tmp['text'].values[0])
+                    if string.attrib['text'] != new_str or args.all_entries:
+                        string.attrib['text'] = new_str
+                        n_change_xml += 1
+                else:
+                    if args.legacy_id:
+                        warnings.warn(f'''ID not found: {string.attrib["id"]} in {module_name}/{xml_path.name}''')
+                    elif args.verbose:
+                        warnings.warn(f'''ID not found: {string.attrib["id"]} in {module_name}/{xml_path.name}''')
+                    normalized_str = removeannoyingchars(string.attrib['text'])
+                    if normalized_str != string.attrib['text']:
+                        warnings.warn(
+                            f'''this text could contain irregular characters (some control characters or zenkaku blanks): {string.attrib['text']}''',
+                            UserWarning)
+                        n_change_xml += 1
+                        string.attrib['text'] = normalized_str
+                    if args.distinct:
+                        html.unescape((ET.tostring(string, encoding='unicode')))
+                if args.with_id:
+                    string.attrib['text'] = f"""[{string.attrib['id']}]{string.attrib['text']}"""
+            if n_entries_xml > 0:
+                print(
+                    f'''{n_change_xml}/{n_entries_xml} ({100 * n_change_xml/n_entries_xml:.0f} %) text entries are changed in {xml_path.name}'''
+                    )
+            else:
+                print(f'''no translation entries in {xml_path.name}''')
+        else:
+            warnings.warn(f'{xml_path} is has no strings tag! processing skipped')
+        
+        return (n_change_xml, n_entries_xml, pd.DataFrame({'id': ids_matched}))
+
+
+    def geneatae_en_xml_names(p: Path, args: argparse.Namespace) -> pd.Series:
+        return pd.Series(p.with_suffix('').name).str.replace(f'''{args.filename_sep}{args.langsuffix}''', '')[0] + '.xml'
+
+
+    d_matched = pd.DataFrame({'id': []})
+    if len(xml_list) > 0:
+        if not output_dir.exists() and len(xml_list) > 0:
+            output_dir.mkdir(parents=True)
+        language_data = generate_language_data_xml(module_name, lang_id=args.langid, subtitle=args.subtitleext, iso=args.iso)
+        for xml_path in xml_list:
+            print(f'''Reading {xml_path.name} from {xml_path.parent.parent.parent.parent.name} Module''')
+            # edit language_data.xml
+            xml = ET.parse(xml_path)
+            en_xml_name = geneatae_en_xml_names(xml_path, args)
+            #TODO: refactoring
+            if args.legacy_id:
+                d_sub = data.loc[lambda d: (d['module'] == module_name) & (d['file'] == en_xml_name)]
+                if d_sub.shape[0] == 0:
+                    warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
+                    d_sub =  data.loc[lambda d: (d['module'] == module_name)]
+            else:
+                if args.missing_modulewise:
+                    d_sub = data
+                else:
+                    d_sub = pd.concat((
+                        data.loc[lambda d: d['file'] == en_xml_name],
+                        data_dup
+                    ))
+                    d_sub = d_sub[['id', 'text']].drop_duplicates()
+                    if d_sub.shape[0] == 0:
+                        d_sub = data
+                        warnings.warn(f'no match entries with {en_xml_name}! subsettings skipped, which cause a bit low performance.')
+                # TODO: language files get messed since v1.2.
+                # ファイルごとに分けることが無意味になった. IDさえ一意ならいいので元のファイルの分け方を守る必要もなさそうだが, 正誤率を知りたいのでこうする
+            if xml.getroot().tag == 'base':
+                n_change_xml, n_entries_xml, ids_matched = correct_xml_translations_with_count(
+                    xml,
+                    d_sub,
+                    module_name,
+                    xml_path,
+                    args
+                )
+                d_matched = pd.concat((d_matched, ids_matched)).drop_duplicates()
+                n_changes += n_change_xml
+                n_entries += n_entries_xml
+                language_data.getroot().append(
+                    generate_languageFile_element(f"{Path('/'.join([args.langfolder_output, module_name if type == 'module' else '', xml_path.name])).as_posix()}")
+                    )
+                write_xml_with_default_setting(xml, output_dir.joinpath(f'''{xml_path.name}'''))
+            else:
+                warnings.warn(f'{xml_path} has no base tag! processing skipped')
+        write_xml_with_default_setting(language_data, output_dir.joinpath('language_data.xml'))
+        if not args.suppress_missing_id and args.missing_modulewise:
+            print(f'------ Checking missing IDs in {module_name} ---------')
+            df_original = pd.read_excel('text/MB2BL-JP.xlsx')
+            n_missings = output_missings_modulewise(args, output_dir, module_name, data.loc[lambda d: d['module'] == module_name], df_original)
+            print(f'{n_missings} missing IDs found!')
+            if n_missings is not None:
+                n_entries += n_missings
+                n_changes += n_missings
+    else:
+        print(f'''No language files found inside {base_langauge_path}''')
+    
+    return (n_changes, n_entries, d_matched)
+
+
+def write_missings(
+    n_total:int,
+    df_leftover: pd.DataFrame,
+    output_dir: Path,
     args: argparse.Namespace
-) -> Tuple[int, int]:
-    counter = (0, 0)
-    return counter
+) -> None:
+    """
+    使われなかったエントリの出力とログ表示
+    args:
+        df_leftover - idカラムのみ
+    """
+    print('------ Checking missing IDs whole the vanilla text ---------')
+    output_dir = args.output.joinpath(f'CL{args.langshort}-Common/ModuleData/Languages/{args.langfolder_output}').joinpath('Missings')
+    if not output_dir.exists():
+        output_dir.mkdir()
+    language_data_missings = generate_language_data_xml(module='', lang_id=args.langid)
+    language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_sandbox_missings-{args.langsuffix}.xml'))
+    if df_leftover.shape[0] > 0:
+        language_data_missings.getroot().append(generate_languageFile_element(f'{args.langfolder_output}/Missings/str_missings-{args.langsuffix}.xml'))
+        xml_str_missings = generate_string_xml([args.langid])
+        for _, r in df_leftover.iterrows():
+            new_entry = generate_new_string_element(r['id'], removeannoyingchars(r['text']))
+            xml_str_missings.find('strings').append(new_entry)
+        write_xml_with_default_setting(xml_str_missings, output_dir.joinpath(f'''str_missings-{args.langsuffix}.xml'''))
+    print(f'''SUMMARY: {df_leftover.shape[0]} entries out of {n_total} ({100 * (df_leftover.shape[0]/n_total):.0f}%) are missing from vanilla {args.langid} language files.''')
+    write_xml_with_default_setting(language_data_missings, output_dir.joinpath('''language_data.xml'''))    
+    print(f'''saved to {output_dir}''')
 
 
 def output_missings_modulewise(
