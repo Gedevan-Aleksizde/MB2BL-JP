@@ -22,7 +22,7 @@ if platform.system() == "Windows":
     # import winshell
     from win32com.client import Dispatch
 import html
-from typing import Optional, TypedDict, List
+from typing import Optional, TypedDict, List, Callable, Any
 
 parser = argparse.ArgumentParser()
 parser.add_argument('target_module', type=str,
@@ -295,16 +295,16 @@ def normalize_string_ids(
         )
     if not vanilla_id_path.exists():
         print(f'{vanilla_id_path} not found. trying to create vanilla-id.csv...')
-        with Path(f'text/MB2BL-{langshort}.po') as fpath:
-            if fpath.exists():
-                export_id_text_list(fpath, vanilla_id_path)
-            else:
-                warnings.warn(
-                    f'''{fpath} not found. this process is skipped, but it will caused some ID detection errors.''')
-                vanilla_ids = pd.DataFrame(columns=['id', 'text_EN'])
+        fp_pofile = Path(f'text/MB2BL-{langshort}.po')
+        if fp_pofile.exists():
+            export_id_text_list(fp_pofile, vanilla_id_path)
+        else:
+            warnings.warn(
+                f'''{fp_pofile} not found. this process is skipped, but it will caused some ID detection errors.''')
+            vanilla_ids = pd.DataFrame(columns=['id', 'text_EN'])
+            
     if vanilla_id_path.exists():
-        vanilla_ids = pd.read_csv(vanilla_id_path).assign(
-            id_used_in_vanilla=True)
+        vanilla_ids = pd.read_csv(vanilla_id_path).assign(id_used_in_vanilla=True)
     if not convert_exclam:
         # TODO: なぜ!を付ける人が多いのか? このオプションいるか?
         # TODO: 翻訳が必要ないのは動的に名前が上書きされるテンプレートNPCの名称のみだが, それとは関係なく =! とか =* とか書いている人が多い. なんか独自ルールの記号使ってる人までいる…
@@ -599,26 +599,18 @@ def main(arguments: argparse.Namespace):
     pof = pddf2po(
         d_mod, with_id=False, make_distinct=False, regacy_mode=False,
         col_id_text='text_EN', col_text='text', col_comments='note', col_context='context', col_locations='file', col_flags='flags')
-    with arguments.outdir.joinpath(f'{arguments.target_module}.xlsx') as fp:
-        if fp.exists():
-            backup_fp = fp.parent.joinpath(
-                f"""BAK/{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""
-            )
-            if not backup_fp.parent.exists():
-                backup_fp.parent.mkdir()
-            print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
-            fp.rename(backup_fp)
-        d_mod.to_excel(fp, index=False)
-    with arguments.outdir.joinpath(f'{arguments.target_module}.po') as fp:
-        if fp.exists():
-            backup_fp = fp.parent.joinpath(
-                f"""BAK/{fp.with_suffix('').name}-{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
-            )
-            if not backup_fp.parent.exists():
-                backup_fp.parent.mkdir()
-            print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
-            fp.rename(backup_fp)
-        pof.save(fp)
+    fp_current_xlsx = arguments.outdir.joinpath(f'{arguments.target_module}.xlsx')
+    backup_if_exists(
+        fp_current_xlsx,
+        f"""{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.xlsx"""
+    )
+    d_mod.to_excel(fp_current_xlsx, index=False)
+    fp_current_po = arguments.outdir.joinpath(f'{arguments.target_module}.po')
+    backup_if_exists(
+        fp_current_po,
+        f"""{datetime.now().strftime("%Y-%m-%dT%H-%M-%S")}.po"""
+    )
+    pof.save(fp_current_po)
     if platform.system() == 'Windows' and not arguments.suppress_shortcut:
         shell = Dispatch('WScript.Shell')
         shortcut = shell.CreateShortCut(
@@ -627,17 +619,35 @@ def main(arguments: argparse.Namespace):
         shortcut.WorkingDirectory = str(module_data_dir.parent)
         shortcut.save()
 
+def read_if_exists(fp: Path, func: Callable) -> Any:
+    if fp.exists():
+        return func(fp)
+
+
+def backup_if_exists(fp: Path, backup_name_suffix: str, fp_relative_backup: Path = Path('BAK')) -> bool:
+    """
+    指定したファイルが存在したらバックアップ用フォルダに退避させる
+    """
+    if fp.exists():
+        backup_fp = fp.parent.joinpath(fp_relative_backup).joinpath(f"""{fp.with_suffix('').name}-{backup_name_suffix}""")
+        if not backup_fp.parent.exists():
+            backup_fp.parent.mkdir()
+        print(f"""old file is renamed and moved to BAK/{backup_fp.name}""")
+        fp.rename(backup_fp)
+        return True
+    return False
+
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    with (Path('tools') if '__file__' not in locals() else Path(__file__).parent).joinpath('default.yml') as fp:
-        if fp.exists():
-            args = merge_yml(fp, args, parser.parse_args(['']))
+    fp_yml = (Path('tools') if '__file__' not in locals() else Path(__file__).parent).joinpath('default.yml')
+    if fp_yml.exists():
+            args = merge_yml(fp_yml, args, parser.parse_args(['']))
     if args.outdir is None:
         args.outdir = Path(f'Mods/{args.target_module}')
-        with args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}') as fp:
-            if not fp.exists():
-                fp.mkdir(parents=True)
+        fp_langfolder = args.outdir.joinpath(f'{args.target_module}/ModuleData/Languages/{args.langshort}')
+        if not fp_langfolder.exists():
+            fp_langfolder.mkdir(parents=True)
     if args.autoid_prefix is None:
         args.autoid_prefix = args.target_module.encode(
             'ascii', errors='ignore').decode().replace(' ', '')
