@@ -2,9 +2,10 @@
 
 import argparse
 from pathlib import Path
+
 import lxml.etree as ET
-from functions import merge_yml, po2pddf_easy
 import polib
+from functions import merge_yml, po2pddf_easy
 
 parser = argparse.ArgumentParser()
 parser.add_argument("target_module", type=str)
