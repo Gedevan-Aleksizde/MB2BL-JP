@@ -11,5 +11,9 @@
   <string id="RYP9hzIy" text="傭兵団の見張り兵"/>
   <string id="SaqVvzyV" text="傭兵団の騎兵"/>
   <string id="xaYwo9tM" text="傭兵団の斥候"/>
+  <string id="battaniafaction" text="バッタニア"/>
+  <string id="sturgiafaction" text="ストゥルギア"/>
+  <string id="khuzaitfaction" text="クーザイト"/>
+  <string id="vlandiafaction" text="ヴランディア"/>
  </strings>
 </base>
