@@ -1,16 +1,15 @@
 #! /usr/bin/env python3
 # encoding: utf-8
 import argparse
-from pathlib import Path
+import html
 import warnings
-from typing import Optional
+from pathlib import Path
+from typing import Iterable, List, Optional, Tuple
 
 import lxml.etree as ET
-import html
 import pandas as pd
 import polib
-from functions import po2pddf, removeannoyingchars, public_po, merge_yml
-from typing import Iterable, List, Tuple
+from functions import merge_yml, po2pddf, public_po, removeannoyingchars
 
 pofile = Path("text/MB2BL-Jp.po")
 output = Path("Modules")
@@ -480,11 +479,18 @@ def write_missings(
             xml_str_missings,
             output_dir.joinpath(f"""str_missings-{args.langsuffix}.xml"""),
         )
+        write_xml_with_default_setting(
+            language_data_missings, output_dir.joinpath("""language_data.xml""")
+        )
+    else:
+        print(
+            f"No missing IDs found when comparing between English and {args.langshort}"
+        )
+        return
     print(
-        f"""SUMMARY: {df_leftover.shape[0]} entries out of {n_total} ({100 * (df_leftover.shape[0]/n_total):.0f}%) are missing from vanilla {args.langid} language files."""
-    )
-    write_xml_with_default_setting(
-        language_data_missings, output_dir.joinpath("""language_data.xml""")
+        f"""SUMMARY: {df_leftover.shape[0]} entries out of {n_total}"""
+        f"""({100 * (df_leftover.shape[0]/n_total):.0f}%) are missing"""
+        f"""from vanilla {args.langid} language files."""
     )
     print(f"""saved to {output_dir}""")
 
