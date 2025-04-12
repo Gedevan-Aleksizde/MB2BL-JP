@@ -20,4 +20,23 @@
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
         <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
+    <Xmls>
+        <XmlNode>
+        <XmlName id="SPCultures" path="spcultures"/>
+        <IncludedGameTypes>
+            <GameType value="Campaign"/>
+            <GameType value="CampaignStoryMode"/>
+            <GameType value="CustomGame"/>
+            <GameType value="EditorGame"/>
+        </IncludedGameTypes>
+        </XmlNode>
+        <XmlNode>
+			<XmlName id="Kingdoms" path="spkingdoms"/>
+			<IncludedGameTypes>
+				<GameType value="Sandbox"/>
+				<GameType value="Campaign" />
+				<GameType value="CampaignStoryMode" />
+			</IncludedGameTypes>
+		</XmlNode>
+    </Xmls>
 </Module>
