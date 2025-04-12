@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base>
+ <tags>
+  <tag language="日本語"/>
+ </tags>
+ <strings>
+  <string id="aserainamemissing" text="アセライ゠スルタン国"/>
+ </strings>
+</base>
