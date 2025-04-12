@@ -6,5 +6,5 @@
       <xsl:apply-templates select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
-  <xsl:template match="Kingdom[@id='aserai']/@name"><xsl:attribute name="name">{=eb0nLx5E}Aserai</xsl:attribute></xsl:template>
+  <xsl:template match="Kingdom[@id='aserai']/@name"><xsl:attribute name="name">{=aserainamemissing}Aserai</xsl:attribute></xsl:template>
 </xsl:stylesheet>
