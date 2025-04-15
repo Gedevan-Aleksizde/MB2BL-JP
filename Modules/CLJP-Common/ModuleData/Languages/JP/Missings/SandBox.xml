@@ -4,6 +4,10 @@
   <tag language="日本語"/>
  </tags>
  <strings>
-  <string id="aserainamemissing" text="アセライ゠スルタン国"/>
+  <string id="aserainamemissing" text="アセライ゠スルタン国" />
+  <string id="xkewCbr1lW" text="バッタニア上王国" />
+  <string id="WdDohR60ER" text="クーザイト゠ハン国" />
+  <string id="XfrwOymPAf" text="ストゥルギア大公国" />
+  <string id="LcBnSFcZkD" text="ヴランディア王国" />
  </strings>
 </base>
