@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <strings>
+    <!-- https://www.nexusmods.com/mountandblade2bannerlord/mods/6789 で指摘されているエラーメッセージを回避するためのエントリ. 台詞をランダムに選択する処理の実装そのものに原因があるが, スクリプトの修正を長期にわたって保守するのは面倒なので, この誤ったプログラムが参照する, 存在しないエントリを捏造することでエラー表示を回避する. -->
     <string
         id="str_robbery_start_fight.mountain_bandits_3"
         text="{=RNQIG1DS}Hear that whistling and howling? That's not the wind - it's the ghosts of those who defied us. Prepare to join them."/>
