@@ -2,7 +2,7 @@
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Name value="Correct Localization JP - Mgen Plus 2pp Font"/>
     <Id value="CorrectLocalizationJPFontMgenPlus2pp"/>
-    <Version value="v2.5.3"/>
+    <Version value="v2.5.4"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
