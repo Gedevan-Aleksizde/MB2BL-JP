@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base>
+ <tags>
+  <tag language="日本語"/>
+ </tags>
+ <strings>
+  <string id="aserainamemissing" text="アセライ" />
+  <string id="xkewCbr1lW" text="バッタニア" />
+  <string id="WdDohR60ER" text="クーザイト" />
+  <string id="XfrwOymPAf" text="ストゥルギ" />
+  <string id="LcBnSFcZkD" text="ヴランディ" />
+ </strings>
+</base>
