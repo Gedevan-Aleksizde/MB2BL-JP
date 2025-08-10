@@ -24,16 +24,18 @@ parser.add_argument(
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    with Path(__file__).parent.joinpath("default.yml") as fp:
-        if fp.exists():
-            args = merge_yml(fp, args, parser.parse_args([""]))
+    fp = Path(__file__).parent.joinpath("default.yml")
+    if fp.exists():
+        args = merge_yml(fp, args, parser.parse_args([""]))
+    del fp
     if args.outdir is None:
         args.outdir = Path(f"Mods/{args.target_module}")
-        with args.outdir.joinpath(
+        fp_langdir = args.outdir.joinpath(
             f"{args.target_module}/ModuleData/Languages/{args.langshort}"
-        ) as fp:
-            if not fp.exists():
-                fp.mkdir(parents=True)
+        )
+        if not fp_langdir.exists():
+            fp_langdir.mkdir(parents=True)
+        del fp_langdir
     if args.pofile is None:
         args.pofile = args.outdir.joinpath(f"{args.target_module}.po")
     print(args)

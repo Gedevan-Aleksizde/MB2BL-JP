@@ -1,31 +1,32 @@
 #! /usr/bin/env python3
 
-import platform
 import argparse
-from pathlib import Path
+import hashlib
+import platform
 import warnings
-import pandas as pd
+from datetime import datetime
+from pathlib import Path
+
 import lxml.etree as ET
 import numpy as np
+import pandas as pd
 import polib
-from datetime import datetime
 from functions import (
-    pddf2po,
-    po2pddf,
-    merge_yml,
+    FILTERS,
+    dict_name_attr,
     export_id_text_list,
     match_public_id,
     match_string,
-    FILTERS,
-    dict_name_attr,
+    merge_yml,
+    pddf2po,
+    po2pddf,
 )
-import hashlib
 
 if platform.system() == "Windows":
     # import winshell
     from win32com.client import Dispatch
 import html
-from typing import Optional, Callable, Any
+from typing import Any, Callable, Optional
 
 parser = argparse.ArgumentParser()
 parser.add_argument("target_module", type=str, help="target module folder name")
@@ -178,8 +179,7 @@ def non_language_xml_to_pddf(
     """
     if base_dir is None:
         base_dir = fpath.parent
-    with base_dir.joinpath(fpath).open("r", encoding="utf-8") as f:
-        xml = ET.parse(f)
+    xml = ET.parse(base_dir.joinpath(fpath).open("r", encoding="utf-8"))
     ds = []
     for name_attrs in FILTERS:
         xml_entries = xml.xpath(name_attrs["xpath"])
@@ -225,8 +225,7 @@ def non_language_xslt_to_pddf(
     """
     if base_dir is None:
         base_dir = fpath.parent
-    with base_dir.joinpath(fpath).open("r", encoding="utf-8") as f:
-        xslt = ET.parse(f)
+    xslt = ET.parse(base_dir.joinpath(fpath).open("r", encoding="utf-8"))
     ds = []
     for name_attrs in FILTERS:
         print(name_attrs)
@@ -389,7 +388,7 @@ def normalize_string_ids(
         data = data.drop(columns=["text_EN_original", "id_used_in_vanilla"])
         # TODO: 常にバニラと比較するように
     data = data.assign(
-        missing_id=lambda d: (d["id"].str.contains("^[?!\*]$"))
+        missing_id=lambda d: (d["id"].str.contains(r"^[?!\*]$"))
         | (d["id"] == "")
         | (d["id"] == "*")
     )
@@ -545,8 +544,7 @@ def export_corrected_xml_xslt_id(
         print(f"""checking {file.relative_to(module_data_dir)}""")
         any_changes = False
         if file.relative_to(module_data_dir).parts[0].lower() != "languages":
-            with file.open("r", encoding="utf-8") as f:
-                xml = ET.parse(f)
+            xml = ET.parse(file.open("r", encoding="utf-8"))
             for name_attrs in FILTERS:
                 if filetype == "xml":
                     xml_entries = xml.xpath(name_attrs["xpath"])
@@ -594,9 +592,8 @@ def export_corrected_xml_xslt_id(
             if not dont_clean and outfp.exists():
                 print(f"deleting output old {outfp.name}")
                 outfp.unlink()
-            with outfp.parent as fdir:
-                if not fdir.exists():
-                    fdir.mkdir(parents=True, exist_ok=True)
+            if not outfp.parent.exists():
+                outfp.parent.mkdir(parents=True, exist_ok=True)
             ET.indent(xml, space="  ", level=0)
             xml.write(outfp, pretty_print=True, xml_declaration=True, encoding="utf-8")
         any_changes = False
