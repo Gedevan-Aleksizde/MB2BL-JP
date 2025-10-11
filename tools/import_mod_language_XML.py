@@ -135,6 +135,7 @@ def extract_all_text_from_xml(
     """
     ds = []
     print(f"reading XML and XSLT files from {module_data_dir}")
+    print(module_data_dir)
     for file in module_data_dir.rglob("./*.xml"):
         if file.relative_to(module_data_dir).parts[0].lower() != "languages":
             d = non_language_xml_to_pddf(file, module_data_dir, verbose)
