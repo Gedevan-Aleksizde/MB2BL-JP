@@ -2,7 +2,7 @@
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Id value="CorrectLocalizationJPText" />
     <Name value="Correct Localization JP - Text" />
-    <Version value="v2.5.5"/>
+    <Version value="v2.5.6"/>
     <ModuleType value="Community"/>
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
@@ -33,6 +33,7 @@
 			<IncludedGameTypes>
 				<GameType value = "Campaign"/>
 				<GameType value = "CampaignStoryMode"/>
+        <GameType value = "CustomBattle"/>
 			</IncludedGameTypes>
 		</XmlNode>
     </Xmls>
