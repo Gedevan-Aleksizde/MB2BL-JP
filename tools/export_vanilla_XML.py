@@ -103,10 +103,9 @@ parser.add_argument(
 
 def main():
     args = parser.parse_args()
-    with Path(__file__).parent.joinpath("default.yml") as fp:
-        if fp.exists():
-            with Path(__file__).parent.joinpath("default.yml") as fp:
-                args = merge_yml(fp, args, parser.parse_args([]))
+    fp = Path(__file__).parent.joinpath("default.yml")
+    if fp.exists():
+        args = merge_yml(fp, args, parser.parse_args([]))
     if args.langfolder_output is None:
         args.langfolder_output = args.langshort
     print(args)
