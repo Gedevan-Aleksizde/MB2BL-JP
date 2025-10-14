@@ -2,22 +2,48 @@
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Name value="Correct Localization JP - Mgen Plus 2pp Font"/>
     <Id value="CorrectLocalizationJPFontMgenPlus2pp"/>
-    <Version value="v2.6.0"/>
+    <Version value="v3.0.0"/>
     <ModuleType value="Community"/>
     <Official value="false" />
     <SingleplayerModule value="true" />
     <MultiplayerModule value="false" />
     <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
     <DependedModuleMetadatas>
-    	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.2.*" />
-    	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" optional="true" version="v1.2.*" />
-    	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" optional="true" version="v1.2.*" />
-    	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" optional="true" version="v1.2.*" />
-    	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" optional="true" version="v1.2.*" />
-        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadBeforeThis" optional="true" version="v2.*.*" />
+    	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.3.*" />
+    	<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" optional="true" version="v1.3.*" />
+    	<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" optional="true" version="v1.3.*" />
+    	<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" optional="true" version="v1.3.*" />
+    	<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" optional="true" version="v1.3.*" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" incompatible="true" />
         <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
   	</DependedModuleMetadatas>
+    <Xmls>
+        <XmlNode>
+            <XmlName id="SPCultures" path="spcultures"/>
+            <IncludedGameTypes>
+                <GameType value="Campaign"/>
+                <GameType value="CampaignStoryMode"/>
+                <GameType value="CustomGame"/>
+                <GameType value="EditorGame"/>
+            </IncludedGameTypes>
+        </XmlNode>
+        <XmlNode>
+            <XmlName id="Kingdoms" path="spkingdoms"/>
+            <IncludedGameTypes>
+                <GameType value="Sandbox"/>
+                <GameType value="Campaign" />
+                <GameType value="CampaignStoryMode" />
+            </IncludedGameTypes>
+        </XmlNode>
+        <XmlNode>
+            <XmlName id="GameText" path="module_strings" />
+            <IncludedGameTypes>
+                <GameType value="Campaign"/>
+                <GameType value="CampaignStoryMode"/>
+                <GameType value="CustomBattle"/>
+            </IncludedGameTypes>
+        </XmlNode>
+    </Xmls>
 </Module>
