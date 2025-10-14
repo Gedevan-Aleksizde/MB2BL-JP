@@ -34,4 +34,3 @@ Compress-Archive -Force Packages/CorrectLocalizationJP-GenShin Packages/CorrectL
 Compress-Archive -Force Packages/CorrectLocalizationJP-LateMin Packages/CorrectLocalizationJP-LateMin.zip
 Compress-Archive -Force Packages/CorrectLocalizationJP-MgenPlus Packages/CorrectLocalizationJP-MgenPlus.zip
 Compress-Archive -Force Packages/CorrectLocalizationJP-MgenPlus2pp Packages/CorrectLocalizationJP-MgenPlus2pp.zip
-Compress-Archive -Force Packages/CorrectLocalizationJP-Text Packages/CorrectLocalizationJP-Text.zip
