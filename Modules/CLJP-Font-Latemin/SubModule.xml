@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
     <Id value="CorrectLocalizationJPFontGenEiLateMin"/>
-    <Name value="Correct Localization JP - Gen-Ei LateMin Font"/>
+    <Name value="Correct Localization JP - Gen-Ei LateMin"/>
     <Version value="v3.0.0"/>
     <ModuleType value="Community"/>
     <Official value="false" />
@@ -37,5 +37,13 @@
 				<GameType value="CampaignStoryMode" />
 			</IncludedGameTypes>
 		</XmlNode>
+        <XmlNode>
+            <XmlName id="GameText" path="module_strings" />
+            <IncludedGameTypes>
+                <GameType value="Campaign"/>
+                <GameType value="CampaignStoryMode"/>
+                <GameType value="CustomBattle"/>
+            </IncludedGameTypes>
+        </XmlNode>
     </Xmls>
 </Module>
