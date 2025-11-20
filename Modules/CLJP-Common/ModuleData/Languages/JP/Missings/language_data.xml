@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <LanguageData id="日本語" under_development="false">
-  <LanguageFile xml_path="JP/Missings/SandBox.xml"/>
-  <LanguageFile xml_path="JP/Missings/SandBoxCore.xml"/>
+  <LanguageFile xml_path="JP/Missings/str_sandbox_missings-jpn.xml"/>
+  <LanguageFile xml_path="JP/Missings/str_missings-jpn.xml"/>
 </LanguageData>
