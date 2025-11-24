@@ -4,7 +4,7 @@
     <tag id="日本語"/>
   </tags>
   <strings>
-    <string id="03G5GPec" text="所有中の隊商：{CARAVAN_COUNT}"/>
+    <string id="03G5GPec" text="所有中の隊商 {CARAVAN_COUNT}"/>
     <string id="03hsUIsL" text="一生のうち、ほぼ毎日を訓練に費やすヴランディア騎士たちは注意すべき強敵だ。彼らが戦場に現れる時、その雷鳴のように重厚な蹄音が戦場を大いに震わす。それを聞いたが最期、既に彼らの攻撃の最中にいる人々は真の恐怖を知る事になる。"/>
     <string id="04nPpqA2" text="陽動"/>
     <string id="07OrsbVH" text="強力なボルト"/>
@@ -13,9 +13,9 @@
     <string id="08aYzc2F" text="首長"/>
     <string id="09z8Q08f" text="家族は小さな農家で、自分たちが食べて行けるだけの土地を持ち、わずかな収入も得ていた。こうした人々は国の経済の柱であり、また、徴募兵団の屋台骨でもあった。"/>
     <string id="0CCgjMTG" text="出来るかぎり死体を隠し、あとは最善の結果を願う。"/>
-    <string id="0CsbbwtN" text="{CALL_TO_WAR_COST}を納め、{CALLED_KINGDOM}に{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いに参戦を要請する"/>
+    <string id="0CsbbwtN" text="{CALLED_KINGDOM}に対して{CALL_TO_WAR_COST}を贈り、{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いに参戦を要請する"/>
     <string id="0DMM0agr" text="投射の影響"/>
-    <string id="0DSopB7F" text="{FORTRESS_NAME}周辺の地形を観察したところ、掘削に適した条件が揃っている可能性が出てきた。城壁の下にトンネルを掘り、崩落させるのが有効的かもしれない。しかし、これは時間がかかる上にリスクも伴う。もし地中で岩を掘り当ててしまえば、すべての労力が水の泡になりかねない。もし地面が柔らかすぎれば、トンネルが崩れて兵士が生き埋めになる事もあり得る。それに大半の者たちは特別報酬を貰うか、強制されない限り、暗く狭いトンネル内の作業を嫌がるだろう。"/>
+    <string id="0DSopB7F" text="{FORTRESS_NAME}周辺の地形を観察したところ、掘削に適した条件が揃っている可能性が出てきた。城壁の下にトンネルを掘って崩落させるのが有効かもしれない。しかし、これは時間がかかる上にリスクも伴う。もし地中で岩盤に突き当たれば、全ての労力が無駄になる。もし地盤が柔らかすぎれば、トンネルが崩れて兵士が生き埋めになる事もありえる。それに大半の者たちは特別報酬を貰うか強制されない限り、暗く狭いトンネル内の作業を嫌がるだろう。"/>
     <string id="0Fliz2vk" text="{BASE} 最小値"/>
     <string id="0HTNYQz2" text="切り替え"/>
     <string id="0OrIliBh" text="猪"/>
@@ -24,12 +24,12 @@
     <string id="0TtCRwmr" text="運動"/>
     <string id="0W4dgUho" text="{BANNEDUNTIL} までゲームからBANされます。理由: {BANREASON}"/>
     <string id="0Wwwa77J" text="無知につけ込んで利益を得るつもりはない、と商人に伝える。"/>
-    <string id="0ZP5fDBX" text="その判断は売り物になるものだ、と裕福な商人に伝える。"/>
+    <string id="0ZP5fDBX" text="その判断力こそ売り物としての価値がある、と裕福な商人に伝える。"/>
     <string id="0awbcZag" text="彼の門出を祝福し、昔の戦争話をうんざりさせるくらい皆に聞かせるように言う。"/>
     <string id="0cQ3jk43" text="鯨油{@Plural}樽の鯨油{\@}"/>
     <string id="0cZmKO76" text="今日シャラスとして知られている都市は、新大陸におけるカルラディア人の最初の植民都市だと、伝統的に考えられている。帝国の最盛期に首都が北のパラウェノスへと移った時にも、シャラスは海運と交易の一大集積地であり続け、帝国の貴族たちは付近の湾岸部に避暑用の別荘を建て、島々の周りを遊覧船で巡っていた。ヴランディア人が到来したとき、シャラスは冷酷なるデ゠コルテイン一族の手に落ち、街が保有していた富は彼らの野望の実現のために費やされることとなった。"/>
     <string id="0cdXddA9" text="{KINGDOM1_LINK}が{KINGDOM2_LINK}と同盟を締結"/>
-    <string id="0dnD9cR4" text="軍団兵による支配の日々はとうの昔に終わった。最近の帝国の突撃部隊といえば、鎧の煌めき眩しいカタフラクト達を指す事が一般的だ。頭からつま先まで、帝国で鍛造し得る最高級の鋼を用いた鎧を纏った一流の騎兵たちは、王宮の費用で正規の兵士として雇われており、槍や各種の弓、剣、斧などで訓練をしている。他に何してるかって？それ以外は何もしなくて良いのである！"/>
+    <string id="0dnD9cR4" text="軍団兵による支配の日々はとうの昔に終わった。最近の帝国の突撃部隊といえば、鎧の煌めき眩しいカタフラクト達を指す事が一般的だ。頭からつま先まで、帝国で鍛造し得る最高級の鋼を用いた鎧を纏った一流の騎兵たちは、王宮の費用で正規の兵士として雇われており、槍や各種の弓、剣、斧などで訓練をしている。他に何してるかって? それ以外は何もしなくて良いのである!"/>
     <string id="0g7MZCAK" text="工房からの収入"/>
     <string id="0geP718k" text="そうか…、何と言えば良いかわかりません。では、お別れです。"/>
     <string id="0gi1kEIR" text="部隊戦25勝"/>
@@ -64,19 +64,18 @@
     <string id="1M6atKQR" text="小戦で5回勝利する。"/>
     <string id="1MaVHrmf" text="長さと軽さで勝る長めの竹槍を装備。{newline} {newline}竹槍を装備"/>
     <string id="1QBbbq4h" text="{KINGDOM_NAME}との交易を続行すべきだ"/>
-    <string id="1QthEZ9R" text="君を見つけられてよかった。私の部隊にまた入ってくれ。"/>
     <string id="1SUTcF0J" text="カルラディアの都市の貧民街に目を光らせているごろつき集団のリーダー達は伝令や縄張り争の戦力として、常に貧しい若者を必要としていた。時には刺激を求める商人の息子や娘達が、集団の一員として出入りする事もあった。"/>
     <string id="1SnAH5K8" text="エボル半島の山中にあるロバラティスが完全に帝国の都市となったことはなかった。銀貨を稼げる、あるいは毛皮が取れるという噂を聞きつけたノルドの移民が、カルラディア人の数を大きく上回っていたためだ。しかもそれはヴランディアによる侵攻が起きる以前のことであった。そしてヴランディア人もまたこの地の価値に目を付けていた。この土地の冬は厳しいが、それでもなお王国内で最も人口が多い地域の一つであった。エボルの山々に囲まれた渓谷には実り多き田畑があり、富を求め南から絶え間なくやってくる入植者たちを受け入れるのに充分なだけの食料を確保することが可能だったからだ。"/>
     <string id="1WljM7iN" text="部隊戦90000キル"/>
     <string id="1X5mtfDn" text="降伏した盗賊部隊を雇用できる。"/>
-    <string id="1aQAmENB" text="{ENEMY_KINGDOM_INFORMAL_NAME}は強いかもしれないが、彼らの土地は豊かであり、奪うなら今だろう。"/>
+    <string id="1aQAmENB" text="{ENEMY_KINGDOM_INFORMAL_NAME}は精強だが、彼らの土地は豊かであり、奪取する機は熟している。"/>
     <string id="1aW0gpRa" text="部隊戦2500勝"/>
     <string id="1b9oYu6v" text="入隊を許し、好きなだけ傲慢な態度を取れば良い、と伝える。ただし、部下の一人と戦い、先に血を流させることが条件だ。"/>
     <string id="1bobtmxl" text="旅を続けられるように一番安い馬を商人に売る。"/>
     <string id="1cgOQB5K" text="勝利の美酒"/>
     <string id="1gC25EMb" text="方向転換"/>
     <string id="1gDck6xi" text="{KINGDOM1_LINK}が{KINGDOM2_LINK}と交易協定を締結"/>
-    <string id="1jAyaivZ" text="村の道を通っていると、見物人たちの中から犬が飛び出し、あなたの{CAVALRYMAN}の馬の踵に噛みついた。驚いた馬は暴れて通りを駆け抜け、逃げ損ねた野菜売りの女を踏みつけてしまった。彼女は今後ずっと足をひきずってしか歩けなくなるだろう。彼女の家族が補償を求めている。"/>
+    <string id="1jAyaivZ" text="村の道路を通り過ぎようとすると、見物人たちの中から犬が飛び出し、{CAVALRYMAN}の馬の踵に噛みついた。驚いた馬は暴れて通りを駆け抜け、逃げ損ねた野菜売りの女を踏みつけてしまった。彼女はおそらく今後一生足をひきずって歩くことになるだろう。彼女の家族が補償を求めている。"/>
     <string id="1jhoMqHv" text="十分な資金がない"/>
     <string id="1jmYaNxu" text="熟練の指導者"/>
     <string id="1lj8RujG" text="部隊戦で2000回勝利する。"/>
@@ -92,10 +91,11 @@
     <string id="211WkLlN" text="兵士{AMOUNT}人が降格された。"/>
     <string id="21oH4CWa" text="バグハンター"/>
     <string id="22LCyCoA" text="{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いに参戦すれば、{GOLD}{GOLD_ICON}を進呈しよう。"/>
-    <string id="24pUil64" text="その熱烈な精神が気に入った！どちらかが起き上がれなくなるまで戦わせる。"/>
+    <string id="24pUil64" text="その苛烈な精神が気に入った! どちらかが起き上がれなくなるまで戦わせよう。"/>
     <string id="25f3yj3M" text="ロングソード"/>
     <string id="2BpUBMJS" text="あなたは丈夫な金属板で鎧を改良しました。{newline} {newline}防御力が+10{newline}斬ダメージが20%軽減"/>
     <string id="2ER5aj0R" text="投石用の石"/>
+    <string id="2GE0in0u" text="弓が必要"/>
     <string id="2GMj6ZaW" text="乾いた木か柔らかい地面が見つかるまで死体を運ぶ。"/>
     <string id="2KaXj3Qa" text="{NEARBY_ENEMY_FACTION}の略奪行為によって、多くの農民が住む場所を失った。土地を持つ者は大方戻れるが、貧民の多くは新たな生活の場を探し求めている。村の外れで野営している者たち数名と話をした。彼らには土地がないようだ。彼らは小作人として働くことを切望しているが、それが昔から村に住んでいる人々との間に軋轢が生じるのは常である。"/>
     <string id="2LHa01Q9" text="情けを期待するな。お前を処刑する!"/>
@@ -103,11 +103,11 @@
     <string id="2NofSpJ0" text="攻撃され傷つくと怒りを爆発させる。接近戦で傷を負う度に受けるダメージが減少し、与えるダメージが増加する。{newline} {newline}ヒットポイントを20失うごとに与えるダメージが5%増加 {newline}ヒットポイントを20失うごとに受ける接近戦ダメージが5%減少する"/>
     <string id="2OQlwt7x" text="村人たちによると、最近ある放浪者が訪れ、村の子供たちに文字の読み方を教えると申し出ている。彼は学があるだけでなく、落ち着きのない10歳児の集中力を保たせる才能もあると言う。しかし、その男は10年前にこの辺りで活動していた反乱軍の一派と関わっていらしく、天からもたらされる正義の治世の到来について時々話している。その口ぶりは皮肉交じりの冗談には聞こえないという。"/>
     <string id="2PEKd3Sz" text="やはり、気が変わった。命令は撤回する…"/>
-    <string id="2SDWhGmQ" text="あなたの家族は川沿いの都市の市壁の外に広がる貧民街に暮らす、貧しい移住者だった。彼らはありつけた仕事を何でもこなし、わずかな金を稼いだ。時にはその地域にいくつもある犯罪組織の仕事も請け負った。"/>
+    <string id="2SDWhGmQ" text="家族は川沿いの都市の市壁の外に広がる貧民街に暮らす、貧しい移住者だった。彼らはありつけた仕事を何でもこなし、わずかな金を稼いだ。時にはその地域にいくつもある犯罪組織の仕事も請け負った。"/>
     <string id="2TptWc4m" text="男爵の家来"/>
     <string id="2UGdOzEf" text="{ARMY}は解散した。兵を運ぶ船は失われ、生き残った者たちは即席の筏や流木にすがりつき岸へ向かっている。"/>
     <string id="2UVIakHk" text="部隊戦で10キルを達成する。"/>
-    <string id="2WFPZrFf" text="わかりました。では交易船団を組むのに、部下を呼びましょう。繁盛するといいですね。"/>
+    <string id="2WFPZrFf" text="いいでしょう。では交易船団の結成を手伝うため、私の部下を集めましょう。あなたの繁盛を願ってます。"/>
     <string id="2Ys7hehK" text="小戦勝利"/>
     <string id="2ams0Tby" text="マルチプレイヤーのバナーロードを200時間プレイする。"/>
     <string id="2auYPXJ8" text="勝利を掴んだのは自分自身の手だと断言する。銀貨を自分のものにする。"/>
@@ -124,10 +124,8 @@
     <string id="2maftPJP" text="クランと勢力のリーダーに任命する"/>
     <string id="2qZ14G9p" text="周辺の村の暖炉の数に応じて収入を得る"/>
     <string id="2qjkY4yu" text="交易協定"/>
-    <string id="2wUCy6Ia" text="解散した部隊は、自勢力の最も近い城または都市に移動し、その守備隊に合流する。{?DOES_DISBANDING_PARTY_HAVE_SHIP}船はあなたのクランメンバーの間で分配される。{?}{\?}{newline}{newline}この操作を取り消したり、キャンセルすることはできない。{newline}{newline}本当に続けようか?"/>
     <string id="2xvqOUJh" text="他人の不幸をだしに儲けるつもりはない、と商人に静かに伝える。"/>
-    <string id="32v8ryKV" text="攻城戦の開始時にバリスタ+{BONUS_AMOUNT}"/>
-    <string id="347hq6lN" text="海戦で部隊が得られる経験値+{EFFECT_AMOUNT}%"/>
+    <string id="32v8ryKV" text="攻囲戦の開始時にバリスタ+{BONUS_AMOUNT}"/>
     <string id="35IHscBa" text="敵"/>
     <string id="37YTPzfG" text="兵は全て尊重されるべきだと伝える。そのしるしとして{FOOD_OR_DRINK_ITEM}を余分に振る舞う。"/>
     <string id="37lEhqtv" text="最初の血が流れるまで戦わせる"/>
@@ -135,8 +133,8 @@
     <string id="39f0eu3Y" text="提供された認証トークンが失効しました。"/>
     <string id="3BvfOe1y" text="いいだろう。もっと捕まえるといい。そしてそいつらをウチに預けたくなったら、いつでも訪ねて来い…"/>
     <string id="3CaDxb8R" text="部下に「これが戦場の常であり、{TROOP_TYPE}も覚悟していたことだ。それに捕虜は身代金になる」と言う。"/>
-    <string id="3Dkh6QwL" text="おい、あんた！それ以上近づくと、船同士がもつれることになるぞ。"/>
-    <string id="3FwbFdbw" text="あなたが包囲陣を視察していると、兵士の一人かそれ以上が赤痢に感染しているという恐ろしい痕跡を発見した。赤痢は食料や水を共有するうちに、どんどん感染が拡大していく。このまま対処しなければ、包囲軍に何が起きるかは明らかだ。"/>
+    <string id="3Dkh6QwL" text="おい、あんた! それ以上近づくと、船同士がもつれることになるぞ。"/>
+    <string id="3FwbFdbw" text="攻囲陣地を視察していると、兵士の一人かそれ以上が赤痢に感染しているという恐ろしい痕跡を発見した。赤痢は食料や水を共有するうちに、どんどん感染が拡大していく。このまま対処しなければ、陣地内に何が起きるかは明らかだ。"/>
     <string id="3FzBTb3w" text="情報に感謝する。{COMPANION_INQUIRY_COST}{GOLD_ICON}払ったかいがあった。"/>
     <string id="3In09YKu" text="ヴランディアではどの村も、領主のために兵士を提供することが求められており、その人数が領主の希望に満たない場合は、直接領主が村に訪れて、気に入った若者に剣を突きつけ、連行するのだ。領主が彼ら農兵のために、大金を費やして装備を与えたり、訓練を施すことはまずない。だが、狡猾な農兵は敵（あるいは仲間）から略奪を行い、より経験豊富な仲間の戦闘に共に向かうことで、生き延びる術を戦場で直に覚えていくのである。"/>
     <string id="3IphvZTK" text="自領を不在にしている間に、住民が精を出して沼地を干拓し農地に変えていた。だが、倉にある戸籍記録によれば、沼地が自分の土地であることは明らかだ。彼らは全くそのことを知らなかったようだが、土地を要求したり、その働きに対して請求したりできる。"/>
@@ -156,11 +154,12 @@
     <string id="3Wzhxkn1" text="鍋"/>
     <string id="3XSuOAYT" text="従者の長弓"/>
     <string id="3Y5dudW9" text="アルダ"/>
+    <string id="3YVDMg5X" text="君主間の希薄な関係"/>
     <string id="3a3D6aAt" text="影響力{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="3aPKkyd2" text="ヴランディアの短剣"/>
     <string id="3aziL3Gs" text="斥候{CURRENTLY_HELD_SCOUT}"/>
     <string id="3bOcF1Cw" text="今は誰も提供できない。一人で行ってくれ。"/>
-    <string id="3buSOoHl" text="失せろ！"/>
+    <string id="3buSOoHl" text="失せろ!"/>
     <string id="3c3uqW3d" text="バッタニアの短剣"/>
     <string id="3dhvmJDp" text="さぁて…、あんたの親族は取り戻したし、こっちの落とし前もついた。俺はここで消えるとしよう。[ib:hip][if:convo_uncomfortable_voice]"/>
     <string id="3ee3I8WX" text="それからこの短剣…。できるだけ密かに首長のもとへ近づき、それから再び密かに脱出するのが一番安全でしょう。しかし、どうしても避けられないなら、これを使って背後から襲えば、正面から戦うよりもずっと静かに済みます。"/>
@@ -168,13 +167,13 @@
     <string id="3hTJgq6V" text="馬上で戦う術を極めたエキスパート。{newline} {newline}長ランスを装備{newline} {newline}騎乗中の貫通攻撃のスピードボーナスが33%増加する"/>
     <string id="3jSl2v41" text="毎日、守備隊の兵士に+{BONUS_AMOUNT}XP"/>
     <string id="3n1KRLpZ" text="『私の愛する人は遠い場所にいる{newline}それがどこかはわからない{newline}風が教えてくれるかもしれない』"/>
+    <string id="3o6FDRsq" text="占領した都市"/>
     <string id="3r3MPbhV" text="スタルジアの貴族は、常に熟練の戦士を、自らのドルジーナ(親衛隊)に引き入れる、もしくは個人的に連れまわせる従者として欲している。彼らはドルジーナの忠誠を金で買い、最高の武器と馬で武装させて、北部のあらゆる軍勢においての突撃部隊としての役割を担わせる。"/>
     <string id="3rHeoq6r" text="{SETTLEMENT_NAME}か。"/>
     <string id="3vVJJAln" text="部隊戦で5回勝利する。"/>
     <string id="3wb2dCfz" text="すぐ用意します、{?PLAYER.GENDER}ご婦人{?}旦那{\?}。"/>
     <string id="42bGMh4X" text="兵たちは、これほど長く砂漠で過ごすとは思っていなかった。普段なら自ら喜んで運ぶような荷物も、この焼け付く日差しの下では耐えがたい重荷になると不満を漏らしている。彼らが市場で駄獣を見つけたらしく、負担を減らすために購入してほしいと求めている。"/>
-    <string id="45IBacqS" text="あなたは地面に倒れたが、混乱と闇に紛れ、這って逃げ出せた。離れて観察すると、混乱していた隠れ家は静まり返っている。統制の取れていない無法者たちはすぐに警戒を解くため、まだ機会が残されていると気付いた。準備ができれば、テウェアへ戻って再挑戦できる。"/>
-    <string id="45blTr8C" text="公海・沿岸海・川での移動速度+{EFFECT_AMOUNT}%"/>
+    <string id="45IBacqS" text="地面に倒されたが、混乱と闇に紛れ、這って逃げ出せた。離れて観察すると、混乱していた隠れ家は静まり返っている。統制の取れていない無法者たちはすぐに警戒を解くため、まだ機会が残されていると気付いた。準備ができれば、テウェアへ戻って再挑戦できる。"/>
     <string id="47MFRfCt" text="{CHANCE}%の確率で、ランダムな兵士たちが降格される"/>
     <string id="47hUs9yg" text="その監督を見せしめにする。都市の司法に引き渡し厳しい罰を与えるように言う。盗人の焼き印を押し、都市から追放する。"/>
     <string id="47mXdgma" text="ゲームは引き分けで終了しました。"/>
@@ -182,19 +181,20 @@
     <string id="4Gi8asWk" text="リカーブボウをコンポジットボウと置き換える。発射速度が早く、ダメージも高い。"/>
     <string id="4O4xjMMd" text="遊牧民の弓兵"/>
     <string id="4OAz8urz" text="ペン゠カーノックは、トランド川がウカリオン台地からヴランディアの低地へと流れ込んでいく様子を見下ろす位置にある岬の上に存在する。伝説によれば、この地には岩の下にある暗い池に水の妖精が住み、旅人や侵略者を死に誘い、あるいは稀に人間と恋に落ち、そ者に勝利と祝福を授けると言われている。はっきりしているのは、この地域の漁民は、上トランド川の危険性を甘く見てはならないと胸に刻んでいるということだ。ここで誤って滑りやすい石を踏みしめれば、絶壁から身を投げ出しかねない。"/>
+    <string id="4Ok7GnHs" text="乗り込んだ際の敵乗員の士気{EFFECT_AMOUNT}"/>
     <string id="4UNOQQRa" text="アッカラトはクーザイトの言葉で「白き要塞」を意味し、恐ろしきパーディシャーであるホシュタールが度々デヴセグを征服しようとしていた時に築かれた都市である。要塞の頂ではこの地の部族を支配する領主としての彼の権力を象徴する、聖なる炎が何十年もの間燃えていた。しかし、帝国のように猛威を振るったパーディシャーの王国は守勢に入り、東へと後退していった。現在ここには馬の尾で作られたハンの旗印であるトゥグが掲げられている。"/>
-    <string id="4VfGEtuS" text="おのれ！"/>
+    <string id="4VfGEtuS" text="おのれ!"/>
     <string id="4VwBa182" text="封鎖が攻撃されているため戦闘に参加できない。水上から参戦できる。"/>
-    <string id="4WYY0X59" text="冒険の日々が始まる以前の、あなたの人生最大の功績はこのようなものだった。"/>
+    <string id="4WYY0X59" text="冒険の日々が始まる以前の、自分にとっての人生最大の功績はこのようなものだった。"/>
     <string id="4WZ5CWm8" text="二人を脇に連れて行く。{TOWN_NAME}の酒場で酔った挙げ句の態度なら構わないが、日々命を張っている者たちに対しては少々行き過ぎだと言う。"/>
     <string id="4bzbhbaP" text="伐採者"/>
-    <string id="4dIYUMkA" text="戦利品を聖人の祠に寄付する。"/>
+    <string id="4dIYUMkA" text="戦利品を聖人の神殿に寄進する。"/>
     <string id="4eStbG4S" text="{COMPANION.NAME}{.o}のクラン名を選択してください"/>
     <string id="4engYxiH" text="小戦で7000キルを達成する。"/>
     <string id="4ezrToWI" text="村人たちを助け、近くの別荘から彼らの首長を救おうとすることに同意した。"/>
-    <string id="4f5xwzX0" text="仲間たちが馬泥棒の追跡のために捜索隊を組織しようとした時、あなたが選ばれたのは当然の成り行きだった略奪者たちを追い詰め、包囲して降伏を迫り、盗まれた物を取り戻した。"/>
+    <string id="4f5xwzX0" text="仲間たちが馬泥棒の追跡のために捜索隊を組織しようとした時、自分が選ばれたのは当然の成り行きだった。略奪者たちを追い詰め、包囲して降伏を迫り、盗まれた物を取り戻した。"/>
     <string id="4mhOs9Fb" text="より強い兵士を隊商に編入する方法はないか?"/>
-    <string id="4mqtjf3y" text="さらばだ。正しき者は嵐を恐れる必要などない。天がお守りくださるから。"/>
+    <string id="4mqtjf3y" text="さらばだ。正しき者は嵐を恐れる必要などない。天がお守りくださるだろうからな。"/>
     <string id="4o7R829M" text="周囲3つの村からの好感度-5"/>
     <string id="4pkfkSbe" text="不快な臭いをさせて申し訳ございません、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。なめし革という物はどうしても臭うんです。どのようなご用件ですか?"/>
     <string id="4qaunexe" text="隊商の訪問頻度を上げる。"/>
@@ -220,8 +220,8 @@
     <string id="5LhfbFpX" text="取引の相手としての対話をすべきだ"/>
     <string id="5LpufKs7" text="追従"/>
     <string id="5MH4xtlD" text="グンナル"/>
-    <string id="5P0KqBAw" text="あなたの家族はナハサのオアシスの一つで土を耕しながら、砂漠の有名なデーツを生産する果樹園の世話もしていた。あなたの父親は部族の主力部隊に所属する歩兵で、アミールの旗の下、その親族と共に戦った。"/>
-    <string id="5QSGoRFj" text="あなたの一族は先祖代々、草原地帯にある小さな耕作地で暮らしてきた。クーザイト人が来たとき、一族は皇帝への税金の支払いをやめ、帝国軍の徴兵に応じなくなり、代わりにハンに仕えるようになった。"/>
+    <string id="5P0KqBAw" text="家族はナハサのオアシスの一つで土を耕しながら、砂漠でよく知られたデーツを生産する果樹園の世話もしていた。父親は部族の主力部隊に所属する歩兵で、アミールの旗の下、その親族と共に戦った。"/>
+    <string id="5QSGoRFj" text="一族は先祖代々、草原地帯にある小さな耕作地で暮らしてきた。クーザイトが来たとき、一族は皇帝への税金の支払いをやめ、帝国軍の徴兵に応じなくなり、代わりにハンに仕えるようになった。"/>
     <string id="5R0TauYV" text="敵に気付かれた。"/>
     <string id="5RDF3aZN" text="{SALUTATION}、よく私のところに来てくれたな!"/>
     <string id="5SWqBZSh" text="戦場の習わしを尊重し、助けの必要なものはなるべく助けるよう、兵たちに命じる。"/>
@@ -251,10 +251,10 @@
     <string id="5yl9MDz7" text="レベル200"/>
     <string id="5z4hEq68" text="別の工房のことを考えている。"/>
     <string id="63MQh5P9" text="小戦25キル"/>
-    <string id="63TAYbkx" text="都市の軍隊は多くの時間を市壁の警備に費やしている。彼らの訓練のほとんどは、特に攻城戦で役立つ投射武器を使ったものだった。"/>
+    <string id="63TAYbkx" text="都市の軍隊は多くの時間を市壁の警備に費やしている。彼らの訓練のほとんどは、特に攻囲戦で役立つ投射武器を使ったものだった。"/>
     <string id="64FivU5k" text="日中に忍び込むのは至難だろう!"/>
     <string id="64YgbSH8" text="{UNIT_TYPE}{AMOUNT}人が降格しました"/>
-    <string id="64rWqBLN" text="あなたは自分の国の軍隊の主力部隊に所属することを避け、代わりに、兵士の妻や恋人、召使い、あるいは兵士の世話をしたり、楽しませたり、騙したりして生計を立てている人々の列に加わった。"/>
+    <string id="64rWqBLN" text="自分の国の軍隊の主力部隊に所属することを避け、代わりに、兵士の妻や恋人、召使い、あるいは兵士の世話をしたり、楽しませたり、騙したりして生計を立てている人々の列に加わった。"/>
     <string id="651FhzdR" text="都市の商人"/>
     <string id="66Mzk0NZ" text="茂み"/>
     <string id="68e7N73f" text="死者には不要になった装備を活用する術を熟知するようになる。キルまたはアシストでゴールドを獲得する。{newline} {newline}キルごとにゴールドを20獲得する"/>
@@ -263,19 +263,21 @@
     <string id="6CMYwYai" text="黒く染めたケープ"/>
     <string id="6E7sQIfW" text="{CHANCE}%の確率で、{TOWN}の治安{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="6G5RFyr1" text="王への支持"/>
-    <string id="6IA1S2XU" text="盗賊を引き取る家族"/>
-    <string id="6LFj919J" text="あなたは井戸を掘ったり、家の葺き替えを行ったり、壊れた鋤を直したりするのを手伝った。そこから建設の基礎と、農村の繁栄に必要なことを学んだ。"/>
+    <string id="6IA1S2XU" text="盗賊を引き取る一族"/>
+    <string id="6LFj919J" text="井戸を掘ったり、家の葺き替えを行ったり、壊れた鋤を直したりするのを手伝った。そこから建設の基礎と、農村の繁栄に必要なことを学んだ。"/>
     <string id="6LG4BDZZ" text="反乱軍とは和平交渉できない。"/>
     <string id="6M5TbvlU" text="より上質な材料からつくられた鎧。{newline} {newline}防御力+13"/>
     <string id="6OKCtPMg" text="マルチプレイヤーのバナーロードを150時間プレイする。"/>
     <string id="6QuPiTsY" text="都市の略奪結果"/>
     <string id="6SRPa65F" text="成功率+10% (とても簡単)"/>
+    <string id="6Tw6BLXI" text="盾が必要"/>
     <string id="6UVm8RYL" text="{PRISONER_FACTION_LINK}の{PRISONER_LORD.LINK}が解放"/>
     <string id="6W3s9mVH" text="戦士"/>
     <string id="6XW3fKhU" text="捕虜-{AMOUNT}"/>
     <string id="6a8nEuqX" text="{CHANCE}%の確率で、名声+{AMOUNT}"/>
+    <string id="6ayEZQE1" text="{DAYS}{?DAYS &gt; 1}日{?}日{\?}後に期限れになる"/>
     <string id="6bF0LqJo" text="魔法剣士の宝"/>
-    <string id="6bUSbsKC" text="あなたの父親はフィティウィの下で働いていた。フィティウィとはオアシス都市の貧しい地域の秩序を守る強者を指す。彼は土地や賭け事や侮辱が元で起こった争いを解決し、フィティウィの伝統的な杖と自分の権威を振りかざしていた。"/>
+    <string id="6bUSbsKC" text="父親はフィティウィの下で働いていた。フィティウィとはオアシス都市の貧しい地域の秩序を守る強者を指す。彼は土地や賭け事や侮辱が元で起こった争いを解決し、フィティウィの伝統的な杖と自分の権威を振りかざしていた。"/>
     <string id="6bdcoGI1" text="乗騎をより高速で機動力に優れた馬に乗り換える。"/>
     <string id="6daSmmbC" text="15時間"/>
     <string id="6eHPy57Z" text="{CALLING_KINGDOM}による、{CALLING_KINGDOM}との戦いへの参戦要請は期限切れ"/>
@@ -283,16 +285,14 @@
     <string id="6jYzHJjB" text="鉄枷"/>
     <string id="6kQxshlw" text="チームキル/味方への攻撃"/>
     <string id="6m14pQbt" text="そうかい、なら失せろ![if:convo_undecided_closed][ib:normal]"/>
-    <string id="6nMS9RBv" text="どうやら、村人たちは産品の差し押さえに抵抗するつもりらしい。暴力行為に及べば、{KINGDOM}との戦争になるだろう。"/>
     <string id="6o10SHat" text="成功率+5% (簡単)"/>
     <string id="6pNrNj93" text="城壁"/>
     <string id="6q7UsTtn" text="この都市にはまだ協力者がいないため、自分で作る必要がある。"/>
-    <string id="6rBs2x2E" text="準備ステージです！装備を選んでください！"/>
+    <string id="6rBs2x2E" text="準備ステージです!装備を選んでください!"/>
     <string id="6rRGEebP" text="部隊戦で20000キルを達成する。"/>
     <string id="6sAI5uOm" text="村の者に若者の身代金を要求するように言う。そうすれば、彼は盗賊行為が無利益であることに気付くだろう。"/>
     <string id="6snepBi5" text="村の襲撃に成功した"/>
     <string id="6tnegb19" text="{CHANCE}%の確率で、{HERO.NAME}からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
-    <string id="6u3t174w" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、解放"/>
     <string id="6uUzWz46" text="なるほど。1つ手に入れた時にはまた話し合うことになるかもしれませんね。"/>
     <string id="6wZUG0ev" text="門"/>
     <string id="6xZ8U3Yz" text="軍医{CURRENTLY_HELD_SURGEON}"/>
@@ -315,13 +315,15 @@
     <string id="7R8r1WvR" text="MPテスト用2hアックス"/>
     <string id="7UagK9bw" text="あなた"/>
     <string id="7UyKTkzI" text="部隊戦750勝"/>
+    <string id="7XTkTi9B" text="{PLAYER_LITTLE_SISTER.NAME}は{PLAYER.LINK}の妹だ。"/>
     <string id="7YCEpRij" text="歩兵を叱責する。彼は不満を漏らしても、矜持を捨てて忍耐できる知性を持ち合わせているだろう。"/>
     <string id="7ZHPR7pJ" text="略奪した盾"/>
     <string id="7aAFEx7e" text="あなたは奴らの仲間じゃないな! 誰ですか? 何が起こっているんですか?"/>
     <string id="7aKxuBVH" text="{SKILL} +{AMOUNT}XP"/>
-    <string id="7cHsIMLP" text="自分で装備を買うことなど到底できなかったが、乗馬の腕前がそれなりに優れていたため、土地の領主があなたに馬と装備を貸してくれた。武装した騎兵団に加わり、槍を使った訓練を受けた。"/>
+    <string id="7cHsIMLP" text="自分で装備を買うことなど到底できなかったが、乗馬の腕前がそれなりに優れていたため、土地の領主が馬と装備を貸してくれた。武装した騎兵団に加わり、槍を使った訓練を受けた。"/>
     <string id="7cX6AQlT" text="完璧な足さばきで、動いている間も照準への影響が少ない。{newline} {newline}移動中の精度が50%増加する{newline}移動速度が5%増加する"/>
     <string id="7dQz83TL" text="長いリーチと大ダメージを与えるヘビーサーベルを装備する。"/>
+    <string id="7dXs9c2b" text="水上での積載量超過"/>
     <string id="7eWmU2mF" text="森の民"/>
     <string id="7eyjmmLa" text="マルチプレイヤーのバナーロードを500時間プレイする。"/>
     <string id="7f06ovrO" text="彼の計画を称賛する。自分の土地に水路を掘ることに対して何も請求しないと伝える。"/>
@@ -332,13 +334,14 @@
     <string id="7jBroUUQ" text="一家は自分の土地をほとんど持っておらず、森で狩りや罠を仕掛けて生計を立てていた。獣の通った跡を見つたり、一発で獲物を仕留めたりする技術が、食べていける者と飢える者の分かれ道になることを、幼い頃から教わってきた。"/>
     <string id="7k9izAvC" text="スコルデルブロダ"/>
     <string id="7kYSyt9K" text="新しいコンテンツが有効になりました"/>
-    <string id="7l4I06Hi" text="この都市で交易船隊を組みたい。"/>
+    <string id="7l4I06Hi" text="この都市で交易船団を組みたい。"/>
     <string id="7mssfSVp" text="鎧の下の詰め物が通常より多め。{newline} {newline}防御力+10{newline}打撃ダメージが33%減少する"/>
     <string id="7q53TLg7" text="戦争と疫病の賃金"/>
     <string id="7qB0WKMW" text="寛大なる王"/>
     <string id="7rXPCdGp" text="マルチプレイヤーのバナーロードを800時間プレイする。"/>
     <string id="7sWKjye0" text="速馬"/>
-    <string id="7uzvI8e8" text="王国の予算経費"/>
+    <string id="7uzvI8e8" text="国庫の支出"/>
+    <string id="7xU2wu7M" text="フォトモードは許可されていない"/>
     <string id="7y4Fbx8K" text="好都合な男"/>
     <string id="7yaDnyKb" text="追加の恩恵の影響力はありません。"/>
     <string id="7zCPG8TR" text="鉤"/>
@@ -348,16 +351,16 @@
     <string id="82GOu9Xn" text="部隊戦40000キル"/>
     <string id="85bQmjWX" text="ナイフの刃"/>
     <string id="87daU1Hh" text="物音を立てて衛兵を陽動できる。注意を引き付けるため、石を1つ投げてみよう。"/>
-    <string id="888lmJqs" text="カルラディアの王国はどこも、優れた軽騎兵や弓騎兵の価値を理解しており、その務めを果たせるだけの能力を持った遊牧民や国境地帯の住民を兵として確保するようにしていた隣人たちが銀貨を出し合って、小さなポニーと上等な弓を買い与える程に優秀な騎手だった。あなたを差し出すことで、彼らの徴兵義務も果たされた事になるのだ。"/>
+    <string id="888lmJqs" text="カルラディアの王国はどこも、優れた軽騎兵や弓騎兵の価値を理解しており、その務めを果たせるだけの能力を持った遊牧民や国境地帯の住民を兵として確保するようにしていた隣人たちが銀貨を出し合って、小さなポニーと上等な弓を買い与える程に優秀な騎手だった。自分を差し出すことで、彼らの徴兵義務も果たされた事になるのだ。"/>
     <string id="88Fk9keT" text="優秀な補給官さえいれば、少ない物資でも、もっとやりくりできるはずだ。"/>
-    <string id="88kOYf0b" text="兵士"/>
+    <string id="88kOYf0b" text="兵数"/>
     <string id="8AbHxCM8" text="{CAPTIVITY_TEXT}{newline}囚われたまま時間だけが過ぎていく…"/>
     <string id="8B7pGxj4" text="盾の耐久力が増し、遠隔攻撃から受けるダメージが減少する{newline} {newline}より強力な盾を装備{newline}遠距離武器から受けるダメージが30%減少する"/>
     <string id="8Ca2z4HB" text="侮れない力で、動く標的と盾により多くなダメージを与える。{newline} {newline}徒歩でのスピードボーナスダメージが40%増加する{newline}盾へのボーナスダメージが25%増加する"/>
     <string id="8FobMTCH" text="動けなくなった荷馬車"/>
     <string id="8HXcla1b" text="既に二国間の交易協定が結ばれている"/>
     <string id="8IzNumMa" text="{SETTLEMENT}からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}が"/>
-    <string id="8JqCDWRd" text="彼らを受け入れ、小さな土地を買うための寄付金を渡す。"/>
+    <string id="8JqCDWRd" text="彼らを受け入れ、小さな土地を買えるだけの金を与える。"/>
     <string id="8NHaOWIO" text="戦う術を極める。{newline} {newline}移動速度が5%増加する{newline}近接武器のダメージが10%増加する"/>
     <string id="8OIwHZF1" text="隠れ家"/>
     <string id="8P5dVaj5" text="小戦で1回勝利する。"/>
@@ -365,10 +368,11 @@
     <string id="8VEugUMj" text="船団がここにいない!"/>
     <string id="8VlqJteC" text="からかってみただけだ。今までになく君を必要としている。仕事に戻ってくれ。"/>
     <string id="8WIu29TL" text="小戦500キル"/>
-    <string id="8Y23KVhW" text="だがこちらにはある！すぐに降伏しろ。"/>
+    <string id="8Y23KVhW" text="だがこちらにはある! すぐに降伏しろ。"/>
     <string id="8Yiwt1z6" text="幼少期"/>
     <string id="8bfzW0np" text="多くの捕虜たちは未だに捕らえられたままだ。彼らを取り戻せるなら、家族は金を払う。私のような男たちが帝国と外部の王国を行き来し、捕虜を確保しては彼らの家族に連絡を取って身代金を要求するのだ。"/>
     <string id="8bwpVpgy" text="戦いで敵を倒した"/>
+    <string id="8d23bRmv" text="陸上での重量"/>
     <string id="8d7y1IHp" text="いいだろう。確認する。{.%}{.a} {WORKSHOP_TYPE}{.%}が欲しいんだな?"/>
     <string id="8dDNWHR4" text="隠遁所"/>
     <string id="8gEBPabt" text="彼らを送り出し、得た物をこちらに分配するよう要求する。"/>
@@ -379,21 +383,24 @@
     <string id="8k6NCb2S" text="全ての兵士が、それぞれ{CHANCE}%の確率で負傷"/>
     <string id="8lWsAP8q" text="部隊戦100勝"/>
     <string id="8muhth8y" text="部隊編成中は仲間と会話できない"/>
-    <string id="8oJYCDbO" text="もちろんです。我々は現在{HOME_SETTLEMENT}を拠点として交易を行っています。どの王国で新たな拠点を構えますか？"/>
+    <string id="8oJYCDbO" text="仰せにままに。我々は現在{HOME_SETTLEMENT}を拠点に交易を行っています。どの国に新たな拠点を構えますか?"/>
     <string id="8pBro9eG" text="この弓は柔軟性がある木で作られ、非常に早く引くことができる。"/>
+    <string id="8qbkS5D2" text="戦況"/>
     <string id="8qvUbTvW" text="{TARGET_SETTLEMENT}の沿岸を警備中"/>
     <string id="8rEX8rjv" text="相当の対価を払うのなら望み通りの内容を書く、と答える。"/>
-    <string id="8uabQDxp" text="できるかぎり神妙な口調で、夫は尊い大義のために命を捧げたと告げる。そして、100デナールの入った巾着を手渡し、思い出を大切にする限りは、夫もあなたの再婚を望んでいるはずだと言う。"/>
+    <string id="8uabQDxp" text="できるかぎり神妙な口調で、夫は尊い大義のために命を捧げたと告げる。そして、100デナールの入った巾着を手渡し、思い出を大切にする限りは、夫もあなたの再婚を望んでいるはずだ、と言う。"/>
     <string id="8vuOdcpy" text="最寄りの海岸に移動中"/>
     <string id="8wsIzdlM" text="メナウリオンを、振りが遅くリーチが長いヘビーメナウリオンに置き換える。{newline} {newline}上段攻撃で突破することができる。"/>
+    <string id="8xKky9ja" text="このアイテムは売買したり捨てたりできない"/>
     <string id="8yruI4lJ" text="{CHANCE}%の確率で、{SETTLEMENT}の有力者からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="8zFwYZeQ" text="馬に乗って出発しようとすると、村人が追いかけてきた。兵が雄鶏を盗んだと訴えている。雄鶏の鳴き声が何度か聞こえたことで、その者の否認の声は遮られた。名誉にかけて土地の法を遵守しなければならないが、兵たちは、{PRONOUN}のために血を流した自分たちを他のものより尊重するという、{RANK}の寛大な振る舞いを期待している。"/>
     <string id="8zwWEfSs" text="中距離歩兵"/>
     <string id="90OXjYk8" text="防衛側を支援するために封鎖を攻撃する"/>
     <string id="90YOVmcG" text="それでは。"/>
     <string id="91fnSU2A" text="自動雇用の上限"/>
-    <string id="91x5mjXa" text="おい！こんな馬鹿げた服で俺たちを騙せるとでも思ったのか？お前をどうするか決めるまで、地下牢に入ってもらおう！"/>
+    <string id="91x5mjXa" text="おい! こんな馬鹿げた服で俺たちを騙せるとでも思ったのか? お前をどうするか決めるまで、地下牢に入ってもらおう!"/>
     <string id="92M0Pb5T" text="斥候"/>
+    <string id="92m8jTWP" text="脅威を感じる"/>
     <string id="92m8r4lH" text="悪いが、あんたの帆色が気に入らないよ。降伏しろ、さもなくば死だ!"/>
     <string id="92mngWSd" text="大丈夫だ。戻ってこれてよかった。"/>
     <string id="94UTHJCl" text="ヒットポイント{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
@@ -408,33 +415,33 @@
     <string id="9NW9y1ll" text="MPテスト用メイス"/>
     <string id="9RZLSV3E" text="編隊の近接兵の対騎兵ダメージ+{BONUS_AMOUNT}%"/>
     <string id="9TGLirQf" text="円陣"/>
-    <string id="9TfHaaEz" text="全ての接舷した船の敵の士気-{EFFECT_AMOUNT}"/>
     <string id="9UB0LF8Z" text="北部騎兵の槍"/>
     <string id="9Vw6P30y" text="こちらに気づいていない敵に攻撃が当たると、追加でダメージが与えられる。残った衛兵を背後から仕留めよう。"/>
     <string id="9WrJP0hD" text="兵士をすべて移動"/>
     <string id="9XtgLuAL" text="斧のスペシャリスト"/>
+    <string id="9YFVXAZ3" text="共有していない戦争"/>
     <string id="9aYLFpC9" text="厄介事を避けるため、すぐ金を渡す。"/>
     <string id="9ab6HwCS" text="村の出発準備をしていると、村長がやって来た。彼の甥が結婚することになったらしく、高名な戦士に新郎新婦を祝ってもらえれば大変な名誉だ、と言う。部下たちは笑みを抑えながら互いに肘で押し合っている。彼らは酒を盛大に飲める機会を楽しみにしている。"/>
     <string id="9aboazgu" text="横陣"/>
-    <string id="9aoQYpZs" text="あなたの家族はハンに忠誠を誓うこともなく、集落に定住することもせず、ハンの力が及ばない草原の奥地で暮らすことを好んだ。彼らは草原で最も優れた追跡者や斥候であり続けた。敵の襲来を察知して素早く移動する能力は、しばしば隣人たちの略奪から家畜を守るために必須であるからだ。"/>
+    <string id="9aoQYpZs" text="家族はハンに忠誠を誓うこともなく、集落に定住することもせず、ハンの力が及ばない草原の奥地で暮らすことを好んだ。彼らは草原で最も優れた追跡者や斥候であり続けた。敵の襲来を察知して素早く移動する能力は、しばしば隣人たちの略奪から家畜を守るために必須であるからだ。"/>
     <string id="9bIi78RK" text="{WORKSHOP}に{?PERCENTAGE &gt; 0}+{?}-{\?}{AMOUNT}{GOLD_ICON}"/>
     <string id="9e8I99t3" text="所有権を農民に与え、産業を奨励する。ただし、他の者が将来自分より優位に立つかもしれない。"/>
     <string id="9eLyeU7M" text="いいぜ、旦那。新しい装備をつくるには{COST}{GOLD_ICON}かかるが、このまま作業を進めていいか?"/>
     <string id="9ePM7lia" text="敵が死体に近づくと、捜索を始めるだろう。{INTERACTION_KEY}を押して死体を道から遠ざけることで、捜索を回避できる。"/>
-    <string id="9ks4u5cH" text="あなたは村の治癒師に頼まれて、丘の上に薬草を探しに行っていた。どの薬草が傷を治し、熱を下げるのか、そして、それらがどこに生えているかを学んだ。"/>
+    <string id="9ks4u5cH" text="村の治癒師に頼まれて、丘の上に薬草を探しに行っていた。どの薬草が傷を治し、熱を下げるのか、そして、それらがどこに生えているかを学んだ。"/>
     <string id="9mGtDERC" text="{CHANCE}%の確率で、{TRAIT}という評判上昇"/>
     <string id="9pCzjSTa" text="この兵種の{PERCENTAGE}%"/>
     <string id="9rXUVscR" text="トゥアレグ"/>
-    <string id="9ryGDgOX" text="先導してくれる旗艦がいなくなったため、船隊は解散されました。 "/>
+    <string id="9ryGDgOX" text="統率する旗艦がなくなったため、船団は解散されました。"/>
     <string id="9svpUWeo" text="セーブデータのバージョンは{SAVE_VERSION}です。現在使用しているゲームのバージョン{CURRENT_VERSION}より新しいです。"/>
     <string id="9uaAUCas" text="夕食にありつくための歌"/>
-    <string id="9w6zmKQ1" text="怪しまれている間に抜け出すなんて無理だ！"/>
+    <string id="9w6zmKQ1" text="怪しまれている間に抜け出すなんて無理だ!"/>
     <string id="9yFSbR36" text="不注意な騎兵を鞭で打ち、新しい馬を自弁させる。"/>
     <string id="9yaFxhGa" text="脱走兵"/>
     <string id="9yrWWbHF" text="息子は他の捕まえた盗賊と同じ罰を受けるべきだ、と女に伝える。"/>
     <string id="9z0Yz8za" text="私の右腕となれる副官を探している。戦場で兵を指揮するのを手伝ってほしいのだ。"/>
-    <string id="A2OUHE2S" text="攻城戦の開始時にカタパルト+{BONUS_AMOUNT}"/>
-    <string id="A4voELZr" text="さらなる伝染を避けるべく、沼熱の馬を処理するに命じる。"/>
+    <string id="A2OUHE2S" text="攻囲戦の開始時にカタパルト+{BONUS_AMOUNT}"/>
+    <string id="A4voELZr" text="さらなる伝染を避けるため、沼熱の馬の処理を命じる。"/>
     <string id="A61ppTa6" text="私のような者に仕事をくれる人物を知らないか?"/>
     <string id="A6iOIurY" text="何か手伝えることはあるか?"/>
     <string id="A6rK2YLJ" text="{?BONUS_AMOUNT == 1}小規模の巡回部隊{?}{?BONUS_AMOUNT == 2}中規模の巡回部隊{?}大規模な巡回部隊{\?}{\?}"/>
@@ -457,15 +464,15 @@
     <string id="AWm7Kb9Y" text="{RULER.NAME}は、 {KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を{CALLED_KINGDOM}へ要請しないと決定した。{?RULER.GENDER}{?}{\?}評議会はこの決定に対し意見を二分した。"/>
     <string id="AXWO4C69" text="他の候補者たちの中から選ばれ、一族の長に同行する役目を与えられた。さほど大きな責任を伴う仕事はなく、伝令や馬の世話が中心だったが、作戦の計画方法や、戦場の布陣を見る機会に恵まれた。"/>
     <string id="AXxUEFas" text="門から打って出る"/>
-    <string id="AZ30Q0nM" text="あなたに祝福があるように。盗賊たちが首長を捕えている場所まで連れて行きましょうか？"/>
+    <string id="AZ30Q0nM" text="あなたに祝福があるように。盗賊たちが首長を捕えている場所まで連れて行きましょうか?"/>
     <string id="AbIUjOLZ" text="もちろんだ。何が知りたい?"/>
     <string id="Abcgrf4j" text="忍び込む"/>
     <string id="AbdmPy2k" text="埋葬"/>
     <string id="AcMayd1p" text="{TARGET_PARTY}から逃走"/>
-    <string id="Acp38aub" text="{KINGDOM_NAME}は同盟の用意ができていない"/>
     <string id="AdgAJbAP" text="マップに戻る"/>
     <string id="AdiAmDvI" text="逃げおおせたものの、船を漕ぎながら振り返ると、苦々しい敗北の余波の中、海に漂う残骸にしがみつく兵下たちの姿があった。"/>
     <string id="AeBzTj6w" text="治癒師"/>
+    <string id="AebxolIj" text="{CROUCH_KEY}を押したまま{INTERACTION_KEY}を押すと、ゆっくりと音を立てずに移動することができ、敵の警戒が弱まります。"/>
     <string id="AewK9qME" text="集落の収入"/>
     <string id="AlgTsbSu" text="部隊の{CHARACTER.NAME}{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="ApD0xQXT" text="{STR1}、{STR2}!"/>
@@ -473,7 +480,7 @@
     <string id="AtFv5RMW" text="献上金の支払い"/>
     <string id="AuEL61vN" text="部隊戦で50回勝利する。"/>
     <string id="AuMLELpp" text="よし、それではより強力な兵士を組み込む方向で行こう。隊商を組む代金として、{AMOUNT}{GOLD_ICON}支払う準備ができている。"/>
-    <string id="AwBJzppu" text="代金を払わずに馬を奪う。盗人が盗みを訴える資格ないと男に伝える。"/>
+    <string id="AwBJzppu" text="何も払わずに馬を奪う。盗人が盗まれて訴える権利などないと男に言う。"/>
     <string id="AwCnrOan" text="{RULER_NAME_AND_TITLE}として、{CALL_TO_WAR_COST}{GOLD_ICON}を納めて{CALLED_KINGDOM}に対して{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦要請をすべきか決める必要がある"/>
     <string id="AxGaZNry" text="申し出を受け入れて気前良く報酬を払うが、敗戦や過ちについても歌うように伝える。"/>
     <string id="B0VLXHHz" text="補給官{CURRENTLY_HELD_QUARTERMASTER}"/>
@@ -483,6 +490,7 @@
     <string id="B41vvGuo" text="無効なキー"/>
     <string id="B7XVRNoz" text="狂戦士は北部の傭兵たちの精鋭を示す言葉である。巨大な両手斧をはじめとする恐ろしい武器を扱い、狼の皮を身にまとっている。この俊敏な戦士たちは敵の戦列を崩壊させる突撃兵として活躍し、その危険を顧みない奔放な戦い方で有名だ。"/>
     <string id="B8KZ6tx2" text="{SETTLEMENT}で犯罪人として手配された。これが{QUEST_GIVER.LINK}を怒らせたため、{?QUEST_GIVER.GENDER}彼女{?}彼{\?}は契約を破棄した。"/>
+    <string id="B9Gp7pIf" text="弓との併用不可"/>
     <string id="B9HD9PNw" text="いかにもな話だ… この男を拘束して{TOWN_NAME}の当局に報せよ。彼らなら時間をかけて真相を突き止められる。"/>
     <string id="B9uT9wa6" text="お前の奉仕に報酬を与えたい。"/>
     <string id="BC7n6qxk" text="プレイヤー"/>
@@ -492,25 +500,26 @@
     <string id="BG8Ph5La" text="{VILLAGE_NAME}を去ろうとすると、一人の女がやって来て馬の手綱を掴んだ。そして、捕虜の中に息子がいると言った。彼は盗賊団にいたので捕まえたが、彼女は涙を流しながら、本当は良い子で不良仲間に引き込まれたのだと話し、もう息子が道を踏み外さないように必ず更生させると誓っている。"/>
     <string id="BHXqTA0N" text="フリッサを、長いリーチと大ダメージを与える、カスカラと置き換える。"/>
     <string id="BKeTUf9V" text="カメラの移動"/>
-    <string id="BLZ4mdhb" text="あなたの一家は小さな農家で、自分たちが食べて行けるだけの土地を持ち、わずかな収入も得ていた。こうした人々は王国の経済の柱であり、また、徴募兵団の屋台骨でもあった。"/>
+    <string id="BLZ4mdhb" text="家族は小規模な農業を営んでおり、自分たちが食べて行けるだけの土地を持ち、わずかな収入も得ていた。こうした人々は王国の経済の柱であり、また、徴募兵団の屋台骨でもあった。"/>
     <string id="BPVmRxrA" text="{FACTION}との同盟を締結する"/>
     <string id="BPo3gNAv" text="小戦5キル"/>
     <string id="BQbJLJZ8" text="領地の30%以上を保有している影響"/>
-    <string id="BRCWDAkU" text="船員の弓とクロスボウの貫通力+{EFFECT_AMOUNT}%"/>
-    <string id="BStP06aa" text="おい！俺たちに何の用だ？"/>
+    <string id="BStP06aa" text="おい! 俺たちに何の用だ?"/>
+    <string id="BVNCWAai" text="エカランド"/>
     <string id="BYpoxUEB" text="そういうスキルのある人物が仕事を探しているという話はもうずっと聞いていないな。"/>
     <string id="BaeqKlQ6" text="お話することはできません。"/>
     <string id="BaffFLtX" text="{CHANCE}%の確率で、攻城陣地設営の進行度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}%"/>
     <string id="Basxo8Hv" text="守備隊の賃金-{BONUS_AMOUNT_PERCENT}%"/>
     <string id="BbV2Pwzb" text="補強した鎧"/>
-    <string id="BhQlmQoj" text="あなたの家族は、オアシスの都市で尊敬される医師だった。骨折や病気を治すその技術はとても重宝され、上流社会でも高く評価されていた。"/>
+    <string id="BhQlmQoj" text="家族は、オアシスの都市で尊敬される医師だった。骨折や病気を治すその技術はとても重宝され、上流社会でも高く評価されていた。"/>
     <string id="Bhi4lVXC" text="通り道の右手に背の高い草がある。巡回の目を欺くのに使える。"/>
-    <string id="Bi8fKaGw" text="都市を離れようとした時、ある騎兵は自分の馬が地面に横たわっている姿を発見する。馬は苦しそうに鳴きながら立ち上がろうとしない。これは騎兵が都市の酒場に行きたいがために、到着するや否や、馬のことを考えずに餌を与えてしまったからだろう。"/>
+    <string id="Bi8fKaGw" text="都市を発とうとすると、騎兵の一人が自分の馬が地面に横たわっていることに気づいた。馬は苦しそうに鳴きながら立ち上がろうとしない。騎兵が都市の酒場に行きたいがために、到着してすぐに餌を与えてしまったからだろう。"/>
     <string id="BifGz0h4" text="巡回"/>
     <string id="BjUtGJg6" text="出発する前に、食料を分け与えて腹を満たせてやる。"/>
     <string id="Bk3Wqy5j" text="{RULER.NAME}は、{CALLED_KINGDOM}からの {KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦要請を却下"/>
     <string id="BqIRb85N" text="{TARGET_SETTLEMENT}を略奪しに移動中"/>
     <string id="BqImNuSm" text="あなたや他のヒーローが戦闘中に死亡するかどうかを決定します。"/>
+    <string id="BsEeUfbk" text="村の長老は要求に難色を示した。村人が抵抗するかもしれないという。{DETAILED_HOSTILE_EXPLANATION}"/>
     <string id="BslqBNQj" text="助けてやれないと伝える。"/>
     <string id="Bw8kAvGY" text="裁判所"/>
     <string id="BxpJKMYq" text="天に向かって下界の亡霊を追い払うように叫ぶという、カルラディアの正当な方法で除霊する。"/>
@@ -518,7 +527,7 @@
     <string id="C5x8Ygbj" text="ステルスキル"/>
     <string id="C9ufRSsL" text="剣と盾"/>
     <string id="CAu8v3YN" text="小戦2500勝"/>
-    <string id="CC1tYZMa" text="{CHANCE}%の確率で、{AMOUNT}人の{UNIT_TYPE}が降格される"/>
+    <string id="CC1tYZMa" text="{CHANCE}%の確率で{AMOUNT}人の{UNIT_TYPE}が降格"/>
     <string id="CCfVud1f" text="部隊の共有経験値+{AMOUNT}"/>
     <string id="CD8bLYRc" text="攻撃され傷つくと怒りを爆発させる。接近戦で傷を負う度に与えるダメージが増加する。{newline} {newline}ヒットポイントを20失うごとに与えるダメージが10%増加する"/>
     <string id="CH9ZYhWk" text="-50%ダメージ (とても簡単)"/>
@@ -528,24 +537,26 @@
     <string id="CLNUZhQv" text="部隊戦で2500回勝利する。"/>
     <string id="CM8Tr3lL" text="「ああ、スリにあってしまった{newline}シャツはびしょぬれだ{newline}そして頭は割れそうなほどに痛い」"/>
     <string id="CMu4B9fZ" text="ミッション失敗"/>
-    <string id="CNYKy7q3" text="賢い買い物をした兵士を褒め、次の戦では真っ先に修羅場に臨むことを期待していると伝える。"/>
+    <string id="CNYKy7q3" text="賢い買い物をした兵士を褒め、次の戦では激戦地で勇姿を見ることを期待していると伝える。"/>
     <string id="CNuW2VPr" text="900時間"/>
+    <string id="CObK3sDa" text="村を去ろうとすると、年老いた男が棍棒を携えて歩み寄ってきた。荒事に向いているとは思えないほど高齢だが、彼はかつて戦士であり、意表を突いて相手に肉薄したり、槍で足を絡めたりするような技巧を知っており、金を払ってくれれば兵たちに技を教えると提案している。彼は自分の戦傷を見せつけた。確かになかなかの古傷だ。"/>
     <string id="CQBiJLgv" text="ラクダ"/>
     <string id="CQMkh88h" text="私には売れる捕虜はいないが、知り合いになれて良かったよ。"/>
     <string id="CRzmSbSm" text="部隊戦で500キルを達成する。"/>
+    <string id="CS4unEGi" text="ベアタグ"/>
     <string id="CV7rDOtO" text="{CHANCE}%の確率で、{?AMOUNT &gt; 1}兵士{?}兵士{\?}が{AMOUNT}人負傷"/>
     <string id="CWMNTvSb" text="{KINGDOM}との交易協定"/>
     <string id="CX8WdvvR" text="シラミとノミ"/>
     <string id="CXZxDvry" text="魔法よりも己の力に頼るべきだ、と兵たちに伝える。"/>
-    <string id="CZamxmfc" text="都市の門をくぐると、郊外からの難民の一団が詰め寄ってきた。彼らは痩せこけ、目がくぼんでいる。彼らは、今年は盗賊に脅かされているため畑を耕せず、畑にまく種籾すら食べてしまったという。何か食べ物を恵んでほしいとあなたに頼んでいる。"/>
+    <string id="CZamxmfc" text="都市の門をくぐると、郊外からの難民の一団が詰め寄ってきた。彼らは痩せこけ、目がくぼんでいる。彼らは、今年は盗賊に脅かされているため畑を耕せず、畑にまく種籾すら食べてしまったという。何か食べ物を恵んでほしいと頼んでいる。"/>
     <string id="Cba9zsDh" text="贋金"/>
     <string id="Cbf52UqN" text="このバッジは、アーリーアクセスで50試合勝利したプレイヤーに与えられます。"/>
-    <string id="Cep8OD72" text="{TROOP.NAME}が{AMOUNT}人負傷しました。"/>
+    <string id="Cep8OD72" text="{TROOP.NAME}が{AMOUNT}人負傷"/>
     <string id="Cf0amFBD" text="{CALL_TO_WAR_PAYMENT}{GOLD_ICON}を受け取って、{CALLING_KINGDOM}からの{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対する参戦要請を受諾する"/>
     <string id="CiGbxwdG" text="100時間"/>
     <string id="CibcLbAf" text="部隊戦で9000回勝利する。"/>
     <string id="CirbWpGB" text="{CHANCE}%の確率で、{TOWN}の繁栄{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
-    <string id="Ckj7L2Sz" text="{ABS(AMOUNT)}人の{CHARACTER.NAME}が{?AMOUNT &gt; 0}部隊に参加しました{?}部隊から去りました{\?}。"/>
+    <string id="Ckj7L2Sz" text="{ABS(AMOUNT)}人の{CHARACTER.NAME}が{?AMOUNT &gt; 0}加わった{?}去った{\?}"/>
     <string id="CnNUOM9Q" text="この領地の所有者と自分の国はもう敵対していない。"/>
     <string id="Cv2W7aFu" text="助けを求める村人たち"/>
     <string id="Cw5N7rK6" text="俊足の軍馬"/>
@@ -554,6 +565,7 @@
     <string id="CzIslwx5" text="この政策の撤廃を討議する ({SUPPORT}%の支持率)"/>
     <string id="D0SX1cFQ" text="獅子"/>
     <string id="D1eUvgh1" text="ジャベリンを高速で投げられるようになる。{newline} {newline}追加のジャリドを5つ装備{newline}  {newline}準備速度が10%増加する"/>
+    <string id="D2ZA2XT6" text="乗員のHP{EFFECT_AMOUNT}"/>
     <string id="D36uGqf8" text="諸兵科連合"/>
     <string id="D750cNUH" text="見逃す。だがこれは贋金作りと大差ない行為だろう。"/>
     <string id="D7ZcX8XR" text="市場を通りかかると、{NOTABLE.NAME}が面会の時間を求めてきた。{?NOTABLE.GENDER}彼女の{?}彼の{\?}従兄弟が{TOWN}で商売を始める計画をしているため、推薦状を書いてほしいという。その従兄弟のことをほとんど何も知らないが、彼は誠実で良心的な男だ、と{NOTABLE.NAME}は誓って言う。名が知られるにつれて、このような頼まれ事が増えてきていると感じる。"/>
@@ -565,11 +577,11 @@
     <string id="DCy85lqp" text="天の恵みのリンゴ"/>
     <string id="DEH8AvZt" text="隠密・潜入モードの難易度を決定します。"/>
     <string id="DFIPsN1W" text="困窮した者が助けを求めて来たら、事情を詮索するのは野暮だ。いつも通りに施しを分け与えるよう部下に伝える。"/>
-    <string id="DFidSjIf" text="周りの子供たちはごく初歩的な教育しか受けていなかったが、あなたは授業が終わった後も居残り、文字や数学の勉強をしていた。あちこちで重さや寸法、勘定や収支、利益や損失、数字についての色々なおしゃべりが聞ける市場に惹かれていた。"/>
+    <string id="DFidSjIf" text="周りの子供たちはごく初歩的な教育しか受けていなかったが、自分は授業が終わった後も居残り、文字や数学の勉強をしていた。あちこちで重さや寸法、勘定や収支、利益や損失、数字についての色々なおしゃべりが聞ける市場に惹かれていた。"/>
     <string id="DFkzQHRQ" text="「パーディシャーの全ての絹のために{newline}皇帝の全ての金貨のために{newline}はるか東の全てスパイスのために…」"/>
     <string id="DHbF9JvO" text="フスカール"/>
     <string id="DHcl6JU5" text="彼には自分の馬を一頭与え、ラバは荷運びとして利用し、次回からは購入前に相談するよう伝える。"/>
-    <string id="DIgsfYfz" text="あなたは家族の作った品物を最寄りの都市まで持って行き、農産物を売ったり、日用品を買ったりしていた。それは重労働だったが、市場の喧騒はいつも楽しいものだった。"/>
+    <string id="DIgsfYfz" text="家族の作った品物を最寄りの都市まで持って行き、農産物を売ったり、日用品を買ったりしていた。それは重労働だったが、市場の喧騒はいつも楽しいものだった。"/>
     <string id="DJ51OJWj" text="既に多くの交易協定を締結している。"/>
     <string id="DJA4aQ8n" text="乗り込みを試みる"/>
     <string id="DKAH6hMC" text="EA20勝"/>
@@ -584,18 +596,19 @@
     <string id="DYUfnBHb" text="農民"/>
     <string id="DaBzJkIz" text="部隊の質を上げることはできるが、そのための費用も比例して高くなるぞ。{AMOUNT}{GOLD_ICON}必要だ。"/>
     <string id="DaE0N37L" text="有力者"/>
-    <string id="DcaV3yt9" text="腐った食料は捨てるように命じる。"/>
+    <string id="DcaV3yt9" text="腐った食料を捨てるように命じる。"/>
     <string id="DciUJ0pY" text="騎乗した状態での遠距離戦のエキスパート。{newline} {newline}ジャベリンを装備{newline} {newline}移動による精度ペナルティが25%減少する{newline}旋回による精度ペナルティが25%減少する"/>
     <string id="Dga7sQOu" text="もう軍医としての仕事は必要ない。"/>
     <string id="DiEKuVGF" text="すぐに出発できるように準備しよう。"/>
     <string id="DjQuB0TU" text="自分の家族を救い出した後、{RADAGOS.LINK}を解放することにした…"/>
-    <string id="DjeAJtix" text="下品な素行からか、賭け事でイカサマをしたのか、あるいは危険な連中と飲んでいる最中、相手がカッとなる物言いをしていたのか。あなたが都市へ繰り出した時、よほど口が達者だったり、足が速かったりでもしなければ生きて帰れないような揉め事に巻き込まれた。"/>
+    <string id="DjeAJtix" text="下品な素行からか、賭け事でイカサマをしたのか、あるいは危険な連中と飲んでいる最中、使う言葉を誤ったのか。都市へ繰り出した時、よほど口が達者だったり、足が速かったりでもしなければ生きて帰れないような揉め事に巻き込まれた。"/>
     <string id="DlKYZgA3" text="鎧強化"/>
     <string id="Do4Mmbs9" text="板金入りの鎧"/>
     <string id="Dogg1b9a" text="新兵として雇用する。彼らは隊の規律を乱すかもしれないが、最初のうちはあまり厳しくしないようにする。"/>
     <string id="Dqydb21E" text="{PARTY_SIZE}"/>
     <string id="DrWY4I8X" text="メイススペシャリスト"/>
     <string id="DszSWnc3" text="時間帯"/>
+    <string id="DuJfaNx5" text="{DAMAGE}の衝突ダメージを受けた"/>
     <string id="Dxmq32qW" text="突撃"/>
     <string id="E0sUI9sm" text="馬上から弓を撃つ達人であり、精度が大きく増す。{newline} {newline}ショートボウと矢を装備{newline}移動による精度ペナルティが50%減少する"/>
     <string id="E1bKcoaT" text="騎兵殺し"/>
@@ -612,9 +625,10 @@
     <string id="EASiM8NU" text="生産を変更するために必要なデナールを持っていません。"/>
     <string id="EAb4hSDP" text="もう一度考えさせてくれ。"/>
     <string id="EAu32UBG" text="熟練兵にはまさに最高の食事を得る権利がある、と新兵たちに伝える。"/>
+    <string id="EBQ8qOYA" text="どうやら、村人たちは商品の差し押さえに抵抗するつもりのようです。{DETAILED_HOSTILE_EXPLANATION}"/>
     <string id="ECxiXTbF" text="職人の公証人"/>
     <string id="EEedqolz" text="ベドウィン"/>
-    <string id="EFUNx0cv" text="アガレアを称え踊るためにワインの大壺を用意しよう!"/>
+    <string id="EFUNx0cv" text="アガレアを称え踊るためにワインの大甕を用意しよう!"/>
     <string id="EH2wycm4" text="({PARAM})"/>
     <string id="EIbmlJRP" text="その問題児たちには、何か別の対策を考えるべきだと村長に伝える。"/>
     <string id="EJZLzhJk" text="サネオパは、ネヴィスの渓谷から北のオフティス湖へと続く山道の下り坂に位置している。バッタニア人に似た古代パライクの民は湖を神聖なものと考えており、特にオフティス湖は異界への門なのだと言われていた。カルディア内陸部の交易の中心地のひとつであるサネオパの喧騒は、暗く静かな湖とまるで正反対の様相を呈している。"/>
@@ -627,22 +641,24 @@
     <string id="ESOkYFiD" text="このバッジは、アーリーアクセスで750試合勝利したプレイヤーに与えられます。"/>
     <string id="ESevd38t" text="5時間"/>
     <string id="EUQnsZFb" text="もう斥候としての仕事は必要ない。"/>
-    <string id="EVprpuUB" text="{SETTLEMENT}の様子はどうだ。民は安全だと感じているか？"/>
+    <string id="EVprpuUB" text="{SETTLEMENT}の様子はどうだ。民は安全だと感じているか?"/>
+    <string id="EapZFDGF" text="限定された国境"/>
     <string id="Eb106Xg8" text="スタルジアの短剣"/>
     <string id="Eb7Lgq10" text="オスティカンは、北方の海の船乗りたちの避難所となる、帝国の小さな港湾都市だった。船乗りたちの多くは腕の立つ海賊であった。帝国後期に断続的に起きていた内戦の際に、敵を略奪するよう帝国の勢力から雇われていたのだ。最初にカルラディアにやって来たヴランディア人の一部はこの都市の路地裏に定住した。侵略を計画している同胞たちに、この都市が持つ富のことを伝えていたのは疑いようがないだろう。"/>
     <string id="EbBazlbZ" text="負傷兵が{AMOUNT}人回復する"/>
     <string id="EbNZg7jp" text="熱帯では、しばしば水の供給源が要塞の最大の弱点となる。多くの場合で、水源は井戸に依存しているが、井戸は枯渇する可能性がある。{FORTRESS_NAME}の前を数日間張り込んでいたところ、敵の守備兵が丘の方へ消えていく姿を見かけた。彼らの消えた先を辿って行くと、簡易な貯水池へとたどり着いた。彼らはここで水を補給しているのだろう。"/>
-    <string id="Ebb7aH3T" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、{?CAPTURER_LORD_HAS_FACTION_LINK}{CAPTURER_LORD_FACTION_LINK}の{?}{\?}{CAPTURER_LORD.LINK}により捕縛"/>
     <string id="EcYwrKTf" text="ヘビーアックスと盾"/>
     <string id="Edn4syjZ" text="兵たちの願いを聞き入れる。だが結婚はでっち上げかもしれない。"/>
+    <string id="EhK4Q6S4" text="両手用武器との併用不可"/>
     <string id="Eih6lrcN" text="{TOWN}にある{WORKSHOP}は繁盛しているが、納品に追われるあまり安全管理が疎かになっている。{INJURY_TEXT}命に別状はないが、もう熟練の職人としての仕事はできなさそうだ。他の職人たちも同じ事故が繰り返されることを恐れている。"/>
     <string id="EihCSkXJ" text="小戦8000勝"/>
     <string id="EilA5dlq" text="戦死者への敬意"/>
+    <string id="EjjAmdXp" text="船員の戦闘士気{EFFECT_AMOUNT}"/>
     <string id="EjyFIpP6" text="盾の耐久力が増し、防げる範囲が広がる。さらに貫通武器から受けるダメージが減少する。{newline} {newline}より強力な盾を装備{newline} {newline}遠距離武器に対する防御範囲が20%増加する{newline}貫通武器から受けるダメージが30%減少する"/>
     <string id="Ema5Vd6o" text="下乗"/>
     <string id="Epm86qnY" text="私たちは{VILLAGE}村の農民です"/>
     <string id="EqbLGvGF" text="「大きさ」こそが、戦闘において最も重要な武器であることに気付く。{newline} {newline}より長いランスを装備{newline} {newline}より大きな盾を装備{newline} {newline}乗騎が遠距離武器から受けるダメージが25%減少する"/>
-    <string id="EqevKYZD" text="{RULER_NAME_AND_TITLE}として、{CALL_TO_WAR_COST}{GOLD_ICON}を{CALLED_KINGDOM}へ納めて{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請すべきかを決める必要がある"/>
+    <string id="EqevKYZD" text="{RULER_NAME_AND_TITLE}として、{CALLED_KINGDOM}に対して{CALL_TO_WAR_COST}{GOLD_ICON}を贈り{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請すべきかを決める必要がある"/>
     <string id="EyHD7gjy" text="より高額な2000{GOLD_ICON}を要求する。残骸を見たと言えば自分の評判に傷がつく。"/>
     <string id="EzpB6hJG" text="次に都市を訪れる際、出来る限りの友好的な振る舞いをし、狂人のイメージを払拭できるように心掛ける。"/>
     <string id="F1CJo2wX" text="盾のHP{VALUE}%"/>
@@ -650,33 +666,34 @@
     <string id="F2bgujPo" text="族長の使用人だった。"/>
     <string id="F3AEpszA" text="{CHANCE}%の確率で、捕虜-{AMOUNT}"/>
     <string id="F3UEOdTT" text="周辺の村の生産+{BONUS_AMOUNT}"/>
-    <string id="F3sWhMjI" text="矢とジャベリンの樽"/>
+    <string id="F59nAr9s" text="武器なしでの使用不可"/>
     <string id="F5HlQdgf" text="ティアルはストゥルギヤの東境にあるイルタン山麓西部の丘に位置している。この地域は長い間ストゥルギヤの大公国間の権力争いとはまったく無関係であった。ここに住まう民は放浪者・商人・馬飼い、そして毛皮を取る罠師として知られている。この都市の貴族は時折、東の草原の氏族との間でお互いに娘を嫁に出し、停戦と貿易関係をより強固なものとしていた。そのため家系図には偉大なるハンの名前がいくつも含まれている。"/>
     <string id="F6dUDgg3" text="敗北"/>
     <string id="F7CMsDyG" text="{RULER.NAME}は、{?RULER.GENDER}{?}{\?}評議会の反対下で{KINGDOM_NAME}との同盟を却下"/>
     <string id="F7JGCr9s" text="移動"/>
-    <string id="F7OO5SAa" text="カルラディアで青年期を過ごしたあなたにとって、戦争は切っても切り離せない出来事だった。"/>
+    <string id="F7OO5SAa" text="カルラディアで青年期を過ごした自分にとって、戦争は切っても切り離せない出来事だった。"/>
     <string id="F9HxO1iS" text="部下がいません。"/>
     <string id="FDvwGjni" text="ベータ50勝"/>
     <string id="FEFBObjR" text="{PRISONER_FACTION_LINK}の{PRISONER_LORD.LINK}が、{CAPTURER_LORD.LINK}により捕縛"/>
     <string id="FJzoOKIU" text="荷馬車を動かせてなくて立往生している商人に遭遇した。どうやら荷馬が脚を痛めたようだ。何としてでも品物が腐ってしまう前に売り切りたい商人は、こちらに低価格の値段を提示してきた。"/>
     <string id="FK3jA1pT" text="侮れない力で、動く標的と盾により多くなダメージを与える。{newline} {newline}徒歩でのスピードボーナスダメージが33%増加する{newline}盾へのボーナスダメージが100%増加する"/>
     <string id="FKZ3dYik" text="小戦で6000回勝利する。"/>
+    <string id="FKe05WtJ" text="キル数"/>
     <string id="FKkG15p7" text="村を離れると、商人がやって来て、兵たちが払った「銀」貨は鉄を磨いただけの偽物だと言う。確かにその貨幣には僅かな錆びが確認できる。商人は代金を全額払うように要求している。部下が偽造硬貨を渡した可能性は十分あるが、商人の「証拠」が自作自演である可能性も十分あり得る。"/>
     <string id="FL8rUSWo" text="戦争の苦しみ"/>
     <string id="FLKxfaGn" text="厚い筋肉がアザから身を守ってくれる。{newline} {newline}打撃ダメージが20%減少する。"/>
     <string id="FM7YZaOa" text="よいだろう。これで終わりだ。"/>
     <string id="FNCq25P1" text="{RULER.NAME}は、{?RULER.GENDER}{?}{\?}評議会の支持下で{KINGDOM_NAME}との同盟締結を決定"/>
+    <string id="FPZ9QOGl" text="船員の装甲{EFFECT_AMOUNT}%"/>
     <string id="FPnUWAj1" text="戦いを終えた後、{TROOPS}の一人がやって来て、{NOBLE_TIER}として騎兵隊に加わることを望んでいると告げた。彼には馬を買う資金もあり、戦場でも傑出した働きを見せている。しかし、これを認めるのは良くない。高貴な身分の騎兵たちは同じ身分の者同士で交わることを好んでいる。だがそれ以上に{TROOPS}の同僚たちが、自分たちが見下されていると感じるかもしれない。"/>
     <string id="FPyc4kOa" text="小戦で1000回勝利する。"/>
-    <string id="FQ1XLNOS" text="戦闘時、付けられた船の揚力+{EFFECT_AMOUNT}%。"/>
     <string id="FQQbLMZx" text="部隊戦で100キルを達成する。"/>
-    <string id="FQntPChs" text="あなたの家族は帝国の主要都市の一つに住む商人だった。彼らは隊商を組んで近隣の都市へ出かけたり、市の評議会で様々な問題について議論した。"/>
+    <string id="FQntPChs" text="家族は帝国の主要都市の一つに住む商人だった。彼らは隊商を組んで近隣の都市へ出かけたり、市の評議会で様々な問題について議論した。"/>
     <string id="FVOfzPot" text="{SALUTATION}よ…解放してくれて感謝する。"/>
     <string id="FVaRDe2a" text="ノヤンの親族"/>
     <string id="FXGZg2Tx" text="1時間"/>
     <string id="FYvrShj3" text="慈悲の奉仕者"/>
-    <string id="FZRRiJNW" text="もちろんだ。あなたの長所について機会あるごとに話そう。しかし私の支持を維持するには金が必要だ。貧しい者の問題を解決し、富ある者には贈り物を買い与える。、わかるだろう？{AMOUNT}{GOLD_ICON}ほどでどうだ？"/>
+    <string id="FZRRiJNW" text="もちろんだ。あなたの長所について機会あるごとに話そう。しかし私の支持を維持するには金が必要だ。貧しい者の問題を解決し、富ある者には贈り物を買い与える。、わかるだろう?{AMOUNT}{GOLD_ICON}ほどでどうだ?"/>
     <string id="FZXYHC7s" text="戦争と疫病の中にあり、{FIEF_NAME}の近くの村は、人の、特に若者の不足に直面している。畑が、特に、争われていた所有権が最近になってようやくはっきりした土地が、耕す人がいないため休耕地となっている。領主として未使用地を再分配する権利はあるが、労働力が必要だ。"/>
     <string id="Fa0J7a6M" text="茂みに棲む猪"/>
     <string id="Fa2nKXxI" text="統治者"/>
@@ -685,32 +702,35 @@
     <string id="FdzsOvDq" text="任務中はこの行動は無効になる"/>
     <string id="FeM74rlx" text="各部族で最も強く、また最も忠実な若者のみが、ハンとそのノヤン(氏族長)の個人的な護衛部隊である「ケシグ」の一員として採用される。この恐れ知らずの戦士たちは白兵戦でも遠距離戦でも、絶大な戦力を発揮できるよう、訓練されている。"/>
     <string id="FfGKyq5e" text="すべてのスタルジアの集落には、北部の贅沢な毛皮を生産するハンターや猟師がおり、温暖な土地の商品をその毛皮で仕入れている。戦争時には、彼らはしばしば弓兵や、斥候として出陣する。"/>
-    <string id="FfNwXtii" text="少年時代、子どもたちという名の狼の群れにリーダーがいたなら、間違いなくそれはあなたのことだ。他の子供たちはあなたの後をついていき、何をして遊ぶか、どこで遊ぶかはあなたが決めていた。さらにあなたは、悪戯するときも常に先頭に立っていた。"/>
+    <string id="FfNwXtii" text="少年時代、子どもたちという名の狼の群れにリーダーがいたなら、間違いなくそれは自分のことだ。他の子供たちは自分の後をついていき、何をして遊ぶか、どこで遊ぶかは自分が決めていた。さらに、悪戯するときも常に先頭に立っていた。"/>
     <string id="FhOkxlXJ" text="セイウチの牙{@Plural}束のセイウチの牙{\@}"/>
-    <string id="FhZPjhli" text="故郷が包囲され、あなたは城壁を守るために召集されたことがあった。皆がそれぞれ敵の撃退に貢献し、攻撃に耐え抜いたことを誇りに思った。"/>
+    <string id="FhZPjhli" text="故郷が包囲されたため、城壁を守るために召集されたことがあった。皆がそれぞれ敵の撃退に貢献し、攻撃に耐え抜いたことを誇りに思った。"/>
     <string id="Fiy8XXGT" text="小戦で500回勝利する。"/>
     <string id="FlhW2QWY" text="巡回範囲"/>
     <string id="FqHvkh44" text="乗騎を突撃時により大きなダメージを与える馬に乗り換える。"/>
-    <string id="Fs8KhPuh" text="それはどうかな！"/>
+    <string id="Fs8KhPuh" text="それはどうかな!"/>
     <string id="FuNbouTu" text="{KINGDOM_NAME}からの使者が到着した。{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対する戦いへの参戦要請を携えている。受諾するか却下するかを投票することになる。"/>
     <string id="FvO5B2bJ" text="{PRISONER_LORD.LINK}が解放された"/>
-    <string id="FzaoDwLA" text="隠密攻撃！"/>
+    <string id="FwIgakj8" text="{DEFENDER}を助ける。"/>
+    <string id="FzaoDwLA" text="隠密攻撃!"/>
     <string id="G16Nlaaq" text="結婚の祝い"/>
     <string id="G2IaEr2Z" text="使う"/>
-    <string id="G3sImCKI" text="何でもない… 君の好意は、いつものサービス料として請求するいくらかの銅貨よりも価値があると思う。"/>
+    <string id="G3sImCKI" text="何もいらないさ…。あなたの歓心を得るだけでも、私の普段の稼業で得られるわずかな銅貨よりもずっと価値がある。"/>
     <string id="G4nZNi6t" text="自然で過ごした時間が異常なまでに自身を強化し、投擲でさらなるダメージを与える。{newline} {newline}投げ槍を装備{newline} {newline}投擲ダメージが20%増加する"/>
     <string id="G8eaX10B" text="労働者は盗みを働くものだという前提で、工房の出入りの時に所持品検査を行う。"/>
-    <string id="GC4coq47" text="ごきげんよう。私たちは{SETTLEMENT_LINK}周辺の土地の安全を守るためにここへ来た。"/>
+    <string id="GC4coq47" text="ごきげんよう。私たちは{SETTLEMENT_LINK}周辺の土地の治安維持のためにいる。"/>
     <string id="GChIoZdd" text="アスカルは、ジャルジャラ断崖の絶壁の間を流れるダマル川中部を支配している。数千年前からこの地域の人口は多いが、川は必ずしも穏やかなわけではなく、何世紀かに一度氾濫が起き、周辺の何もかもを流し去ってしまった。この地で特に新しいこの主要都市はかつて帝国の野営地だった。数世紀前に帝国がナハサに最も奥深くまで進出した時に築かれたものが、軍が撤退した後にアセライの部族により占領された。"/>
     <string id="GDHHAyQ5" text="借金を抱える兵士"/>
     <string id="GEYzLuwb" text="人好きのする性格"/>
     <string id="GEvP9i5f" text="{HEIR.NAME}としてゲームを続けます。"/>
     <string id="GFGuSmN9" text="手に余る問題児たち"/>
     <string id="GFUggps8" text="非戦闘従軍者たちと行軍した"/>
+    <string id="GHQMM8Df" text="騎乗中の使用不可"/>
+    <string id="GJhRw7qb" text="アエソス"/>
     <string id="GKAzN0h7" text="部隊戦で40000キルを達成する。"/>
     <string id="GL0jmbbJ" text="嘆く暇なし"/>
-    <string id="GMF8G6IQ" text="兵士が{AMOUNT}人負傷しました。"/>
-    <string id="GMQROhTM" text="兵士たちにその思い上がった男を叩きのめすよう命じる。愚かな恋愛詩の主人公にでもなったつもりか？"/>
+    <string id="GMF8G6IQ" text="兵が{AMOUNT}人負傷"/>
+    <string id="GMQROhTM" text="兵たちに思い上がった男を叩きのめすよう命じる。愚かな恋愛詩の主人公にでもなったつもりか?"/>
     <string id="GMXL5wfG" text="75時間"/>
     <string id="GNDrLQQ8" text="死体を隠す"/>
     <string id="GNdltUJj" text="困窮の時代"/>
@@ -722,23 +742,24 @@
     <string id="GXOkfamn" text="ごきげんよう、閣下。{SETTLEMENT_LINK}から出港する者たちを守るため、我々は最善を尽くしています。"/>
     <string id="Gbav1PEd" text="この辺りで盗賊の噂は聞いていないが、いつ状況が変わってもおかしくない。"/>
     <string id="GeNKQlHR" text="族長の護衛"/>
-    <string id="GgYzaakh" text="{TOWN_NAME}の交易は過熱し、物価と賃金は上昇している。あなたの{WORKSHOP}の労働者たちもそれに気付いた。工房の監督の報告によると、彼ら全員が、賃上げしないかぎり出勤を拒否しているらしい。都市で十分な食い扶持を求める者や、働き口を探している者は依然多くいるが、現在の労働者を解雇して置き換えれば、騒ぎを起こされるかもしれないとも、彼は注意している。"/>
+    <string id="GgYzaakh" text="{TOWN_NAME}の交易は過熱し、物価と賃金は上昇している。{WORKSHOP}の労働者たちもそれに気付いた。工房の監督の報告によると、彼ら全員が、賃上げしないかぎり出勤を拒否しているらしい。都市で十分な食い扶持を求める者や、働き口を探している者は依然多くいるが、現在の労働者を解雇して置き換えれば、騒ぎを起こされるかもしれないとも、彼は注意している。"/>
     <string id="GhPGpR90" text="一皿のデーツ"/>
-    <string id="Ghz90npw" text="家族は都市の厩舎に馬を何頭か所有しており、あなたはその世話を任されていた。夜になると度々、馬を壁の外へ連れて行き、他の若者達と野原を駆けて競争していた。"/>
+    <string id="Ghz90npw" text="家族は都市の厩舎に馬を何頭か所有しており、その世話を任されていた。夜になると度々、馬を壁の外へ連れて行き、他の若者達と野原を駆けて競争していた。"/>
     <string id="Gj4R9uso" text="未定義"/>
     <string id="Gj5d9y2g" text="{KINGDOM}の{RULER.NAME}は{OTHER_KINGDOM}との交易協定を決定"/>
     <string id="GjJgUYoG" text="小戦100キル"/>
     <string id="Gjd6nP29" text="明らかな嘘の噂で人の名誉を汚すことはしない。"/>
     <string id="GjpJN2xE" text="もう補給官としての仕事は必要ない。"/>
     <string id="GkvX7z6Y" text="ドラゴン"/>
-    <string id="GkwOyJn9" text="{newline}あなたはのちに、{?PRISONER.GENDER}彼女{?}彼{\?}が怪我により命を落としたと知ることになる。"/>
+    <string id="GkwOyJn9" text="{newline}のちに、{?PRISONER.GENDER}彼女{?}彼{\?}が怪我により命を落としたと知ることになる。"/>
     <string id="GmjiZk9P" text="兵士召集"/>
+    <string id="Gnkeh9HW" text="{RULER.NAME}{.o}名誉"/>
     <string id="Gp504aSx" text="マルチプレイヤーでレベル150に到達する。"/>
     <string id="GpTkaemG" text="部隊戦で200000キルを達成する。"/>
     <string id="GpUBP10Q" text="村を去ろうとすると、ある商人が明らかに媚びを売るように叫んだ。「{LOCAL_KING}は千の敵を討ったが、{PLAYER}は万の敵を討ってくれた!」"/>
     <string id="Gs3jlkbX" text="小戦で5000キルを達成する。"/>
     <string id="GsPC2MgU" text="父はアセライのアミールの所有していた奴隷衛兵の一人だった。彼は主人の側に仕え、部族の武装した騎兵たちと共に戦い、自由を勝ち取った。勇敢な行動を讃えられてのことかもしれないし、自分の分の戦利品を差し出すことで与えられたものかもしれない。その後、父は母と結婚した。"/>
-    <string id="Gsazqfhj" text="作戦を試させてやる。皮革を買って彼らを武器ごと皮に縫い込み、それから仲間を集め、もがき抜け出そうとする様子を愉快に見物する。"/>
+    <string id="Gsazqfhj" text="作戦の実験をさせる。皮を買ってきて彼らを武器ごと皮に縫い込み、それから部隊の兵を集め、もがき抜け出そうとする様子を見世物にする。"/>
     <string id="GtY5rdK9" text="参戦要請費用"/>
     <string id="Gu0Wxxul" text="編隊の投射兵の精度ペナルティ {BONUS_AMOUNT}%"/>
     <string id="GzICf27a" text="回転"/>
@@ -758,7 +779,6 @@
     <string id="HHyqabMX" text="{LEFT}/{RIGHT}"/>
     <string id="HKoLNyIm" text="{BASE} 最大値"/>
     <string id="HMbGb1V2" text="民兵"/>
-    <string id="HMt8Xo5p" text="{PARTY}が{SETTLEMENT}を襲撃している。どうするべきか…"/>
     <string id="HObaeaBL" text="マルチプレイヤーのバナーロードを15時間プレイする。"/>
     <string id="HP1GzM8l" text="火炎壺"/>
     <string id="HQ20qb3g" text="乗騎をより高速だが耐久力が低い馬に乗り換える。"/>
@@ -775,6 +795,7 @@
     <string id="HcAV8x7p" text="部隊のメンバー"/>
     <string id="HdgRTYa7" text="バッタニア人の最も優れた戦士たちは、部族の指導者が先頭に立って戦に赴くときは、いつでもその指導者と共に戦いに参加することを誓います。彼らは戦列の中心を担い、カーン(歩兵団)の軸をより強固なものとするのです。"/>
     <string id="HgJetcmG" text="補強した弓手を持ち、有効射程が増加するクロスボウを装備する。"/>
+    <string id="Hhq7nq9U" text="村人たちは土地を守るために集まっています。{DETAILED_HOSTILE_EXPLANATION}"/>
     <string id="Hj25CLlZ" text="どうぞお好きに。気が変わったら教えてください。"/>
     <string id="HkcYydHe" text="略奪を終えた。"/>
     <string id="Hl2EsIob" text="猪は放っておく。"/>
@@ -788,6 +809,7 @@
     <string id="HrdVRMgR" text="私の家族を救い出す手助けをしたことでお前は人生を取り戻したんだ。さぁ、行くといい。"/>
     <string id="Huu4DySE" text="招待を受け入れ、兵たちに羽目を外させてやる。"/>
     <string id="Hw4mTZxm" text="もちろんだ、旦那。なんでも聞いてくれ。"/>
+    <string id="I3CtOQ35" text="この問題を{KING.LINK}と話す必要がある。{EXPLANATION_DETAIL}"/>
     <string id="I3PcdaaL" text="カルラディア北部では狼や熊は家畜にとって常に脅威であり、南ではハイエナと豹に悩まされている仲間の村人たちと飛び道具を駆使し、野獣を駆逐した。"/>
     <string id="I4SjNT6Y" text="{BRIBE_COST}{GOLD_ICON}が消費されます。{?ENOUGH_GOLD}{?} 所持金が足りません。{\?}"/>
     <string id="IAhuOhEW" text="戦いの準備ができている。盾と追加の矢を獲得する。"/>
@@ -811,6 +833,8 @@
     <string id="IcPNgbtl" text="このバッジは、アーリーアクセスで100試合勝利したプレイヤーに与えられます。"/>
     <string id="IcgVKFxZ" text="君主"/>
     <string id="IdvcaDMu" text="売る気ならありますよ。ですが{COST}{GOLD_ICON}払っていただきましょう。支払えますか?"/>
+    <string id="IeGgrMlx" text="対立する同盟関係"/>
+    <string id="IgSZcCW0" text="カリス"/>
     <string id="IgvgHsKr" text="小戦4000勝"/>
     <string id="IhSV1upf" text="マンハンターのバッジ所有者"/>
     <string id="IjcuJggo" text="聞いてくれ…お前と戦いたいわけじゃない。だが、だからといってここで言葉の応酬を交わし、時間を潰しているわけにもいかない。"/>
@@ -821,8 +845,9 @@
     <string id="IskvXSLp" text="小戦250勝"/>
     <string id="Isppj4D1" text="より良い斧と、より大きな盾を装備。"/>
     <string id="Iu7tpHsO" text="1人の少年が野営地を訪れ、{VILLAGE_LINK}の村人たちが、盗賊団から首長を救出するために助けを必要としていると伝えた。"/>
-    <string id="IxgJotDk" text="最初の時点では、この包囲戦は兵士たちにとって、厳しい行軍から解放される良い休息になっていた。しかし今では、不活発な動きと退屈さが士気を低下させてしまっている。彼らはサイコロ賭博や噂話さえも飽きてしまい、揉め事や規律の緩みが見られるようになってきた。"/>
+    <string id="IxgJotDk" text="はじめ、この包囲戦は兵たちにとって、過酷な行軍から解放される良い休息になっていた。しかし今では、無為に過ごす日々と退屈さが士気を低下させてしまっている。彼らはサイコロ賭博や噂話さえも飽きてしまい、喧嘩や規律の緩みが見られるようになってきた。"/>
     <string id="Ixwvwhg9" text="移動しながら弓を撃つ動作を極める。{newline} {newline}遠隔武器で照準を合わせている際の移動ペナルティが25%減少する{newline}旋回による精度ペナルティが80%減少する{newline}移動による精度ペナルティが80%減少する"/>
+    <string id="J4YgK18g" text="長いファルクス"/>
     <string id="J4bgNT0r" text="伝説の女王エショラは、人々を困らせていたジンたちを、カシーラの高所にある洞窟のうちの1つへ閉じ込め、神秘的な八芒星を岩へと刻み込み、封じ込めて罰したと伝わっている。女王は大地の奥深くから水を運び出させるという罰を下し、その水は岩から噴き出す泉となった。そしてその泉は何世紀にもわたって、カシーラや近隣の村のデーツ園の灌漑に利用されている。"/>
     <string id="J6ppDY1Y" text="{CHANCE}%の確率で兵の{AMOUNT}%が負傷する{NEWLINE}全ての兵がそれぞれ{DEATH_CHANCE}%の確率で死亡"/>
     <string id="J9BsFeSS" text="内密にしておくようにと村人たちに伝える。"/>
@@ -830,37 +855,39 @@
     <string id="J9V9YhkY" text="指揮官が騎乗している"/>
     <string id="JIPKLzsx" text="新しい拠点は{SETTLEMENT_NAME}だ。"/>
     <string id="JJOcOByF" text="アセライの衛兵は部族の中で最も背が高く、最も強い者から選ばれる。その優れた体格は、巨大な両手斧を振り回したり、敵の心に恐怖を植え付けるのにうってつけだ。衛兵は機敏な突撃兵であり、歩兵の構える盾に対しては非常に強力だが、敵の弓兵には苦戦を強いられることになるだろう。"/>
+    <string id="JJTWn3zs" text="揚力{EFFECT_AMOUNT}%"/>
     <string id="JK7f0ZuO" text="{LEFT}、{newline}{RIGHT}"/>
     <string id="JKO2Rmlr" text="防矢の油"/>
     <string id="JKivaEW6" text="{AMOUNT}名の{?AMOUNT &gt; 1}兵{?}兵{\?}を失う"/>
     <string id="JLj2CCGA" text="部隊戦10000キル"/>
-    <string id="JNZwJaJ9" text="その条件を受け入れよう。交易船隊を組むための{AMOUNT}{GOLD_ICON}も、支払う用意ができている。"/>
+    <string id="JNZwJaJ9" text="その条件を受け入れよう。交易船団を組むための{AMOUNT}{GOLD_ICON}も、支払う用意ができている。"/>
     <string id="JO6D30FU" text="難民たちに種籾を買い直すのに十分な金を渡す。物価が上がってしまうため、都市の住民は不満を漏らすかもしれない。"/>
     <string id="JPiId1fb" text="特殊な技能を持った人材を雇いたいと考えている。近くの都市で仕事を探している者はいないだろうか?"/>
     <string id="JRQ7qRO6" text="そうか。では、私の知っていることを話そう。別の欠片の話を聞いたことがある。[ib:normal2][if:convo_calm_friendly]"/>
-    <string id="JTsv6PFe" text="市場や隊商宿で働いた。"/>
+    <string id="JTsv6PFe" text="市場や隊商宿で働いた"/>
     <string id="JTxI3sW2" text="{TARGET_SETTLEMENT}を包囲"/>
-    <string id="JUSHAPnu" text="あなたは足が速く、周りのことによく気を配っていた。普段は面倒事から逃げる性格だが、他の子供たちとのケンカで追い詰められた時はしっかり戦える子であった。"/>
+    <string id="JUSHAPnu" text="自分は足が速く、周りのことによく気を配っていた。普段は面倒事から逃げる性格だが、他の子供たちとのケンカで追い詰められた時はしっかり戦える子であった。"/>
     <string id="JYH6FF35" text="日が暮れるのを待ってから忍び込む"/>
     <string id="JZpZrzs2" text="レベル100"/>
     <string id="JalrbDBC" text="守備兵の宿舎だ。レベルが上がるごとに守備兵の上限数が増加し、守備隊の賃金が下がる。"/>
     <string id="JbWbiO6O" text="弓と矢"/>
     <string id="JceqNdWx" text="指示に従え"/>
-    <string id="JcoSd4oi" text="ある男がオーブンで手を火傷した。"/>
+    <string id="JcoSd4oi" text="ある男がかまどで手を火傷した。"/>
     <string id="Jd5biabt" text="25時間"/>
     <string id="JdlbkM8C" text="彼に年金を払い、監督に一層の注意を命じる。生産が遅れても構わない。"/>
     <string id="Jebj20yv" text="部隊戦10勝"/>
     <string id="Jfe53wbr" text="{PROVIDER_NAME}に変更"/>
     <string id="JhBSnWAe" text="オルティシアは周辺の沼沢に生息するウズラに由来する名を持ち、ぺラッシア海沿岸部のカルラディアの最初の植民都市である。最初の数世紀の間はカニキア人の都市国家であるクヤズに支配されていたが、帝国の拡大によりその母体の共和国とともにすぐに併合されることとなった。数世紀の間、船乗りたちは海賊のはびこるシャラス湾の島々から船出して、西ぺラシックの霧から顔を出すこの地の塔を見るたびに感謝の念を抱いた。帝国に守られた安全な海へと帰ってきたことを意味していたからだ。"/>
     <string id="JhbHd9aW" text="{PARAM1}秒で2つの旗が削除されます。"/>
+    <string id="JkQ7fmcX" text="敵は交渉に応じる意思がない。"/>
     <string id="Jm2uZiwV" text="マールナフは「浅瀬の馬」を意味しているが、近くに川はない。だがバッタニアの語り部たちはある伝説のまつわる、この地に似つかわしくない名前をこよなく愛する。七つの浅瀬の近くで行われる七つの決闘において、グラニスの七人の息子を打ち負かすという予言を受けた英雄、オフリガンが最後の敵に相まみえたのが、この場所だという。彼は自らの馬の喉を切り裂き、噴き出す血で出来た小川を渡って最後の敵を倒し、予言を現実にした。"/>
-    <string id="JmG1KrTw" text="{GOOD}を1つ失い、{AMOUNT}{GOLD_ICON}を手に入れました"/>
+    <string id="JmG1KrTw" text="{GOOD}を1つ失い、{AMOUNT}{GOLD_ICON}を手に入れる"/>
     <string id="Jo5OjwAU" text="兵たちは、先の戦闘で実に雄々しく戦った。そして負傷した仲間を介抱し、戦死者を野営地まで運ぶ彼らの疲れた顔には、時折期待の色が浮かんでいる。彼らの勇気と犠牲に報いるなら、まさに今がその時だろう。"/>
     <string id="Jp6Wa29v" text="次のTierで得られるもの"/>
     <string id="Jstm1A5q" text="片手間にゴールドを稼ぐ方法を知る。{newline} {newline}キルするごとに20ゴールドが増加する"/>
     <string id="JuwBb2Yg" text="部隊再編中"/>
     <string id="JvUb1wr4" text="承諾する。兵士の一人に対して、剣の技術を実演させるよう伝える。そうすれば練習がものになる。"/>
-    <string id="Jvf6K7TZ" text="あなたの家族は帝国の街壁の外に広がる貧民街に暮らす、多くの貧しい移住者の一員だった。彼らはありつけた仕事を何でもこなし、わずかな金を稼いだ。時には地元の多数の犯罪組織の人間の誰かから仕事を請け負い、若いころから人生の悲観的な部分を目にしてきた。"/>
+    <string id="Jvf6K7TZ" text="家族は帝国の街壁の外に広がる貧民街に暮らす、多くの貧しい移住者の一員だった。彼らはありつけた仕事を何でもこなし、わずかな金を稼いだ。時には地元の多数の犯罪組織の人間の誰かから仕事を請け負い、若いころから人生の悲観的な部分を目にしてきた。"/>
     <string id="JxDrcvDO" text="盾の弱点を見極め、盾に対しての攻撃がより効率的になる。{newline} {newline}盾へのダメージが100%増加する"/>
     <string id="Jyfkahka" text="{VALUE} ({?POSITIVE}+{?}{\?}{DELTA_VALUE})"/>
     <string id="K0cbj7o3" text="市民兵と捕虜の上限が増加する。"/>
@@ -876,6 +903,7 @@
     <string id="KE1KUayw" text="職人地区"/>
     <string id="KGYSP8Sn" text="風のように乗って"/>
     <string id="KLcbS5z4" text="小戦で8000キルを達成する。"/>
+    <string id="KM7uAbL8" text="プレイヤーの被ダメージ量"/>
     <string id="KMb0CHWI" text="兵士の借金を私財で返す。操りやすいという評判が立ってもかまわない。"/>
     <string id="KQgQNPpT" text="部隊戦7000勝"/>
     <string id="KQhA1bQq" text="カニキアの魔術師は宝物庫に人間の皮膚を裏返す力を持った精霊を封印しているので行ってはいけない、と伝える。"/>
@@ -888,7 +916,7 @@
     <string id="KZ27sSXS" text="夜間は警備が強化され、衛兵が入場者の身元確認を行います。夜間に潜入することはできません。"/>
     <string id="KcPkbnu2" text="ベータ20勝"/>
     <string id="KdT0PM8Y" text="前哨"/>
-    <string id="KfaqPpbK" text="あなたは羊・牛・山羊に草を食べさせるため、足の速い他の若者たちと村の近くの放牧地へ行った。迷い込んだ猛獣を追い払うのがあなたの役目だった。手には常に大きな石を持ち、必要であれば待ち伏せする動物に投げつけていた。"/>
+    <string id="KfaqPpbK" text="羊・牛・山羊に草を食べさせるため、足の速い他の若者たちと村の近くの放牧地へ行った。迷い込んだ猛獣を追い払うのが自分の役目だった。手には常に大きな石を持ち、必要であれば待ち伏せする動物に投げつけていた。"/>
     <string id="KfrybSrr" text="脱出路を切り開いたが、{PRISONER.NAME}が逃走の際にひどい怪我を負ったため、{?PRISONER.GENDER}彼女{?}彼{\?}を残す以外の選択肢がなかった。"/>
     <string id="KgTFCWG8" text="疑われている"/>
     <string id="KhUkmIrH" text="家畜を{TARGET_SETTLEMENT}に届ける"/>
@@ -930,6 +958,7 @@
     <string id="LUMEtToo" text="700時間"/>
     <string id="LUap9uP0" text="来たる攻撃に備えて兵士たちを訓練させる。たとえ訓練が負傷の危険が付きまとうもので、必要な場面で欠員が出てしまう可能性があっても仕方がない。"/>
     <string id="LV6VL5Us" text="それに、身代金を要求すれば、大儲けできる。"/>
+    <string id="LW8QCm22" text="お知らせ"/>
     <string id="LWHIVshb" text="空き地"/>
     <string id="LWVwNcRA" text="指示方向を向いている"/>
     <string id="LXtebqEF" text="こちらは{.%}{WORKSHOP_TYPE}{.%}です、{?PLAYER.GENDER}ご婦人{?}旦那様{\?}。 {WORKSHOP_DESCRIPTION}"/>
@@ -939,36 +968,36 @@
     <string id="Lb1te6Ov" text="関税収入+{BONUS_AMOUNT_PERCENT}%"/>
     <string id="LcPHw4m2" text="首長を盗賊から助け出し、{VILLAGE_LINK}の村へ連れ戻した。"/>
     <string id="LdLYZX3R" text="毎日、税金+{BONUS_AMOUNT}%"/>
-    <string id="Lg3U6trj" text="港の外での海戦が進行中のため、包囲戦に参加できない。水上戦に参加する必要がある。"/>
+    <string id="Lg3U6trj" text="港の外での水上戦が進行中のため、包囲戦に参加できない。水上戦に参加する必要がある。"/>
     <string id="LgzX3fDk" text="部隊が共有経験値を{AMOUNT}獲得した。"/>
     <string id="LhrU9cu3" text="戦争中の同盟国があることの影響"/>
     <string id="LiRwNCZA" text="運動技能が高く、素早く走ることができる。{newline} {newline}最大走行速度が5%増加する"/>
-    <string id="Life9T8o" text="戦闘開始時、付けられた船の船員の士気+{EFFECT_AMOUNT}。"/>
     <string id="LjeuI2kN" text="交渉成立だ。"/>
-    <string id="Lkeorx7u" text="このラウンドに{?IS_WINNER}勝利{?}敗北{\?}しました！"/>
+    <string id="Lkeorx7u" text="このラウンドに{?IS_WINNER}勝利{?}敗北{\?}しました!"/>
     <string id="LlTtwQpZ" text="{KINGDOM}との交易協定締結に関する投票"/>
     <string id="LlV29O9B" text="{TROOP_COUNT}人以上の兵士を選択する必要がある"/>
     <string id="Lmjm5Q9D" text="軍隊を招集する際に消費する影響力- 50%"/>
     <string id="LntPXkbN" text="火葬"/>
     <string id="Lo1o8fqp" text="{CHANCE}%の確率で{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}{GOLD_ICON}"/>
     <string id="LoKo54kV" text="部隊戦で400000キルを達成する。"/>
-    <string id="LpH8SYFL" text="あなたの家族はバッタニアの族長の縁戚で、彼の大きな屋敷の食卓に席を用意されているほど信頼されていた。あなたの父は自らが仕える長が担っていたクラン内の仕事を手伝い、両手剣・ファルクス・弓といったバッタニアの精鋭たちが使う伝統的な武器で訓練した。"/>
-    <string id="LpMz2P3H" text="付けられた船の船員の射撃精度+{EFFECT_AMOUNT}%。"/>
+    <string id="LpH8SYFL" text="家族はバッタニアの族長の縁戚で、彼の大きな屋敷の食卓に席を用意されているほど信頼されていた。あなたの父は自らが仕える長が担っていたクラン内の仕事を手伝い、両手剣・ファルクス・弓といったバッタニアの精鋭たちが使う伝統的な武器で訓練した。"/>
     <string id="LqPJY4s9" text="アルゴローン市は冷たく流れの遅いネヴィス川がラコニス湖と交わる場所にある。ここはかつてラコニア人の土地であった。彼らにとって、帝国はより好戦的なパライクの民から守ってくれる存在だった。ラコニア人は帝国からの移住者を歓迎し、彼らと結婚をする者もいた。そしてラコニアの族長は元老院の一員に数えられるようになり、やがて彼らの言葉と風習は消え去っていった。"/>
     <string id="Lt0PzKHN" text="乗船中"/>
-    <string id="LthEtGxp" text="当たった対象：{OBJECT_NAME}"/>
+    <string id="LthEtGxp" text="{OBJECT_NAME}に命中"/>
     <string id="LuLttpc5" text="あなたの工房の1つを買いたい。"/>
     <string id="LvwUsZ9p" text="{DAYS}日で準備完了"/>
     <string id="LwfILaRH" text="馬"/>
+    <string id="LxilbJi5" text="{?KING.GENDER}彼女{?}彼{\?}は負傷から回復しつつあり、もうしばらくすれば国の問題にも参加できるようになるだろう。"/>
     <string id="M1X2R8Uv" text="{KINGDOM_NAME}に同盟締結を提案する。"/>
     <string id="M5BDshPv" text="詰め物をした鎧は、鈍器からのダメージを和らげる。{newline} {newline}鈍器から受けるダメージが40%減少する"/>
     <string id="M5IubkYP" text="小戦50勝"/>
+    <string id="M5cbEb0v" text="{?KING.GENDER}彼女{?}彼{\?}は{?IS_PRISONED}運悪く捕虜となり{?}現在は{\?}{SETTLEMENT}{?IS_IN_SETTLEMENT}に{?}付近に{\?}いる。"/>
     <string id="MDik3Kfn" text="兵をいくらか補充して欲しいのだ。"/>
     <string id="MDp4BIa8" text="小戦30000キル"/>
     <string id="MEgLE2kj" text="乗馬の才能"/>
     <string id="MEuuuOiF" text="手助けにより、村の襲撃が成功した。"/>
     <string id="MFDb5duu" text="すばらしい!職業上、捕虜を獲得することもあるだろう。良ければ私のほうで、そいつらを預かれるぞ。もちろん、代金は支払う。"/>
-    <string id="MFrIHJZM" text="あなたの家族はアミールの一族の、比較的小さな分家だった。父の土地からは馬を買える程度の収入があったが、重騎兵に必要な防具を買えるほどの富はもたらさなかった。父は砂漠で名を知られた軽騎兵隊の1人として戦った。"/>
+    <string id="MFrIHJZM" text="家族はアミールの一族の、比較的小さな分家だった。父の土地からは馬を買える程度の収入があったが、重騎兵に必要な防具を買えるほどの富はもたらさなかった。父は砂漠で名を知られた軽騎兵隊の1人として戦った。"/>
     <string id="MGfXReQC" text="商人に近づき、軽い方の量りを使わせて商品を買う。その後に改めてその店に戻り、今度は重い方の量りを使わせて商品を返品する。"/>
     <string id="MH9Pi3ao" text="指示方向に向け"/>
     <string id="MI2007pj" text="ダメージ-25% (簡単)"/>
@@ -979,24 +1008,24 @@
     <string id="MSARXv6p" text="患者を特定して陣地の外に隔離し、自力で対処させる。"/>
     <string id="MTtrk28a" text="同盟を討議する ({SUPPORT}%の支持率)"/>
     <string id="MTuvy9kd" text="{TROOP.NAME}の船隊"/>
-    <string id="MW0ah7pi" text="影響力が{ABS(AMOUNT)}{?AMOUNT &gt; 0}増加{?}低下{\?}しました。"/>
+    <string id="MW0ah7pi" text="影響力{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}{INFLUENCE_ICON}"/>
     <string id="MW6PtdCh" text="密猟者としての経験により、乗騎の弱点を突きさらなるダメージを与えることができる。{newline} {newline}トゲのついた矢を装備{newline} {newline}乗騎へのダメージが50%増加する"/>
     <string id="MYIgSsfk" text="{RULER.NAME}は、{CALLED_KINGDOM}からの {KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦要請に応えないと決定した。{?RULER.GENDER}{?}{\?}評議会はこの決定に反対した。"/>
     <string id="MZJhzaUJ" text="この都市に協力者を得た。"/>
     <string id="MaExlLD7" text="航行中にこの行動を実行できない"/>
     <string id="MaIgPHXK" text="{PRISONER_LORD.LINK}が戦闘で解放"/>
-    <string id="MaOht6ky" text="防衛者逃亡！"/>
+    <string id="MaOht6ky" text="防衛者逃亡!"/>
     <string id="MaaFv4Po" text="豊作"/>
     <string id="MaetSSa1" text="この部隊を合流させるには「{PERK}」のパークスキルが必要だ。"/>
     <string id="MafIe9yI" text="青年期"/>
-    <string id="Mcd3ZyKq" text="あなたの一家は自分たちが食べて行けるだけの土地を持ち、わずかな収入も上げていた。こうした人々は国の経済の柱であり、また、徴募兵団の屋台骨でもあった。"/>
+    <string id="Mcd3ZyKq" text="家族は自分たちが食べて行けるだけの土地を持ち、わずかな収入も上げていた。こうした人々は国の経済の柱であり、また、徴募兵団の屋台骨でもあった。"/>
     <string id="MfbK2Sqa" text="商売ではなく、戦いにその才を活かせと伝える。"/>
     <string id="MgwKd3jd" text="{A0}の関税"/>
     <string id="Ml5PFDph" text="{YEAR}年{DAY_OF_YEAR}。{NAME}が処刑された。"/>
     <string id="Mpu7rab1" text="帝国軍の中核を担うのは、歩兵の精鋭部隊と重厚なカタフラクトだが、今日の苦境に立たされている帝国軍司令官たちは通常、兵の水増しのために志願者たちから成る予備軍を大量に連れている。彼らに与えられた役割は白兵戦を避けて、投げ槍で敵を側面から攻撃することだ。"/>
     <string id="Mrd3xhZx" text="スタルジアの国境はしばしば、貴族の権威の及ばないところで自由に暮らすことを好む逃亡者や逃亡奴隷を惹きつけてきた。伝統的に投げ槍や斧で戦う、この死にものぐるいの男女達は、今なお僅かな銀貨や戦利品のために、貴族の軍勢に頻繁に加わる。"/>
     <string id="Mt9abZzi" text="{SETTLEMENT_NAME}ですか? この上ない光栄です、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。我が血の最後の一滴が失われるまで守り抜く所存でございます。[rb:very_positive][rf:happy]"/>
-    <string id="Mwlr0aJO" text="費用を負担するならば、検討してもいい。誰を想定している？"/>
+    <string id="Mwlr0aJO" text="費用を負担するならば、検討してもいい。誰を想定している?"/>
     <string id="Mzs39I2G" text="所持できる工房の上限に達しました。"/>
     <string id="N19m9qmd" text="ただ同然の馬"/>
     <string id="N2Sb9nS6" text="古い兜や盾の装飾部分を買えるだけ買い取る。すぐに荒らされるとしても、兵たちに小さな戦場の慰霊碑を建てさせる。"/>
@@ -1006,7 +1035,7 @@
     <string id="NASCMzSY" text="1000時間以上"/>
     <string id="NFIYqaab" text="イヤキスはジャルジャラ断崖の裂け目に位置している。そこには短期間に激しく降る砂漠の雨が溜まり、灌漑に利用できるのだ。何世代か前にはこの場所はヤキオスという名で知られていた帝国の自治前哨地であり、カラシオス家により支配されていた。しかし50年前、彼らは南方での帝国の支配に終わりが来ることを予期し、ナハサの部族との婚姻を進めた。現在彼らはカラズの名で知られており、他のアセライの部族と同じように、スルタン国の評議会にその名を連ねている。"/>
     <string id="NFnS5YqQ" text="船を送る。"/>
-    <string id="NFuezpbG" text="{CALLED_KINGDOM}は既に{KINGDOM_NAME}と開戦している。"/>
+    <string id="NFuezpbG" text="{CALLED_KINGDOM}は既に{KINGDOM_NAME}と開戦している"/>
     <string id="NFwuiSCw" text="税金の滞納"/>
     <string id="NGcKLV88" text="腕のいい技術者は攻城兵器の作成や都市で建設するのに役立つ。"/>
     <string id="NHwt84uk" text="その騙されやすさを厳しく非難する。"/>
@@ -1019,24 +1048,25 @@
     <string id="NRa52uaF" text="お使いのプラットフォームサービスからアクセスを取得できませんでした。"/>
     <string id="NRpbagbZ" text="{TARGET_PARTY}へ移動"/>
     <string id="NT5fwUuJ" text="渡河中"/>
-    <string id="NUCTjH4G" text="1分間行動せずにいると退場となります！"/>
+    <string id="NUCTjH4G" text="1分間行動せずにいると退場となります!"/>
     <string id="NVKwvl1G" text="カラス"/>
-    <string id="NWJ87xjB" text="新しく占領した{TOWN_NAME}で出発の準備をしていると、兵たちがあなたを制止する。戦争のために血を流したにも関わらず、慣習となっている略奪の権利を認めてくれなかったと訴えた。敵の富を奪うことを禁じるならば、自分の財産を分け与えるべきだと言っている。"/>
+    <string id="NWJ87xjB" text="新しく占領した{TOWN_NAME}で出発の準備をしていると、兵たちに止められた。戦争のために血を流したにも関わらず、慣習となっている略奪の権利を認めてくれなかったことを指摘している。敵の富を奪うことを禁じるならば、自分の財産を分け与えるべきだと言っている。"/>
     <string id="NWNIVZF0" text="正統な教義と法にかなった信仰の重要性について、村人たちに厳しく説教する。"/>
     <string id="NY7XxwgU" text="部隊戦8000勝"/>
     <string id="NYzORuQm" text="守備兵に経験値が入り、市民兵の熟練度が上昇する。"/>
     <string id="NZGkLSJ8" text="レベル50"/>
     <string id="NazRDaKI" text="{PLAYER_NAME}を永続ミュートにしました。"/>
     <string id="NbgeKwVr" text="工房"/>
+    <string id="NbpcDXtJ" text="マンゴネル"/>
     <string id="NdcsYWrF" text="埋め合わせとして、その農夫に数枚の銀貨を投げ渡す。"/>
     <string id="NecHOOXR" text="1番"/>
     <string id="NezswS6S" text="馬上から弓を撃つ術を極め、精度がさらに増す。{newline} {newline}移動による精度ペナルティが50%減少する{newline}旋回による精度ペナルティが50%減少する"/>
     <string id="Ni8CSaxD" text="亀"/>
     <string id="NjXTLWSr" text="精鋭のドルジーナとして、長い年数をかけて騎乗技術に磨きをかけてきた。{newline} {newline}より長いランスを装備{newline} {newline}騎乗スキルが15増加する"/>
-    <string id="NrmCF6qb" text="今後込み入った話をするのはためらうようになるほど、彼らに激昂する。"/>
-    <string id="NujIEe1K" text="船団のうち{CAPTURED_SHIPS_NUMBER}隻が拿捕され、他の船も損傷した。"/>
+    <string id="NrmCF6qb" text="激昂してみせる。二度と煩わしい話をしようと考えないだろう。"/>
     <string id="NvqbkaFD" text="{PARTY}が{SETTLEMENT}を襲撃しているところに、村の救援に駆けつけました。どうすべきか…"/>
-    <string id="Nx0qK2g6" text="パラウェノスはカルラディオス大帝が築き上げた二番目に大きな植民都市であり、程なくしてカルラディアの首都としての地位をシャラスから受け継いだ。最終的には帝国の中心地は東へと移っていったが、パラウェノスは依然として西部における経済の中心であり続けたのだった。ヴランディアから鉄腕のオスリッチが攻めてきた時も、単に略奪の標的とするより、この地で権力を振るうための拠点として利用する方が遥かに価値があると彼は考え、パラウェノスを明け渡すよう元老院議員たちと交渉した。その後、オスリッチの一族の分家であるデ゠ティールへと受け継がれ、今ではプラヴェンドという名で知られている。"/>
+    <string id="Nx0qK2g6" text="パラウェノスはカルラディオス大帝が築き上げた二番目に大きな植民都市であり、程なくしてカルラディアの首都としての地位をシャラスから受け継いだ。その後帝国の中心は東へと移っていったが、パラウェノスは依然として西部における経済の中心であり続けたのだった。ヴランディアから『鉄腕のオスリッチ』が攻めてきた時も、単に略奪の標的とするより、この地で権力を振るうための拠点として利用する方が遥かに価値があると彼は考え、パラウェノスを明け渡すよう元老院議員たちと交渉した。その後、オスリッチの一族の分家であるデ゠ティールへと受け継がれ、今ではプラヴェンドという名で知られている。"/>
+    <string id="NxIUg152" text="バリスタの装填速度{EFFECT_AMOUNT}"/>
     <string id="NyxcGLxf" text="どうぞ、何なりとお申し付けください。"/>
     <string id="NzMX0s21" text="準備はできている。"/>
     <string id="O29z0Yv7" text="部隊戦で30000キルを達成する。"/>
@@ -1044,7 +1074,7 @@
     <string id="O3vdRYyZ" text="パイク兵として経験により、パイクの使い方が効率的になり、より素早く突き出せるようになる。{newline} {newline}パイクを装備{newline} {newline}突きの準備速度が20%増加する"/>
     <string id="O4iUPSXs" text="トンネル掘り"/>
     <string id="O6zpuLGa" text="{OTHER_KINGDOM}は既に多くの国と交易協定を結んでいる。"/>
-    <string id="O9XpB5Ah" text="統治者として、{KINGDOM}と貿易協定を結ぶかどうかを決断しなければなりません。"/>
+    <string id="O9XpB5Ah" text="君主として、{KINGDOM}と交易協定を結ぶかどうかを決定する必要がある"/>
     <string id="OAUd9UU8" text="標的の弱点を知り、ヘッドショットで追加ダメージを与える。{newline} {newline}強力な弾で{newline} {newline}ヘッドショットでダメージが10%増加する。"/>
     <string id="OAvtaBiX" text="近寄るんじゃない。さもないと邪魔立てしたとして、また金を要求するぞ。"/>
     <string id="OBdQ2q3d" text="村に入る途中、実をつけた野生のリンゴらしき木の群生を小川沿いに見つけたと、部下が報告した。村の市場で良い値段で売れるだろう。誰かの所有地のようには見えないが、存在が知られれば、すぐに何人もの人々が所有権を主張してくるはずだ。"/>
@@ -1061,7 +1091,7 @@
     <string id="OZAKqzln" text="{?AMOUNT &gt; 1}+{?}-{\?}{ABS(AMOUNT)}{PLURAL(ITEM)}"/>
     <string id="OaCU1zfR" text="突破口"/>
     <string id="OasvPXuW" text="このバッジは、アーリーアクセスで20試合勝利したプレイヤーに与えられます。"/>
-    <string id="Oc85b0Bx" text="名士より"/>
+    <string id="Oc85b0Bx" text="有力者から"/>
     <string id="OiPqa3L8" text="この集落の所有権は投票により決定されます。"/>
     <string id="OjPetQa7" text="私には現世の彼が必要であり、その来世で正義が執行されるのを待ってもらう他ない、と村人たちに伝える。"/>
     <string id="OjaeHZVO" text="乗騎をより高速な馬に乗り換える。"/>
@@ -1070,8 +1100,9 @@
     <string id="OnOJMVJO" text="港から出撃する"/>
     <string id="OpzzCPiP" text="{TARGET_PARTY}と進軍"/>
     <string id="OqlihYNW" text="農夫と遊牧民"/>
+    <string id="OraB7RjB" text="火災ダメージ耐性{EFFECT_AMOUNT}%"/>
     <string id="Ouj6eSWC" text="{RULER.NAME}は、{CALLED_KINGDOM}からの {KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦要請に応えないと決定した。{?RULER.GENDER}{?}{\?}評議会はこの決定に意見が二分された。"/>
-    <string id="OvtzH0b3" text="都市には様々な品があり、交易を行うことで、それらを金に換えることができる。君が組織した交易船隊が、代行して商いをしてくれるはずだ。交易船隊を組むには最低でも{AMOUNT}{GOLD_ICON}を出して護衛を雇う必要がある。さらにその護衛たちを率いる仲間が一人必要だ。"/>
+    <string id="OvtzH0b3" text="都市には様々な生産品があり、交易を行えば、それらを金に換えられる。君が交易船団を組織すれば、代わりに商いをしてくれるだろう。交易船団の結成には最低でも{AMOUNT}{GOLD_ICON}を出して護衛を雇う必要がある。さらにその護衛たちを率いるために、仲間の1人が必要だ。"/>
     <string id="Owc4NdbL" text="{CHANCE}%の確率で、負傷兵+{AMOUNT}"/>
     <string id="P1VHoGL2" text="部族員"/>
     <string id="P3IWytsr" text="この編隊は空だ"/>
@@ -1080,14 +1111,14 @@
     <string id="P4QFKVSU" text="{TARGET_PARTY}に移動中。"/>
     <string id="P8W5OQB9" text="彼が水路を掘り、畑を整えるまで待ち、もう後には引けなくなったところで、水の使用に高額な料金を課す。"/>
     <string id="PAW2b2Y2" text="面倒であろうとも、体と衣服を徹底的に清潔にするよう命じる。"/>
-    <string id="PBfDAXEe" text="あなたが勝者です！"/>
+    <string id="PBfDAXEe" text="あなたが勝者です!"/>
     <string id="PDf52VCf" text="時間を取らせてすまなかった、ありがとう。"/>
     <string id="PFTzVdJg" text="装甲値が9増加"/>
     <string id="PHkC8Gia" text="売る"/>
     <string id="PHo98vjr" text="剣こそが全てであるということ。剣を持つ者は剣を持たざる者から何もかも奪い取れるからだ。"/>
     <string id="PI6kC7Mp" text="幸い、この辺りでそんな話は聞いたことがない。"/>
-    <string id="PJYgbG2h" text="「あの城壁から持ってきた石一つにつき、銀貨の袋を一つ与えよう！」。"/>
-    <string id="PKhcPbBX" text="あなたの家族は遊牧部族の一員だった。ナハサの痩せた低木林地でヤギやラクダに食料を与えるため、ワジの河床と湧き水の間を行き来して暮らしていた。"/>
+    <string id="PJYgbG2h" text="「あの城壁から持ってきた石一つにつき、銀貨の袋を一つ与えよう!」"/>
+    <string id="PKhcPbBX" text="家族は遊牧部族の一員だった。ナハサの痩せた低木林地でヤギやラクダに食料を与えるため、ワジの河床と湧き水の間を行き来して暮らしていた。"/>
     <string id="PLbxHyPu" text="場合により形だ。私は身代金を見極める目があると、自分で思っている。空腹のままベッドに入る性質なのか、はたまた肉に東方の胡椒やクローブをかける性質なのか、そうしたことがその相手のちょっとした癖からわかるものなんだ。もちろん実際の金は貴族の手のなかにある。もし私と同じ仕事をしたいと考えているなら、カルラディア全土の地主の親族と、部族の指導者の名を覚えなくてはならない。さらに彼らの領地、嫡子と庶子、それからもちろん、商人との貸し借りについても知っておくべきだ。"/>
     <string id="PMgz8Dah" text="{CHANCE}%の確率で、{TROOP.NAME}の負傷兵+{AMOUNT}"/>
     <string id="PP3LzCKk" text="望みどおりに、{?PLAYER.GENDER}お嬢様{?}我が君{\?}。"/>
@@ -1096,7 +1127,8 @@
     <string id="PRadDFN5" text="{SALUTATION}よ…。ううむ、こうなるとは思いもしなかった。だが、私は感謝している。"/>
     <string id="PRiOVcO9" text="気をつけてください、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。絞り機に手を挟んだら大変ですからね。どのようなご用件でしょうか?"/>
     <string id="PSwlXa0z" text="協力者"/>
-    <string id="PZTyrsag" text="戦闘中に盾の革ひもが切れる危険性を厳しく説教し、行軍の準備を最初からやり直させる。"/>
+    <string id="PZTyrsag" text="戦闘中に盾の革紐が切れることの危険を厳しく説教し、行軍の準備を最初からやり直させる。"/>
+    <string id="Pa4K0Paz" text="{FACTION1}の{FACTION2}に対する戦況"/>
     <string id="PaKstm1Q" text="{SETTLEMENT}の有力者からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="PcLGc2bM" text="積極開発の対象として設定"/>
     <string id="Pg0oCeeA" text="タバルを、バルディッシュと置き換える。速度が落ちる代わりにより大きなダメージを与えられ、振り攻撃で騎兵を乗騎から叩き落とすことも可能。"/>
@@ -1105,7 +1137,7 @@
     <string id="PhvYB5Jh" text="馬をランダムな別の馬と乗り換える。"/>
     <string id="Piq3oYmG" text="大丈夫だ、ありがとう。"/>
     <string id="PkFT0D9a" text="衝突ダメージ減少"/>
-    <string id="PkoWqYPD" text="少年が見つけてくれてよかった！あなたはすでに私たちを助けてくれたが、どうか見捨てないでほしい。"/>
+    <string id="PkoWqYPD" text="少年が見つけてくれてよかった! あなたはすでに私たちを助けてくれたが、どうか見捨てないでほしい。"/>
     <string id="PneX4Ayw" text="{KINGDOM_NAME}からの使者が宮廷に到着した。{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対する戦いへの参戦要請を携えている。"/>
     <string id="PnfGEvfu" text="カンテリオーン"/>
     <string id="Pnzm9fvH" text="鎧増強"/>
@@ -1124,8 +1156,7 @@
     <string id="Q4zplpf7" text="マムルークという言葉は「財産」を意味している。アセライの貴族は家族のつながりがなく、乗馬や、槍、弓、剣など戦闘技術を磨く以外には興味がない一流の兵士を求めている。そんなマムルークはアセライの究極の装甲兵であり、強襲兵や弓騎兵、時には奇襲者にもなる。まるで、砂漠に浮かぶ砂紋の如く、戦況にあわせて自由自在に姿を変えるのだ。"/>
     <string id="Q5MXehRY" text="野営地を取り壊していると、2人の兵が汗にまみれ、自ら起き上がることもできずにいる姿を見つけた。彼らの意識は朦朧としており、一人の胸には発疹が現れ始めていた。これが「野営熱」の症状だ。この病は瞬く間に広まってしまう。同僚たちは彼らを看病してやりたいようだが、隔離しなければ病が広がるだろう。"/>
     <string id="Q5jUW8Oa" text="村の住民と話す"/>
-    <string id="Q8ZmnRcN" text="兵士の数が少ないため、所属している軍隊が分裂した。"/>
-    <string id="Q8gbZIiM" text="カスタム海戦"/>
+    <string id="Q8gbZIiM" text="カスタム水上戦"/>
     <string id="Q9Ltufg5" text="命令を出すのは誰か教えてくれ。"/>
     <string id="QAYngoNQ" text="敵キャラクター"/>
     <string id="QBbSD4fG" text="{KEY} 開く"/>
@@ -1140,14 +1171,13 @@
     <string id="QG50JVu8" text="士気{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="QGcozvvK" text="侮辱を雪げるのは血だけだ! どちらかが起き上がれなくなるまで決闘をさせる。"/>
     <string id="QGyoSLeY" text="集落へ移動"/>
-    <string id="QH3pgsia" text="部隊の編成には{PARTY_COST}{GOLD_ICON}かかります。"/>
+    <string id="QH3pgsia" text="部隊の結成には{PARTY_COST}{GOLD_ICON}かかる。"/>
     <string id="QHbcFrPX" text="やはり生産物の変更はなしだ。このままで行こう。"/>
     <string id="QHoCsSZX" text="家族が支払えない場合はどうなる?"/>
     <string id="QIrR9NhL" text="賢明な選択だ。"/>
     <string id="QJo0xake" text="頑丈な木で作られ、矢をより早く、より遠くまで飛ばすことができる長弓を装備する。"/>
     <string id="QKsaPj6w" text="私たちは原料をもとに製品を作り、地元の市場で販売しています。そして労働者たちに賃金を払った後、利益を所有者に渡しています。"/>
     <string id="QOT7PSUp" text="兵たちは隠れ家の掃討を行っている。"/>
-    <string id="QRJQ9Wgv" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、{CAPTOR_FACTION}により捕縛"/>
     <string id="QSEZfwVk" text="この地域の農民に金を分配し、農業に従事する労働者を雇ったり、娘の持参金を払えるようにしたりする。"/>
     <string id="QTfliM5b" text="楽しい試合だった。今度またやろう。"/>
     <string id="QTr6UDAa" text="停止"/>
@@ -1156,7 +1186,8 @@
     <string id="QWHwvRtC" text="「愚か者の金はすぐその手を離れる」と言うし、時間を無駄にしてやらずに済むんだ。もっと高く売ろう。"/>
     <string id="QXBf26Rv" text="未知の行動"/>
     <string id="QXF6TpBp" text="より大きなダメージを与えられる、長めの槍を装備。{newline} {newline}騎兵の槍を装備"/>
-    <string id="QYFuj7H7" text="{PRISONER_NAME}を見つけて話そう。衛兵に気付かれないように！"/>
+    <string id="QYFuj7H7" text="{PRISONER_NAME}を見つけて話そう。衛兵に気付かれないように!"/>
+    <string id="QZd3VSmO" text="当社は『War Sails』拡張パックをリリースしました。本作には、船、海戦、およびその他にも多くのコンテンツが含まれ、最新世代のプラットフォームでご利用いただけます。また、一部のプラットフォームでの製品ページリンクの追加により、ESRBのレーティング情報を次のとおり更新する必要があります。"/>
     <string id="Qb3axqdZ" text="留まるように説得する。闘技場は訓練にはなるが、なまくらの武器では真の栄光は掴めない。"/>
     <string id="Qbdym8vH" text="激昂し、いかなる類いの嘘も容認しないと部下たちに伝える。"/>
     <string id="QdEGu0CW" text="{INQUIRY_COMPANION.LINK}という名の{?INQUIRY_COMPANION.GENDER}女{?}男{\?}が、{COMPANION_SETTLEMENT}への道中、ここに立ち寄った。急げば{?INQUIRY_COMPANION.GENDER}彼女{?}彼{\?}に追いつけるかもしれないぞ。[rb:positive]"/>
@@ -1166,6 +1197,7 @@
     <string id="QpkXLmjE" text="恋愛結婚"/>
     <string id="QrYjPUEf" text="細部への観察眼"/>
     <string id="Qrj5hN2k" text="死体を埋葬しなければならないが、地面は硬く凍てつき、付近の木々は湿りすぎてまともな火葬ができない。狼などの獣に荒らされる恐れがあるが、手早く近くの谷に葬るか、埋葬は後にしてしばらく死体を運ぶかのどちらかだ。"/>
+    <string id="QsR8WTpA" text="船員の投擲武器ダメージ{EFFECT_AMOUNT}%"/>
     <string id="QtbKJGBi" text="小戦で20000キルを達成する。"/>
     <string id="QuNcB0dA" text="よろしい。同意しよう。"/>
     <string id="QwAyt4aW" text="ごきげんよう、{?PLAYER.GENDER}ご婦人{?閣下{\?}。"/>
@@ -1173,7 +1205,6 @@
     <string id="R2X605jB" text="十分な補給を受け消費効率を極めることによりリロード速度が速くなる。{newline} {newline}ボルトを10本追加で装備する{newline} {newline}リロード速度が25%増加する"/>
     <string id="R3Zn7x07" text="選択を行う必要がある"/>
     <string id="R5kLv5kg" text="私は人々がパライクと呼ぶ存在だ。パライクの言葉はもはや一部の老人しか喋らない言葉となった。そもそも「パライク」という言葉そのものが帝国の言葉なのだ。我々は自分自身の名前すら忘れてしまった民なのだ。[if:convo_focused_voice]"/>
-    <string id="R5vrBHXK" text="船員の盾の耐久度+{EFFECT_AMOUNT}"/>
     <string id="R6YJsK89" text="ジャクランは、ビスカン海岸の暖かな南部にある、オリーブの木々で有名な緩やかな丘陵地帯に位置している。かつてここは帝国の貴族に好まれていた保養地であった。彼らはここでナラの森に棲まうイノシシを狩って楽しんでいた。この地域の独立した農民は異教の思想を持っていることで知られている。ここでは反乱者が現れる事が過去に何度かあり、最近では森の同胞団という者たちが現れた。同じヴランディアの敵対する一族への対抗に利用しようと考えた貴族たちは、こういった集団を支援することがある。"/>
     <string id="R7ssoDHW" text="石工の工房"/>
     <string id="R80p9Ywt" text="照りつける太陽"/>
@@ -1198,10 +1229,10 @@
     <string id="RcY8uZA1" text="標的を見失った。"/>
     <string id="RhNKYZZk" text="馬上で戦う術を極める。{newline} {newline}バスタードアックスを装備し、振り攻撃で騎兵を乗騎から叩き落とせる。{newline} {newline}馬上での振りスピードが10%増加する{newline}馬上から与える斬りつけダメージが10%増加する"/>
     <string id="Rj8RhD7F" text="失敗しました"/>
-    <string id="RjBSR9iO" text="防衛船の数"/>
+    <string id="RjBSR9iO" text="防衛側の隻数"/>
     <string id="Rl0GV742" text="決闘用の両手剣を装備する"/>
     <string id="RlP8aYVJ" text="今すぐ助けが要る者はいないようだ。"/>
-    <string id="RmbWW6Bm" text="あなたは大柄で堂々とした若者だったため、いずれ仲間の一員として迎え入れるための準備として、族長の護衛たちと共に訓練することを許可されていた。"/>
+    <string id="RmbWW6Bm" text="自分は大柄で堂々とした若者だったため、いずれ仲間の一員として迎え入れるための準備として、族長の護衛たちと共に訓練することを許可されていた。"/>
     <string id="RmtTsqcx" text="{HERO.NAME}の新しい隊商が作成されました。"/>
     <string id="RosQSZWa" text="衛兵の詰め所なし"/>
     <string id="RqmF2yD2" text="小戦50キル"/>
@@ -1210,11 +1241,12 @@
     <string id="RsWbJJS7" text="兵の代表者たちがやって来て、備蓄していたパンに蛆虫が湧いているのを示した。干し肉にはカビが生えている。補給係の積み込みの際の不注意で、湿気と害虫が入り込んでしまったようだ。"/>
     <string id="RtlqkbZ9" text="MPテスト用の斧"/>
     <string id="RuHaC2Ck" text="軍役免除税"/>
-    <string id="RuvSk3QT" text="あなたは地元の猟師に同行して荒野に赴き、罠を仕掛けたり、小動物を捕まえたりするのを手伝った。"/>
+    <string id="RuvSk3QT" text="地元の猟師に同行して荒野に赴き、罠を仕掛けたり、小動物を捕まえたりするのを手伝った。"/>
     <string id="RvLaJbkQ" text="城壁が攻撃中のためこの戦闘に参加できない。陸上の戦闘に参加できる。"/>
     <string id="S12S4pmL" text="適切な水路で"/>
-    <string id="S2PV4Qeb" text="村を去ろうとすると、みすぼらしい格好の老いた男が駆け寄ってきて、馬の手綱をんだ。「教えてくれ！」とその男が叫んだ。「その剣が語る物語とは何なのだ？」すると、兵たちが集まってきて、この気の触れた世捨て人のような男に何と答えるのか見守っている。"/>
-    <string id="S3MaaRQH" text="衛兵が何かおかしいことに気付いている。戦いの準備をするんだ！"/>
+    <string id="S2NCdsTo" text="高速モード有効"/>
+    <string id="S2PV4Qeb" text="村を去ろうとすると、みすぼらしい格好の老いた男が駆け寄ってきて、馬の手綱をんだ。「教えてくれ!」とその男が叫んだ。「その剣が語る物語とは何なのだ?」すると、兵たちが集まってきて、この気の触れた世捨て人のような男に何と答えるのか見守っている。"/>
+    <string id="S3MaaRQH" text="衛兵が何かおかしいことに気付いている。戦いの準備をするんだ!"/>
     <string id="S4YyXUPU" text="ウマバエの伝染病"/>
     <string id="SAXnFQLq" text="{VILLAGE_NAME}の人々が、村の外に出る時は注意すべきだと警告していた。霧が立ち込めると、死の前兆となる金切り声を上げる霊が森に出没するらしい。そして今、陰鬱な空気が漂い、兵たちから不安の声が漏れ聞こえてくる。じきに彼らは現実と幻の区別がつかなくなり、金切り声を耳にし、亡霊を見始めるのは明らかだった。馬も兵の雰囲気を感じ取ってか落ち着きを失っており、事故が起きる可能性があるだろう。"/>
     <string id="SFUrdvHo" text="彼らの希望を受け入れ、{FORTRESS_NAME}の近くに土地を買うように勧める。"/>
@@ -1226,7 +1258,6 @@
     <string id="SJ3KYtzM" text="我々はあなたと争うつもりはない。ここに来たのは、盗賊や山賊、すなわち全ての善良な市民にとって共通の敵を追うためだ。"/>
     <string id="SLAFtiET" text="見て見ぬ振りをする。"/>
     <string id="SLASexva" text="提案を受け入れる。だが隊商が無事到着した時に言い逃れできるよう、噂の詳細を多少ぼかしておく。"/>
-    <string id="SM1eI0a3" text="船員による投擲武器ダメージ+{EFFECT_AMOUNT}%"/>
     <string id="SMhnlsai" text="小戦3000キル"/>
     <string id="SNeZ6ETU" text="お前は法に守られているだけの敵だ。従え、さもなくば命はない!"/>
     <string id="SQn9Bnbu" text="部隊戦で80000キルを達成する。"/>
@@ -1245,6 +1276,7 @@
     <string id="SbYlYGFA" text="悪いが、ここ最近でそういう人物が立ち寄った記憶はないな。"/>
     <string id="SbtOuQAF" text="部隊戦で100000キルを達成する。"/>
     <string id="SdQEKdeo" text="大壺の口を割って、たらふくに呑ませる。"/>
+    <string id="Sdu2FmgY" text="城の攻囲戦"/>
     <string id="Settlements.Settlement.name.castle_A1" text="トゥビリス城"/>
     <string id="Settlements.Settlement.name.castle_A2" text="サヘル城"/>
     <string id="Settlements.Settlement.name.castle_A3" text="アイン゠バリク城"/>
@@ -1983,22 +2015,22 @@
     <string id="SqrRaIU5" text="他の専門分野を持っている人物がいれば教えてほしい。"/>
     <string id="Ssbr2dYx" text="参戦要請を行う"/>
     <string id="StGMCKHX" text="部隊戦で3000回勝利する。"/>
-    <string id="SuQSy6g2" text="そこのどの町を想定していた？"/>
+    <string id="SuQSy6g2" text="では、どの都市をお考えか?"/>
     <string id="Sv4tD65i" text="{PRISONER_FACTION_LINK}の{PRISONER_LORD.LINK}が、身代金と引き換えに{CAPTURER_FACTION}から解放"/>
     <string id="Sw8OxnNr" text="アミールの血族"/>
     <string id="SwEQJC4s" text="{SETTLEMENT}の周辺の村からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
+    <string id="SyZ75CJ7" text="そうは思わない。私は主君の{TARGET_HERO_RULER.NAME}に忠誠を誓っている。もう私に触れるな。立ち止まらずに去れ!"/>
     <string id="Sz28bZOI" text="彼女の要望を事務長にじっくり伺わせ、自分は離れた所にいる。 "/>
-    <string id="SzqQcVpq" text="都市の治安を改善し、囚人の上限数が増加する。"/>
     <string id="T1pwrLN9" text="そう簡単に騙されるほど未熟ではない。嘘つきにも、嘘つきと付き合う者にも何も与えない。"/>
     <string id="T2E4xKVn" text="岩がちなカチャール半島の主要都市であるレヴィルは、伝統的にバルガルドと対立関係にあった。言い伝えによれば、レヴィルの民に夫を殺されたバルガルドの王女、アルキナは結婚して争いを終わらせようという敵の王の提案を受け入れたのだという。しかし婚礼の夜に彼女は広間の扉を塞ぎ、中にいた王とその大勢の親族や配下の戦士を閉じ込め、全員を生きたまま焼き殺した。彼らの争いは何年も前に協定や婚姻を通しもっと明るい結末を迎え解決しているが、レヴィルの民はいまだにバルガルドのグンダロヴィング王家のことを快く思っていない。"/>
     <string id="T3SFANYK" text="ドルジーニクのカイトシールド"/>
     <string id="T4sfyeNq" text="ごきげんよう。我々はあなたの領地と{SETTLEMENT_LINK}の民の安全のために努力しております。"/>
     <string id="T7m7ReTq" text="小動物を狩った"/>
     <string id="T8GYg3tv" text="{HERO.NAME}からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
-    <string id="TBQz5uxt" text="付けられた船上のバリスタの装填速度+{EFFECT_AMOUNT}%"/>
     <string id="TBfUP7n3" text="隠れ家"/>
     <string id="TEqD7Agb" text="小戦で3000回勝利する。"/>
     <string id="TGcbxiOD" text="何度も撃たれてきた経験により、遠距離武器から受けるダメージを軽減する術を学んだ。{newline} {newline}遠距離武器から受けるダメージが35%減少する"/>
+    <string id="TGpbi44D" text="キャラクターの操作"/>
     <string id="THpbhFDV" text="長年襲撃者として過ごしたことで、強靭な腕を獲得し投げる速度が速くなる。{newline} {newline}強化ジャベリンを装備{newline} {newline}飛び道具の発射速度が10%増加する{newline}準備速度が10%増加する"/>
     <string id="TI3fS2xN" text="どこの国にも、住人が田舎くさいと馬鹿にされる都市がある。帝国ではヤルマリス市がそうだ。ペラッシア海の内陸において最も初期に建設された帝国の植民都市であり、帝国が西部のパライク人を制圧する際の拠点としての役割を担った。パラウェノスは守備隊から送られてくる略奪品と奴隷を喜んで受け取りつつ、内心は彼らの事を馬鹿にして笑っていた。だがヤルマリスの将軍であるカルソスが軍事クーデターを起こすと状況は変わった。将軍の訛りが強く、彼の言ったことが聞き取れなかった元老院の議員が、布告をもう一度言ってくれないかと恐る恐る尋ねると、将軍は剣を抜きこう言った。「これなら理解できるか?」"/>
     <string id="TJKjYxBN" text="[死亡] {PLAYER_NAME}"/>
@@ -2015,10 +2047,13 @@
     <string id="TaK6ydAx" text="移動中。"/>
     <string id="Tauk2JzA" text="バージョンが一致しません。サーバーのバージョンは{SERVERVERSION}で、あなたのバージョンは{CLIENTVERSION}です。"/>
     <string id="TazumJGN" text="表通りに紛れ込んだ。地下牢で起きたことにはまだ誰も気づいていない。{PRISONER.NAME}を門へと急がせた。{newline}今はこの{?SETTLEMENT_TYPE}集落{?}城{\?}を去ったほうがよいだろう。"/>
-    <string id="TbD2qPLy" text="指定の部隊は航海中です。"/>
+    <string id="TbD2qPLy" text="標的の部隊は航海中だ"/>
     <string id="TbF5Kc4x" text="{ARTISAN_NAME}に、彼のギルドの祝宴や弔慰金にまとまった寄付ができないか尋ねる。"/>
     <string id="TbNRtUjb" text="危険な野獣を討伐した"/>
+    <string id="TbQ9w13e" text="フィアラド"/>
     <string id="TbXDmh3t" text="部隊が海で遭難している"/>
+    <string id="Tc5y7Tgd" text="水上での重量"/>
+    <string id="TcLnmzr3" text="部隊を解散すれば、リーダーは逃走状態になり、残りのメンバーは近くの味方の集落に避難して防衛に参加したり、野に紛れて逃げたりする。{?DOES_DISBANDING_PARTY_HAVE_SHIP}船はクランのメンバー間で分配される。{?}{\?}{newline}{newline}この行動は取り消せない。{newline}{newline}本当に良いだろうか?"/>
     <string id="TcaKHUUK" text="引きやすいクロスボウを装備する。装填が素早くなる。"/>
     <string id="Tci07nbZ" text="草原地帯の遠隔攻撃用の弓"/>
     <string id="TdWQM7QZ" text="{TROOP_COUNT}人以下の兵士を選択しよう"/>
@@ -2044,22 +2079,25 @@
     <string id="UHvEEEBb" text="シロネアはタナエス湖の西岸に位置している。この都市はかつて平和で豊かであり贅沢の象徴とされていた。この地は帝国の絹産業の中心地であり、トランスタナエシアとして知られている土地からの商品が流れ込む交易の中心地であった。トランスタナエシアは大湖を越えた先にある帝国が保有し保護下にあった土地として知られていた。だがクーザイトの到来により帝国の手から奪われた。それにより、戦争の術などすっかり忘れていたシロネアの元老院議員とその一族は金めっきの鎧に積もった埃を払い、宝石を散りばめた剣を研ぎ直して、ウルクンの戦士たちとの戦闘に兵を率いることを余儀なくされた。"/>
     <string id="UINgZDN5" text="遠く離れた部隊は招集できない"/>
     <string id="UNFE1BeG" text="私は別の人を考えています"/>
+    <string id="UNz9Q7Bz" text="{POLICY_NAME}に関する決定"/>
     <string id="UQc6zg1Q" text="所有している路地"/>
     <string id="UQq4ekeu" text="{KINGDOM}の{RULER.NAME}は、{OTHER_KINGDOM}との交易協定を締結しないことを決定"/>
     <string id="URA3QmYL" text="一部のクーザイトの部族民は馬を買えるほどの余裕がなく、弓歩兵として戦う。通常、彼らはその機敏さをもって接近戦を避けるように心掛けてはいるが追い詰められれば斧や剣を持ち出し反撃する。"/>
     <string id="URbKirPS" text="船の数"/>
-    <string id="URgZ4ai4" text="あなたの一家はクーザイトの中でも中堅規模のクランだった。家畜をいくらか所有していたが、裕福ではなかった。クーザイトが戦争に召集される時は、一族の男は弓騎兵として戦う。槍騎兵隊が決定打の一撃を入れる前に、矢を射て敵を囲み、消耗させるのが役割だった。"/>
+    <string id="URgZ4ai4" text="自分の家族はクーザイトの中でも中堅規模のクランだった。家畜をいくらか所有していたが、裕福ではなかった。クーザイトが戦争に召集される時は、一族の男は弓騎兵として戦う。槍騎兵隊が決定打の一撃を入れる前に、矢を射て敵を囲み、消耗させるのが役割だった。"/>
     <string id="USdND5SY" text="妥協案を提案する。熟練兵に対し他より少しだけ良い食料を配給することにする。揉め事を避けられるが、優柔不断だと思われるだろう。"/>
     <string id="UUXAl3un" text="{SETTLEMENT}の市民兵{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="UbZL2BJQ" text="ヒットポイント"/>
     <string id="UbZMlyk6" text="この話に関わらない。"/>
     <string id="Ufu46ImM" text="{WALK_MODE_KEY}を押して移動すれば、物音を抑え、敵に気づかれにくくなる。"/>
-    <string id="Uidhqph1" text="たとえ都市の有力者を敵に回すことになるとしても、その商人の不正を公然と糾弾する。"/>
+    <string id="UhB1jlua" text="当社は『War Sails』拡張パックをリリースしました。本作には、船、海戦、およびその他にも多くのコンテンツが含まれています。また、一部のプラットフォームでの製品ページリンクの追加には、ESRBのレーティング情報を以下のように更新する必要があります。"/>
+    <string id="Uidhqph1" text="商人の不正を大声で糾弾する。だが都市の有力者を敵に回す恐れがあるだろう。"/>
     <string id="UjERCi2F" text="この機能は無効です。"/>
     <string id="UkukckV4" text="死者には不要になった装備を活用する術を熟知するようになる。キルまたはアシストでゴールドを獲得する。{newline} {newline}キルごとにゴールドを10獲得する"/>
+    <string id="Uma907CV" text="当社は『War Sails』拡張パックをリリースしました。本作には、船、海戦、およびその他にも多くのコンテンツが含まれています。メインメニューのリンクを使用してストアページに移動すると、詳細情報や拡張パックの入手方法をご覧いただけます。また、製品ページリンクの追加により、ESRBのレーティング情報を次のとおり更新する必要があります。"/>
     <string id="UqDNAZqM" text="待つのを止める"/>
     <string id="UqNbbdKN" text="簡素なナイフの刃"/>
-    <string id="UqUM8RqO" text="船の漕力+{EFFECT_AMOUNT}%"/>
+    <string id="Urv6mKxq" text="北方の補強された両手メイス"/>
     <string id="UsHhePdk" text="市民兵の入団数と自動雇用数が増加する。"/>
     <string id="UtnItjeJ" text="{CALLING_KINGDOM_LINK}は、{CALLED_KINGDOM_LINK}に対し{KINGDOM_TO_CALL_TO_WAR_AGAINST_LINK}との戦いへ参戦を要請"/>
     <string id="UuFPafDj" text="技術者{CURRENTLY_HELD_ENGINEER}"/>
@@ -2070,21 +2108,24 @@
     <string id="V2CGB9Sw" text="{FACTION}の犯罪率{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="V2SKzX1e" text="突撃馬"/>
     <string id="V44d9fIP" text="テラ"/>
+    <string id="V4PXAgJB" text="高速ゲームモード"/>
     <string id="V8bxlnSl" text="より強い兵士を、交易船団の一部として組み込む方法はないだろうか?"/>
     <string id="VEHPTzhO" text="{LEADER.NAME}が{SETTLEMENT}近辺で軍隊を招集している"/>
     <string id="VHa9Ibh3" text="部隊コスト"/>
     <string id="VHlwd8na" text="それぞれの装飾品に強い関心を示し、どの戦でどの敵から手に入れたものなのか部下たちに聞いていく。"/>
     <string id="VIMgmfp8" text="{SETTLEMENT}付近に隠れ家が出現する"/>
+    <string id="VIdtkghu" text="ESRBレーティング情報が更新され、インタラクティブ要素が含まれるようになりました{newline}ゲーム内購入"/>
     <string id="VIgZNfvL" text="VACによりBAN"/>
     <string id="VKFTub9a" text="鷹"/>
     <string id="VLLAOXve" text="襲撃のために日没を待っている"/>
-    <string id="VM1SGrla" text="{HERO.NAME}はあなたと敵対している。"/>
+    <string id="VM1SGrla" text="{HERO.NAME}は敵対している。"/>
     <string id="VO8qBWrv" text="ボス、様子を見に来てくれたのか?"/>
     <string id="VPmy8IN2" text="厚い筋肉がアザから身を守ってくれる。{newline} {newline}打撃ダメージが30%減少する。"/>
     <string id="VR2SwarS" text="丈夫な馬"/>
     <string id="VSLbywBT" text="ずさんな作戦"/>
     <string id="VSUqbvbE" text="新しい部隊を編成するには資金が足りない。"/>
-    <string id="VUFWXRtP" text="包囲を突破すると、軍隊を見捨てることなる。これは不名誉な行為とみなされ、軍隊に参加しているリーダー全員との関係が悪化する。{newline}• 軍隊のリーダー：{ARMY_LEADER_RELATION_PENALTY}{newline}• 隊員： {ARMY_MEMBER_RELATION_PENALTY}"/>
+    <string id="VTQ2kwmg" text="{HIGHEST_TACTICS_SKILLED_MEMBER}は部隊で最も高い{HIGHEST_TACTICS_SKILL}の戦術スキルを持っており、最小限の乗員の船を送り出して敵を足止めし、残りの者の安全を確保する計画を示した。味方の多くは撤退できるだろうが、{NEEEDED_MEN_COUNT}人前後の兵と、物資のいくらかは敵の手に落ちるだろう。船団の{CAPTURED_SHIPS_NUMBER}隻前後が鹵獲されたり、残りの船にも損傷が生じるなどの損害が出るだろう。"/>
+    <string id="VUFWXRtP" text="包囲を突破すると、軍隊を見捨てることなる。これは不名誉な行為とみなされ、軍隊に参加しているリーダー全員との関係が悪化する。{newline}• 軍隊のリーダー {ARMY_LEADER_RELATION_PENALTY}{newline}• 隊員 {ARMY_MEMBER_RELATION_PENALTY}"/>
     <string id="VYKc665f" text="軍隊の司令官が村への襲撃をやめるよう命じた。"/>
     <string id="VYU1nEHP" text="家族の取り計らいで使節団に同行することになった。さほど大きな責任を伴う仕事は与えられなかったが、その旅と社交を通じて世界の一端に触れる経験となった。"/>
     <string id="VauaVUNS" text="自分の領地へと続く小道があることに気づいた。簡単に荷車が通れる幅に拡張でき、主要交易路への近道になりうる。通行料を徴収し、有料道路にもできる。だが地元の住民は、日常的に使っていた道の交通量が増え、利用料まで徴収されることに憤慨するだろう。"/>
@@ -2112,21 +2153,21 @@
     <string id="WAa4yaTo" text="何をお作りしましょうか?"/>
     <string id="WDduTwIB" text="自動雇用数+{BONUS_AMOUNT}"/>
     <string id="WFNLizqL" text="これまでメインクエストで特定の王国を支持してきた。この王国から去ればクエストが失敗に終わる。{newline}本当にいいのだろうか?"/>
-    <string id="WGmKib15" text="店主に激怒し、墓荒らしだと非難する。それで盗みを止めるとは思えないが、兵士たちは喜ぶだろう。"/>
+    <string id="WGmKib15" text="店主に対して激怒する。彼を墓荒らしだと非難する。それで盗みを止めるとは思えないが、兵たちは喜ぶだろう。"/>
     <string id="WGtzBswe" text="リカローンの天然の要塞は、巨大なオルニア岩塊の突出した岩盤の上にある。帝国の征服行の最後の数年の間に、この地のパライクの部族は帝国と平和的に連合する交渉をしたが、反乱の指導者であるゲススに故郷を奪われるという結末に終わった。その後に起きた包囲攻撃をはじめとし、その後の何世紀にもわたってリカローンは攻撃を受けることとなる。近くには銀の鉱脈があり、帝国の王位を狙う者たちから、内戦における優位を獲得するのに重要な土地だと考えられたためだ。岩場の上に棲みついているハゲワシたちはカルラディアの民全員の肉をついばんだのだと言われている。"/>
     <string id="WH7EGGIg" text="理髪師"/>
     <string id="WHWokYrT" text="都市の金貸しに彼らの借金の減額を命じ、税金を払える余裕をもうける。"/>
     <string id="WHoubQ0Q" text="部隊戦1500勝"/>
     <string id="WJGCGka2" text="{PRISONER_FACTION_LINK}の{PRISONER_LORD.LINK}が、{CAPTURER_FACTION_LINK}の{CAPTURER_LORD.LINK}により捕縛"/>
     <string id="WJyTrMf4" text="捕まる前に何とか都市から脱出できた。"/>
-    <string id="WOKNhaG2" text="あなたの家族はクーザイトの神聖なる伝統の守護者であり、大自然の精霊たちや先祖の霊と交信をしていた。彼らは病人の世話をしたり、人々に知恵を授けるかたわら、紛争の解決にもあたり、皆に実用的な助言を与えていた。"/>
+    <string id="WOKNhaG2" text="家族はクーザイトの神聖なる伝統の守護者であり、大自然の精霊たちや先祖の霊と交信をしていた。彼らは病人の世話をしたり、人々に知恵を授けるかたわら、紛争の解決にもあたり、皆に実用的な助言を与えていた。"/>
     <string id="WR7NCetE" text="{VILLAGE_NAME}を去る際、毛がぼさぼさの若者が手を振って注意を引こうとしていた。彼は立派な{RARE_HORSE}を連れており、それをたった500デナールで売ってくれると言う。その馬は荒野で見つけ、放置されて衰弱死しかけていたが、看病して回復させたらしい。彼が都市に連れて行けば、盗んだ馬だと決めつけられるので都市には行かないようだ。"/>
     <string id="WS26SCJ9" text="小戦で4000キルを達成する。"/>
     <string id="WSAS3XLC" text="少し前にここに立ち寄った人物がいる。{INQUIRY_COMPANION.LINK}と名乗っていたな。{?INQUIRY_COMPANION.GENDER}彼女{?}彼{\?}なら{COMPANION_SETTLEMENT}に向かったよ。そこへ行けば会えるんじゃないか? あるいは道中で追いつけるかもしれない。[rb:positive]"/>
     <string id="WVkc4UgX" text="続行。"/>
     <string id="WXCl7J36" text="箇所の壁の突破に成功した。"/>
     <string id="WXNOEqwe" text="投擲武器で敵を落馬させることがある。{NEWLINE}対騎兵攻撃の落馬耐性無視+{VALUE}%"/>
-    <string id="WYvnWcXQ" text="他の村の子供たちと同様に、あなたは畑を手伝っていた。そして…"/>
+    <string id="WYvnWcXQ" text="他の村の子供たちと同様に、畑を手伝っていた。そして…"/>
     <string id="WYxUqYpu" text="釣りの最中。"/>
     <string id="WZbrxhYm" text="ケフィール一瓶"/>
     <string id="WaQ93uXZ" text="{YEAR}年{DAY_OF_YEAR}。{NAME}が出産中に死亡した。"/>
@@ -2136,7 +2177,7 @@
     <string id="WbHfGCbd" text="包囲戦を生き延びた"/>
     <string id="WcSky2KB" text="隠密エリア"/>
     <string id="WchH8bS2" text="家族はバッタニアの中堅規模のクランで、自分たちの土地を持ち耕していた。父は一族の主力を担うカーンの戦士として戦い、バッタニアの有名な雄叫びを上げながら敵に突撃していた。"/>
-    <string id="Wenvx1OE" text="宝物庫に手を伸ばしてデナール銀貨を両手いっぱいに掴み取り、部下達に投げ与え、その武勲を名指しで称えていく。"/>
+    <string id="Wenvx1OE" text="金庫に向かい、両手いっぱいに銀貨を掴み、兵たちに投げ与えながら、一人一人名指しして立てた武勲を称える。"/>
     <string id="Wgu9EK8b" text="隠密と潜入の難易度"/>
     <string id="WhUoF9Mw" text="後退"/>
     <string id="WjwHVQzx" text="現地協力者を作る"/>
@@ -2148,12 +2189,12 @@
     <string id="WsOoZCRR" text="工房の生産+{BONUS_AMOUNT_PERCENT}%"/>
     <string id="WsmZzaOq" text="縦陣"/>
     <string id="Wuga4ZqG" text="彼を滞在させる。子供が字を読めるようになるのは良いことだし、どうせ大人の言うことなんて真に受けないものだ。"/>
-    <string id="Ww7vJSb9" text="誰に交易船団を率いさせますか？"/>
+    <string id="Ww7vJSb9" text="誰に交易船団を率いさせますか?"/>
     <string id="Wx5ysDp1" text="{?PLAYER.GENDER}ご婦人{?}閣下{\?}、そのご意思には感謝したしますが、私に与えるに相応しい邸宅をお持ちなのかどうか。"/>
     <string id="WxMGCqPw" text="鎌を、盾に効果的なつるはしと置き換える。"/>
     <string id="WyI6xHlc" text="メインメニューに戻りますか?現在の進行状況は失われます。"/>
     <string id="WyZ2UtFF" text="家族はボヤールの権威に関心がなかった。森の奥深くで生計を立て、1、2年ほど焼き畑農業を営んでは次の場所に移動するという生活をしていた。彼らはキツネやウサギやオコジョその他の毛皮を持つ動物を罠で狩っていた。"/>
-    <string id="WyuxrGqC" text="火あぶりにされたくなければ、部隊から立ち去るか、神への冒涜を止めるかのどちらかだと、激昂して二人に言い放つ。"/>
+    <string id="WyuxrGqC" text="火あぶりにされたくなければ、部隊から立ち去るか、不敬をやめるかのどちらかだと、激昂して二人に言い放つ。"/>
     <string id="WzcY3WMe" text="カメラをリセット"/>
     <string id="X1TJNkBV" text="あんたの弟と妹を見つけた。だが、俺の相棒だった{HIDEOUT_BOSS.LINK}が裏切ったんだ。俺達は子供たちの解放を交渉するために奴の野営地に入ったが、そこで彼に捕らえられてしまった。[if:convo_angry_voice]"/>
     <string id="X3KYysuv" text="踊り子"/>
@@ -2161,7 +2202,7 @@
     <string id="X3TL6QZ8" text="この集落で犯罪者として指名手配されいるため、港を利用できないだろう。"/>
     <string id="X4Hvkakc" text="剣を両手持ちのハンマーと置き換える。鎧を着た相手に有効。{newline} {newline}上段攻撃で突破することができる。"/>
     <string id="X5hIe3U8" text="マルチプレイヤーのバナーロードを75時間プレイする。"/>
-    <string id="X68PZrYv" text="カルラディア中に思いもよらぬ場所から奇襲をした伝説があるが、お前たちがそれを成功させる姿は想像できないと伝える。"/>
+    <string id="X68PZrYv" text="カルラディア中に思いもよらぬ場所から奇襲をした戦士の伝説があるが、お前たちがそれを成功させる姿は想像できないと伝える。"/>
     <string id="X6N9nSn0" text="あなたはこのサーバーへログインすることが許可されていません。公式パブリックサーバーの利用をお試しください。"/>
     <string id="X7Xp9xGe" text="テルサ"/>
     <string id="X8KWb3PK" text="封鎖線を破って侵入する"/>
@@ -2183,11 +2224,10 @@
     <string id="XavOmQlX" text="ゴリアテ"/>
     <string id="XbKMacMQ" text="支持者の支出"/>
     <string id="XbNVQdZN" text="鹿"/>
-    <string id="XbQFAKUz" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、{CAPTURER_FACTION}の捕虜となっている間に獄死"/>
     <string id="XbYCVCbR" text="同盟国の{CALLED_KINGDOM}に参戦要請をすることは反対する。"/>
     <string id="Xe6PwUSW" text="小戦1500勝"/>
     <string id="XeX5x8jw" text="血塗られた評判"/>
-    <string id="XgFU1pCx" text="あなたはある家族のもとに産まれた。"/>
+    <string id="XgFU1pCx" text="自分はある家族のもとに産まれた。"/>
     <string id="XgH6b7LY" text="斧と共に、より強力な盾を装備する。重装部隊との近接戦に有効。"/>
     <string id="XgjXfmM1" text="看守"/>
     <string id="Xm5ebxcP" text="我が国は既に{KINGDOM_TO_CALL_TO_WAR_AGAINST}と交戦していない。"/>
@@ -2196,6 +2236,8 @@
     <string id="XmvaRfLM" text="{PLAYER_FATHER.NAME}は{PLAYER.LINK}の父だった。彼は、家族が泊まっていた宿屋が襲撃された時に殺されてしまった。"/>
     <string id="Xqba1Obq" text="遊牧民"/>
     <string id="XrsKuPT5" text="黒く染めたフード"/>
+    <string id="Xs2Ffm4I" text="ハシャン"/>
+    <string id="Xv95gei9" text="南方の両手メイス"/>
     <string id="XvgESxLA" text="復讐を望む気持ちは分かるが賠償金を受け入れる他ない、と村人たちに伝える。"/>
     <string id="Xws44eDL" text="EA500勝"/>
     <string id="XxQzR39f" text="よし、それではより強力な兵士を組み込む方向で行こう。交易船団を組む代金として、{AMOUNT}{GOLD_ICON}支払う準備ができている。"/>
@@ -2222,13 +2264,15 @@
     <string id="YERtiSUn" text="ディングラニスは「グラニスの岩」を意味し、バッタニアの地の中心にある暗き湖、スィン゠テゥアルを見下ろす高く険しい岩山にある。その名は古代の女王からその名が取られている。言い伝えによれば彼女は5世代のバッタニア上王に結婚し、彼らに統治権を授けたのだという。この地はバッタニアの王権の土台となる儀式の中心であり、バッタニア上王が代々この地で君臨したわけではないが、しかし全員がこの地を守り抜くべきだと考えるだろう。"/>
     <string id="YGgPUH3r" text="{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}{GOLD_ICON}"/>
     <string id="YIsU82Jd" text="放棄した兵役の残り期間の補償分を賃金から差し引くことを条件に、除隊を許可する。"/>
-    <string id="YKzuGc54" text="あなたは身体が大きく、隣の村の子どもたちとの喧嘩の時は、他の子どもたちに頼りにされていた。そして、大人のように重い鋤を押したり、斧を投げたりできた。"/>
+    <string id="YJkAqExw" text="隠密ボーナス"/>
+    <string id="YKzuGc54" text="自分は身体が大きく、隣の村の子どもたちとの喧嘩の時は、他の子どもたちに頼りにされていた。そして、大人のように重い鋤を押したり、斧を投げたりできた。"/>
+    <string id="YLbBHN0Z" text="船首像"/>
     <string id="YNm9vaHw" text="「斧の要塞」を意味するバルタカンドにはイルタンラルの民が定住していた。彼らはクーザイトの近縁部族で、山地に住んでいる。数世紀前、彼らのベイは平原へと降りていき、イルタンの連水陸路を守る要塞を築いた。湖と川で構成されたこの交易網はストゥルギヤの地とクーザイトの王国とを分け隔てている。この地の厳しい冬は帝国の侵略を防いでいたが、ウルクン゠ハンの騎兵は吹き付ける寒風にひるみはしなかった。そして40年前、彼らの手によりこの都市はハン国の支配下に置かれることとなった。"/>
-    <string id="YOhKn6YV" text="自分たちの賃金の使い道は自由だが、ワイン売りやいかがわしい女、賭博の高利貸たちを必要以上に援助するつもりはない。"/>
+    <string id="YOhKn6YV" text="賃金の使い道は自由だが、ワイン売りやいかがわしい女や賭博場のいかさま師のいい金づるになるべきでない、と言う。"/>
     <string id="YPFDiwuy" text="村の生産力を上げ、暖炉数を増加する。"/>
     <string id="YRCW0oFd" text="攻城兵器を建造・維持し、集落の防衛に備える。"/>
     <string id="YUauBtTT" text="頑丈な木で作られた弓手により、矢をより早く、より遠くまで飛ばすことができる。"/>
-    <string id="YVETzHXK" text="もっともらしい話ではあるし、掘り出し物の出所をいちいち確認している時間はない。馬を買うぞ！"/>
+    <string id="YVETzHXK" text="もっともらしい話ではあるし、掘り出し物の出所をいちいち確認している時間はない。馬を買うぞ!"/>
     <string id="YVwl3BgB" text="弓兵としての経験により重い矢を高精度で放てるようになる。{newline} {newline}強力な矢を装備{newline} {newline}精度の最大持続時間が100%増加する"/>
     <string id="YWZFOX4S" text="こちらの判断は、それなりの代価で覆ることを示唆する。"/>
     <string id="YYYxOiCq" text="アンプレラは帝国北東端の最重要都市である。この都市の塔の頂に立つ見張りは北・東・西の国境の砦から、侵略者の接近を知らせるのろしが上がっていないか目を光らせている。弓騎兵として雇われた荒くれ者揃いのエレフテロイの自由民たちは兵舎で酒を飲みながら、草原からやって来る騎手を迎撃しに行けとの指令を待っている。カタフラクトたちは都市の門から颯爽と駆け出し、イルタンの連水陸路として知られる湖のネットワークを使った交易の支配権を巡り、ストゥルギヤの諸侯たちと争うのだ。"/>
@@ -2255,13 +2299,14 @@
     <string id="YyNywO6Z" text="気にしないでください。無事でよかったです。"/>
     <string id="Z0xf3Bbd" text="都市での交易から徴収される関税が引き上げられる"/>
     <string id="Z2Lq2QLq" text="わかりました。では隊商を組むのに、部下を呼びましょう。繁盛するといいですね。"/>
+    <string id="Z4WHrYxd" text="今はもう{ISSUE_OWNER.LINK}と同じ勢力に属していない。{ISSUE_OWNER.LINK}との約束はとりやめとなった。"/>
     <string id="Z54ZrDG9" text="ではまた次の機会に。"/>
-    <string id="Z5mUfcdS" text="移動中、前方にでこちらを待っている{COMPANION.NAME}を発見し、挨拶と報告を受けた。{NUMBER}人の{?(NUMBER &gt; 1)}兵士{?}兵士{\?}と共に向かった任務から帰還したところで、全員あなたの部隊と再合流する準備ができているとのことだ。"/>
+    <string id="Z5mUfcdS" text="移動中、前方にでこちらを待っている{COMPANION.NAME}を発見し、挨拶と報告を受けた。{NUMBER}人の{?(NUMBER &gt; 1)}兵士{?}兵士{\?}と共に向かった任務から帰還したところで、部隊と再合流する準備ができているとのことだ。"/>
     <string id="Z5zAok5G" text="この都市の統治をやめて、部隊に戻ってきてくれ。"/>
     <string id="Z6c8GjOG" text="マルチプレイヤーのバナーロードを10時間プレイする。"/>
     <string id="Z6kgb8go" text="部隊に戦闘できる健康な兵士がいない"/>
-    <string id="Z7RAahk3" text="資金は皆の生存率を上げるために、物資の調達や新兵の補充に使う方が賢明だと説得する。"/>
-    <string id="ZAGR6PYc" text="裏通りで突然の火災が発生した時、隣人たちは、とっさの判断力に長け、指揮を取れる人間を求めた。あなたはその役割を買って出て、近くの井戸のそばに水桶を運ぶための列を整え、炎が家に移る前に鎮火させた。"/>
+    <string id="Z7RAahk3" text="彼らに諭す。資金は皆の生存率を上げるために、物資の調達や新兵の補充に使う方が賢明だ。"/>
+    <string id="ZAGR6PYc" text="裏通りで突然の火災が発生した時、隣人たちは、とっさの判断力に長け、指揮を取れる人間を求めた。自分はその役割を買って出て、近くの井戸のそばに水桶を運ぶための列を整え、炎が家に移る前に鎮火させた。"/>
     <string id="ZAGUIKOn" text="ラゲタの都市は帝国の裏切り行為により不名誉にも奪取された。ある帝国のならず者の傭兵が雇い主であったパライクの族長を殺害して要塞を奪い、帝国からの入植者たちを招き入れ都市を帝国に明け渡したのだ。元老院は彼の行動を関知しなかったものの都市の移譲は受け入れた。この地域は今でこそ完全にカルラディア文化に染まっているが、北に住むバッタニア人はこの出来事を忘れてはいない。そして帝国からの使者が神聖な協定や条約がと切り出すたびに、彼らは互いを見てうなずき、「ラゲタ」とつぶやくのだ。"/>
     <string id="ZATaNNCu" text="乗騎をより持久力があり、衝突時に大きなダメージを与える馬に乗り換える。"/>
     <string id="ZAa01aJb" text="帝国の近隣諸国は、都市の住民を甘やかされた軟弱者だとあざ笑うことがあるが、それは大きな間違いである。帝国は敵に囲まれているため、市民は喜んで自身の都市の民兵に加わり、壁を利用した防衛術を学ぶために弓術に優れている。指揮官はしばしば彼らを戦地に連れて行き、必要に応じて弓兵や、弩兵として扱うこともある。"/>
@@ -2291,7 +2336,7 @@
     <string id="ZeNt57yM" text="国は滅ぼされた。"/>
     <string id="ZgYAGfbD" text="陸戦部隊の定員"/>
     <string id="ZidO5gkC" text="これは、現在のゲームにはない「{MODULE_NAME} 」モジュールを使用して作成されたセーブです。これを読み込むには、該当するモジュールを有効にする必要があります。"/>
-    <string id="ZixS1b4u" text="あなたはこの戦いの司令官ではない。"/>
+    <string id="ZixS1b4u" text="自分はこの戦いの司令官ではない。"/>
     <string id="Zl6LASZq" text="{CHANCE}%の確率で、兵がそれぞれ{CHANCE_PER_UNIT}%の確率で失われる"/>
     <string id="ZmezmQST" text="貴公の同盟者として、我々の敵との戦いの手助けを求める。"/>
     <string id="ZoIXaxj9" text="前回の戦闘で手に入れた戦利品の中に、{WINE_SETTLEMENT_NAME}産の上質なワインが入った大甕を見つけた。売ればかなりの金額になるが、命をかけて戦ったばかりの部下たちは、今日の酒を我慢してまで明日の銀貨を手に入れたいとは思ってなさそうだ。"/>
@@ -2305,7 +2350,7 @@
     <string id="ZxqXs36U" text="剛腕"/>
     <string id="a0MWe8GO" text="この血の海を越えた先には何があるか? 栄光だ。この先にあるのだ!"/>
     <string id="a1cuuevH" text="ある一人の部下が興奮した様子でやって来た。市場の行商人から地図を買ったようで、遥か昔に死んだカニキアの魔術師が近くのワジに埋めた宝の在り処が示されているらしい。彼は少し暇をもらって探しに行きたい、何か見つけたらその5分の1を渡す約束をする、と言う。この近くの古代の墓で黄金が見つかったという話を聞いたことがある。だがこれは、万が一本物であっても何世紀も前に既に盗掘された墓の地図か、さもなければ誰かの地下灌漑槽を表しているのだろう。いずれにせよ、地元の人々は兵がつるはしやシャベルで土地を荒らすことを快く思わないだろう。"/>
-    <string id="a2Kla47b" text="船を停めて、乗り込まれる準備をしておくんだな、海賊め！"/>
+    <string id="a2Kla47b" text="船を停めて、乗り込まれる準備をしておくんだな、海賊め!"/>
     <string id="a2rhPaGB" text="バルドロン"/>
     <string id="a3WNz6Ci" text="投石弾"/>
     <string id="a3vHlztg" text="帯状プレートガントレット"/>
@@ -2317,14 +2362,12 @@
     <string id="a8arFSra" text="歩兵として訓練を受けた"/>
     <string id="a939QfLJ" text="{TOWN_NAME}を出発する際、馬の前に若い女が飛び出してきた。女は天を仰ぎ、その髪を引き裂き、女の若い夫はあなたに雇われ戦死したと泣き喚く。そして「私から彼を奪ったのはお前だ」と叫んだ。彼女が何を求めているのかは分からない。"/>
     <string id="aAqMSU2d" text="海上でのインベントリ容量"/>
-    <string id="aBHvjGLh" text="城壁への攻撃が進行中のため、海戦に参加できない。陸からの攻撃に参加できる。"/>
+    <string id="aBHvjGLh" text="城壁への攻撃が進行中のため、水上戦に参加できない。陸上戦に参加できる。"/>
     <string id="aCbpaHAc" text="部隊戦で25回勝利する。"/>
     <string id="aClquusd" text="兵士の数"/>
     <string id="aCwCaWGC" text="君の能力は私が求めているものではない。"/>
-    <string id="aDCJRC1o" text="自分の船の炎ダメージ耐性+{EFFECT_AMOUNT}%"/>
     <string id="aE0kPqcT" text="この工房は{OWNER.LINK}が所有しております、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。"/>
     <string id="aE4JAqn0" text="他の集落にしよう"/>
-    <string id="aE4ZRbB6" text="{HEALTH}%"/>
     <string id="aEke8dSb" text="都市の浮浪者"/>
     <string id="aF4Q5TJc" text="荷車の通行のために道路を拡張するが、使用料を徴収する"/>
     <string id="aFUVF8VO" text="{CHANCE}%の確率で、部隊の共有経験値+{AMOUNT}"/>
@@ -2351,15 +2394,14 @@
     <string id="aUui6FYp" text="戦と商売は手段を選ばないものだ。取引に応じる。"/>
     <string id="aVCDFNDK" text="小戦10勝"/>
     <string id="aVtM937J" text="{CHANCE}%の確率で{ITEM}{?AMOUNT &gt; 1}+{?}-{\?}{ABS(AMOUNT)}"/>
-    <string id="aVzcyhhy" text="父は語り部だった。バッタニアのある族長の屋敷から、また別の族長の屋敷へと流れては、屋敷の一族の誰かを褒めつつ敵対者を嘲笑う歌を作り、そして今度はその嘲った敵対者の屋敷で逆の内容を歌って生計を立てていた。そんな父を見たあなたは、要領よく立ち回れば、達者な口を活かして農村の重労働を逃れられると学んだ。"/>
-    <string id="aWhGrgDt" text="{DAYS}日後に完了"/>
+    <string id="aVxmM2h1" text="占領した城"/>
+    <string id="aVzcyhhy" text="父は語り部だった。バッタニアのある族長の屋敷から、また別の族長の屋敷へと流れては、屋敷の一族の誰かを褒めつつ敵対者を嘲笑う歌を作り、そして今度はその嘲った敵対者の屋敷で逆の内容を歌って生計を立てていた。そんな父を見た自分は、要領よく立ち回れば、達者な口を活かして農村の重労働を逃れられると学んだ。"/>
     <string id="aXXF3aJE" text="部隊の整列が乱れる確率+{CHANCE}%"/>
     <string id="aYm5Ehv1" text="アイテムを1つ選ぶ必要がある。"/>
     <string id="aZIG2v6p" text="兵士の中で随一の実力を誇り、より正確に投げることができる。{newline} {newline}元の遠距離精度が50%増加する{newline}遠距離攻撃の精度上昇速度が80%増加する"/>
-    <string id="aZaujaHb" text="衛兵はあなたの申し出を受けた。支払いさえすれば、{PRISONER.NAME}を脱獄させる手助けをしてくれる。"/>
+    <string id="aZaujaHb" text="衛兵は申し出を受けた。支払いさえすれば、{PRISONER.NAME}を脱獄させる手助けをしてくれる。"/>
     <string id="aZwaFhA6" text="男の人柄について誇張して書く。"/>
-    <string id="aaOIjHeP" text="関係が大きく悪化したため、{NOTABLE.NAME}はもはやあなたを支持しない"/>
-    <string id="aaPjaiqH" text="付属船にいる間、被ダメージ-{EFFECT_AMOUNT}%。"/>
+    <string id="aaOIjHeP" text="関係が大きく悪化したため、{NOTABLE.NAME}はもはや自分を支持しない"/>
     <string id="aaUeq1dp" text="国の軍の退役兵たちは、自身の子や村の人間を将来の軍務に備えて訓練することと引き換えに、放棄された農地の要求と減税の権利が許可される。"/>
     <string id="abpzOR0D" text="脱獄させる捕虜を選ぶ"/>
     <string id="acBdTQxp" text="「これまで成してきた事は全て{KING}のためだ。私は王のご意志を体現しているまでだ」"/>
@@ -2367,11 +2409,11 @@
     <string id="aeCYFe1g" text="誰に隊商を率いさせましょうか?"/>
     <string id="aeWqECxF" text="発射速度重視の長弓"/>
     <string id="afH90aNs" text="槍と盾で武装した徴募兵は、小規模自作農たちから徴兵される。彼らは、カルラディアのほとんどの軍隊の屋台骨であり続けている。"/>
-    <string id="afzeDAPd" text="{NOTABLE.NAME}はあなたのクランを支持しなくなった"/>
+    <string id="afzeDAPd" text="{NOTABLE.NAME}は自分のクランを支持しなくなった"/>
     <string id="agDGvi5z" text="マルチプレイヤーのバナーロードを5時間プレイする。"/>
     <string id="ahbhSL6B" text="さらばだ。海が導いてくれれば、また会えるかもな。"/>
     <string id="ahobSLlo" text="ログインリクエストに失敗しました。"/>
-    <string id="ahrVsMKU" text="船員の装甲+{EFFECT_AMOUNT}%"/>
+    <string id="ahpSGaow" text="戦いのあと離れ離れになってしまった仲間の{NOTABLE.LINK}が今この集落にいるという話を耳にした。"/>
     <string id="ahydRFKe" text="{?INQUIRY_COMPANION.GENDER}自ら{?}自ら{\?}を{INQUIRY_COMPANION.LINK}と名乗っている者がいた。あなたが興味ありそうな人物だと思わないか?{?INQUIRY_COMPANION.GENDER}彼女{?}彼{\?}なら{COMPANION_SETTLEMENT}に向かったよ。[rb:positive]"/>
     <string id="akXybGlj" text="「カーン」の別名でも知られるバッタニアの主力戦闘部隊は、武器を持って戦える資質を持った、一般人の徴兵により支えられている。長いナイフ、こん棒、槍などを叫びながら振り回して突撃する兵士たちの姿は、恐るべき光景にもなり得る。"/>
     <string id="akvIjedh" text="部下の騎兵2人が決闘の許可を求めてきた。どちらも{TOWN}の商人の娘に求婚しており、一方がもう一方を彼女の前で侮辱したという。世の中には、兵士の荒々しい自尊心を刺激すべく決闘を奨励する指揮官もいるが、そのような戦いは軍律を乱すと考える指揮官もいる。もちろん、負傷する恐れもある。"/>
@@ -2380,10 +2422,10 @@
     <string id="anHqaNK0" text="女王"/>
     <string id="aoJHP3Ud" text="再び加わる準備はできている。君には借りができたな。"/>
     <string id="aod7KVc8" text="{ENEMY_FACTION}からの貢納金が完済"/>
-    <string id="ap5pYDR7" text="ここから出よう！"/>
-    <string id="ap9OK7Zl" text="兵士の待機場所"/>
+    <string id="ap5pYDR7" text="ここから出よう!"/>
+    <string id="ap9OK7Zl" text="兵士はここで待機する"/>
     <string id="aqE0C4s8" text="攻城陣地設営の進行度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}%"/>
-    <string id="aqZyQ3Ca" text="貴族の召使いの格好をした男が近づいてきた。「{RIVALLORD.NAME}と仲が悪いと聞いています。まぁ、自分の家族も管理できない男に一体何を期待できましょうか？最近まで彼の所に仕えていましたがね、その奥方が馬の飼育係と親密だった事を知っています… それなりの報酬をいただけるのなら、この話を広めてもいいですよ」。"/>
+    <string id="aqZyQ3Ca" text="貴族の召使いの格好をした男が近づいてきた。「{RIVALLORD.NAME}と仲が悪いと聞いています。まぁ、自分の家族も管理できない男に一体何を期待できましょうか? 最近まで彼の所に仕えていましたがね、その奥方が馬の飼育係と親密だった事を知っています… それなりの報酬をいただけるのなら、この話を広めてもいいですよ」。"/>
     <string id="arCGUuR5" text="この集落は包囲されている。"/>
     <string id="arups4VQ" text="部隊戦で60000キルを達成する。"/>
     <string id="aubhe8Hk" text="TaleWorlds開発者"/>
@@ -2406,21 +2448,23 @@
     <string id="b4CYRWEr" text="兵士の中で随一の実力を誇り、より正確に投げることができる。{newline} {newline}元の遠距離精度が60%増加する{newline}遠距離攻撃の精度上昇速度が70%増加する"/>
     <string id="b4fpZGsv" text="私たちは{VILLAGE}村の漁師です"/>
     <string id="b6D2xgke" text="近接戦に対して効果的で、防御も容易な剣と盾を装備する。{newline} {newline}北部の剣を装備{newline}円型の盾を装備{newline}移動スピードが5%増加する"/>
-    <string id="b7muQ9mt" text="{KINGDOM_INFORMALNAME}との傭兵契約を終了してもよいだろうか？"/>
+    <string id="b7muQ9mt" text="{KINGDOM_INFORMALNAME}との傭兵契約を終了してもよいだろうか?"/>
     <string id="b92969l9" text="ここであなたに別のものを生産してもらいたい。"/>
     <string id="b9S5bNbq" text="黙って申し出を受け入れよう。商人ならば商売のことを心得ているはずだ。"/>
     <string id="b9TbdM9A" text="指定地点へ移動中"/>
+    <string id="bAWHXCsb" text="乗員の盾のヒットポイント{EFFECT_AMOUNT}%"/>
     <string id="bBd0jAvo" text="道中の謎掛け"/>
     <string id="bCqsjBDl" text="だが、あの子たちの命を危険に晒さないように注意しなくてはいけないな。場合によっては大人しく買い取った方が安全かもしれない。それなら金をしっかり用意しておく必要がある。"/>
     <string id="bDfKz5SZ" text="投石用の石"/>
     <string id="bFZBeN2j" text="このバッジは、Gamescom 2020の期間中に隊長を最も多く倒したプレイヤーに与えられます。"/>
-    <string id="bFgUxv3T" text="これはとんでもないことだ！捕虜をそんな風に扱うなんて許せない！他の領主どもはこぞってお前を憎むだろう。そして我が家族はこのことを決して忘れない！"/>
+    <string id="bFgUxv3T" text="これはとんでもないことだ! 捕虜をそんな風に扱うなんて許せない! 他の領主どもはこぞってお前を憎むだろう。そして我が家族はこのことを決して忘れない!"/>
     <string id="bGCJdPKj" text="徴兵した農夫の中でも最も大柄で、意地が悪く、動きの素早い者たちが、恐るべき槍斧使いとなる訓練を受ける。この長柄武器を携えた兵士たちがヴランディア軍勢の突撃部隊を努め、次から次へと敵の歩兵をなぎ倒す役割を果たすのである。"/>
     <string id="bGOprieT" text="150時間"/>
-    <string id="bGaD3LoG" text="敵にこちらが水源を発見したことを気づかせる。最も効果的な打撃とは、肉体よりも精神への一撃だ。最も暑く喉が渇くこの攻城戦の日々に、貯水池の水を迂回させ自分の兵たちが水浴びできるようにする。"/>
+    <string id="bGaD3LoG" text="敵にこちらが水源を発見したことを気づかせる。最も効果的な打撃とは、肉体よりも精神への一撃だ。最も暑く喉が渇くこの攻囲戦の日々に、貯水池の水を迂回させ自分の兵たちが水浴びできるようにする。"/>
     <string id="bGyrPe8c" text="生産物"/>
     <string id="bIRS8ZSU" text="非常に素早く正確に斧を投げられるようなり、投げ斧が盾に追加ダメージを与えるようになる。{newline} {newline} 投げ斧を装備{newline} {newline}盾へのダメージが30%増加する"/>
     <string id="bJBLAnrc" text="惜しみなく金を与え、好きなように誇張して歌ってよいと伝える。"/>
+    <string id="bJMUTZ00" text="盾との併用不可"/>
     <string id="bKmVrmzG" text="このバッジは、ベータテストで100試合勝利したプレイヤーに与えられます。"/>
     <string id="bKqka5Uj" text="他の国にしようと思う。"/>
     <string id="bLXleed8" text="プレイヤーのキャラクター"/>
@@ -2439,14 +2483,16 @@
     <string id="bSMXHl3A" text="{CHANCE}%の確率で、{SETTLEMENT}の周辺の村からの好感度{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="bSTaPVG7" text="{CHANCE}%の確率で、{VILLAGE}の暖炉の数{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="bTKiN0hr" text="村の鍛冶屋で働いた"/>
-    <string id="bU88a6lW" text="兄と別れた。丘の頂を越えて行く兄は、腕を上げて挨拶すると、視界から消えた。数日前まで6人家族だったのに、今や独りきりだ。勇気と決意があろうとも、兄とは二度と会えないかもしれないのだ。{newline}しかし、孤独は長くは続かなかった。出発の最後の準備をしていると、一人の少年がよろめきながら野営地に駆け込んできた。息を整えると、彼はこう告げた。小規模な盗賊団が村を襲い、首長を人質に取ったという。村人たちはあなたが近くを馬で移動しているのを見て、助けてくれるかもしれないと考えたのだ。"/>
+    <string id="bU88a6lW" text="兄と別れた。丘の頂を越えて行く兄は、腕を上げて挨拶すると、視界から消えた。数日前まで6人家族だったのに、今や独りきりだ。勇気と決意があろうとも、兄とは二度と会えないかもしれないのだ。{newline}しかし、孤独は長くは続かなかった。出発の最後の準備をしていると、一人の少年がよろめきながら野営地に駆け込んできた。息を整えると、彼はこう告げた。小規模な盗賊団が村を襲い、首長を人質に取ったという。村人たちは自分が近くを馬で移動しているのを見て、助けてくれるかもしれないと考えたのだ。"/>
     <string id="bUzU50P8" text="なんだって?なぜですか?私が何かおかしなことをしたとでも?[ib:closed]"/>
-    <string id="bVVh2LR9" text="お前は武装した敵だ。降伏しろ。さもなけば殺す！"/>
-    <string id="bWlmGDf3" text="突然の嵐で地元の川が急に増水した時、隣人たちは、とっさの判断力に長け、その場の指揮が取れる者を求めた。あなたはその役割を買って出て、彼らの家を守るために堤防を作るように指示した。"/>
-    <string id="bWz49lZu" text="その持ち主の騎兵に馬の介抱を任せる。彼と他が危険に晒されるのは仕方がない。"/>
+    <string id="bVAPtfVG" text="チャンブイ"/>
+    <string id="bVVh2LR9" text="お前は武装した敵だ。降伏しろ。さもなけば殺す!"/>
+    <string id="bVa5jNbd" text="都市の攻囲戦"/>
+    <string id="bWlmGDf3" text="突然の嵐で地元の川が急に増水した時、隣人たちは、とっさの判断力に長け、その場の指揮が取れる者を求めた。自分はその役割を買って出て、彼らの家を守るために堤防を作るように指示した。"/>
+    <string id="bWz49lZu" text="その騎兵に馬の介抱を任せる。彼らが危険に晒されるのはしかたない。"/>
     <string id="bXAg5w19" text="若い新兵や小柄な者、そして貧しくて盾や鎧を買えない者は散兵として戦いに参加することが多い。彼らは弓や投擲槍を使って戦い、敵の主力とは距離を取るよう努める。"/>
     <string id="bXoYv9a2" text="いつもの歩調で行軍を続ける。"/>
-    <string id="bYdhYidf" text=" 当初契約を交わしたあなたのクランのリーダーがクランの長ではなくなったため。クエストがキャンセルされました。"/>
+    <string id="bYdhYidf" text="当初契約したクランの指導者がその地位にいなくなったため、依頼はとりやめとなった。"/>
     <string id="bYmKOh4p" text="テスト用の槍"/>
     <string id="bYmc9fi3" text="{RULER.NAME}は、{?RULER.GENDER}{?}{\?}評議会の反対下で{KINGDOM_NAME}との同盟を締結"/>
     <string id="bZUMOAjU" text="部下たちに{RIVALLORD.NAME}のことを茶化した冗談をいくつか言うが、あとは何もしない。"/>
@@ -2454,7 +2500,7 @@
     <string id="bZyzMko7" text="より速い移動が可能な乗騎に切り替わり、全身馬鎧が半馬鎧に変更される。移動速度と操作性が向上する。{newline} {newline}半馬鎧を装備 {newline}より速い馬を確保"/>
     <string id="baqpnA0F" text="{GOOD}を1つ失い、{AMOUNT}{GOLD_ICON}を手に入れる"/>
     <string id="bbH4PqtD" text="話を広めさせよう! 伝説は正気や慎重さからは生まれない。"/>
-    <string id="bcR8D3x2" text="{A0} 経費"/>
+    <string id="bcR8D3x2" text="{A0}の支出"/>
     <string id="bcZaWOZM" text="逃げ道を探す。安全になったらついてきてくれ。"/>
     <string id="bdUzdzIe" text="やむを得ず移住者たちに暇を告げ、彼らの今後の活躍を祈る。"/>
     <string id="bdfoDUM0" text="{BUILDING}のレベル{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
@@ -2462,17 +2508,18 @@
     <string id="bgy8LVvY" text="医師"/>
     <string id="bh61m33z" text="すでに進行中の投票があります。"/>
     <string id="bhE2i6OU" text="男爵の馬丁として仕えた"/>
-    <string id="bhdkegZ4" text="どの都市も常に、特殊技能と単純作業の両方を必要とする仕事を常に抱えていた。あなたは、巻き上げ機の使い方や足場の組み立て方、木材や石の切り方、取りつけ方といった様々な技術を学んだ。"/>
+    <string id="bhdkegZ4" text="どの都市も常に、特殊技能と単純作業の両方を必要とする仕事を常に抱えていた。巻き上げ機の使い方や足場の組み立て方、木材や石の切り方、取りつけ方といった様々な技術を学んだ。"/>
     <string id="bhiVBSge" text="ナイフ"/>
     <string id="bi4l3xYa" text="小戦で9000キルを達成する。"/>
     <string id="bi7ZhwNO" text="いや、大丈夫だ。"/>
     <string id="bi8UfCdg" text="好きなようにさせる。宝探しから帰ってくるのを待とう。"/>
     <string id="biOsjq1w" text="小戦40000キル"/>
     <string id="bjDjwN9r" text="若い部下が伴侶を見つけたことを祝い、結婚祝いとして金の入った巾着を渡す。"/>
+    <string id="bjEN2OzZ" text="中立の村に対する敵対行為のため、{KINGDOM}から宣戦布告を受けた。"/>
     <string id="bjNuUqTx" text="喜んで、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。代金は{COST}{GOLD_ICON}です。"/>
     <string id="bjVMtW3W" text="家族はストゥルギヤの大河のそばにある港に住んでいた商人で、北で豊富にとれる毛皮や蜂蜜などの品を、遠く離れた土地に出荷する仕事をしていた。"/>
     <string id="blqDgCtL" text="大物狩り"/>
-    <string id="blwPe1jQ" text="悪いが、お前の見た目が気に入らないんだ。降伏しろ。さもなけば殺す！"/>
+    <string id="blwPe1jQ" text="悪いが、お前の見た目が気に入らないんだ。降伏しろ。さもなけば殺す!"/>
     <string id="bnl7Va4c" text="フスン゠フルクは、カルデア南東の端の、帝国とアセライの地を繋ぐ川と汽水潟の網目の中に位置している。ファルコスの名でも知られるフルクは南の遥か遠くからやってきた、褐色の顔を持つ傭兵の首領だった。彼はここに要塞を築き、その戦略上重要な立地を利用して金を儲けた。帝国から賄賂を貰ったかと思えばその次にはアセライから賄賂を貰い、味方を何度も変えた。そうして20年間二つの勢力を行き来したのち、金を山積みした船で故郷へと帰っていった。しかしながら、アセライの多くのクランは彼の子孫を名乗ることを誇りに思っており、「フルクの策略」は市場の語り部たちにとって欠かすことのできない物語となっている。"/>
     <string id="bp8kKb1A" text="この休息を楽しませてやる。"/>
     <string id="bpYLTRTL" text="ノルド"/>
@@ -2490,8 +2537,9 @@
     <string id="byocyGXf" text="ウィッチャーの怒りに触れた者は、鼻が縮んだり指がもげたりする恐れがあると、部下たちに吹き込む。"/>
     <string id="bzV3Evgk" text="参戦要請を提案する"/>
     <string id="c1aajRyU" text="{CHANCE}%の確率で、負傷兵+{AMOUNT}%"/>
-    <string id="c5uy0bb9" text="行進を続けながら、部下たちに看病させる。"/>
-    <string id="c5vobNeb" text="農夫たちに作物を売らせ、かねてから望んでいた灌漑や道路の改善資金を調達させる。"/>
+    <string id="c1bbO8YD" text="いいだろう。あとでまた聞こう。"/>
+    <string id="c5uy0bb9" text="行軍を続けながら兵たちに看病させる。"/>
+    <string id="c5vobNeb" text="農民たちに作物を売らせ、かねてから望んでいた灌漑や道路の改良のための資金を調達させる。"/>
     <string id="c66LlHlQ" text="このバッジは、Gamescom 2020の期間中に小戦闘で最も多く敵を倒したプレイヤーに与えられます。"/>
     <string id="c7VOPmSb" text="{HERO.NAME}の新しい交易船団が作成された。"/>
     <string id="cAVxYAdw" text="ならば金を持ってくるといい。売りたい捕虜を抱えている。"/>
@@ -2500,7 +2548,7 @@
     <string id="cDUVLNma" text="部隊戦500000キル"/>
     <string id="cDWbwBwI" text="カーンに参加した"/>
     <string id="cECwyvjY" text="村人たちには隠れて採掘を行うよう促し、集めた金は自由にしてよいと約束することで噂の拡散を止める。"/>
-    <string id="cG9pkbqo" text="浮かれ騒ぎは許すが、朝の動きを緩め、各自が水袋から水分補給しているか確認しながら進む。"/>
+    <string id="cG9pkbqo" text="楽しむのは許すが、朝の動きを緩め、各自が水袋から水分補給しているか確認しながら進む。"/>
     <string id="cGSXFJ3N" text="最近の脱獄計画のため、この集落は厳戒態勢に入っている。衛兵が話に応じることはないだろう。"/>
     <string id="cHIa0Xty" text="守備隊の縮小"/>
     <string id="cHRnWvHg" text="小戦で1000キルを達成する。"/>
@@ -2517,11 +2565,11 @@
     <string id="cZzfNlxd" text="秋"/>
     <string id="cahoCHJ9" text="小戦7000キル"/>
     <string id="cbF9jdQo" text="両親はあまり多くの金をくれなかったが、村のはずれにある使われていない土地の証文を購入できるくらいの額はあった。石を取り除いて灌漑用の水路を掘り、季節が数回めぐる間作物を育てた。収穫できた作物を売って、かなりの儲けを得た。"/>
-    <string id="ccttrcaX" text="集落は包囲され、海上封鎖もされています。封鎖線の突破を試みることができます。"/>
+    <string id="ccttrcaX" text="集落は包囲され、水路も封鎖もされている。封鎖の突破を試みるとよいかもしれない。"/>
     <string id="cexRoZPF" text="そんな馬鹿げたことは認めない。怒りは敵のためにとっておかせる。"/>
     <string id="cfSgK0nk" text="機敏な馬"/>
-    <string id="chZrxxe1" text="狩りを始めよう！槍兵で茂みを包囲し、猪を駆除せよ。"/>
-    <string id="character_creation_content_16" text="あなたはあることで有名な子供だった…"/>
+    <string id="chZrxxe1" text="狩りを始めよう! 槍兵で茂みを包囲し、猪を駆除せよ。"/>
+    <string id="character_creation_content_16" text="自分はあることで有名な子供だった…"/>
     <string id="chvOaryz" text="ランスをランダムな別の文化のランスと置き換える。"/>
     <string id="ci0npfYB" text="勝利の翼"/>
     <string id="ciQPfxEC" text="遊牧民に作物の被害の然るべき保証を要求する。だがこれは一時的に問題をうやむやにしたに過ぎない。"/>
@@ -2532,27 +2580,27 @@
     <string id="cuzMV8pT" text="カルラディアの全てのキャラクターは、「非戦闘用」「戦闘用」「隠密用」というそれぞれ用途が異なる3つの装備セットを持っている。キャラクター像の上にあるボタンで装備セットを切り替えられる。装備によっては、意図された状況に合わないため、対応する装備セットで使用できないことがある。"/>
     <string id="cyZG4qHm" text="複雑な帳簿制度を導入する。仕入れ作業が煩雑になり、生産性を損なうだろう。"/>
     <string id="czU1QREp" text="最も多くの問題を解決した仲間"/>
-    <string id="d0AR12jp" text="{KINGDOM}は交易協定に同意しないだろう"/>
     <string id="d0kbtGYn" text="金貨が足りません。"/>
     <string id="d18Ul2Zl" text="イワシ料理"/>
     <string id="d2b4wgya" text="サーバーに参加できませんでした。"/>
     <string id="d3NMiZmW" text="兵士を2部隊追加する。"/>
     <string id="d4t6oUCn" text="お前のクランでの地位に関して…"/>
+    <string id="d6KbdIWg" text=" 中立の村に対する敵対行為のため、{MERCENARY_KINGDOM}から傭兵契約を打ち切られ、{KINGDOM}から宣戦布告をされた。"/>
     <string id="d7Z3ka1m" text="良質な弓"/>
     <string id="dCDBqYsh" text="{KINGDOM}の{RULER.NAME}は、{?RULER.GENDER}{?}{\?}評議会の支持下で{OTHER_KINGDOM}との交易協定を却下"/>
-    <string id="dDmcqTzb" text="あなたの評判は地元の伝説となるほどではなかったが、周りの人々からの尊敬を勝ち取っていた。常に公正で正直な仕事を心掛け、困っている人には手を差し伸べた。そしてあなたは次第に、何が人々を動かしているのかを理解していった。"/>
+    <string id="dDmcqTzb" text="自分の評判は地元の伝説となるほどではなかったが、周りの人々からの尊敬を勝ち取っていた。常に公正で正直な仕事を心掛け、困っている人には手を差し伸べた。そして次第に、何が人々を動かしているのかを理解していった。"/>
     <string id="dDsJyerw" text="{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いに参戦するよう{CALLED_KINGDOM}に要請する"/>
     <string id="dEsIQDo3" text="我が同盟国の{CALLED_KINGDOM}に協力を要請する時だ!"/>
     <string id="dIbTJvfA" text="ジャベリンを高速で投げられるようになる。{newline} {newline}追加のジャリドを2つ装備{newline}  {newline}準備速度が10%増加する"/>
     <string id="dJdhMfBq" text="小戦で30000キルを達成する。"/>
-    <string id="dK2fLdEX" text="本当によろしいですか？"/>
+    <string id="dK2fLdEX" text="本当によろしいですか?"/>
     <string id="dLQDe7mj" text="別の捕虜にしよう"/>
     <string id="dMQ1u6l2" text="別の都市から交易してほしい。"/>
     <string id="dNJLG7O5" text="海を漂流中"/>
     <string id="dPE4A7fO" text="{ENEMY_PARTY_NAME}が港から{MAN_COUNT}人の兵を連れて都市に入った。"/>
     <string id="dPb2Vph3" text="あなたが支援を約束すれば、私の密偵たちが情報をもたらしてくれるだろう…[ib:normal2][if:convo_nonchalant]"/>
-    <string id="dQfha0al" text="ならば{SETTLEMENT_LINK}の領主の命に従うということだな！"/>
-    <string id="dQqR2DXD" text="または{CHANCE}%の確率で："/>
+    <string id="dQfha0al" text="ならば{SETTLEMENT_LINK}の領主の命に従うということだな!"/>
+    <string id="dQqR2DXD" text="または{CHANCE}%の確率で"/>
     <string id="dRKk0E1V" text="残念だが、今すぐ連れて帰ることはできない。"/>
     <string id="dSWtiVLz" text="このバッジは、本作およびコミュニティに貢献したコミュニティメンバーに与えられます。"/>
     <string id="dTpTyUtb" text="補充完了"/>
@@ -2574,6 +2622,7 @@
     <string id="du7l3z5b" text="不屈"/>
     <string id="dykrJl5v" text="{PLAYER.NAME}!何があった?"/>
     <string id="e07rQCcq" text="これは勇敢な戦士たちにとって素晴らしい知らせだ、と言う。きっとデミウールゴスとやらにとっても、良く戦うことより喜ばしいことはないはずだ。"/>
+    <string id="e0iDOkUq" text="グスカン"/>
     <string id="e6lINjFg" text="守備隊は多くの時間を城壁の警備に費やし、その訓練内容も射撃武器に特化していた。"/>
     <string id="e87vsXfI" text="生き延びたければ、私に仕えることだ。"/>
     <string id="e9V1W7nW" text="守備隊に経験値が入る。"/>
@@ -2585,7 +2634,9 @@
     <string id="eGcXbXPy" text="不適切な振る舞い"/>
     <string id="eGizNNNC" text="集落と敵対関係にあるため、入渠を許可されないだろう。"/>
     <string id="eJ3iAJ8U" text="盗賊たちに警報を鳴らされた。野営地は混乱に包まれたが、闇にまぎれて逃げおおせた。距離を取って観察すると、喧騒の野営地は静まり返っていた。統制の取れていない無法者たちはすぐに警戒を解くため、まだ機会が残されていると気付いた。用意ができたら、テウェアに戻って再挑戦できる。"/>
-    <string id="eKy1II3h" text="脱出はできたが、{PRISONER.NAME}が逃走の際にひどい怪我を負った。{?PRISONER.GENDER}彼女{?}彼{\?}を置いていく以外の選択肢はなく、あなたは裏通りへと姿をくらまし、門をこっそりと通り抜けた。{INFORMATION_IF_PRISONER_DEAD}"/>
+    <string id="eJ4MC1KO" text="体当たりした船と士気のダメージ{EFFECT_AMOUNT}%。"/>
+    <string id="eKy1II3h" text="脱出はできたが、{PRISONER.NAME}が逃走の際にひどい怪我を負った。{?PRISONER.GENDER}彼女{?}彼{\?}を置いていく以外の選択肢はなく、自分は裏通りへと姿をくらまし、門をこっそりと通り抜けた。{INFORMATION_IF_PRISONER_DEAD}"/>
+    <string id="eLJ4O0Yl" text="{KINGDOM}は同盟を結ぶ準備ができていない。{newline}{newline}主要因{newline}{REASONS_BY_LINE}"/>
     <string id="eLoZTNYa" text="移動しながら弓を撃つ動作を極める。{newline} {newline}移動中と照準を合わせている際の移動速度が25%増加する{newline}旋回による精度ペナルティが80%減少する{newline}移動による精度ペナルティが80%減少する"/>
     <string id="eMbuGGus" text="編隊に配属させる兵士を選択してください。"/>
     <string id="eMd39oQf" text="徒歩の状態で騎兵と戦う術を極め、騎兵の速度を逆手に取ることができる。{newline} {newline}長槍を装備{newline} {newline}近接武器で乗騎に与えるダメージが100%増加する{newline}近接武器の刺突攻撃によるスピードボーナスダメージが50%増加する"/>
@@ -2593,7 +2644,7 @@
     <string id="eNPupZOp" text="現在、これらの王国は和平交渉できません。"/>
     <string id="eO7p1Q3C" text="検問所"/>
     <string id="eOZbwBg8" text="部隊戦20000キル"/>
-    <string id="eP3tqvKX" text="戦いに来たのだ。オールをしまって降参するか、さもなくば死ね！"/>
+    <string id="eP3tqvKX" text="我々は戦いをしに来た。櫂を上げて降伏しろ、さもなくば死だ!"/>
     <string id="eP8MrIEE" text="部下の一人を狙うのは止めて、「働き馬」は自分たちで見つけるように言い聞かせる。"/>
     <string id="ePstZcmu" text="新兵として迎え入れる。そして、機会あらば彼らの装備の不備を見つけて手荒い懲らしめを与え、改心するように仕向ける。"/>
     <string id="eQLORdgE" text="追加の矢"/>
@@ -2609,6 +2660,7 @@
     <string id="eb0nLx5E" text="アセライ゠スルタン国"/>
     <string id="ebGVm8Ve" text="質の異なるランダムな盾を装備。"/>
     <string id="ebUrBmHK" text="価格"/>
+    <string id="ebUwP3Q3" text="関わらないことにしよう…"/>
     <string id="edlBQoLd" text="小戦で50000キルを達成する。"/>
     <string id="eeIX6loR" text="他に誰も思い当らない。"/>
     <string id="eemYX2d4" text="直ちに倉庫から部隊のほうへと品物を運び出します。"/>
@@ -2620,6 +2672,7 @@
     <string id="ekqHONPb" text="部隊戦4000勝"/>
     <string id="eopAWegQ" text="葉型カイトシールド"/>
     <string id="epB0x816" text="{PLAYER_LITTLE_SISTER.NAME}は{PLAYER.LINK}の妹だ。奴隷として売り払おうと考えた盗賊たちにさらわれてしまった。"/>
+    <string id="epQYhd1A" text="今はヒーローと会話できない"/>
     <string id="erM9uNiZ" text="このバッジは、他のマンハンターを倒したプレイヤーに与えられます。"/>
     <string id="evcKUaab" text="早い雪解けと暖かい春の到来により大豊作となった。村人たちの祈りと、土地の猫がネズミや鳥から守ってくれたおかげだ。これほどの収穫は稀だ。さて、どうしようか?"/>
     <string id="exnL6SS7" text="{TARGET_SETTLEMENT}を攻撃"/>
@@ -2632,12 +2685,13 @@
     <string id="fAaorpa8" text="EA50勝"/>
     <string id="fAnbXffX" text="騎兵の槍"/>
     <string id="fF2BdOy9" text="いま必要な物は特にない。"/>
+    <string id="fFuiV5EZ" text="{KINGDOM}は貿易協定に合意しないだろう。{newline}{newline}主要因{newline}{REASONS_BY_LINE}"/>
     <string id="fI8Bd468" text="遊牧民の家畜を奪い、小作人らの損害の補填とする。"/>
     <string id="fMCKvvCa" text="兵士がランダムに{AMOUNT}人降格"/>
     <string id="fOUsLdZR" text="牧草地"/>
     <string id="fQaPv0Xl" text="私はここに数日滞在する予定です。私が必要な時はお声がけください。"/>
     <string id="fQscCIxs" text="市場で手に入る最良の装備を買い与え、古い装備と交換させる。"/>
-    <string id="fRz2DJf4" text="部隊の編成には{PARTY_COST}{GOLD_ICON}かかります。よろしいですか？"/>
+    <string id="fRz2DJf4" text="部隊の編成には{PARTY_COST}{GOLD_ICON}かかります。よろしいですか?"/>
     <string id="fT57TeqJ" text="お前はもう自分の仕事に戻るのだ。俺たちは二度と会う必要はない。"/>
     <string id="fUaihaa7" text="友軍の軍旗アイコンを常に表示する"/>
     <string id="fV2FfLWq" text="毎日、建設+{BONUS_AMOUNT}"/>
@@ -2648,27 +2702,31 @@
     <string id="femaleinfant" text="幼児"/>
     <string id="femaleteenager" text="若者"/>
     <string id="ffJrKMFm" text="新兵たちに城壁の基礎部分を集中的に掘らせ、壁を破る。新兵なら替えが利く。"/>
+    <string id="fgyvzyB5" text="陸上での積載量超過"/>
     <string id="fhjyEgld" text="兵たちの準備が普段より遅れているため、休息を取りながら市場の様子を眺めていた。すると、ある一人の物売りに目が留まった。彼は地元の農民から買い取る品物と、販売する品物とで異なる量りを用いていた。その量りのどちらか、あるいは両方が不正なものであり、彼が顧客を騙しているのではないか、そんな疑念が脳裏をよぎった。"/>
     <string id="fiesVorG" text="的外れの復讐"/>
     <string id="fjWw8D1x" text="村の外れで、兵が数頭の鹿を見つけた。肉や皮が貴重なこの土地では珍しいことだ。村の住人によると、今年はドングリが珍しく豊富だったが、盗賊を恐れて例年通りの狩りができなかったという。鹿はたくさんいるだろうし、畑を踏み荒らしているので、何頭か仕留めてはどうかと誘われている。"/>
     <string id="fkQj3TIP" text="誇り高き戦士である遊牧民が、こんな土を掘るだけの人間のことなど気にする必要はないと伝え、彼らと食事を共にして隊に入ってくれる者がいるか試してみる。"/>
-    <string id="fqBRonK9" text="我々もまた勝利の度に死者から略奪の限りを尽くしている者ではなかろうか？兵たちには、「生者に対して行われた不道徳」にこそ怒りを向けるべきだと伝える。"/>
+    <string id="foC3qNav" text="漕力{EFFECT_AMOUNT}%"/>
+    <string id="fqBRonK9" text="我々もまた勝利の度に死者から略奪の限りを尽くしている者ではなかろうか? 兵たちには、「生者に対して行われた不道徳」にこそ怒りを向けるべきだと伝える。"/>
     <string id="fsb5EEbg" text="シーサーペント"/>
     <string id="fwbD1Jqo" text="購入"/>
     <string id="fxfInKgI" text="その食料を貪り食って舌鼓を打ちながら、このような良い食事が配給される部下たちは幸運だと言う。"/>
     <string id="fyJ6aDOQ" text="至極当然の怒りを爆発させ、今後誰も装備の手入れを疎かにしないよう、厳罰を与える。"/>
     <string id="fzxdjq8G" text="草原地帯の上質な弓"/>
     <string id="g1op0Thi" text="下船中"/>
-    <string id="g2b93XVr" text="港を突破"/>
+    <string id="g2b93XVr" text="港から突破する"/>
     <string id="g31pXuqi" text="オアシスの農夫"/>
     <string id="g4BnT9UP" text="パーティー・キル"/>
+    <string id="g6IpxVat" text="北方の両手メイス"/>
     <string id="gAjvAGTa" text="裏路地の無法者集団とつるんでいた。"/>
     <string id="gFixGQsr" text="自部隊が水上にいる間は、部隊を軍隊に招集できない。"/>
     <string id="gLVaQeAL" text="もらっておこう。手に入るものは何でも必要だ。"/>
     <string id="gNiQcEa9" text="このバッジはマルチプレイヤーアルファ、およびベータ期間中に、不具合や問題点の発見に著しく貢献してくれたコミュニティメンバーに与えられます。"/>
     <string id="gQ2tAvCz" text="農夫"/>
-    <string id="gQigaCkD" text="{RECRUIT}の一人が警備中に居眠りをしてしまった。入隊したばかりで人望のない彼は皆の怒りを買った。居眠りは命を危険にさらすものであり、部下たちは古代カルラディア式の制裁を彼に与えさせてほしいと要求している。それは棒で殴りかかってくる兵士たちの間を走らせるという、死に至ることも多い試練だ。"/>
+    <string id="gQigaCkD" text="{RECRUIT}の一人が警備中に居眠りをしてしまった。入隊したばかりで人望のない彼は皆の怒りを買った。居眠りは命を危険にさらすものであり、兵たちは古代カルラディア式の制裁を彼に与えさせてほしいと要求している。棒で殴りかかってくる兵たちの列の間を走り抜けるという、しばしば死に至る神明裁判だ。"/>
     <string id="gQtU8qqy" text="盾に対して効果的な斧を装備する。"/>
+    <string id="gR0ksbaQ" text="身支度をしてくれ。私はお前に戻ってきてほしいと思っている。"/>
     <string id="gT2O4YXc" text="それでは一人で出かけます。忙しくても大丈夫です。でも、一つ借りがあることは忘れませんよ!"/>
     <string id="gUKUisS6" text="名誉に関わる問題"/>
     <string id="gWfIlSn5" text="部隊戦6000勝"/>
@@ -2679,7 +2737,7 @@
     <string id="gdUE1h39" text="交易協定の締結を討議する ({SUPPORT}%の支持率)"/>
     <string id="gdi8TAMM" text="兵たちが略奪を始めると、武器を手にした村人が次々と集まってきた。奮起して我々を攻撃しようとしているようだ。"/>
     <string id="gejYla80" text="{CULTURE}の捕虜-{AMOUNT}"/>
-    <string id="gf2Lje7o" text="{RULER.NAME}は、{CALLED_KINGDOM}からの {KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請しないと決定"/>
+    <string id="gf2Lje7o" text="{RULER.NAME}は、{CALLED_KINGDOM}に対して{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請しないと決定"/>
     <string id="gfQdYnsR" text="雄羊"/>
     <string id="gfmU4wiM" text="{INQUIRY_COMPANION.LINK}という名の{?INQUIRY_COMPANION.GENDER}女{?}男{\?}が、うちの酒場にいる。話してみたらどうだ?"/>
     <string id="ggpRTQQl" text="部隊の指揮官"/>
@@ -2695,9 +2753,11 @@
     <string id="h0HC4a7q" text="ノックダウン可能な長柄武器の突き攻撃のノックダウン耐性貫通+{VALUE}%"/>
     <string id="h2KnarLL" text="騎兵の訓練に参加した"/>
     <string id="h3obZWO0" text="崖"/>
+    <string id="h3yEHb4U" text="{ATTACKER}を助ける"/>
     <string id="h4Pt3aX9" text="ヴランディアの下士官は、いうなれば殺戮のコツを掴んだ一般人である。彼らの多くはかつて傭兵団に所属した経験があり、領主から領主へと渡り歩いている。その粘り強さと確かな実力は、カルラディア中で知られている。彼らはヴランディアの軍隊における「槌と鉄床」の「鉄床」である。無論、槌は騎士を指している事は言うまでもない。"/>
     <string id="h5Oj84Wu" text="攻撃され傷つくと怒りを爆発させる。接近戦で傷を負う度に受けるダメージが減少し、与えるダメージが増加する。{newline} {newline}ヒットポイントを20失うごとに、与えるダメージが7%増加 {newline}ヒットポイントを20失うごとに、受ける接近戦ダメージが7%減少する"/>
     <string id="h9bWTLgK" text="同盟国の{KINGDOM_NAME}に協力し、参戦する時だ。"/>
+    <string id="hHHEW1HN" text="胸壁"/>
     <string id="hLBLn7Ex" text="小戦で9000回勝利する。"/>
     <string id="hNwjpCVP" text="フェルト{@Plural}巻のフェルトの反物{\@}"/>
     <string id="hPmawJUs" text="できるだけ素早く忍び込む({SNEAK_CHANCE}%)"/>
@@ -2706,23 +2766,22 @@
     <string id="hTzTMLsf" text="視界"/>
     <string id="hV8mjFzg" text="部隊戦で100回勝利する。"/>
     <string id="hXentcdy" text="全ての兵士がそれぞれ{CHANCE_PER_UNIT}%の確率で失われる"/>
-    <string id="hXl25avg" text="あなたは家族が雇ってくれた家庭教師の元で大いに学んだ。歴史、数学、哲学の本などを読みあさり、その内容を教師や学友たちと話し合った。"/>
+    <string id="hXl25avg" text="家族が雇ってくれた家庭教師の元で大いに学んだ。歴史、数学、哲学の本などを読みあさり、その内容を教師や学友たちと話し合った。"/>
     <string id="ha2b1k4u" text="狩人としての経験を活かし、乗騎の弱点を突くことで、より多くのダメージを与えることができる。{newline} {newline}トゲのついた矢を装備{newline} {newline}乗騎へのダメージが60%増加する"/>
-    <string id="ha53qb7v" text="命乞いしても無駄だ。お前ら、やっちまえ！"/>
-    <string id="haovqFEg" text="{CHANCE}%の確率で："/>
+    <string id="ha53qb7v" text="命乞いしても無駄だ。お前ら、やっちまえ!"/>
+    <string id="haovqFEg" text="{CHANCE}%の確率で"/>
     <string id="hbwor8e8" text="参戦要請に回答する"/>
     <string id="hewpozXg" text="グノースティコイ"/>
     <string id="hfv9Irc4" text="部隊戦で750回勝利する。"/>
     <string id="hhKDZJeM" text="食料の備蓄上限を増加し、工房の生産性が向上する。"/>
-    <string id="hhU2vxWe" text="敗北しました！"/>
+    <string id="hhU2vxWe" text="敗北しました!"/>
     <string id="hi6L6kTM" text="これは、現在使用されている「{MODULE_NAME} 」モジュールを使用せずに作成されたセーブです。これを読み込むには、そのモジュールを無効にする必要があります。"/>
     <string id="hiby7k7b" text="小戦500勝"/>
     <string id="hin3iA2D" text="馬の世話をしていた。"/>
     <string id="hj27QkT3" text="売るために取っておけと伝える。金は自身の安全のために使うべきだ。"/>
     <string id="hmmoXy0E" text="この工房の所有者は誰だ?"/>
     <string id="hnMUxRyt" text="怒声を孕ませ公然と非難する。彼が食糧の買い占めを企んでいることを人々の耳に入るようにして、自分が慈悲深いという印象が広まるようにする。"/>
-    <string id="hob3WVkU" text="あなたの父は貴族の近習従士団であるドルジーナの一員だった。彼は主の屋敷のテーブルで同席することを許され、財産管理も任されていた。また戦闘でも主の側に立ち、盾の壁の中央を担っていた。"/>
-    <string id="hp4jLl3M" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、戦闘により解放"/>
+    <string id="hob3WVkU" text="父は貴族の近習従士団であるドルジーナ一員だった。彼は主の屋敷のテーブルで同席することを許され、財産管理も任されていた。また戦闘でも主の側に立ち、盾の壁の中央を担っていた。"/>
     <string id="hqUPvnaj" text="毎日のレンガ生産量を増やし、建設と修理の速度を向上させる。"/>
     <string id="hrhDNRa0" text="軍隊が解散し、王国は和平状態になった。"/>
     <string id="hrhvEWP8" text="{PLAYER_MOTHER.NAME}は{PLAYER.LINK}の母だった。彼女は、家族が泊まっていた宿屋が襲撃された時に殺されてしまった。"/>
@@ -2743,6 +2802,7 @@
     <string id="i7k0AXsO" text="なるほど。仕事を終えた後で、改めて話すとしよう。"/>
     <string id="i96KTeph" text="{PRICE}{GOLD_ICON}でこの{SETTLEMENT}を所有する{OWNER_CLAN}に関する情報を売ってやれるぞ。"/>
     <string id="iB2g7XBt" text="その丘を相場で買いとるように求める。"/>
+    <string id="iBPMtWzZ" text="接舷してきた敵からの近接ダメージ{EFFECT_AMOUNT}%"/>
     <string id="iBk2wbn3" text="組織する"/>
     <string id="iBtZMoPG" text="{PRISONER_FACTION_LINK}の{PRISONER_LORD.LINK}が、{CAPTOR_FACTION}により捕縛"/>
     <string id="iDzjO25n" text="クーザイト部族連合に正式に参加していない多くの都市や村は、ハンの軍隊に兵士を提供することを求められている。他の者たちから「暴徒」と呼ばれ、装備も訓練も満足に与えられない彼らは、戦いにおいて、ハン国の精鋭騎兵部隊が救援に来るまでの間、ただただ持ちこたえるべく努める他ない。  "/>
@@ -2753,7 +2813,7 @@
     <string id="iISeUaCU" text="戦士の掟により死ぬことは許されない。受けるダメージへの耐性が強化される。{newline} {newline}小盾を装備{newline} {newline}受けるダメージが10%減少する"/>
     <string id="iJXH3841" text="散開"/>
     <string id="iJz6blun" text="マルチプレイヤーのバナーロードを300時間プレイする。"/>
-    <string id="iKhmpTgq" text="一体何が望みなんだ！邪魔立てするなら、怒りを買うことになるぞ。[ib:warrior][if:convo_contemptuous]"/>
+    <string id="iKhmpTgq" text="一体何が望みなんだ! 邪魔立てするなら、怒りを買うことになるぞ。[ib:warrior][if:convo_contemptuous]"/>
     <string id="iOmgCFDI" text="{KINGDOM_NAME}との同盟締結に対する投票"/>
     <string id="iPbtrFzF" text="AMD FidelityFX™ Super Resolutionを有効にします。"/>
     <string id="iPvn6Cdi" text="バッタニアの貴族の子息で土地を持たない者は、しばしば「フィアンナ」として知られる戦闘集団に加入し、冒険を求めて旅立つ。多くの者は森で暮らし、有名なバッタニアのロングボウで狩りを行うが、必要に応じて鎧を身に着け、隊列を組み、戦闘に参加する事もできる。"/>
@@ -2776,14 +2836,12 @@
     <string id="iiwhVNBb" text="敵の守備隊の巧妙な手法に感心する。いかに縄や隠し扉で要塞から抜け出しているのか観察して、そのやり口を学ぶ。"/>
     <string id="ikd2TZyJ" text="800時間"/>
     <string id="ikgIt1df" text="1日ごとの、周辺の村の暖炉の数ごとの税収+{BONUS_AMOUNT_PERCENT}%"/>
-    <string id="in4yx4zk" text="衝角攻撃による士気と船体へのダメージ+{EFFECT_AMOUNT}%"/>
     <string id="ipLqVv1f" text="君主の部隊は軍隊に勧誘できない。"/>
     <string id="ipQP6aVi" text="傭兵"/>
     <string id="iqRCAb6f" text="歩兵に対する長柄武器での突き攻撃のノックバック耐性無視+{VALUE}%"/>
     <string id="iqYXn1Us" text="私は多くの良き友に恵まれ、あなたもその一人であることを嬉しく思う。しかし、あなたを支援するためには{SUPPORTED_CLAN}を見捨てないといけない。これは私にとって大きな犠牲だ。ただし、それに見合う報酬を渡してくれるのであれば、支援を差し上げよう。{AMOUNT}{GOLD_ICON}で損失は賄えるはずだ。"/>
     <string id="iqaRjMhe" text="黒く染めたブーツ"/>
-    <string id="irLNaJ3m" text="兵士たちにはしっかりと掻きむしるように伝え、行軍を続けさせる。"/>
-    <string id="itWQvC3o" text="もちろんだ。"/>
+    <string id="irLNaJ3m" text="行軍を続けさせる。兵たちにはしっかり掻きむしれよと言う。"/>
     <string id="itoYrj8d" text="各自判断で射撃"/>
     <string id="iuAMSSTY" text="狂人"/>
     <string id="ivKl4mV2" text="父は地元の土地を所有する貴族に信頼されていた副官だった。彼は領主の騎兵と共に馬を駆り、武装した槍騎兵として戦った。"/>
@@ -2800,8 +2858,10 @@
     <string id="jB4tmY9W" text="村を離れようとすると、生後数ヶ月の赤子を抱いた若い女がその親族たちを引き連れ近づいてくる。女は兵の一人を指差し、彼が父親であり、ここに留まって自分と結婚するべきだと主張した。屈強だが口下手なその兵は、動揺のあまり言葉を失っている。1年前にこの村を訪れたかどうか、はっきりと思い出せない。"/>
     <string id="jCdZY3i4" text="{PERK_NAME} ({SKILL_LEVEL} - {SKILL})"/>
     <string id="jE9aKaYd" text="貴族の元召使いの言うことなら皆が信じるだろう。この男の申し出は銀貨一袋分の価値がある。"/>
+    <string id="jEAMXTa6" text="医学スキルを敵の犠牲者にも適用し、捕虜にしやすくする"/>
     <string id="jGIw0Xku" text="{HERO.NAME}は虜囚の身から脱出し、現在療養中だ。"/>
     <string id="jGafCYMe" text="最近、領地の{VILLAGE}の小作人たちが、稼ぎを増やすために、籠を編むための葦を求めて{VILLAGE2}への道中にある湿地へ行くようになった。しかし、{LORD.NAME}の領地である{VILLAGE2}の猟師たちは、それが水鳥を怯えさせていると言う。自分も{LORD.NAME}もその湿地の権利を持っていないが、{VILLAGE2}の者は自分たちが先に利用していたと主張する。一方で小作人たちは、資源の有効活用する方法を見つけただけで自分たちは悪くないと反論している。"/>
+    <string id="jKWJpIES" text="{JOIN_ENCOUNTER_TEXT}…"/>
     <string id="jKYWiUZA" text="乗騎をより機動力に優れた、頑丈な馬と置き換える。速度では劣るが、激突時に大きなダメージを与えられる。"/>
     <string id="jL7XgaP3" text="主要部隊の賃金"/>
     <string id="jON8A2UY" text="狩りの素人を大勢引き連れて行けば、獲物に警戒されるどころか怪我人が出てしまうかもしれない。斥候に1、2頭の獲物を狩らせる程度にして、本隊は先へ進ませよう。"/>
@@ -2814,11 +2874,11 @@
     <string id="ja2rER65" text="テスト用のランス"/>
     <string id="jaioXYDc" text="{RULER.NAME}は、{?RULER.GENDER}{?}{\?}評議会の支持下で{KINGDOM_NAME}との同盟締結に反対"/>
     <string id="jaiwriZc" text="率いる軍隊が村の襲撃に成功した。"/>
-    <string id="jcEoUPCB" text="あなたは変装中だ。"/>
+    <string id="jcEoUPCB" text="変装中だ。"/>
     <string id="jdOu5l5D" text="補強された木の葉形の尖った盾"/>
     <string id="jeWayyGY" text="猶予を与えるのは可い。だが、不幸話に絆されたくはないので少々の利子をつける。"/>
     <string id="jf8luKVV" text="屈強な"/>
-    <string id="jfKTahGa" text="商品が欲しいんならこの船ごと奪うしかないぞ、忌々しい海賊め！[rf: idle_angry][ib: aggressive]"/>
+    <string id="jfKTahGa" text="商品が欲しいんならこの船ごと奪うしかないぞ、忌々しい海賊め![rf: idle_angry][ib: aggressive]"/>
     <string id="jfbrvp9f" text="河川上の戦闘{newline}• 軽量船に大きく有利{newline}• 重量船に大きく不利{newline}"/>
     <string id="jk3I7cqY" text="硬化革の鎧"/>
     <string id="jlU2MmaO" text="食料不足により軍隊は解散した。"/>
@@ -2827,7 +2887,7 @@
     <string id="jneqTrQz" text="軍隊への召集Gamescom 2020"/>
     <string id="joCSXAQQ" text="優れた斥候が手元にいれば、もっと速く行軍できるのだがな。"/>
     <string id="joN8ZeJ6" text="車輪型柄頭"/>
-    <string id="joRHKCkm" text="あなたの家族は、対象を隣の都市まで隊商を先導できる、信頼できる人物を必要としていた。あなたは物資をまとめ、盗賊たちを遠ざけるための見張りを常に怠らず、無事に隊商を目的地へ送り届けた。"/>
+    <string id="joRHKCkm" text="家族は、対象を隣の都市まで隊商を先導できる、信頼できる人物を必要としていた。自分は物資をまとめ、盗賊たちを遠ざけるための見張りを常に怠らず、無事に隊商を目的地へ送り届けた。"/>
     <string id="jpc34Myp" text="十分な補給を受け消費効率を極めることによりリロード速度が速くなる。{newline} {newline}より多くの矢を装備{newline} {newline}リロード速度が25%増加する"/>
     <string id="jqb0q3Gp" text="この都市は協力者がいるので、変装して用件を済ませられる。"/>
     <string id="jqbTUIwm" text="小戦闘の強者Gamescom 2020"/>
@@ -2861,14 +2921,16 @@
     <string id="kg9YtrOg" text="家族は、バッタニアの民にとって尊敬の対象である鍛冶屋を営んでいた。幾何学模様の細線細工の宝飾品から、バッタニア貴族ご用達の均整の取れた長い剣まで、あらゆるものを作っていた。"/>
     <string id="kghCLS9q" text="ゼオニカは、ワイン・穀物・馬で有名な地であるイルタリア丘陵のふもとの海辺に位置する。その名は帝国の数少ない女君主であるゼオナ婦人に由来している。ただし彼女は実際に女帝となり統治したわけではなく、息子の摂政として統治していた。この地に吹く強風はゼオニカの風という名でよく知られている。夏になると、ぺラッシア海を越える北への風が、ナハサ砂漠の焼け付くような熱気を帝国の南部へと運んでくるのだ。この時以外の季節の気候は穏やかであり、その気候の差は情熱の移ろいやすさの比喩として詩人たちにたびたび用いられた。"/>
     <string id="khb5YDgN" text="難易度のプリセットを選択してください。"/>
+    <string id="kkzKtP78" text="クロスボウとの併用不可"/>
     <string id="kl13BJZB" text="有料道路"/>
     <string id="klVc5afL" text="報奨金の半分を放棄することを条件に行かせる。"/>
     <string id="kmM68Qx4" text="リーダーシップ"/>
+    <string id="knayk28P" text="陸上での行軍が遅くなる。気をつけよう。"/>
     <string id="kntd1zYo" text="速やかにトンネルを掘らせる。服従しないものは全員処刑すると脅す。"/>
     <string id="ko852qPg" text="狩人としての経験を活かし、乗騎の弱点を突くことで、より多くのダメージを与えることができる。{newline} {newline}強力なボルトを装備{newline} {newline}乗騎へのダメージが60%増加する"/>
-    <string id="krTrNonp" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、虜囚の身から脱出"/>
     <string id="krsbwYax" text="{?PLAYER.GENDER}ご婦人{?}閣下{\?}、準備ができたらテウェアで私たちを見つけてください。"/>
     <string id="ksRC6ZmC" text="よし。じゃあ道を開けて、風を遮らないようにしてくれ。"/>
+    <string id="ku2DXiY9" text="乗員の遠距離攻撃の精度{EFFECT_AMOUNT}%"/>
     <string id="kuweQPQz" text="同盟の打診"/>
     <string id="kw6AUzv1" text="部隊戦で70000キルを達成する。"/>
     <string id="l2Qy5kbg" text="行く手を阻むあらゆる物や人を切り伏せる{newline} {newline}近接武器による斬ダメージが17%増加する"/>
@@ -2880,16 +2942,17 @@
     <string id="lCHii7V0" text="説得の成功率を決定します。"/>
     <string id="lCumAw9j" text="通常の攻め方に頼る。"/>
     <string id="lD5Ob3R4" text="下品な素行からか、賭け事でイカサマをしたのか、あるいは危険な連中と飲んでいる最中、相手がカッとなる物言いをしていたのか、よほど口が達者であるか、逃げ足が速かったりでもしなければ生きて帰れないような揉め事に巻き込まれた。"/>
+    <string id="lDIz0nEY" text="最近の戦争"/>
     <string id="lF6dauOB" text="クランメンバーが戦闘に死ぬ可能性を決めます。"/>
     <string id="lFBFO2JE" text="小戦6000勝"/>
-    <string id="lFaBQPxk" text="あなたの部下の{CULTURE_NAME}人の兵士たちが、敵の{CULTURE_NAME}人の{CULTURE_BURIAL_STYLE}を望んでいる。たとえ彼ら道を誤っていたとしても、同胞としての義務を感じるのだと言っている。"/>
+    <string id="lFaBQPxk" text="部隊の{CULTURE_NAME}人の兵たちが、{CULTURE_NAME}人の敵に対して{CULTURE_BURIAL_STYLE}を望んでいる。たとえ彼らが道を誤っていたとしても、同胞としての義務を感じるのだと言っている。"/>
     <string id="lIGdkJGm" text="アイテムの選択数は{NUMBER}個未満だ"/>
-    <string id="lJiEsNiQ" text="訓練場を後にして数時間後、あなたは木の下で横たわっている傷ついた男に出会った。水を分け与え、出来るかぎりの手当てを施してやると、彼は自分が旅の途中の医者であると言った。感謝のしるしに、小さな青銅の細工品を手渡した。彼の言うところによると、以前とある戦士から治療費の代わりに渡されたもので、その戦士は『ネレゼースの愚行』に関わりがあるとしか言わなかったという。彼は遺物には大変な価値があるかもしれないと考えているようだ。気になったあなたはさらに調べてみることにした。"/>
+    <string id="lJ28AH1a" text="このオプションは、ランチャー上で Fast Mode モジュールの有効・無効を切り替え、新規開始する場合にのみ変更できます。"/>
+    <string id="lJiEsNiQ" text="訓練場を後にして数時間後、木の下で横たわっている傷ついた男に出会った。水を分け与え、出来るかぎりの手当てを施してやると、彼は自分が旅の途中の医者であると言った。感謝のしるしに、小さな青銅の細工品を手渡した。彼の言うところによると、以前とある戦士から治療費の代わりに渡されたもので、その戦士は『ネレゼースの愚行』に関わりがあるとしか言わなかったという。彼は遺物には大変な価値があるかもしれないと考えているようだ。気になったので、さらに調べてみることにした。"/>
     <string id="lKdJbwYz" text="馬上で戦う術を極める。より大きなダメージを与えられるヘビーランスを装備。{newline} {newline}ヘビーランスを装備{newline} {newline}騎乗中の貫通攻撃のスピードボーナスが15%増加する"/>
     <string id="lLgpdKmz" text="小戦8000キル"/>
     <string id="lPAC4x1e" text="そのような怪しい誘いには関わるな、と部下たちに伝える。"/>
     <string id="lQTHNi5P" text="族長"/>
-    <string id="lR2L56ht" text="村の長老は要求に難色を示した。村人が反抗するかもしれないと言う。そうなれば、{KINGDOM}との戦争になる可能性がある。"/>
     <string id="lSnejlxB" text="今は国の議決に参加できない。"/>
     <string id="lUjCslGK" text="煙たくて申し訳ない、{?PLAYER.GENDER}ご婦人{?}閣下{\?}。窯の熱を保たねばならないのです。どのようなご用件でしょうか?"/>
     <string id="lVbQCibL" text="ああ。この兵士たちを連れて行け。"/>
@@ -2897,6 +2960,7 @@
     <string id="lVnw8K2N" text="ある男が鍛冶場で手を潰してしまった。"/>
     <string id="lWOTWQdF" text="{SETTLEMENT}の周辺の村の暖炉の数が{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="lWl3W0do" text="中綿入りの鎧"/>
+    <string id="la6R4xaY" text="敵対勢力との戦況"/>
     <string id="lbS9uHyp" text="{AMOUNT}%の兵が負傷{NEWLINE}全ての兵がそれぞれ{DEATH_CHANCE}%の確率で死亡"/>
     <string id="lbSsRg8w" text="たとえ自らの健康のためであっても、部下たちは酒宴の制限を嫌がるだろう。注意を促す程度に留め、それ以上のことはしないでおく。"/>
     <string id="lbkaoPk6" text="シーカ"/>
@@ -2910,6 +2974,7 @@
     <string id="lm37mXGH" text="兵たちを呼び戻し、都市の守りが手薄なうちに略奪させる。"/>
     <string id="lnF2ci30" text="商人の落ち度だと伝える。既に金を受け取ったのなら責任は商人側にある。"/>
     <string id="loPT6GUc" text="遠隔攻撃に対して効果的で防御も容易なパヴィースシールドを装備する。"/>
+    <string id="loPnK14T" text="{HIGHEST_TACTICS_SKILLED_MEMBER}は部隊で最も高い{HIGHEST_TACTICS_SKILL}の戦術スキルを持っており、野に散って敵から逃れる計画を示した。自分と兵の多くは撤退できるだろうが、{NEEEDED_MEN_COUNT}人前後が失われ、物資の一部も敵の手に落ちるかもしれない。"/>
     <string id="lobJVVWT" text="何も起きない"/>
     <string id="lr2UaD9m" text="水上戦"/>
     <string id="lrysxcAE" text="わずかな鉛ぐらいでは害になるわけがない! すべて試して利益を{TROOP.NAME}と山分けしよう。"/>
@@ -2929,13 +2994,14 @@
     <string id="mBkCqpEj" text="望む方法で同志の仇を取ってよい、と部下に伝える。"/>
     <string id="mCaUvnSa" text="兵士が付いてきています。"/>
     <string id="mDU16Bih" text="汚れ仕事は農民に任せきり。彼らの働きに対して報酬を支払う代わりに、全てのキルが自分の手柄となる。{newline} {newline}自分のキルをアシストした味方が、20ゴールド獲得"/>
-    <string id="mEHIBbBy" text="攻撃者逃亡！"/>
+    <string id="mEHIBbBy" text="攻撃者逃亡!"/>
     <string id="mEqk8UCG" text="この地域にはもっと人が必要だ。噂の流れるままにしておこう。"/>
     <string id="mEsaiLOR" text="いいでしょう。まだ捕虜がいるならば、いつでも訪ねてきてください。"/>
     <string id="mFTTWH03" text="私なら、沈黙と影に紛れて気づかれずに通り過ぎることができるだろう。"/>
     <string id="mG4oq1vb" text="沖の戦い{newline}{newline}• 大型船に大きく有利{newline}• 小型船に大きく不利{newline}"/>
     <string id="mGy1EcUd" text="雄牛"/>
     <string id="mP3uFbcq" text="自警団を率いて略奪を食い止めた"/>
+    <string id="mQuaMNVb" text="部隊の戦闘経験地{EFFECT_AMOUNT}%"/>
     <string id="mQzjI3GL" text="ターゲットとなるプレイヤーが、まだシンクロしていません。少し時間をおいてから、再度お試しください。"/>
     <string id="mTTWkewD" text="渡す"/>
     <string id="mUIew6a6" text="昇り網"/>
@@ -2951,15 +3017,16 @@
     <string id="maleteenager" text="若者"/>
     <string id="maptrack" text="足跡"/>
     <string id="mbIhGIcV" text="徒歩の状態で騎兵と戦う術を極め、騎兵の速度を逆手に取ることができる。{newline} {newline}近接武器で乗騎に与えるダメージが75%増加する{newline}近接武器の刺突攻撃によるスピードボーナスダメージが50%増加する"/>
+    <string id="mbRvqDhY" text="ヴァショルキ"/>
     <string id="mc78FEbA" text="ボヤールの随臣たち"/>
     <string id="mdJapWRd" text="わかった… 君はただの乞食じゃないような気がする。ほら、もし君が必要とするなら、しばらく身を隠して人目につかないように手伝ってあげるよ。"/>
     <string id="mddRd5Qe" text="小戦250キル"/>
     <string id="medMGVme" text="このバッジは、アーリーアクセスで250試合勝利したプレイヤーに与えられます。"/>
     <string id="mezu0Pej" text="リンゴがあることを村人に知らせる。"/>
-    <string id="mmlk2tXh" text="娯楽の時間だ！芸人たちに向かってひと掴みの銀貨を投げ、部下たちには最高の催し物を見せるよう伝える。"/>
+    <string id="mmlk2tXh" text="娯楽の時間だ! 芸人たちに向かってひと掴みの銀貨を投げ、部下たちには最高の催し物を見せるよう伝える。"/>
     <string id="mp68RYnD" text="部隊規模の上限"/>
     <string id="msK9baMp" text="カニキアの財宝"/>
-    <string id="mufyAigI" text="あなたは投票の要請を送り過ぎました！"/>
+    <string id="mufyAigI" text="あなたは投票の要請を送り過ぎました!"/>
     <string id="muu5cofb" text="都市の住民"/>
     <string id="n0ynsBPx" text="見張りに見つかり、見張りは仲間の盗賊に警告を発した。兵士を集める間もなく、盗賊は姿を隠した。"/>
     <string id="n2mOvIPt" text="部下たちの良心に訴えかける。監督には慈悲を見せてやるように願い、立場を利用しないよう頼み込む。"/>
@@ -2993,13 +3060,13 @@
     <string id="neMCgMZM" text="地元の長老によって一族の長の使者に選ばれた。さほど大きな責任を伴う仕事は与えられず、伝令や馬の世話が中心だったが、作戦の計画や戦場の布陣を見る機会に恵まれた。"/>
     <string id="nfMWzDbw" text="静かにしろ! 俺が道を切り開く。"/>
     <string id="ngFVgwDD" text="奴隷戦士"/>
-    <string id="ngazFofr" text="あなたはいつも動物に魅了され、時間の許すかぎり、村の家畜小屋で過ごしていた。馬をなだめる事が特に上手く、生まれたばかりの仔馬の調教をも頼まれることがあった。この頃に身につけた獣医の技術の基礎の多くは、そのまま人間にも応用できる知識だった。"/>
+    <string id="ngazFofr" text="自分はいつも動物に魅了され、時間の許すかぎり、村の家畜小屋で過ごしていた。馬をなだめる事が特に上手く、生まれたばかりの仔馬の調教をも頼まれることがあった。この頃に身につけた獣医の技術の基礎の多くは、そのまま人間にも応用できる知識だった。"/>
     <string id="ngtErswq" text="部隊戦で1500回勝利する。"/>
     <string id="nhSLTzHk" text="先に済まさないといけない用事がある。"/>
     <string id="nhmBQIC4" text="オクス゠ハルは帝国から土地を奪った後に築かれた数少ないヴランディア王国の都市である。この渓谷は巨人の座った地と伝わるカルデラ湖スィン゠モドリスの中心にあり、かつては周囲から隔絶されたバッタニア人の定住地であった。ヴランディアの将軍オカがこの地を征服し、彼は近くにある湖にもオクスプールという自身にちなんだ名を与えた。バッタニアの部族は奥地へと追いやられ、彼らの言い伝えも共にこの地を去っていった。"/>
     <string id="nhoDWrVf" text="MPテスト用2h剣"/>
     <string id="ni1m6VDh" text="{AMOUNT}人の兵が死亡した。"/>
-    <string id="nkvT88r2" text="{CALLED_KINGDOM}に{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対する参戦を要請する資金が足りない"/>
+    <string id="nkvT88r2" text="{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対する参戦を{CALLED_KINGDOM}に要請する資金が足りない"/>
     <string id="nm2XK1pt" text="{TROOP.NAME}{AMOUNT}人が{UPGRADED_TROOP.NAME}にアップグレードする"/>
     <string id="nmLZEjYg" text="MPテスト用2hメイス"/>
     <string id="nnXbWJBo" text="部隊戦で50000キルを達成する。"/>
@@ -3011,7 +3078,6 @@
     <string id="ntDH7J3H" text="この行動を行うと{NEEDED_GOLD_TO_GRANT_FIEF}{GOLD_ICON}および{NEEDED_INFLUENCE_TO_GRANT_FIEF}{INFLUENCE_ICON}が消費されます。また{COMPANION.NAME}に{SETTLEMENT}が与えられます。"/>
     <string id="nuqL3OAF" text="領地を離れようとしたところ、とある口論に出くわした。夏の草地から冬の草地へと毎年移動する遊牧民の一団が、家畜の群れを小作人の畑で放牧していたらしい。部隊の兵は遊牧民よりも数が多く、小作人たちは遊牧民を懲らしめるよう要求しているが、そうすればもちろん後でその仲間たちから報復される可能性がある。"/>
     <string id="nwJPPIvn" text="私が捕虜にされた時、身代金は払えるか?"/>
-    <string id="nwoa1z37" text="付けられた船の船員のヒットポイント+{EFFECT_AMOUNT}。"/>
     <string id="nyZpbVbv" text="兵たちは自分のことを誇りに思っている。あるいは誇り過ぎているかもしれない。都市を訪れるたびに、戦場での自分の豪胆っぷりを、彼らは誇張して広めているのだ。熱意のある新兵の獲得に役立つかもしれないが、まるで野獣か悪魔でも見たかのように、恐れや不信の目で見られることも増えてきている。"/>
     <string id="nzHUV2oZ" text="標的の弱点を熟知しているため、追加ダメージを与えることができる。ヘッドショットは特に強力{newline} {newline}飛び道具のダメージが15%増加する{newline}ヘッドショットによる追加ダメージが5%増加する"/>
     <string id="o2g6Wi9K" text="望みのままに。兵をいくらか連れていきましょうか?"/>
@@ -3029,7 +3095,6 @@
     <string id="oJHTNWlw" text="部隊戦で8000回勝利する。"/>
     <string id="oL1qlaxH" text="たとえ彼が聞きたくない話だとしても、昇進の懸念事を説明し、決断は本人に任せる。"/>
     <string id="oMbOIPc9" text="散兵として戦った"/>
-    <string id="oNLlVbrF" text="シーホース"/>
     <string id="oQjsShmH" text="捕虜"/>
     <string id="oQmuxCSk" text="その娘には、結婚とは感情ではなく理性で決めるものだと丁寧に説明し、駆け落ちなどせず、自分の将来と生まれてくる子供のことをよく考えるよう諭す。"/>
     <string id="oR58iNDz" text="都市の軍隊は、多くの時間を城壁の警備に費やしている。その訓練内容は射撃武器を使うものが大半だった。"/>
@@ -3039,16 +3104,18 @@
     <string id="oZSZ3cJc" text="部隊戦で300000キルを達成する。"/>
     <string id="oa4XFhve" text="{VILLAGE_NAME}の村へ向かう"/>
     <string id="ocNWAQsu" text="{CALLED_KINGDOM}による、{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦要請は期限切れ"/>
-    <string id="ocsX04bn" text="「勇敢なる戦士たちよ！我こそが諸君らを富で潤す河川なりッ！」。"/>
+    <string id="ocsX04bn" text="「勇敢なる戦士たちよ、私は諸君らを富で潤す大河だ!」"/>
     <string id="of45b3tL" text="ヴァリャーグは北から来た最高の傭兵や冒険家から選ばれた者達で、スタルジア王子直属部隊である。護衛としての任に就く彼らは、カルラディア全土で見ても最高の重装歩兵部隊の一つと言えるだろう。"/>
     <string id="ogP9E5Hx" text="豪華な晩餐と極上のワインで監査官をもてなしながら、情理を尽くして説明する。"/>
     <string id="ojBJ3aTO" text="任務放棄"/>
     <string id="ok8lSW6M" text="青年期"/>
+    <string id="opVqBNLh" text="効果"/>
+    <string id="oqO9kjeW" text="処刑は{COUNT}のクランとの関係を損ねる。"/>
     <string id="otVPaR6T" text="現在、手の空いている仲間がいません。"/>
     <string id="oxBlBLWF" text="クーザイトの村の周辺にいる鹿は、異常に人間に対し警戒心を示さないことに気付いた。兵の一人がなんとか鹿を射止めると、村人たちがやってきて、その鹿を食べないでくれと懇願する。彼らによると、数年前にシャーマンをしていた者が鹿に姿を変じたままなのだという。兵が死なせた鹿がシャーマンなのかは分からないが、念のため、正式な葬儀を執り行いたいらしい。"/>
     <string id="oxLBMh0W" text="小戦キル"/>
     <string id="p06HSYkq" text="スペシャリスト"/>
-    <string id="p09odFwA" text="よう！自分たちはただの漁師だ。争うつもりはない。"/>
+    <string id="p09odFwA" text="よう! 自分たちはただの漁師だ。争うつもりはない。"/>
     <string id="p0C3WfHE" text="集落に向かっている。"/>
     <string id="p0gqO74k" text="資金に余裕はなく、過去にはもっと酷いものを食べてきた。兵士たちにはそれが味付けだと思って我慢するよう伝える。"/>
     <string id="p2KIhGbE" text="都市の鍛冶屋"/>
@@ -3071,23 +3138,23 @@
     <string id="pHXMp2bR" text="そうか。なら帆を揚げてここから発つよ。"/>
     <string id="pI8Ak491" text="自然で過ごした時間が異常なまでに自身を強化し、投擲でさらなるダメージを与える。{newline} {newline}ピルムを装備{newline} {newline}投擲ダメージが20%増加する"/>
     <string id="pJGFNLOz" text="血への渇望"/>
-    <string id="pM9GOxrV" text="負傷しているので、忍び込むことはできません！"/>
+    <string id="pM9GOxrV" text="負傷しているので、忍び込むことはできません!"/>
     <string id="pNVKWAKo" text="{VILLAGE}を訪ねると、年長の{TROOP_TYPE}が塞ぎ込んで元気のない様子を見せていた。行軍を始めると、彼は唐突に歩を止め、道端の屋台をにらみつけたかと思うと、隊列から外れて屋台の店主に怒鳴り始めたのだ。事情はすぐに明らかになった。かつて彼は帝国のレギオンに所属し{NEAREST_OTHER_CULTURE}と戦っていたらしい。その店主が売っている金属のがらくたが、明らかに戦死者の墓を荒らして得たものだったのである。"/>
     <string id="pPoySQPy" text="自分に反射したダメージ: {REFLECTED_DAMAGE}"/>
     <string id="pRsCnGoo" text="もはやあなたの奉仕は必要ない。"/>
     <string id="pS3PKbYB" text="敵の守備隊の10%が死亡した"/>
+    <string id="pV1LM0aE" text="献上金の受け取り"/>
     <string id="pWSgSp4l" text="今の世の中の状況を踏まえれば、十分安全と言えるだろう。"/>
     <string id="pWyRg13f" text="交易協定"/>
-    <string id="pX0MgdZA" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、身代金と引き換えに{CAPTURER_FACTION}から解放"/>
     <string id="pYaOSh9v" text="部隊戦で6000回勝利する。"/>
     <string id="patrolPartyName" text="{SETTLEMENT}の巡回部隊"/>
-    <string id="pawoTBr8" text="負傷兵が{AMOUNT}人回復しました。"/>
+    <string id="pawoTBr8" text="{AMOUNT}人の負傷兵が回復した"/>
     <string id="pbHXtJ82" text="オモールはラコニス湖の東岸に位置している。ストゥルギヤ人が大公国を作り上げるよりもはるか以前には、この地は森に住む部族にとっての聖地であった。彼らは近くの森の聖なる樫の木に宿る神々と先祖たちを崇拝していたのだ。今はこの地は、毛皮を取る罠師とイルカラの原野を東へ向かって開拓する木こりたちにとってのエンポリーウムとなっており、人々が交易に勤しむ音、のこぎりを引く音、そして湖に荷を下ろす船の音によって、太古から森に存在していた平穏はかき消されてしまった。"/>
     <string id="pblXb1ae" text="鎧を着た相手に有効なメイスを装備する。"/>
     <string id="pcy8IXDf" text="{RULER.NAME}{?RULER.GENDER}女王{?}王{\?}"/>
     <string id="pebUiIkT" text="隠密用の装備"/>
     <string id="pgXuyHxH" text="編隊指揮官のパークスキル"/>
-    <string id="phavdGYA" text="確かなのか？"/>
+    <string id="phavdGYA" text="確かなのか?"/>
     <string id="pin2L6tH" text="賃金上限の超過"/>
     <string id="pjgUeOSa" text="巨大な動物を仕留める術を極め、特に武器を投げるのが得意になる。{newline} {newline}投げ槍を装備{newline} {newline}乗騎への遠隔ダメージが100%増加する"/>
     <string id="pjq5Nkn4" text="斧をより柄が長く、重い物に置き換える。盾に対して特に効果的で、振り攻撃で騎兵を乗騎から叩き落とすことも可能。"/>
@@ -3107,24 +3174,26 @@
     <string id="q9DnHVcZ" text="我々は{KINGDOM_NAME}の争いには関わらない。"/>
     <string id="qAYRvltr" text="小戦10000勝"/>
     <string id="qAbMagWq" text="市場でものを売りさばいた"/>
-    <string id="qBsa5KC5" text="都市を去る道中、旅芸人たちの野営地に遭遇した。そこには破れてはいるものの色彩豊かなテントがあり、哀愁を帯びながらも魅惑的な音楽が聞こえ、安っぽい香と香辛料で誤魔化された、おそらく腐りかけの肉のニオイがしている。貴族が捨てたシルクに身を包む女たちが、炭と羊の血で上手に化粧をし、部下たちを手招きしている。どうするべきだろうか？"/>
+    <string id="qBsa5KC5" text="都市を去る道中、旅芸人たちの野営地に遭遇した。そこには破れてはいるものの色彩豊かなテントがあり、哀愁を帯びながらも魅惑的な音楽が聞こえ、安っぽい香と香辛料で誤魔化された、おそらく腐りかけの肉のニオイがしている。貴族が捨てたシルクに身を包む女たちが、炭と羊の血で上手に化粧をし、部下たちを手招きしている。どうするべきだろうか?"/>
     <string id="qCoqaa70" text="部下たちにできるだけ肌身を覆わせ、行進を続ける。"/>
     <string id="qDKlHRMy" text="部隊戦で5000回勝利する。"/>
     <string id="qFAhDtrw" text="船団が目的地に到着した。"/>
     <string id="qFa4Oik0" text="歩哨の居眠り"/>
     <string id="qFoMsPIf" text="無事に出られて良かった。これからどういたそうか?"/>
-    <string id="qIRQRIQD" text="船隊を開きます。"/>
+    <string id="qGIFpahv" text="すまないが、硬貨の一枚も分けてやれる余裕がない。天の恵みがあることを祈っている。"/>
+    <string id="qIRQRIQD" text="船団を開きます。"/>
     <string id="qLpxrsFX" text="このバッジは、マルチプレイヤーアルファテストに参加したプレイヤーに与えられます。"/>
     <string id="qMCaLtKm" text="{SETTLEMENT}の暖炉数{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="qN3x2usk" text="{CALL_TO_WAR_COST}{GOLD_ICON}を支払い{CALLED_KINGDOM}が{KINGDOM_TO_CALL_TO_WAR_AGAINST}に参戦要請するかどうかに投票する。"/>
-    <string id="qNZFkxJb" text="あなたの家族は王国内の主要都市のひとつに住んでいた商人だった。彼らは隊商を組んで近隣の都市へ出かけたり、地元の商人ギルドで活動したりしていた。"/>
+    <string id="qNZFkxJb" text="家族は王国内の主要都市のひとつに住んでいた商人だった。彼らは隊商を組んで近隣の都市へ出かけたり、地元の商人ギルドで活動したりしていた。"/>
     <string id="qO1cJ3K9" text="防衛する場合の戦闘開始時の戦闘士気 {VALUE}"/>
-    <string id="qPamcCkA" text="あなたは、家族の取り計らいで使節団に同行することになった。さほど大きな責任を伴う仕事は与えられず、武器を携えて威圧的に見せることが主な役目だったが、多くの場所を旅して交流し、世界に触れる機会に恵まれた。"/>
+    <string id="qPamcCkA" text="家族の取り計らいで使節団に同行することになった。さほど大きな責任を伴う仕事は与えられず、武器を携えて威圧的に見せることが主な役目だったが、多くの場所を旅して交流し、世界に触れる機会に恵まれた。"/>
     <string id="qPg3IDiq" text="一家の先祖はクーザイトに征服される以前の時代には東カルラディアの諸都市を牛耳っていたの一人だった。彼らは新しい主人にすばやく適応し、隊商の活動を存続させながら、それまで帝国に納めていた関税をハンへ納めるようになった。"/>
     <string id="qPgpPGUA" text="協定を終わらせたい。"/>
     <string id="qPwxYFQS" text="兵を送って掃討する"/>
     <string id="qRZpuLae" text="苦しむ馬を早く楽にしてやり、世話を怠る者にはもう馬に乗らせないと騎兵に告げる。"/>
     <string id="qSy4Ns1N" text="あなたの求めている条件に見合うかもしれない人物が、今この中で酒を飲んでいる。そいつは{INQUIRY_COMPANION.LINK}を名乗っている。"/>
+    <string id="qWDM0Oa1" text="弓兵の装甲貫通{EFFECT_AMOUNT}"/>
     <string id="qWzBa3KT" text="敵の方を向いている"/>
     <string id="qZctRzJS" text="可動性"/>
     <string id="qaGbN6wX" text="宝物庫にかなりの財産が貯まってきていることを、部下たちは感じ取っている。代表団が訪れ、往時のカルラディア皇帝がレギオンに財産を分け与えたという伝統にならい、今こそ恩賞を授けるべき時だと提案してきた。"/>
@@ -3147,7 +3216,7 @@
     <string id="qyahMgD3" text="隊商 ({A0})"/>
     <string id="qzm0fL63" text="柔軟性がある木で作られ、非常に早く引くことができる長弓を装備する。"/>
     <string id="qzsjGcEz" text="まるで天国の絵のように美しい牧歌的な風景の南ヴランディアには、カルラディア全土で最高の弩兵を訓練する伝統がある。ヴランディアの全土から、彼らは傭兵、あるいは他の弩兵教官として、強く求められており、彼らも自分たちの能力をよく理解していて、あらゆる事象に備えている。突撃してくる騎士であれ、城壁の後ろから矢を放つ長弓兵であれ、狙撃兵たちは難なく討ち取っていく。"/>
-    <string id="r0Kq0aeB" text="{FACTION_LEADER}は、{CALL_TO_WAR_COST}{GOLD_ICON}を支払い{CALLED_KINGDOM}を{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請するかどうかを決定する。この決定に対して自分の立場を表明できる。"/>
+    <string id="r0Kq0aeB" text="{FACTION_LEADER}は、{CALLED_KINGDOM}に対して{CALL_TO_WAR_COST}{GOLD_ICON}を贈り、{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへの参戦を要請するかどうかを決定する。この決定に対して自分の立場を表明できる。"/>
     <string id="r7ZX7QAq" text="攻撃側"/>
     <string id="r88TwVdE" text="弓騎兵はクーザイト連合の主力を担う存在である。連合の各部族は、ハンが進軍するときには、周りに最高の兵士を集めなければならない。そんな彼らは速さと忍耐と狡猾さをもって戦い、敵が壊滅に追い込まれる事を確認するまで、矢を放ち続けるのだ。  "/>
     <string id="r9Wtbayx" text="スリング用の石"/>
@@ -3177,28 +3246,28 @@
     <string id="reoVAtrE" text="商人の公証人"/>
     <string id="rflKyqOT" text="病める者に居場所なし"/>
     <string id="rhfgzKtA" text="{A0}からの献上金"/>
-    <string id="riVJZgSU" text="{CHANCE}%の確率で、負傷兵が{AMOUNT}人回復する"/>
+    <string id="riVJZgSU" text="{CHANCE}%の確率で、{AMOUNT}人の負傷兵が回復する"/>
     <string id="rkQ7D36f" text="部隊内の仲間が管理できる人数を超えている。クエストは取りやめとなった。"/>
     <string id="rl7rSDEk" text="よし。風が味方している今、もう時間を無駄にしたくないからな。"/>
     <string id="rlAec9CM" text="いいだろう。どうか元気で。"/>
-    <string id="rm4ApCIW" text="戦闘を終えると、冷えが厳しくなり、風も強まってきたことに気付いた。行軍を再開し程なくすると、何人かの兵士の足が止まり始めたことに気付く。しかし、皆が寒風に震えており、待つ余裕などない。あなたは、彼らが追いつくことを願いつつ行軍を続けるか、それとも歩調を遅らせるかを選べる。"/>
-    <string id="rmMcwSn8" text="あなたは家族の仕事の手伝いをするため、市場まで買い物に行ったり、隊商の到着を見届けたりした。"/>
+    <string id="rm4ApCIW" text="戦闘を終えると、冷えが厳しくなり、風も強まってきたことに気付いた。行軍を再開し程なくすると、何人かの兵士の足が止まり始めたことに気付く。しかし、皆が寒風に震えており、待つ余裕などない。彼らが追いつくことを祈って行軍を続けるか、それとも歩調を遅らせるかを選べる。"/>
+    <string id="rmMcwSn8" text="家族の仕事の手伝いをするため、市場まで買い物に行ったり、隊商の到着を見届けたりした。"/>
     <string id="rnO8lCtE" text="馬上で戦う術を極める。より大きなダメージを与えられるヘビーランスを装備。{newline} {newline}ヘビーランスを装備{newline} {newline}騎乗中の貫通攻撃のスピードボーナスが33%増加する"/>
     <string id="rnP6wzwy" text="開放水域"/>
     <string id="roTCX8S8" text="{ISSUE_GIVER_1.LINK}が何か仕事を頼む相手を探していた。"/>
     <string id="rpvUQUmq" text="数日間、{FORTRESS_NAME}の城壁を調べていたところ、亀裂のようなものが入っている箇所を発見した。昔の地震が原因かもしれないし、手入れを怠っただけかもしれない。カタパルトでうまく狙うには難しく、掘削するには地中に岩が多すぎる。しかし、兵に槌とつるはしを持たせれば城壁を崩せそうだ。上の胸壁から降り注ぐ矢や岩を恐れずに進んでくれる者がいればの話だが。"/>
     <string id="rshplAOt" text="ふむ。"/>
     <string id="s3HTqoLB" text="マルチプレイヤーでレベル250に到達する。"/>
-    <string id="s5b77f0H" text="軍隊の結束力+{BOOSTAMOUNT}"/>
     <string id="s5qRvBOp" text="弓兵"/>
     <string id="s8DBEakZ" text="{CHANCE}%の確率で、工房の収益{?PERCENTAGE &gt; 0}+{?}-{\?}{ABS(PERCENTAGE)}%"/>
     <string id="s8PNllPN" text="都市を火災から救った"/>
     <string id="sBoVFny0" text="{TOWN}の繁栄{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="sFJfF1Gb" text="グラディウスを、リーチが長く、より大きなダメージを与えるスパタと置き換える。"/>
     <string id="sHkmKS9r" text="部隊戦25キル"/>
-    <string id="sHy7VHbw" text="あなたの手助けにより、村が救われました。"/>
+    <string id="sHy7VHbw" text="救援により村が救われた。"/>
     <string id="sJ9OpLKp" text="{TOWN}の治安{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="sKnYLPkn" text="王"/>
+    <string id="sMCpa5Sk" text="船の移動速度{EFFECT_AMOUNT}%"/>
     <string id="sOARp3Dc" text="盾を装備する。防御が容易になり、特に遠隔ユニットに対して効果的。"/>
     <string id="sPa4O70I" text="ヒットポイント{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}"/>
     <string id="sQA7Z3Pp" text="村から出発する準備をしていると、地元の猟師が近くの木立にある大猪の巣まで案内できると申し出た。その猪は村にとって脅威であり、彼の手に負えないという。すでに猟師の犬が二頭も殺されている。部下たちなら仕留められるだろうし、新鮮な豚肉を手に入れるチャンスだが、危険も伴うだろう。"/>
@@ -3211,16 +3280,16 @@
     <string id="sYFaoW7G" text="ノルド"/>
     <string id="sYcqstOy" text="あまり良くないな。人々は相変わらず日常を過ごしているが、いつどこで悪党に襲われ、持てるものを全て奪われるか分からない。"/>
     <string id="sYuN6hPD" text="カルラディアの王国はどこも、優れた軽騎兵の価値を理解しており、その務めを果たせるだけの能力を持った遊牧民や国境地帯の住民を兵として確保するようにしている。 あなたは隣人たちが金を出し合って、小さなポニーとジャベリンの束を買い与えたほど、良い騎手であった。あなたを差し出すことで彼らは徴兵の義務も果たしたことになるのだ。"/>
-    <string id="sZu7CCsh" text="攻撃船の数"/>
-    <string id="saDoGzvp" text="新しいコンテンツがインストールされました！"/>
+    <string id="sZu7CCsh" text="攻撃側の隻数"/>
+    <string id="saDoGzvp" text="新しいコンテンツがインストールされました!"/>
     <string id="saHvdWSf" text="{KINGDOM}との交易協定に賛成する"/>
-    <string id="satFJMMu" text="カスタムバトルのサーバーが、互換性のないバージョンとなっています。"/>
+    <string id="satFJMMu" text="カスタムバトルのサーバーのバージョンに互換性がありません。"/>
     <string id="sb4gg8Ak" text="自由土地保有者"/>
     <string id="sb9zWc3I" text="結婚を祝って、村人たちに両手いっぱいの硬貨を投げ与え、今日は皆の心に刻まれる日になるだろうと宣言する。"/>
     <string id="sbSdIIXR" text="沿岸水域"/>
     <string id="sbX4fQ0R" text="一人の少年が野営地にやってきて、ラダゴスの一味の残党が{VILLAGE_LINK}に戻り、首長を人質に取ったと告げた。"/>
     <string id="sbczu2VI" text="どうぞ、つづけてくれ。"/>
-    <string id="sbqpaU64" text="{PLAYER.NAME}、ありがとうございます！あなたのおかげで命が助かりました。悪党ども恐怖で縮こまっているでしょう。ここから先は我々で何とかします。もう盗賊は残りわずかです。二度と油断はしません。心から感謝します。"/>
+    <string id="sbqpaU64" text="{PLAYER.NAME}、ありがとうございます! あなたのおかげで命が助かりました。悪党ども恐怖で縮こまっているでしょう。ここから先は我々で何とかします。もう盗賊は残りわずかです。二度と油断はしません。心から感謝します。"/>
     <string id="sbtJb2tL" text="金を賭けることで、さらに多くの報酬を手にできる。倍率は回戦ごとに異なり、毎回{MAX_AMOUNT}{GOLD_ICON}まで賭けられる。"/>
     <string id="sfK8Dkso" text="他人よりも頑丈に生まれ、死ぬのが難しくなる。{newline} {newline}近接攻撃から受けるダメージが20%減少する"/>
     <string id="sfnOdmPN" text="部隊戦30000キル"/>
@@ -3235,7 +3304,7 @@
     <string id="switchToNextElement" text="切り替え"/>
     <string id="sxH5NHba" text="「その通り。そしてこれはメインディッシュの前菜に過ぎない」。"/>
     <string id="sxc2D6NJ" text="私は別の場所を考えています。"/>
-    <string id="sxrBpIUk" text="これまで無暗に人を殺してきたのだろうか？天が悔い改めろと告げている！私は平和の道を選ぶべきだろう。ただし、その道が現れた時にだが…"/>
+    <string id="sxrBpIUk" text="これまで無暗に人を殺してきたのだろうか? 天が悔い改めろと告げている! 私は平和の道を選ぶべきだろう。ただし、その道が現れた時にだが…"/>
     <string id="syGyjjKE" text="{CALLING_KINGDOM}の要請に応え、{KINGDOM_TO_CALL_TO_WAR_AGAINST}に宣戦布告する。"/>
     <string id="t01zXDvG" text="{FACTION}の犯罪率が{?AMOUNT &gt; 0}+{?}-{\?}{ABS(AMOUNT)}{ABS(AMOUNT)}"/>
     <string id="t0iKT1VJ" text="戦場の塵が収まると、負傷者の手当てをする女たちの姿が目に入る。彼女たちは「希望の奉仕者」という托鉢修道女を名乗り、天の慈悲を得るために苦しむ者を助けていると説明した。彼女たちは部隊に数日間同行し、見返りなしで兵士らの傷を癒したいと申し出ている。"/>
@@ -3269,7 +3338,7 @@
     <string id="tbDajRvE" text="長柄武器のような短い斧。腕、肉、士気を切り落とす。"/>
     <string id="tbQZitYG" text="短剣をよりリーチが長く、より大きなダメージを与えられる武器と交換する。"/>
     <string id="tc4DyxaL" text="ええ、売りに来ました。"/>
-    <string id="tcmSIJKj" text="包囲軍が港の封鎖を解いた。"/>
+    <string id="tcmSIJKj" text="攻撃側が港の封鎖を解いた"/>
     <string id="tdvnKIyS" text="気にしないでくれ。"/>
     <string id="te1A19Xe" text="この件は自分で解決するよう、{CAVALRYMAN}に伝える。"/>
     <string id="tfckGAIA" text="出発の準備をしていると、兵の一人がある村人に声をかけられたと言ってきた。都市の外れに気難しい魔女がいて、その男は治療薬や媚薬ではなく、黒魔術で村人を脅して生計を立てているらしい。村人は兵に、呪術師を追い出して住処を焼き払うように依頼された。そして呪術師が不正に得た富は好きにしてよいと言われたという。"/>
@@ -3280,15 +3349,15 @@
     <string id="tiMGuZKv" text="部隊戦60000キル"/>
     <string id="tiw9b4f6" text="馬上から弓を撃つ達人であり、精度が大きく増す。{newline} {newline}狩猟弓と矢を装備{newline}移動による精度ペナルティが40%減少する"/>
     <string id="tixbTdlH" text="封鎖を解除する。"/>
-    <string id="tjamxNtT" text="{LORD.NAME}が軍隊を招集しています。"/>
-    <string id="tm0GQosH" text="反乱はもう終わりだ！"/>
+    <string id="tjamxNtT" text="{LORD.NAME}が軍隊を招集している"/>
+    <string id="tm0GQosH" text="反乱はもう終わりだ!"/>
     <string id="tmLJvPlz" text="土地の判事が紛争を処理し、法と秩序を守る。毎日、影響力と忠誠をもたらす。"/>
-    <string id="toHJ01dX" text="代わりに何が望みだ？"/>
+    <string id="toHJ01dX" text="代わりに何が望みだ?"/>
     <string id="toszqdCj" text="少年があなたを見つけてくれてよかった! あの宿屋での恐ろしい事件の話を伺っております。そして、数名の戦士たちが、あの人殺したちを仕留めようと計画しているとも知っています。あなたもその一人でしょう? 私たちを助けてはくれませんか。"/>
     <string id="townPatrol" text="巡回部隊"/>
     <string id="tpbjS8J8" text="あなたは鎧を着た敵との戦い方を学んだ。{newline}ヘビーメイスを装備{newline}装甲値が4増加する"/>
     <string id="tqh6ydEW" text="では続けてくれ。"/>
-    <string id="trPyg7mr" text="戦闘士気"/>
+    <string id="trPyg7mr" text="士気"/>
     <string id="trR3odix" text="ヴージュを剣・盾・槍のコンボと交換する。より多様な動きが可能となり、防御も増加する。{newline} {newline}剣を装備{newline}盾を装備{newline}槍を装備"/>
     <string id="trainingPatrolParties" text="訓練中"/>
     <string id="trfNdMJ5" text="小戦3000勝"/>
@@ -3302,21 +3371,21 @@
     <string id="tzQxtv27" text="原因不明のエラー。"/>
     <string id="u2QRZy2x" text="MPテスト用の剣"/>
     <string id="u514BSH6" text="嘘を祝うことはできないと伝える。"/>
-    <string id="u7hA8GjU" text="わかった。{CONTINUE_OR_STOP_TRADE_ANSWER}"/>
     <string id="u8j8nN5U" text="敵に対面"/>
     <string id="u8vsd2TF" text="小戦10000キル"/>
     <string id="uC8NaJMZ" text="部隊戦250キル"/>
     <string id="uCJlbbVD" text="ヴージュを、剣と盾に交換する。通常より多くの兵士を従え、より多様な動きが可能となる。防御も増加{newline} {newline}ロングソードを装備{newline}盾を装備{newline}兵士数が2増加"/>
     <string id="uCyQNvq1" text="楔陣"/>
     <string id="uD05twgi" text="村人たちの迷信を無視し、行軍を続けるよう部下に伝える。"/>
+    <string id="uD2pfRAh" text="今すぐ引き返せ! これ以上隊商に近づくなら、物陰からお前を狙っている味方が他にもいることがわかるだろう。"/>
     <string id="uD8su80f" text="資金は他のことに使わねばならないと伝える。"/>
-    <string id="uEeLvYXT" text="「{MODIFIER_KEY}」と「{CLICK_KEY}」を押して和平交渉を行います。"/>
+    <string id="uEeLvYXT" text="「{MODIFIER_KEY}」と「{CLICK_KEY}」を押して交渉を行う"/>
     <string id="uJYOhEx8" text="彼の功績は認めるが、これからも仲間と戦うように伝える。"/>
     <string id="uJceH1Dv" text="スノールソーセージ"/>
     <string id="uJuOTHnb" text="考え直した。さっさと行くがいい。"/>
     <string id="uNLRgURt" text="小戦で100キルを達成する。"/>
     <string id="uO4dxCl8" text="サナラの港は穀物が入ってくる玄関口であり、下ダマルの穀物はそこを通って腹を空かせた人々の元へと届けられた。定期的に帝国が行う南部ペラッシア海への侵攻は大抵、戦略的に価値のあるこの場所の奪取を目標としていた。軍が撤退を余儀なくされてから長い年月が過ぎたが、サナラは今でもカルラディア中でも最も国際的な都市であり、最も安い値を求めて様々な地から商人が押し寄せてくる。"/>
-    <string id="uQbT8RwL" text="海戦{newline}{newline}• 軽量船に大きく有利{newline}• 重量船に大きく不利{newline}"/>
+    <string id="uQbT8RwL" text="水上戦{newline}{newline}• 小型船に大きく有利{newline}• 大型船に大きく不利{newline}"/>
     <string id="uTBqXeKJ" text="遠距離からの歩兵のサポートに有効で、両手持ちのナタ鎌を装備する。振り攻撃で騎兵を乗騎から叩き落とすことも可能。"/>
     <string id="uTfm0blH" text="馬上から射撃できる弓と矢を装備する。"/>
     <string id="uTsdJCSU" text="包囲戦の憂鬱"/>
@@ -3330,10 +3399,11 @@
     <string id="uawXA7zW" text="{YEAR}年{DAY_OF_YEAR}、{NAME}が殺害された"/>
     <string id="ubTGIdcv" text="騎乗中"/>
     <string id="ucHWLtIt" text="毎日、周辺の村の暖炉の数+{BONUS_AMOUNT}"/>
-    <string id="ueCm5y1C" text="あなたの家族は都市に工房を所有し、地方から運ばれてきた材料で商品を作っていた。父は市の評議会においてささいな事でも積極的に役割を果たし、市民兵としても活動していた。"/>
-    <string id="ufahRPOl" text="構うものか。覚悟しろ！"/>
+    <string id="ueCm5y1C" text="自分の家族は都市に工房を所有し、地方から運ばれてきた材料で商品を作っていた。父は市の評議会においてささいな事でも積極的に役割を果たし、市民兵としても活動していた。"/>
+    <string id="ufahRPOl" text="構うものか。覚悟しろ!"/>
     <string id="ufjypmaX" text="指揮官が騎乗していない!"/>
     <string id="ug5E8FCZ" text="あなたの{.%}{WORKSHOP_NAME}{.%}を買いたい。"/>
+    <string id="ugMAk9nb" text="共通の敵の不在"/>
     <string id="uiAjbK8D" text="部隊戦で1000回勝利する。"/>
     <string id="uiY3ds0Z" text="{RULER.NAME}は、評議会の紛糾下で{CALLING_KINGDOM}の要請に応え{KINGDOM_TO_CALL_TO_WAR_AGAINST}に対し宣戦布告"/>
     <string id="uiecQRF7" text="小戦で10キルを達成する。"/>
@@ -3385,29 +3455,30 @@
     <string id="vo7kAlkR" text="王国は交戦中だ"/>
     <string id="vwjs6EjJ" text="総合的に考慮すると、得られる利益は費用や危険に見合っていない。"/>
     <string id="vx4ML2gX" text="{INQUIRY_COMPANION.LINK}の他にも誰かいるのか?"/>
-    <string id="vxYaxWwC" text="彼らはこの近くの廃墟になった邸宅に籠城し、首長を救出しようとするならすぐに喉を掻き切ると脅しています。ですがあなたならきっと救えると思います。密かに潜入して救出いただけませんか？"/>
+    <string id="vxYaxWwC" text="彼らはこの近くの廃墟になった邸宅に籠城し、首長を救出しようとするならすぐに喉を掻き切ると脅しています。ですがあなたならきっと救えると思います。密かに潜入して救出いただけませんか?"/>
     <string id="vxdIEThU" text="海岸へ漂流中"/>
     <string id="vyH9slae" text="{CULTURE}の捕虜-{AMOUNT}"/>
     <string id="vyI2KVKM" text="ブルズアイ"/>
     <string id="vzA2ZJog" text="支払いには応じるが、周囲に聞こえるように、不明瞭な法律を都合よく持ち出すのは泥棒も同然だと言う。"/>
     <string id="vzFoybv0" text="もし彼らの教えが本当なら、人はこの世に生きる意味を自由に選べるということだ。そして、私と共に立つ者は、困窮者の手助けを自らの使命とすべきだと皆に告げる。"/>
     <string id="vzOfEiKx" text="風が収まるまで砂丘の影でしばしやり過ごし、それから慎重に歩を進める。"/>
-    <string id="w1tgTNvK" text="船上兵士の定員"/>
-    <string id="w2TEQq26" text="あなたは常に他人に気を配り、人をやる気にさせるのが得意だった。人の心というものがどう揺れ動くのかを研究し、大人から学んだことを仲間で試したりしていた。"/>
+    <string id="w1tgTNvK" text="船上兵の定員"/>
+    <string id="w2TEQq26" text="自分は常に他人に気を配り、人をやる気にさせるのが得意だった。人の心というものがどう揺れ動くのかを研究し、大人から学んだことを仲間で試したりしていた。"/>
     <string id="w3a39PVT" text="特別手当として一週間分の追加給与を与え、その功績に到底見合う額ではないが、今はこれが最大限の誠意だと伝える。"/>
     <string id="w4yxgY3F" text="やあ。捕虜がいるなら、喜んで買い取らせてもらうよ。"/>
+    <string id="w6E2lb09" text="略奪"/>
     <string id="w6WFuDn0" text="申し訳ない、そんなにお金は持っていないんだ。"/>
     <string id="w7IddF5x" text="ゆっくり歩く"/>
     <string id="w7Q64T2H" text="{PRISONER_LORD.LINK}が、{PRISONER_LORD.LINK}の捕虜となっている間に獄死"/>
     <string id="w8Yzf0F0" text="破壊済"/>
     <string id="w94Fl25I" text="羊から羊毛を取り、まず洗浄して梳きます。次に羊毛繊維を湿らせて圧着。こうして厚く暖かいフェルトが出来上がり、寒さや湿気を防ぐのに役立ちます。"/>
     <string id="wDeUhwkp" text="小戦2000キル"/>
-    <string id="wFtO2y5R" text="{TROOP.NAME}が{AMOUNT}人負傷する"/>
+    <string id="wFtO2y5R" text="{AMOUNT}人の{TROOP.NAME}が負傷"/>
     <string id="wFzAKWMX" text="{CALLED_KINGDOM}に対し、{KINGDOM_TO_CALL_TO_WAR_AGAINST}との戦いへ参戦を要請する"/>
     <string id="wHWD8N3u" text="頑丈な木から作られた長弓で、より遠くまでゆっくりと強く発射する。"/>
     <string id="wIakrAb" text="助けられない理由を説明する。"/>
-    <string id="wIeakrAb" text="助けられないことを商人に説明する。"/>
     <string id="wJ3Nh230" text="城壁の突破は損失に見合わない。"/>
+    <string id="wJbkXP98" text="片手用の武器との併用不可"/>
     <string id="wKMo2CUP" text="ディアトマは聖なる宣託の都市であり、帝国の将軍の手によってラコニス湖を見下ろすドリアティアの神殿の跡に築かれた。ここはパライク人の中でも最北に住む一派である、ドリアティア人にとっての最後の要塞であった。彼らは帝国に反旗を翻したが、最後には打倒されてしまった。伝説によれば、湖の浅瀬まで追い詰められた彼らは疲れ果てても、血に染まった水に溺れるまで戦い続けた。"/>
     <string id="wLozeWS9" text="戦士の昇格"/>
     <string id="wNHqFlDL" text="上官によって帝国のストラテゴスの伝令役に選ばれた。さほど大きな責任を伴う仕事は与えられず、伝令や馬の世話が中心だったが、作戦の計画の立て方や、戦場での布陣を見る機会に恵まれた。"/>
@@ -3419,7 +3490,7 @@
     <string id="wWYyOARQ" text="幸い、この辺りでそんな話は聞いたことがない。"/>
     <string id="wXjmwOZK" text="よく注意してくれ。地平線の陰から誰かに尾行されても気づかないものだ。"/>
     <string id="wZrW5FEB" text="移動中の部隊の移動速度を決定します。"/>
-    <string id="wa9W68Wp" text="{CHANCE}%の確率で以下が発生："/>
+    <string id="wa9W68Wp" text="{CHANCE}%の確率で以下が発生"/>
     <string id="waWOKitN" text="国で長年軍務に奉仕した者たちに国有地を提供する。"/>
     <string id="wakpAZbM" text="すべてのクーザイト人が回避に重点を置いた一撃離脱の戦術をとっているわけではない。重装甲にランスとメイスで武装した最高の騎手の中には、弓騎兵の援護をした後、傷ついた敵の部隊にとどめを刺して回る事に特化している者も存在している。"/>
     <string id="wbxSsKup" text="帝国近衛兵は帝国軍の中から選ばれ、選出された者に高い賃金と、この世で望みうる最高の地位を与える職である。彼らには戦闘能力と責任感の双方で、他の部隊に模範を示すことが期待されている。彼らにとって、何が皇帝の役に立つかはその時になってみなければわからないため、弓術と白兵戦の双方を習熟することが求められる。"/>
@@ -3430,9 +3501,8 @@
     <string id="wiBmTEGi" text="乗騎をより耐久力のある馬に乗り換える。"/>
     <string id="wijL0mTy" text="{FACTION_LEADER}が{KINGDOM_NAME}と同盟するかを決定する。この決定事項に対して、自身の意見を表明できる。"/>
     <string id="wjQCNHTO" text="より操縦しやすい乗騎に切り替わり、全身馬鎧が半馬鎧に変更される。移動速度と操作性が向上する。{newline} {newline}半馬鎧を装備 {newline}より機敏な馬を確保"/>
-    <string id="wjpmx20I" text="自分の問題ではないし、他の商人や汚職役人が関与している可能性は否めない。無視する。"/>
+    <string id="wjpmx20I" text="無視して去る。自分の問題ではないし、他の商人や汚職役人の差し金であるかも分からない。"/>
     <string id="wlVCpQHS" text="土地を二等分させる。"/>
-    <string id="wlhJGG0q" text="{?PRISONER_LORD_HAS_FACTION_LINK}{PRISONER_LORD_FACTION_LINK}の{?}{\?}{PRISONER_LORD.LINK}が、停戦協定により解放"/>
     <string id="wnvUsbSs" text="自分の土地として接収する。近隣の困窮しきった農民を招き寄せ、小作人として搾取的な契約をする。"/>
     <string id="woD234nb" text="アイテムの選択数は{NUMBER}個を超える数が必要だ"/>
     <string id="wqsDfPwv" text="小戦1000キル"/>
@@ -3451,13 +3521,13 @@
     <string id="xEktDm2z" text="仕事のオファー"/>
     <string id="xFmYRCHs" text="見せていただこうか…"/>
     <string id="xH4KUzVS" text="都市を出発しようとすると、馬の一頭が頭を腫らし、鼻血を出していることに気付く。そして、それが何の病気か理解した。この病気は馬だけでなく、人や同じ水飲み場を使った他の動物に伝染する恐れがある。"/>
-    <string id="xJ0FKCtA" text="たとえ部下に迷信深いと冷笑されようが、村人たちに鹿を引き渡す。"/>
+    <string id="xJ0FKCtA" text="村人たちに鹿を引き渡す。だが部下に迷信深さを嘲られるかもしれない。"/>
     <string id="xJUJmrTb" text="あなたがたのような実直な民を助けられるのは、いつでも喜ばしいことだ。"/>
     <string id="xKXcqRJI" text="土地の投資に成功した"/>
     <string id="xKev8i5B" text="{CALLING_KINGDOM_LINK}から{CALLED_KINGDOM_LINK}への、{KINGDOM_TO_CALL_TO_WAR_AGAINST_LINK}との戦いへの参戦要請は期限切れ"/>
     <string id="xO8l2Lg1" text="認証に失敗しました"/>
     <string id="xORjDTal" text="工房に投資を行った"/>
-    <string id="xPhEQgcI" text="移動中、前方で待機している仲間を発見し、挨拶と報告を受けた。{NUMBER}人の兵士と共に向かった任務から帰還したところで、全員あなたの部隊と再合流する準備ができているとのことだ。"/>
+    <string id="xPhEQgcI" text="移動中、前方で待機している仲間を発見し、挨拶と報告を受けた。{NUMBER}人の兵士と共に向かった任務から帰還したところで、部隊と再合流する準備ができているとのことだ。"/>
     <string id="xRK4nurx" text="十分な補給を受け消費効率を極めることによりリロード速度が速くなる。{newline} {newline}ボルトを20本追加で装備する{newline} {newline}リロード速度が25%増加する"/>
     <string id="xSoKTeLL" text="部下たちに茂みからベリーを摘まませる。"/>
     <string id="xSz6m21N" text="こん棒"/>
@@ -3478,25 +3548,26 @@
     <string id="xjhWA6Rv" text="{USE_KEY}で操作"/>
     <string id="xkkI7ejQ" text="辺境の都市ダヌスティカはカルセアの名で知られる網目状の湖と潟を支配している。この都市は長きにわたって、東から来るアセライの王や歴代のダルシーのシャーたちの侵攻から国境を守り続けている。この地に配属された多くの帝国兵たちが、湿度の高い夏や、塩気のある水や、カルセアから来る蚊への不満を壁の落書きに残している。しかし住人は国境を守るという自分たちの役目を誇りに思っており、暑さに音を上げている者をあざ笑っている。"/>
     <string id="xnRtINwH" text="兵士たちは、指揮官なしで戦いを続けるほど士気がない。"/>
-    <string id="xoH5LaY0" text="部下たちの野蛮な行いを叱責し、討ち取った敵を嘲笑うのではなく、敬意を払うように命じる。"/>
-    <string id="xpCdwmlX" text="{HERO.NAME}を部隊リーダーにするにはゴールドが足りません。"/>
-    <string id="xriaEwgN" text="{BAN_EXPIRATION_TIME}まで、ホスティング・サーバーからBANされた状態となります。理由：{BAN_REASON}。"/>
+    <string id="xoH5LaY0" text="部下たちの野蛮な行いを叱責する。倒した敵は嘲笑うものではなく、敬意を払うものだと言う。"/>
+    <string id="xpCdwmlX" text="{HERO.NAME}を部隊のリーダーにするには資金が足りない。"/>
+    <string id="xriaEwgN" text="{BAN_EXPIRATION_TIME}まで、ホスティング・サーバーからBANされた状態となります。{BAN_REASON}。"/>
     <string id="xuad1OP3" text="乗騎を草原で最も持久力のある馬と置き換える。"/>
+    <string id="xxSlIDCW" text="{HERO.NAME}が{?HERO.GENDER}彼女{?}彼{\?}の部隊に加わり命令を待っている。"/>
     <string id="xxVE2bw1" text="道路を補修するが、通行料は徴収しない。"/>
     <string id="y1V6h76s" text="小戦で500キルを達成する。"/>
     <string id="y2M014jI" text="村に仲間を置いていくことはできません。"/>
     <string id="y3gl2ada" text="もっと具体的な形で感謝の気持ちを表すのはどうだ。"/>
-    <string id="y6aBcAFF" text="では、この付近を拠点にしている山賊がいるかどうか知らないか？"/>
-    <string id="y6j1bJTH" text="あなたは地元の鍛冶屋に弟子入りしていた。金属を熱したり、鍛造したりする方法を学び、毎日、腕が痛くなるまで長時間、ハンマーを振るいつづけた。"/>
+    <string id="y6aBcAFF" text="では、この付近を拠点にしている山賊がいるかどうか知らないか?"/>
+    <string id="y6j1bJTH" text="地元の鍛冶屋に弟子入りしていた。金属を熱したり、鍛造したりする方法を学び、毎日、腕が痛くなるまで長時間、ハンマーを振るいつづけた。"/>
     <string id="y8Qucwo8" text="小戦1勝"/>
     <string id="y9sgoggj" text="現在{KINGDOM_NAME}と開戦中であり、和平が成ったとしても交易を始める気はない。"/>
     <string id="yC2vtQdg" text="小戦で2500回勝利する。"/>
     <string id="yD7rL5Nc" text="味方部隊と共に、{TARGET_SETTLEMENT}を防衛中。"/>
     <string id="yDiWi6SO" text="蛮族"/>
     <string id="yFl9N7wz" text="受け取る"/>
-    <string id="yGttYe7g" text="ごきげんよう。この船は{MERCHANT.LINK}が所有しています。我々は{HOMETOWN}の主である{PROTECTOR.LINK}の保護下で航行しています。どのようなご用件でしょうか？[if:convo_normal]"/>
+    <string id="yGttYe7g" text="ごきげんよう。この船は{MERCHANT.LINK}が所有しています。我々は{HOMETOWN}の主である{PROTECTOR.LINK}の保護下で航行しています。どのようなご用件でしょうか?[if:convo_normal]"/>
     <string id="yGvsbUWc" text="罰を受けて命を落とす可能性がある!"/>
-    <string id="yJMpjiP7" text="戦いを終えて再び出発すると、ぽつりぽつりと雨粒が降ってきた。そして次の瞬間、突風が吹き荒れ、砂塵の壁にあなたは飲み込まれる。舞い上がる砂粒が顔を刺すように打ち付け、数歩先すら見通せない。ナーハスの悪名高い砂嵐の中では、簡単に遭難して渇きに倒れるか、砂丘に飲み込まれるのが常だとあなたは知っている。"/>
+    <string id="yJMpjiP7" text="戦いを終えて再び出発すると、ぽつりぽつりと雨粒が降ってきた。そして次の瞬間、突風が吹き荒れ、砂塵の壁に飲み込まれた。舞い上がる砂粒が顔を刺すように打ち付け、数歩先すら見通せない。ナハサの悪名高い砂嵐の中では、簡単に遭難して渇きに倒れるか、砂丘に飲み込まれるのが常だ。"/>
     <string id="yMoBOgxx" text="「貴様が教えてくれ」と言って狂気的な笑い声を上げ、その男に一太刀浴びせて血を流させる。"/>
     <string id="yNWFgFl1" text="この辺りに、最近厄介な盗賊が何人かいる。"/>
     <string id="yOAa139m" text="{PLAYER_NAME}をミュートしました。"/>
@@ -3511,7 +3582,8 @@
     <string id="yUbdUFSC" text="部隊にいる健康な兵士の数が{AMOUNT}より多くないと兵を送れない!"/>
     <string id="yX0bOiCI" text="お前は{SETTLEMENT_LINK}の{?OWNER.GENDER}女領主{?}領主{\?}とその民の敵だ。船を明け渡せ、さもなくば殺す!"/>
     <string id="yXXbY1bb" text="一息ついて昼寝をしようと横になったが、不穏な夢に引き込まれる。夢の中では荒れ狂う海を航海している。波が船首に打ち寄せ、甲板を水しぶきが濡らす。しかし、近寄ってよく見ると海水ではなく、血潮が足元を染めていた。海に目を凝らすと、砕け散る波が、戦で殺めてきた男たちの姿を形作っていた。"/>
-    <string id="yYhX6JQC" text="父はヴランディアの数ある傭兵団の一つに所属していた。仕えていた領主同様に、戦争を好む者たちばかりで構成された一団で、決して平和になじむことはなかった。クロスボウ兵はカルラディア中で高く評価されていた。母は非戦闘員として従軍し、血なまぐさい行軍の跡をあなたの手を引いて歩いていた。"/>
+    <string id="yYhX6JQC" text="父はヴランディアの数ある傭兵団の一つに所属していた。仕えていた領主同様に、戦争を好む者たちばかりで構成された一団で、決して平和になじむことはなかった。クロスボウ兵はカルラディア中で高く評価されていた。母は非戦闘員として従軍し、血なまぐさい行軍の跡をの手を引いて歩いていた。"/>
+    <string id="ybGIoUvT" text="弾薬の樽"/>
     <string id="ybXgaKEv" text="一杯の地元産のワイン"/>
     <string id="ybnqAVbP" text="シラミに寄生されている者の髪と髭を一本残らず剃らせる。"/>
     <string id="ydALXo9b" text="増強"/>
@@ -3519,7 +3591,7 @@
     <string id="ygJkPxyc" text="オドフ市は、夜明けの山々を意味するコヒ゠ロヒニの麓に存在する。デヴセグの最辺境の都市のひとつであり、肩に蛇を這わせていたという神話の暴君アッハーク王がここに居を構えていたのだと噂されている。今現在でも、コヒ゠ロヒニは黒魔法や神秘的な儀式に関わっていると噂されており、よそ者はこの地に寄り付かない。クーザイトの遠征の際に、この都市はハルフィト族の手に落ちた。山の民と婚姻を結んだハルフィトたちは山の民の風習を尊重し、彼らの儀式に参加し、彼らの秘密を守っている。"/>
     <string id="ylqcMuBF" text="部隊の整列が乱れました。"/>
     <string id="yo2NvkQQ" text="{NEEDED_GOLD_TO_GRANT_FIEF}{GOLD_ICON}が必要だ。"/>
-    <string id="yoWl6w1I" text="天が我々の仇を討つだろう、この殺し屋め！"/>
+    <string id="yoWl6w1I" text="天が我々の仇を討つだろう、この殺し屋め!"/>
     <string id="ytBRXqt8" text="ウォストルムはカルラディアの傭兵であるアルカコスにより築かれた。アルカコスは帝国が支配圏を拡大していた時代に、帝国から離脱した指揮官の一人である。帝国が持つ共和制の伝統を再生させようとした他の者とは違い、彼は神王として君臨するという選択をした。彼の王朝は何世代にもわたって続いたが、やがて帝国の兵により打倒され、光背がつけられたアルカコスとその後継者たちの像は全て粉々に破壊された。現在でも、西部と北部出身の帝国元老院議員たちは、この地域の家系の出の者たちが閉鎖的な君主制支持者であると非難している。"/>
     <string id="ytSKeWyX" text="こん棒を、盾に対して効果的な斧と置き換える。"/>
     <string id="ywL1bGlZ" text="参戦要請を受諾する"/>
@@ -3529,14 +3601,13 @@
     <string id="z0yA6wmV" text="その兵士に利子込みで借金をすべて返させる。"/>
     <string id="z15Ux7sh" text="推薦状の保有者については詳しく知らないが良い家柄の出身である、と正直に書く。"/>
     <string id="z3BeN9ro" text="この工房を売りたい。"/>
-    <string id="z3VamNrX" text="兵士を送る"/>
     <string id="z3brrzJ9" text="編み紐のスリング"/>
     <string id="z47FuQ3f" text="角杯に注がれた大麦のビール"/>
     <string id="z4RgNBkq" text="村を出発しようとすると、村の長老が率いる代表団がやって来た。そして整列している{TROOP_TYPE}の一人を指差した。良い戦士だが、内気な男だ。彼は以前この村の農民だったらしい。境界石をめぐる口論で隣人を殺害し、逃亡したのだという。この兵は即座に激しく反論し、「死んだ相手は不正を働いていたから自業自得だ」と主張した。法に照らせば殺人は死刑に値するが、血に対して賠償金で贖うことが慣習で認められている。"/>
     <string id="z4arML8E" text="一切れの鹿の干し肉"/>
     <string id="z6RMWTaA" text="酒場の女中"/>
     <string id="z6vCG954" text="癩病の者たち金と食料を与え、彼らを受け入れてくれる他の都市を探すように伝える。"/>
-    <string id="z7fFBuqt" text="やってみないとわからないだろう。皆の者、進め！"/>
+    <string id="z7fFBuqt" text="やってみないとわからないだろう。皆の者、進め!"/>
     <string id="z9prKkWu" text="ありがとうございます。今すぐ別荘まで案内します。村を襲った際にワインを奪ったので、今なら油断しているでしょう。"/>
     <string id="zDqwzpYf" text="壁を{AMOUNT}箇所破る"/>
     <string id="zEPpgYaf" text="字が読めても農業の助けにはならない。むしろ余計な知恵がついて、命の危険性がある愚か事に手を出すようになるかもしれない。"/>
@@ -3566,7 +3637,8 @@
     <string id="zmS2FpJH" text="歩行と走行の切り替え"/>
     <string id="znDzVxVJ" text="いいえ。"/>
     <string id="zo1UF7fu" text="アセライの熟練兵は部族の戦士の中で最も年長で、経験豊富な者たちだ。奇襲、戦闘、包囲戦などを経て、彼らは生き残るための術と、優れた武器や鎧を略奪する術の両方を学ぶ機会を日常的に得ていた。今や彼らは、時には致死的な矢を射る弓兵であり、またある時には強力な白兵戦闘員でもあるのだ。"/>
-    <string id="zo4DGGk8" text="安全な船の旅を、{PLAYER.NAME}。"/>
+    <string id="zo4DGGk8" text="航海の安全を祈る、{PLAYER.NAME}。"/>
+    <string id="zoX9akov" text="水上では行軍が遅くなる。気をつけよう。"/>
     <string id="zqJpbh3x" text="部隊戦2000勝"/>
     <string id="zrpqSWSh" text="自由農たち"/>
     <string id="zsC2t5Hb" text="衛兵たちと共に訓練した"/>
