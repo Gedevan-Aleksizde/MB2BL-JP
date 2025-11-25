@@ -124,7 +124,7 @@ def main():
 
 
 # TODO: 挙動が非常に不可解. 重複を削除するとかえって動かなくなる? language_data 単位でsanity checkがなされている?
-# <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見. 不具合時の原因切り分けも多少しやすくなる
+# <language>/<Module Names>/<xml> のように module 毎にフォルダを分け, それぞれに language_data.xml を用意すると動くことを発見した. 不具合時の原因切り分けも多少しやすくなる
 # 仕様が変なだけでなく厄介なバグもいくつかありそう
 # TODO: 特殊な制御文字が結構含まれているわりにエンティティ化が必要かどうかが曖昧
 # NOTE: quoteation symbols don't need to be escaped (&quot;) if quoted by another ones
