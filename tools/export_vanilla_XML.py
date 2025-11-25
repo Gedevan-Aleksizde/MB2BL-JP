@@ -23,6 +23,7 @@ modules = [
     "StoryMode",
     "BirthAndDeath",
     "Native",
+    "FastMode",
 ]
 
 parser = argparse.ArgumentParser()
@@ -89,7 +90,7 @@ parser.add_argument(
     action="store_true",
     help="to keep old files in the output folder",
 )
-parser.add_argument("--missing-modulewise", default=False, action="store_true")
+parser.add_argument("--missing-modulewise", default=True, action="store_true")
 parser.add_argument(
     "--filename-sep-version",
     default=None,
@@ -175,6 +176,7 @@ def export_modules(args: argparse.Namespace, run_type: str) -> None:
     d["module"] = d["module"].str.replace("^Hardcoded, ", "", regex=True)
     d["file"] = d["file"].str.replace("^Hardcoded, ", "", regex=True)
     d["file"] = d["file"].str.replace(f"_{args.langsuffix}.xml", ".xml")
+    d.to_csv("あほしね.csv", index=False)
     if args.skip_blank_vanilla:
         d = d.loc[lambda d: d["text"] != ""]
     del pof
@@ -209,7 +211,7 @@ def export_modules(args: argparse.Namespace, run_type: str) -> None:
             )
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
-        x, y, used_id = correct_xml_in_folder_with_count(
+        x, y, used_id = correct_xml_in_folder_with_counting_and_writing(
             d, d_duplication_entries, module, output_dir, run_type, args
         )
         n_change_total += x
@@ -262,7 +264,7 @@ def export_modules(args: argparse.Namespace, run_type: str) -> None:
         write_missings(n_entries_total, d_leftover, output_dir, args)
 
 
-def correct_xml_in_folder_with_count(
+def correct_xml_in_folder_with_counting_and_writing(
     data: pd.DataFrame,
     data_dup: pd.DataFrame,
     module_name: str,
