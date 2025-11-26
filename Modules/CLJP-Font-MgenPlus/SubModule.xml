@@ -17,7 +17,8 @@
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" incompatible="true" />
         <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus2pp" incompatible="true" />
-        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
+        <DependedModuleMetadata id="HarmonyFont" incompatible="true" />
+        <DependedModuleMetadata id="CorrectLocalizationJPText" order="LoadAfterThis" optional="true" />
   	</DependedModuleMetadatas>
     <Xmls>
         <XmlNode>
