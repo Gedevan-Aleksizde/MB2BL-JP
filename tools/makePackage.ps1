@@ -2,7 +2,6 @@ Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-LateMin  # power shel
 Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-GenShin  # power shell is very inconvenient
 Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-MgenPlus  # power shell is very inconvenient
 Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-MgenPlus2pp  # power shell is very inconvenient
-Remove-Item -Force -Recurse Packages/CorrectLocalizationJP-Text  # power shell is very inconvenient
 mkdir -Force Packages/CorrectLocalizationJP-LateMin
 mkdir -Force Packages/CorrectLocalizationJP-GenShin/
 mkdir -Force Packages/CorrectLocalizationJP-MgenPlus
