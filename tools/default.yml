@@ -8,7 +8,7 @@ locale: ja_JP  # language locale name
 iso: 'ja,jpn,ja-ja,ja-jp,jp-jp'
 vanilla_merge_on: string
 how_distinct: context
-base_version: 1.2
+base_version: 1.3
 vanilla_modules:
   - Native
   - SandBoxCore
@@ -32,7 +32,7 @@ keep_redundancies: False
 id_exclude_regex: !
 autoid_digits: 8
 drop_multiplayer: True
-filename_sep_version: 1.2
+filename_sep_version: 1.3
 all_entries: False
 skip_blank_vanilla: True
 how_distinct: all
