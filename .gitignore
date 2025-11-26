@@ -2,8 +2,13 @@ EN/
 test
 Packages/
 BAK/
-Modules/CLJP-Common/ModuleData/*
-!Modules/CLJP-Common/ModuleData/module_strings.xml
+Modules/CLJP-Common/ModuleData/Languages/JP/Native
+Modules/CLJP-Common/ModuleData/Languages/JP/SandBox
+Modules/CLJP-Common/ModuleData/Languages/JP/SandBoxCore
+Modules/CLJP-Common/ModuleData/Languages/JP/StoryMode
+Modules/CLJP-Common/ModuleData/Languages/JP/MultiPlayer
+Modules/CLJP-Common/ModuleData/Languages/JP/CustomBattle
+Modules/CLJP-Common/ModuleData/Languages/JPbad
 Modules/CLJP-Font-GenShinGothic/Assets
 Modules/CLJP-Font-GenShinGothic/AssetSources
 Modules/CLJP-Font-GenShinGothic/RUntimeDataCache
@@ -28,3 +33,4 @@ tmp
 tools/vanilla-id-*.csv
 *.zip
 comparison.xlsx
+.gitignore
