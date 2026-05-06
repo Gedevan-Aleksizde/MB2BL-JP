@@ -6,7 +6,10 @@ You MUST NOT request me the permission for execusion except for the following ru
 
 * You can use uv and .venv. Don't use other Python envionment and break the existing environment.
 * You never change git commit history; you must not use git commit, git push, git pull, git merge, and so on.
+* You can use files and create new files to execute your task only in @AI/tools/ folder. You can create and edit files without permission if you do that in this folder.
 * You MUST NOT change any other non-target files.
+* Don't start to read and translate target file without permission to save to waste tokens.
+
 
 Don't use any slang, jargon, or any other ambiguous wording. Explain your work accurately.
 
@@ -31,3 +34,5 @@ Note that you should change ONLY and ALL msgstr entries. DON'T CHANGE ANY OTHER 
 You have failed the translation many times. Be MUCH MORE CAREFUL that you translate and validate the target text.
 
 You have reported falsely again and again. After translation, You should verify that you does not violate the translation policies.
+
+You don't have to change any entry without the fuzzy flag. It's already translated.
