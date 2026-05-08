@@ -36,3 +36,5 @@ You have failed the translation many times. Be MUCH MORE CAREFUL that you transl
 You have reported falsely again and again. After translation, You should verify that you does not violate the translation policies.
 
 You don't have to change any entry without the fuzzy flag. It's already translated.
+
+You MUST NOT change any entry without the fuzzy flag. It's already translated. How many times do I need to tell you this to make sure you understand?
