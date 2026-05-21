@@ -8,7 +8,7 @@ locale: ja_JP  # language locale name
 iso: 'ja,jpn,ja-ja,ja-jp,jp-jp'
 vanilla_merge_on: string
 how_distinct: context
-base_version: 1.3
+base_version: 1.4
 vanilla_modules:
   - Native
   - SandBoxCore
