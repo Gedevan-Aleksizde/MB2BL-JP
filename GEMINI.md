@@ -4,7 +4,7 @@
 
 You MUST NOT request me the permission for execusion except for the following rules.
 
-* You can use uv and .venv. Don't use other Python envionment and break the existing environment.
+* You can use `uv` command. Don't use other Python envionment and break the existing environment.
 * You never change git commit history; you must not use git commit, git push, git pull, git merge, and so on.
 * You can use files and create new files to execute your task only in @AI/tools/ folder. You can create and edit files without permission if you do that in this folder.
 * You MUST NOT change any other non-target files.
@@ -38,3 +38,5 @@ You have reported falsely again and again. After translation, You should verify 
 You don't have to change any entry without the fuzzy flag. It's already translated.
 
 You MUST NOT change any entry without the fuzzy flag. It's already translated. How many times do I need to tell you this to make sure you understand?
+
+Don't wrapping the text. All field should be in 1 line to git-friendly formatting. 
