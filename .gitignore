@@ -1,3 +1,4 @@
+__pycache__
 EN/
 test
 Packages/
@@ -34,3 +35,4 @@ tools/vanilla-id-*.csv
 *.zip
 comparison.xlsx
 .gitignore
+AI/tools/
