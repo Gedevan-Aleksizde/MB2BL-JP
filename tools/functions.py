@@ -186,6 +186,19 @@ FILTERS: List[dict_name_attr] = [
     ),
     dict(context="Scene.name", xpath=".//Scene[@name]", key="name", xml_name_id=""),
     dict(context="Area.name", xpath=".//Area[@name]", key="name", xml_name_id=""),
+    dict(context="Concept.text", xpath=".//Concept[@text]", key="name", xml_name_id=""),
+    dict(
+        context="Perk.description",
+        xpath=".//Perk[@description]",
+        key="name",
+        xml_name_id="",
+    ),
+    dict(context="Badge.name", xpath=".//Badge[@name]", key="name", xml_name_id=""),
+    dict(context="Section.text", xpath=".//Section[@text]", key="name", xml_path_id=""),
+    dict(
+        context="Category.text", xpath=".//Category[@text]", key="text", xml_path_id=""
+    ),
+    dict(context="Entry.text", xpath=".//Entry[@text]", key="text", xml_path_id=""),
     # Shokuho
     dict(
         context="Religion.fullName",

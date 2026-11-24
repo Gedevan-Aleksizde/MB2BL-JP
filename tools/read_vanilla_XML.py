@@ -178,7 +178,7 @@ def read_xmls(args: argparse.Namespace, how_join="left") -> pd.DataFrame:
     a
     """
     # TODO: 例外的な処理がこんなに複雑になるのはバニラだけ?
-    MULTIPLATERS = [
+    MULTIPLAYERS = [
         ("Native", "std_mpbadges.xml"),
         ("Native", "std_mpcharacters_xml.xml"),
         ("Native", "std_mpclassdivisions_xml.xml"),
@@ -195,7 +195,7 @@ def read_xmls(args: argparse.Namespace, how_join="left") -> pd.DataFrame:
             .joinpath("ModuleData/Languages")
         )
         for fp in dp.joinpath(args.langshort).glob("*.xml"):
-            if not args.drop_multiplayer or (module, fp.name) not in MULTIPLATERS:
+            if not args.drop_multiplayer or (module, fp.name) not in MULTIPLAYERS:
                 xml = ET.parse(fp)
                 if xml.find("strings") is not None:
                     print(f"reading {args.langshort} file: {fp}")
