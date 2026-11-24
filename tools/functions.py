@@ -184,61 +184,92 @@ FILTERS: List[dict_name_attr] = [
         key="description",
         xml_name_id="",
     ),
-    dict(context="Scene.name", xpath=".//Scene[@name]", key="name", xml_name_id=""),
-    dict(context="Area.name", xpath=".//Area[@name]", key="name", xml_name_id=""),
-    dict(context="Concept.text", xpath=".//Concept[@text]", key="name", xml_name_id=""),
+    dict(
+        context="Scene.name",
+        xpath=".//Scene[@name]",
+        key="name",
+        xml_name_id="MultiplayerScenes",
+    ),
+    dict(
+        context="Area.name",
+        xpath=".//Area[@name]",
+        key="name",
+        xml_name_id="Settlements",
+    ),
+    dict(
+        context="Concept.text",
+        xpath=".//Concept[@text]",
+        key="text",
+        xml_name_id="Concepts",
+    ),
     dict(
         context="Perk.description",
         xpath=".//Perk[@description]",
-        key="name",
-        xml_name_id="",
+        key="description",
+        xml_name_id="MPClassDivisions",
     ),
     dict(context="Badge.name", xpath=".//Badge[@name]", key="name", xml_name_id=""),
-    dict(context="Section.text", xpath=".//Section[@text]", key="name", xml_path_id=""),
     dict(
-        context="Category.text", xpath=".//Category[@text]", key="text", xml_path_id=""
+        context="Section.text",
+        xpath=".//Section[@Text]",
+        key="Text",
+        xml_path_id="Credits",
     ),
-    dict(context="Entry.text", xpath=".//Entry[@text]", key="text", xml_path_id=""),
+    dict(
+        context="Category.text",
+        xpath=".//Category[@Text]",
+        key="Text",
+        xml_path_id="Credits",
+    ),
+    dict(
+        context="Entry.text",
+        xpath=".//Entry[@Text]",
+        key="Text",
+        xml_path_id="CreditsLegalConsole",
+    ),
     # Shokuho
     dict(
         context="Religion.fullName",
         xpath=".//Religion[@fullName]",
         key="fullName",
-        xml_name_id="",
+        xml_name_id="Religions",
     ),
     dict(
         context="Religion.adjective",
         xpath=".//Religion[@adjective]",
         key="adjective",
-        xml_name_id="",
+        xml_name_id="Religions",
     ),
     # 以下はBanner Kings独自実装のスキーマ
     dict(
-        context="duchy.name", xpath=".//duchy[@name][@id]", key="name", xml_name_id=""
+        context="duchy.name",
+        xpath=".//duchy[@name][@id]",
+        key="name",
+        xml_name_id="Duchy",
     ),
     dict(
         context="duchy.fullName",
         xpath=".//duchy[@fullName][@id]",
         key="fullName",
-        xml_name_id="",
+        xml_name_id="Duchy",
     ),
     dict(
         context="WorkshopType.name",
         xpath=".//WorkshopType[@name][@id]",
         key="name",
-        xml_name_id="",
+        xml_name_id="Workshops",
     ),
     dict(
         context="WorkshopType.jobname",
         xpath=".//WorkshopType[@jobname][@id]",
         key="jobname",
-        xml_name_id="",
+        xml_name_id="Workshops",
     ),
     dict(
         context="WorkshopType",
         xpath=".//WorkshopType[@description][@id]",
         key="description",
-        xml_name_id="",
+        xml_name_id="Workshops",
     ),
     dict(
         context="string.title",
@@ -260,7 +291,10 @@ FILTERS: List[dict_name_attr] = [
         xml_name_id="",
     ),
     dict(
-        context="string.text", xpath=".//string[@text][@id]", key="text", xml_name_id=""
+        context="string.text",
+        xpath=".//string[@text][@id]",
+        key="text",
+        xml_name_id="GameText",
     ),
     # TODO: Custom Spawn API
     dict(
