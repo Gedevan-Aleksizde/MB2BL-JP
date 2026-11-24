@@ -213,19 +213,19 @@ FILTERS: List[dict_name_attr] = [
         context="Section.text",
         xpath=".//Section[@Text]",
         key="Text",
-        xml_path_id="Credits",
+        xml_name_id="Credits",
     ),
     dict(
         context="Category.text",
         xpath=".//Category[@Text]",
         key="Text",
-        xml_path_id="Credits",
+        xml_name_id="Credits",
     ),
     dict(
         context="Entry.text",
         xpath=".//Entry[@Text]",
         key="Text",
-        xml_path_id="CreditsLegalConsole",
+        xml_name_id="CreditsLegalConsole",
     ),
     # Shokuho
     dict(

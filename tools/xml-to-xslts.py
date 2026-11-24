@@ -8,6 +8,8 @@ import pandas as pd
 import lxml.etree as ET
 from typing import Iterable, List, Tuple
 import argparse
+import hashlib
+import re
 from functions import FILTERS
 
 parser = argparse.ArgumentParser()
@@ -54,19 +56,12 @@ def output_translation_file(
     """
     言語ファイルを生成して書き込む
     """
-    xml_header = f'''<?xml version='1.0' encoding='UTF-8'?>
-<base>
-    <tags>
-        <tag language="{lang_name}"/>
-    </tags>
-    <strings>'''
-    xml_footer = '''   </strings>
-</base>'''
-    with fp.open('w', encoding='utf-8') as f:
-        f.write(f'''{xml_header}\n''')
-        for _, r in data.iterrows():
-            f.write(f'''\t<string id="{r[col_loc_id]}" text="{r[col_text]}" />\n''')
-        f.write(xml_footer)
+    root = ET.Element('base')
+    ET.SubElement(ET.SubElement(root, 'tags'), 'tag', language=lang_name)
+    strings = ET.SubElement(root, 'strings')
+    for _, row in data.drop_duplicates([col_loc_id]).iterrows():
+        ET.SubElement(strings, 'string', id=row[col_loc_id], text=row[col_text])
+    ET.ElementTree(root).write(str(fp), encoding='utf-8', xml_declaration=True, pretty_print=True)
     return True
 
 def output_language_files(lang_dir: Path, fname: str = 'language_data.xml') -> bool:
@@ -75,7 +70,7 @@ def output_language_files(lang_dir: Path, fname: str = 'language_data.xml') -> b
     """
     lang_data_header = '''<?xml version='1.0' encoding='UTF-8'?>
 <LanguageData id="English">
-    <LanguageFile xml_path="EN/strings-EN.xml"/>
+    <LanguageFile xml_path="EN/strings_EN.xml"/>
 </LanguageData>
 '''
     fp = lang_dir.joinpath(fname)
@@ -94,16 +89,16 @@ def output_submodule(
     """
     xml_header = """<?xml version="1.0" encoding="UTF-8"?>
 <Module>
-	<Name value="<MODULE NAME HERE>"/>
-	<Id value="<MODULE ID HERE>"/>
+	<Name value="MODULE NAME HERE"/>
+	<Id value="MODULE ID HERE"/>
 	<Version value="v1.0.0" />
 	<DefaultModule value="false"/>
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
 	<Official value="false"/>
 	<DependedModuleMetadatas>
-		<DependedModuleMetadata id="<DEPNDING MODULE ID HERE>" order="LoadBeforeThis" />
-		<DependedModuleMetadata id="<OTHER OPTIONAL MODULE ID HERE>" order="LoadBeforeThis" optional="true" />
+		<DependedModuleMetadata id="DEPENDING MODULE ID HERE" order="LoadBeforeThis" />
+		<DependedModuleMetadata id="OTHER OPTIONAL MODULE ID HERE" order="LoadBeforeThis" optional="true" />
 	</DependedModuleMetadatas>
 	<Xmls>"""
     xml_footer = """    </Xmls>
@@ -143,13 +138,19 @@ def xsl_format_strings(
     """
     テキストの置換用XSLコードを返す
     """
-    return f'''<xsl:template match="{xpath_str}[@id='{object_id}']/@{attrib_name}"><xsl:attribute name="{attrib_name}">{{={loc_id}}}{text}</xsl:attribute></xsl:template>'''
+    ns = 'http://www.w3.org/1999/XSL/Transform'
+    # xpath_str is the actual node path, including nested elements and nodes
+    # without an object ID. XmlName routing is independent of this path.
+    template = ET.Element(f'{{{ns}}}template', nsmap={'xsl': ns}, match=f'{xpath_str}/@{attrib_name}')
+    ET.SubElement(template, f'{{{ns}}}attribute', name=attrib_name).text = f'{{={loc_id}}}{text}'
+    return ET.tostring(template, encoding='unicode')
 
 
 def is_in_language_dir(file_path: Path, module_dir: Path) -> bool:
     language_dir = get_language_folder(module_dir)
     try:
-        flag = file_path.relative_to(language_dir).parts[0].lower() != 'anguages'
+        file_path.relative_to(language_dir)
+        flag = True
     except ValueError:
         flag = False
     return flag
@@ -172,37 +173,40 @@ def extract_entries_to_translate(file_path: Path) -> pd.DataFrame:
     """
     xml = ET.parse(file_path)
     xml_root = xml.getroot()
-    ds: List[pd.DataFrame] = []
+    rows = []
+    seen = set()
     for params in FILTERS:
-        d_xmls = (
-            pd.DataFrame(
-                [(x.attrib.get('id'), x.attrib.get(params['key'])) for x in xml_root.xpath(params['xpath'])], columns=['id', 'text']
-            )
-            .assign(
-                loc_id = lambda d: d['text'].str.replace(r'^\{=(.+?)\}(.+?)$', r'\1', regex=True),  #???
-                name = lambda d: d['text'].str.replace(r'^\{=(.+?)\}(.+?)$', r'\2', regex=True)
-            )
-        )
-        d_xmls = d_xmls.assign(
-            context=params['context'],
-            xpath=params['xpath'],
-            xml_name_id=params['xml_name_id'],
-            xml_path_to_output=f'''{params['xml_name_id']}/{params['xpath'].split('[')[0][2:].split('.')[0].strip('/')}'''  # TODO
-        )
-        d_xmls = d_xmls.assign(
-            # text_with_id=lambda d: [f'''{{={r['loc_id']}}}{r['name']}''' for i, r in d.iterrows()],
-            xslt=lambda d: [
-                xsl_format_strings(
-                    r['xml_path_to_output'],
-                    params['key'],
-                    r['id'],
-                    r['loc_id'],
-                    r['name']
-                ) for i, r in d.iterrows()
-            ]
-        )
-        ds += [d_xmls]
-    return pd.concat(ds)
+        for element in xml_root.xpath(params['xpath']):
+            attribute = params['key']
+            if (element, attribute) in seen:
+                continue
+            seen.add((element, attribute))
+            value = element.attrib[attribute]
+            match = re.match(r'^\{=([^}]+)\}(.*)$', value, re.S)
+            if match and match[1] in ('!', '*'):
+                continue
+            node_path = xml.getpath(element)
+            identifier = match[1] if match else hashlib.sha256(
+                (node_path + '/' + attribute + '/' + value).encode('utf-8')).hexdigest()[:12]
+            name = match[2] if match else value
+            route = params['xml_name_id'] or xml_root.tag
+            if params['context'] == 'Scene.name':
+                route = xml_root.tag
+            # A value predicate prevents templates with identical node paths
+            # from rewriting unrelated entries in another source file.
+            if "'" not in value:
+                literal = "'" + value + "'"
+            elif '"' not in value:
+                literal = '"' + value + '"'
+            else:
+                literal = 'concat(' + ', "\'", '.join("'" + part + "'" for part in value.split("'")) + ')'
+            target_path = node_path + f'[@{attribute}={literal}]'
+            rows.append(dict(id=element.get('id'), text=value, loc_id=identifier, name=name,
+                context=params['context'], xpath=params['xpath'], xml_name_id=route,
+                xml_path_to_output=target_path,
+                xslt=xsl_format_strings(target_path, attribute, element.get('id'), identifier, name)))
+    return pd.DataFrame(rows, columns=['id', 'text', 'loc_id', 'name', 'context', 'xpath',
+                                      'xml_name_id', 'xml_path_to_output', 'xslt'])
 
 
 def main(module_dir: Path, output_dir: Path) -> bool:
