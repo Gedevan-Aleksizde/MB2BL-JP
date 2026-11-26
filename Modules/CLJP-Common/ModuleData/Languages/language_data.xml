@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<LanguageData id="English" under_development="false">
-  <LanguageFile xml_path="JP/Native/std_global_strings_xml_jpn.xml"/>
+<?xml version='1.0' encoding='utf-8'?>
+<LanguageData id="English" name="English" subtitle_extension="jp" under_development="false">
+  <LanguageFile xml_path="JP/Native/english-overrides-jp.xml"/>
 </LanguageData>
