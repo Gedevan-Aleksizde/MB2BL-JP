@@ -634,24 +634,45 @@ def extract_elements_from_xslt(xml: ET.Element, param: dict_name_attr) -> ET.Ele
     )
 
 
-def main(arguments: argparse.Namespace):
-    module_data_dir = arguments.mb2dir.joinpath(
-        f"Modules/{arguments.target_module}/ModuleData"
-    )
-    module_data_dir = module_data_dir.resolve()
-    if not module_data_dir.exists():
-        globs = list(
-            arguments.mo2dir.resolve()
-            .expanduser()
-            .glob(f"*/{arguments.target_module}/ModuleData")
+def find_module_data_dir(mb2dir: Path, mo2dir: Path, target_module: str) -> Path:
+    """Prefer the installed module, then the first valid MO2 package by name."""
+    if not target_module or target_module in (".", "..") or any(
+        character in target_module for character in ("/", "\\", ":")
+    ):
+        raise ValueError("target_module must be a module folder name, not a path")
+    installed = mb2dir.expanduser().resolve() / "Modules" / target_module / "ModuleData"
+    if installed.is_dir():
+        return installed
+
+    mo2_root = mo2dir.expanduser().resolve()
+    matched = []
+    if mo2_root.is_dir():
+        for package in sorted(mo2_root.iterdir(), key=lambda path: (path.name.casefold(), path.name)):
+            if not package.is_dir():
+                continue
+            # Enumerate names rather than interpreting module names as glob patterns.
+            for module in sorted(package.iterdir(), key=lambda path: (path.name.casefold(), path.name)):
+                if module.name != target_module or not module.is_dir():
+                    continue
+                matched.append(module)
+                candidate = module / "ModuleData"
+                if candidate.is_dir():
+                    candidate = candidate.resolve()
+                    print(f"Using MO2 module data: {candidate}")
+                    return candidate
+    if matched:
+        locations = ", ".join(str(path) for path in matched)
+        raise FileNotFoundError(
+            f"Module '{target_module}' was found in MO2, but no ModuleData directory exists: {locations}"
         )
-        if len(globs) > 0:
-            module_data_dir = globs[0]
-            warnings.warn(
-                f"""{arguments.target_module} not found in MB2 directory, load files from {module_data_dir} instead."""
-            )
-        else:
-            raise (f"""{module_data_dir} not found!""")
+    raise FileNotFoundError(
+        f"Module '{target_module}' was not found in the installed modules or MO2. "
+        f"Checked: {installed.parent}; {mo2_root}"
+    )
+
+
+def main(arguments: argparse.Namespace):
+    module_data_dir = find_module_data_dir(arguments.mb2dir, arguments.mo2dir, arguments.target_module)
     d_mod = extract_all_text_from_xml(module_data_dir, arguments.verbose)
     n = d_mod.shape[0]
     print(f"""---- {n} entries detected from this mod ----""")

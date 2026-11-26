@@ -92,6 +92,7 @@ def export_catalog(args, run_type):
             global_overrides.append((identifier, text))
 
     files = {}
+    empty_manifests = set()
     for module in args.modules:
         directory = (args.output / f'CL{args.langshort}-Common/ModuleData/Languages' / args.langfolder_output / module
                      if run_type == 'module' else args.output / module / 'ModuleData/Languages' / args.langfolder_output)
@@ -107,12 +108,23 @@ def export_catalog(args, run_type):
             if functions.is_file():
                 files[directory / args.functions] = functions.read_bytes()
                 references.append('/'.join([args.langfolder_output] + ([module] if run_type == 'module' else []) + [args.functions]))
-        # Write an empty manifest too: old XML files must stop being referenced
-        # when a module no longer has any translations to export.
-        files[directory / 'language_data.xml'] = xml_bytes(language_data(args.langid, references, args.subtitleext, args.iso))
+        manifest = directory / 'language_data.xml'
+        if references:
+            files[manifest] = xml_bytes(
+                language_data(args.langid, references, args.subtitleext, args.iso)
+            )
+        else:
+            empty_manifests.add(manifest)
         if args.langalias and run_type == 'module':
             alias = args.output / f'CL{args.langshort}-Common/ModuleData/Languages' / (args.langfolder_output + '2') / module
-            files[alias / 'language_data.xml'] = xml_bytes(language_data(args.langalias, references, args.subtitleext, args.iso))
+            if references:
+                files[alias / 'language_data.xml'] = xml_bytes(
+                    language_data(
+                        args.langalias, references, args.subtitleext, args.iso
+                    )
+                )
+            else:
+                empty_manifests.add(alias / 'language_data.xml')
     if run_type == 'module' and not args.no_english_overwriting:
         language_root = args.output / f'CL{args.langshort}-Common/ModuleData/Languages'
         references = []
@@ -120,10 +132,19 @@ def export_catalog(args, run_type):
             relative = f'{args.langfolder_output}/Native/english-overrides-{args.subtitleext}.xml'
             files[language_root / relative] = xml_bytes(strings_xml('English', sorted(global_overrides)))
             references.append(relative)
-        files[language_root / 'language_data.xml'] = xml_bytes(language_data('English', references))
+        if references:
+            files[language_root / 'language_data.xml'] = xml_bytes(
+                language_data('English', references)
+            )
+        else:
+            empty_manifests.add(language_root / 'language_data.xml')
     # Build and validate everything before writing any output files.
     for path, data in files.items():
         ET.fromstring(data)
+    # Remove obsolete manifests instead of keeping stale references or writing
+    # empty language definitions. Do not remove translation files or folders.
+    for path in empty_manifests:
+        path.unlink(missing_ok=True)
     for path, data in files.items():
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(data)
