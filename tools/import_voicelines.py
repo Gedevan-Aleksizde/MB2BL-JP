@@ -30,7 +30,9 @@ def main() -> int:
     po_name = args.po if args.po is not None else Path(f"{args.folder}.po")
     po_path = MODS_DIR / args.folder / po_name
     try:
-        root = resolve_source_module(args.folder, MODULES_DIR, args.mo2dir)
+        root = resolve_source_module(
+            args.folder, MODULES_DIR, args.mo2dir, po_path=po_path
+        )
         files, entries = export_po(root, po_path)
     except (OSError, ValueError, UnicodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

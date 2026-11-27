@@ -52,20 +52,60 @@ def context_parts(entry):
     return module, tag, attribute
 
 
-def export_catalog(args, run_type):
-    catalog = polib.pofile(str(args.input), encoding='utf-8-sig')
+def load_vanilla_translations(args):
+    """Read export baselines and the first Japanese translation for each ID."""
+    original = {}
+    japanese = {}
+    modules_dir = (args.mb2dir / 'Modules').resolve()
+    for module in dict.fromkeys([*MODULES, *args.modules]):
+        module_dir = modules_dir / module
+        if not (module_dir / 'ModuleData').is_dir():
+            continue
+        _, jp_entries = language_records(
+            module, module_dir, modules_dir, 'JP', '日本語'
+        )
+        for record in jp_entries:
+            japanese.setdefault(record.id, record.text)
+        if not args.all_entries and module in args.modules:
+            if args.langshort == 'JP' and args.langid == '日本語':
+                entries = jp_entries
+            else:
+                _, entries = language_records(
+                    module, module_dir, modules_dir, args.langshort, args.langid
+                )
+            for record in entries:
+                original.setdefault((module, record.id), record.text)
+    return original, japanese
+
+
+def report_correction_rate(catalog, japanese):
+    """Compare all PO entries, before any export filtering or text cleanup."""
+    total = len(catalog)
+    missing = 0
+    different = 0
+    for entry in catalog:
+        identifier = entry.msgid.partition('/')[0]
+        if identifier not in japanese:
+            missing += 1
+            different += 1
+        elif entry.msgstr.replace('%%', '%') != japanese[identifier]:
+            different += 1
+    rate = different / total * 100 if total else 0.0
+    print(
+        f'翻訳修正率: {different}/{total}件 ({rate:.2f}%) が本体の日本語と不一致'
+        f' (うち本体にIDなし: {missing}件、不一致に含む)'
+    )
+    return different, total, missing
+
+
+def export_catalog(args, run_type, *, catalog=None, original=None):
+    if catalog is None:
+        catalog = polib.pofile(str(args.input), encoding='utf-8-sig')
+    if original is None:
+        original, _ = load_vanilla_translations(args)
     grouped = defaultdict(list)
     global_overrides = []
     seen = set()
-    original = {}
-    modules_dir = (args.mb2dir / 'Modules').resolve()
-    if not args.all_entries:
-        for module in args.modules:
-            module_dir = modules_dir / module
-            if (module_dir / 'ModuleData').is_dir():
-                _, entries = language_records(module, module_dir, modules_dir, args.langshort, args.langid)
-                for record in entries:
-                    original.setdefault((module, record.id), record.text)
     for entry in catalog:
         if entry.obsolete:
             continue
@@ -138,6 +178,30 @@ def export_catalog(args, run_type):
             )
         else:
             empty_manifests.add(language_root / 'language_data.xml')
+    if run_type == 'module':
+        common_root = args.output / f'CL{args.langshort}-Common/ModuleData/Languages'
+        multiplayer_root = args.output / f'CL{args.langshort}-MP/ModuleData/Languages'
+
+        def multiplayer_path(path):
+            relative = path.relative_to(common_root)
+            if relative == Path('language_data.xml') or (
+                len(relative.parts) == 3
+                and relative.parts[1] in ('Native', 'MultiPlayer')
+            ):
+                return multiplayer_root / relative
+            return None
+
+        # Keep Common intact and duplicate the selected modules, including
+        # manifests, aliases, Native functions and English overrides.
+        for path, data in list(files.items()):
+            destination = multiplayer_path(path)
+            if destination is not None:
+                files[destination] = data
+        for path in list(empty_manifests):
+            destination = multiplayer_path(path)
+            if destination is not None:
+                empty_manifests.add(destination)
+
     # Build and validate everything before writing any output files.
     for path, data in files.items():
         ET.fromstring(data)
@@ -182,8 +246,11 @@ def main(argv=None):
         for name in [args.langshort, args.langfolder_output, args.subtitleext, args.functions] + args.modules:
             if not name or name in ('.', '..') or any(c in name for c in '/\\:'):
                 raise ValueError(f'Expected a folder or filename component: {name!r}')
+        catalog = polib.pofile(str(args.input), encoding='utf-8-sig')
+        original, japanese = load_vanilla_translations(args)
+        report_correction_rate(catalog, japanese)
         for run_type in (['module', 'overwriter'] if args.output_type == 'both' else [args.output_type]):
-            export_catalog(args, run_type)
+            export_catalog(args, run_type, catalog=catalog, original=original)
     except (OSError, ValueError, ET.XMLSyntaxError) as error:
         parser.exit(1, f'Error: {error}\n')
     return 0

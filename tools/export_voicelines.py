@@ -32,7 +32,9 @@ def main() -> int:
     po_path = mod_dir / po_name
     output_root = mod_dir / args.folder
     try:
-        root = resolve_source_module(args.folder, MODULES_DIR, args.mo2dir)
+        root = resolve_source_module(
+            args.folder, MODULES_DIR, args.mo2dir, po_path=po_path
+        )
         files, translated = import_po(root, po_path, output_root=output_root)
     except (OSError, ValueError, UnicodeError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
