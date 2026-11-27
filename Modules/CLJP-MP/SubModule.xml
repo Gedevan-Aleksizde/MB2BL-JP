@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
+    <Name value="Correct Localization JP - Multiplayer"/>
+    <Id value="CorrectLocalizationJPMPText"/>
+    <Version value="v3.4.0"/>
+    <ModuleType value="Community"/>
+    <Official value="false" />
+    <ModuleCategory value="MultiplayerOptional"/>
+    <Url value="https://www.nexusmods.com/mountandblade2bannerlord/mods/5039" />
+    <DependedModuleMetadatas>
+    	<DependedModuleMetadata id="Native" order="LoadBeforeThis" optional="true" version="v1.5.*" />
+    	<DependedModuleMetadata id="Multiplayer" order="LoadBeforeThis" optional="true" version="v1.5.*" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenShinGothic" order="LoadBeforeThis" optional="true" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontGenEiLateMin" order="LoadBeforeThis" optional="true" />
+        <DependedModuleMetadata id="CorrectLocalizationJPFontMgenPlus" order="LoadBeforeThis" optional="true" />
+        <DependedModuleMetadata id="HarmonyFont" order="LoadBeforeThis" optional="true" />
+  	</DependedModuleMetadatas>
+    <Xmls>
+        <XmlNode>
+            <XmlName id="SPCultures" path="spcultures"/>
+            <IncludedGameTypes>
+                <GameType value="Campaign"/>
+                <GameType value="CampaignStoryMode"/>
+                <GameType value="CustomGame"/>
+                <GameType value="EditorGame"/>
+            </IncludedGameTypes>
+        </XmlNode>
+        <XmlNode>
+            <XmlName id="Kingdoms" path="spkingdoms"/>
+            <IncludedGameTypes>
+                <GameType value="Sandbox"/>
+                <GameType value="Campaign" />
+                <GameType value="CampaignStoryMode" />
+            </IncludedGameTypes>
+        </XmlNode>
+        <XmlNode>
+            <XmlName id="GameText" path="module_strings" />
+            <IncludedGameTypes>
+                <GameType value="Campaign"/>
+                <GameType value="CampaignStoryMode"/>
+                <GameType value="CustomBattle"/>
+            </IncludedGameTypes>
+        </XmlNode>
+    </Xmls>
+</Module>
